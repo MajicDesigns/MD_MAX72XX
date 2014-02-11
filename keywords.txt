@@ -1,0 +1,74 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+MD_MAX72XX	KEYWORD1
+controlRequest_t	KEYWORD1
+controlValue_t	KEYWORD1
+transformType_t	KEYWORD1
+fontType_t	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+control	KEYWORD2
+getDeviceCount	KEYWORD2
+getColumnCount	KEYWORD2
+setShiftDataInCallback	KEYWORD2
+setShiftDataOutCallback	KEYWORD2
+clear	KEYWORD2
+setPoint	KEYWORD2
+getPoint	KEYWORD2
+drawLine	KEYWORD2
+getBuffer	KEYWORD2
+setBuffer	KEYWORD2
+getColumn	KEYWORD2
+setColumn	KEYWORD2
+getRow	KEYWORD2
+setRow	KEYWORD2
+transform KEYWORD2
+update  KEYWORD2
+wraparound	KEYWORD2
+getChar  KEYWORD2
+setChar  KEYWORD2
+setFont  KEYWORD2
+
+######################################
+# Constants (LITERAL1)
+#######################################
+
+ROW_SIZE	LITERAL1
+COL_SIZE	LITERAL1
+MAX_INTENSITY	LITERAL1
+MAX_SCANLIMIT	LITERAL1
+
+# controlRequest_t
+MD_MAX72XX::SHUTDOWN	LITERAL1
+MD_MAX72XX::SCANLIMIT	LITERAL1
+MD_MAX72XX::INTENSITY	LITERAL1
+MD_MAX72XX::TEST	LITERAL1
+MD_MAX72XX::UPDATE	LITERAL1
+MD_MAX72XX::WRAPAROUND	LITERAL1
+
+# controlValue_t
+MD_MAX72XX::ON	LITERAL1
+MD_MAX72XX::OFF	LITERAL1
+
+# transformType_t
+MD_MAX72XX::TSL	LITERAL1
+MD_MAX72XX::TSR	LITERAL1
+MD_MAX72XX::TSU	LITERAL1
+MD_MAX72XX::TSD	LITERAL1
+MD_MAX72XX::TFLR	LITERAL1
+MD_MAX72XX::TFUD	LITERAL1
+MD_MAX72XX::TRC	LITERAL1
+MD_MAX72XX::TINV	LITERAL1
+
+# fontType_t
+MD_MAX72XX::SYS_FIXED	LITERAL1
+MD_MAX72XX::SYS_VAR	LITERAL1
