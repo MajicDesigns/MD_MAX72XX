@@ -165,7 +165,7 @@ void setup()
   // Enable and clear the display
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
   mx.clear();
-  mx.setFont(MD_MAX72XX::SYS_VAR);
+  mx.setFont(NULL);
   mx.setShiftDataInCallback(scrollDataSource);
 //  mx.setShiftDataOutCallback(scrollDataSink);
 

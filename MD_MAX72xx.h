@@ -30,6 +30,13 @@ Topics
 
 Revision History 
 ----------------
+February 2014 - version 2.3
+- Complete rework of the font system
+-- New font builder tool available
+-- Removed USE_FONT_ADJUST and related code as font builder tool now available
+-- Fixed width font has been removed from the code
+-- fontype_t definition changed to suit new requirements
+
 November 2013 - version 2.2
 - Replaced reference to SPI library with inline code to allow for different select lines
 - Obsoleted INCLUDE_HARDWARE_SPI conditional compile switch
@@ -101,8 +108,11 @@ ___
 
 Font Storage Format
 -------------------
-Fonts are defined as part of the library in PROGMEM memory. The fonts are stored as a 
-series of contiguous bytes in the following format:
+One default font is defined as part of the library in PROGMEM memory. Alternative fonts
+can be specified to the library. The font builder tool provides a convenient way to develop
+alternative fonts.
+
+The fonts are stored as a series of contiguous bytes in the following format:
 - byte 1 - the number of bytes that form this character (could be zero)
 - byte 2..n - each byte is a column of the character to be formed, starting with the 
 leftmost column of the character. The least significant bit of the byte is the bottom 
@@ -117,7 +127,7 @@ the expense of increased RAM usage. If indexing is enabled, a single lookup is r
 access the character data, rather than the sequential search described above.
 
 The support for fonts (methods and data) may be completely disabled  if not required through 
-the compile-time switch INCLUDE_LOCAL_FONT.
+the compile-time switch INCLUDE_LOCAL_FONT. This will also disable user defined fonts.
 
 \page pageHardware Hardware
 Hardware Supported
@@ -245,15 +255,6 @@ spiral pattern.
 #define	USE_LOCAL_FONT	1
 
 /**
- \def USE_FONT_ADJUST
- Set to 1 to enable the font adjustment method - usually disabled.
- Useful when fonts need to be rotated (eg upside down hardware).
-
- USE_LOCAL FONT must be enabled for this option to take effect.
- */
-#define	USE_FONT_ADJUST	0
-
-/**
  \def USE_INDEX_FONT
  Set to 1 to enable font indexing to speed up font lookups - usually disabled.
  This will trade off increased stack RAM usage for lookup speed if enabled. 
@@ -277,6 +278,15 @@ spiral pattern.
 class MD_MAX72XX
 {
 public:
+#if USE_LOCAL_FONT
+	/**
+	 * Font definition type.
+	 *
+	 * This type is used in the setFont() method to set the font to be used
+	 */
+	typedef uint8_t PROGMEM	*	fontType_t;
+#endif
+
 	/**
 	 * Control Request enumerated type.
 	 *
@@ -322,18 +332,6 @@ public:
 		TFUD,	///< Transform Flip Up to Down
 		TRC,	///< Transform Rotate Clockwise 90 degrees
 		TINV	///< Transform INVert (pixels inverted)
-	};
-
-	/**
-	 * Font Names enumerated type.
-	 *
-	 * This enumerated type is used in the setFont() method to set one of the  
-	 * in-built fonts as the current font.
-	 */
-	enum fontType_t
-	{
-		SYS_FIXED,	///< Fixed width system font
-		SYS_VAR		///< Variable width system font
 	};
 
   /** 
@@ -790,13 +788,16 @@ public:
    *
    * Font data is stored in PROGMEM, in the format described elsewhere in the 
    * documentation. All characters retrieved or used after this call will use 
-   * the nominated font. This function also causes the font index table to be 
-   * recreated if the library defined value INDEX_TABLE is set to 1.
+   * the nominated font (default or user defined). To specify a user defined 
+   * character set, pass the PROGMEM address of the font table. Passing a NULL 
+   * pointer resets the font table to the library default table.
+   * This function also causes the font index table to be recreated if the 
+   * library defined value INDEX_TABLE is set to 1.
    *
    * NOTE: This function is only available if the library defined value
    * INCLUDE_LOCAL_FONT is set to 1.
    * 
-   * \param f	one of fontType_t enumerated values nominating the font to be used.
+   * \param f	fontType_t pointer to the table of font data in PROGMEM or NULL.
    * \return false if parameter errors, true otherwise.
    */
   bool setFont(fontType_t f);
@@ -836,11 +837,11 @@ private:
 
 #if USE_LOCAL_FONT
   // Font related data
-  uint8_t	*_fontData;		// pointer to the current font data being used
-  uint16_t	*_fontIndex;	// font index for faster access to font table offsets
+  fontType_t	_fontData;				// pointer to the current font data being used
+  uint16_t		*_fontIndex;			// font index for faster access to font table offsets
 
-  void		buildFontIndex(void);			// build a font index
   uint16_t	getFontCharOffset(uint8_t c);	// find the character in the font data 
+  void		buildFontIndex(void);			// build a font index
 #endif
   // Private functions
   void spiTransmit(void);			// do the actual physical communications task

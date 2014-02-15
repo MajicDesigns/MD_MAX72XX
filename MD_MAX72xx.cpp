@@ -92,7 +92,7 @@ void MD_MAX72XX::begin(void)
 #if USE_INDEX_FONT
   _fontIndex = (uint16_t *)malloc(sizeof(uint16_t) * FONT_INDEX_SIZE);
 #endif
-  setFont(SYS_FIXED);
+  setFont(NULL);
 #endif // INCLUDE_LOCAL_FONT
 
   // clear internal memory map for this device

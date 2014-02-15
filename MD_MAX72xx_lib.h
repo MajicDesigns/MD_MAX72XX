@@ -74,6 +74,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 // variables shared in the library
 extern uint8_t _sysfont_var[];		///< System variable pitch font table
-extern uint8_t _sysfont_fixed[];	///< System fixed pitch font table
 
 #endif
