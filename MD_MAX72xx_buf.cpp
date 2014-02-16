@@ -210,10 +210,11 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
     
 	//--------------
 	case TSR:	// Transform Shift Right one pixel element
-      for (uint8_t i=0; i<ROW_SIZE-1; i++)
 #if USE_PAROLA_HW
+      for (uint8_t i=0; i<ROW_SIZE; i++)
         _matrix[buf].row[i] <<= 1;
 #else  // Same code as PAROLA_HW TSU
+      for (uint8_t i=0; i<ROW_SIZE-1; i++)
         _matrix[buf].row[i] = _matrix[buf].row[i+1];
 #endif
     break;
