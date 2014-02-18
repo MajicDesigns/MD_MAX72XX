@@ -1,8 +1,7 @@
 // Program to exercise the MD_MAX72XX library
 //
-// Uses the graphics functions to animate eyes on 2 matrix modules.
-// Eyes are coordinated to work together.
-// Can be just one eye and one module if preferred!
+// Uses the graphics functions to animates many independent
+// eyes on MAX_DEVICES modules.
 //
 // Uses the TrueRandom library to generate random numbers for the 
 // animation, available at http://code.google.com/p/tinkerit
@@ -27,7 +26,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES	2
+#define	MAX_DEVICES	8
 
 #define	CLK_PIN		13  // or SCK
 #define	DATA_PIN	11  // or MOSI
@@ -38,96 +37,100 @@ MD_MAX72XX eye = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 // Arbitrary pins
 //MD_MAX72XX eye = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-posPupil	pupilCurPos = P_MC;		// the current position for the pupil
-
 // Miscellaneous defines
 #define	DELAYTIME  500  // in milliseconds
 #define	ARRAY_SIZE(z)	(sizeof(z)/sizeof(z[0]))
 
-void drawEyeball()
-// Draw the iris on the display(s).
+// State data for each eye
+typedef struct
+{
+	posPupil	pupilCurPos;	// the current position for the pupil
+	uint32_t	timeLast;		// time of last animation
+	uint16_t 	timeDelay;		// delay between animations
+	bool		inBlinkCycle;	// currently blinking?
+
+	uint32_t	lastBlinkTime;	// last time for blink animation
+	uint16_t	currentDelay;	// current blink animation delay
+	uint8_t		blinkState;		// current state in the blink
+	uint8_t		savedEyeball[ARRAY_SIZE(eyeballData)];
+	uint8_t		blinkLine;		// where the blink is at in the animation
+} eyeData_t;
+
+eyeData_t	eyeState[MAX_DEVICES];
+
+
+void drawEyeball(uint8_t n)
+// Draw the n-th iris on the display.
 {
 	eye.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 
-	eye.clear();	// clear out current display
+	eye.clear(n);	// clear out current display
 
 	// Display the iris row data from the data array
-	for (uint8_t x=0; x<MAX_DEVICES; x++)
-	{
-		for (uint8_t i=0; i<ARRAY_SIZE(eyeballData); i++)
-		{
-			eye.setRow(x, i, eyeballData[i]);
-		}
-	}
+	for (uint8_t i=0; i<ARRAY_SIZE(eyeballData); i++)
+		eye.setRow(n, i, eyeballData[i]);
+
 	eye.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 }
 
-bool blinkEyeball(bool bFirst)
-// Blink the iris. If this is the first call in the cycle, bFirst will be set true.
+bool blinkEyeball(uint8_t n, bool bFirst)
+// Blink the n-th iris. If this is the first call in the cycle, bFirst will be set true.
 // Return true if the blink is still active, false otherwise.
 {
-	static uint32_t	lastBlinkTime;
-	static uint16_t	currentDelay;
-	static uint8_t	blinkState;
-	static uint8_t	savedEyeball[ARRAY_SIZE(eyeballData)];
-	static uint8_t	blinkLine;
-
 	if (bFirst)
 	{
 		PRINTS("\nBlink Start");
-		lastBlinkTime = millis();
-		blinkState = 0;
-		blinkLine = 0;
-		currentDelay = 25;
+		eyeState[n].lastBlinkTime = millis();
+		eyeState[n].blinkState = 0;
+		eyeState[n].blinkLine = 0;
+		eyeState[n].currentDelay = 25;
 	}
-	else if (millis() - lastBlinkTime >= currentDelay)
+	else if (millis() - eyeState[n].lastBlinkTime >= eyeState[n].currentDelay)
 	{
-		lastBlinkTime = millis();
+		eyeState[n].lastBlinkTime = millis();
 
-		PRINT("\nBlink S ", blinkState);
-		PRINT(", BL ", blinkLine);
+		PRINT("\nBlink S ", eyeState[n].blinkState);
+		PRINT(", BL ", eyeState[n].blinkLine);
 
 		eye.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
-		switch(blinkState)
+		switch(eyeState[n].blinkState)
 		{
-		case 0:	// initialisation - save the current eye pattern assuming all eyes are the same
-			for (uint8_t i=0; i<ARRAY_SIZE(savedEyeball); i++)
-				savedEyeball[i] = eye.getRow(0, i);
-			blinkState = 1;
+		case 0:	// initialisation - save the current eye pattern
+			for (uint8_t i=0; i<ARRAY_SIZE(eyeState[n].savedEyeball); i++)
+				eyeState[n].savedEyeball[i] = eye.getRow(n, i);
+			eyeState[n].blinkState = 1;
 			// fall through
 
 		case 1:	// blink the eye shut
-			for (uint8_t x=0; x<MAX_DEVICES; x++)
-				eye.setRow(x, blinkLine, 0);
-			blinkLine++;
-			if (blinkLine == LAST_BLINK_ROW)	// this is the last row of the animation
+			eye.setRow(n, eyeState[n].blinkLine, 0);
+			eyeState[n].blinkLine++;
+			if (eyeState[n].blinkLine == LAST_BLINK_ROW)	// this is the last row of the animation
 			{
-				blinkState = 2;
-				currentDelay *= 2;
+				eyeState[n].blinkState = 2;
+				eyeState[n].currentDelay *= 2;
 			}
 			break;
 
 		case 2:	// set up for eye opening
-			currentDelay /= 2;
-			blinkState = 3;
+			eyeState[n].currentDelay /= 2;
+			eyeState[n].blinkState = 3;
 			// fall through
 			
 		case 3:
-			blinkLine--;
-			for (uint8_t x=0; x<MAX_DEVICES; x++)
-				eye.setRow(x, blinkLine, savedEyeball[blinkLine]);
+			eyeState[n].blinkLine--;
+			eye.setRow(n, eyeState[n].blinkLine, eyeState[n].savedEyeball[eyeState[n].blinkLine]);
 
-			if (blinkLine == 0)	
+			if (eyeState[n].blinkLine == 0)	
 			{
 				PRINTS("\nBlink end");
-				blinkState = 99;
+				eyeState[n].blinkState = 99;
 			}
 			break;
 		}
 		eye.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 	}
 
-	return(blinkState != 99);
+	return(eyeState[n].blinkState != 99);
 }
 
 uint8_t findPupilData(posPupil p)
@@ -141,8 +144,8 @@ uint8_t findPupilData(posPupil p)
 	return(0xff);
 }
 
-void drawPupil(posPupil posOld, posPupil posNew)
-// Draw the pupil in the current position. Needs to erase the 
+void drawPupil(uint8_t n, posPupil posOld, posPupil posNew)
+// Draw the n-th pupil in the current position. Needs to erase the 
 // old position first, then put in the new position
 {
 	uint8_t	p;
@@ -155,11 +158,8 @@ void drawPupil(posPupil posOld, posPupil posNew)
 	{
 		uint8_t	row = UNPACK_R(pupilData[p].rc);
 
-		for (uint8_t x=0; x<MAX_DEVICES; x++)
-		{
-			eye.setRow(x, row, eyeballData[row]); 
-			eye.setRow(x, row+1, eyeballData[row+1]); 
-		}
+		eye.setRow(n, row, eyeballData[row]); 
+		eye.setRow(n, row+1, eyeballData[row+1]); 
 	}
 
 	// now show the new pupil by displaying the new background 'row' 
@@ -170,11 +170,8 @@ void drawPupil(posPupil posOld, posPupil posNew)
 		uint8_t	col = UNPACK_C(pupilData[p].rc);
 		uint8_t colMask = ~((1<<col)|(1<<(col-1)));
 
-		for (uint8_t x=0; x<MAX_DEVICES; x++)
-		{
-			eye.setRow(x, row, (eyeballData[row]&colMask)); 
-			eye.setRow(x, row+1, (eyeballData[row+1]&colMask)); 
-		}
+		eye.setRow(n, row, (eyeballData[row]&colMask)); 
+		eye.setRow(n, row+1, (eyeballData[row+1]&colMask)); 
 	}
 	eye.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 }
@@ -201,28 +198,26 @@ bool posIsAdjacent(posPupil posCur, posPupil posNew)
 	return(false);
 }
 
-void eyeAnimation(void)
-// Animate the eye(s).
-// this cane either be a blink or an eye movement
+void eyeAnimation(uint8_t n)
+// Animate the n-th eye.
+// this can either be a blink or an eye movement
 {
-	static uint32_t	timeLast = 0;
-	static uint16_t timeDelay = DELAYTIME;
-	static bool		inBlinkCycle = false;
-
 	// do the blink if we are currently already blinking
-	if (inBlinkCycle) 
+	if (eyeState[n].inBlinkCycle) 
 	{
-		inBlinkCycle = blinkEyeball(false);
+		eyeState[n].inBlinkCycle = blinkEyeball(n, false);
 		return;
 	}
 
 	// Possible animation - only animate every timeDelay ms
-	if (millis() - timeLast <= timeDelay)
+	if (millis() - eyeState[n].timeLast <= eyeState[n].timeDelay)
 		return;
 
+	eye.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
+
 	// set up timers for next time
-	timeLast = millis();
-	timeDelay = TrueRandom.random(DELAYTIME);
+	eyeState[n].timeLast = millis();
+	eyeState[n].timeDelay = TrueRandom.random(DELAYTIME);
 
 	// Do the animation most of the time, so bias the 
 	// random number check to achieve this
@@ -230,15 +225,17 @@ void eyeAnimation(void)
 	{
 		posPupil	pupilNewPos = (posPupil)(TrueRandom.random(9));
 
-		if (posIsAdjacent(pupilCurPos, pupilNewPos))
+		if (posIsAdjacent(eyeState[n].pupilCurPos, pupilNewPos))
 		{
-			drawPupil(pupilCurPos, pupilNewPos);
-			pupilCurPos = pupilNewPos;
+			drawPupil(n, eyeState[n].pupilCurPos, pupilNewPos);
+			eyeState[n].pupilCurPos = pupilNewPos;
 		}
 	}
 	else
 		// blink the eyeball
-		inBlinkCycle = blinkEyeball(true);
+		eyeState[n].inBlinkCycle = blinkEyeball(n, true);
+
+	eye.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 };
 
 void setup()
@@ -259,12 +256,19 @@ void setup()
   PRINTS("\n[MD_MAX72XX Eye Demo]");
 
   // initialise the eye view
-  drawEyeball();
-  drawPupil(pupilCurPos, pupilCurPos);
+	for (uint8_t i=0; i<MAX_DEVICES; i++)
+	{
+	  eyeState[i].timeDelay = TrueRandom.random(DELAYTIME);;
+      eyeState[i].pupilCurPos = P_MC;
+
+	  drawEyeball(i);
+      drawPupil(i, eyeState[i].pupilCurPos, eyeState[i].pupilCurPos);
+	}
 }
 
 void loop() 
 {
-	eyeAnimation();
+  for (uint8_t i=0; i<MAX_DEVICES; i++)
+	  eyeAnimation(i);
 }
 
