@@ -31,9 +31,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements pixel related methods
  */
 
-void MD_MAX72XX::clear(void)
+void MD_MAX72XX::clear(uint8_t startDev, uint8_t endDev)
 {
-  for (uint8_t buf=START_BUFFER; buf<=END_BUFFER; buf++) 
+  if (endDev < startDev) return;
+
+  for (uint8_t buf = startDev; buf <= endDev; buf++) 
   {
     memset(_matrix[buf].row, 0, sizeof(_matrix[buf].row));
 	_matrix[buf].changed = ALL_CHANGED;
@@ -115,7 +117,7 @@ bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c)
   PRINT(", ", c);
   PRINTS(")");
 
-  if ((buf > END_BUFFER) || (r >= ROW_SIZE) || (c >= COL_SIZE))
+  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE) || (c >= COL_SIZE))
     return(false);
 
 #if USE_PAROLA_HW
@@ -135,7 +137,7 @@ bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state)
   PRINT(", ", c);
   PRINT(") = ", state?1:0);
 
-  if ((buf > END_BUFFER) || (r >= ROW_SIZE) || (c >= COL_SIZE))
+  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE) || (c >= COL_SIZE))
     return(false);
 
 #if USE_PAROLA_HW
@@ -159,17 +161,17 @@ bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state)
   return(true);
 }
 
-bool MD_MAX72XX::setRow(uint8_t r, uint8_t value)
+bool MD_MAX72XX::setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t value)
 {
   bool b = _updateEnabled;
 
   PRINT("\nsetRow: ", r);
 
-  if (r >= ROW_SIZE)
+  if ((r >= ROW_SIZE) || (endDev < startDev))
     return(false);
 
   _updateEnabled = false;
-  for (uint8_t i=START_BUFFER; i<=END_BUFFER; i++) 
+  for (uint8_t i = startDev; i <= endDev; i++) 
 	setRow(i, r, value); 
   _updateEnabled = b;
 
@@ -178,28 +180,30 @@ bool MD_MAX72XX::setRow(uint8_t r, uint8_t value)
   return(true);
 }
 
-bool MD_MAX72XX::transform(transformType_t ttype)
+bool MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t ttype)
 {
   uint8_t t[ROW_SIZE];
   uint8_t colData;
   bool b = _updateEnabled;
+
+  if (endDev < startDev) return(false);
 
   _updateEnabled = false;
 
   switch (ttype)
   {
     case TSL: // Transform Shift Left one pixel element (with overflow)
+	  colData = 0;
 	  // if we can call the user function later then we don't need to do anything here
 	  // however, warparound mode means we know the data so no need to request from the 
 	  // callback at all - just save it for later
-	  colData = 0;
 	  if (_wrapAround)
-		  colData = getColumn(getColumnCount()-1);
+		  colData = getColumn(((endDev+1)*COL_SIZE)-1);
 	  else if (_cbShiftDataOut != NULL)
-		  (*_cbShiftDataOut)(ttype, getColumn(getColumnCount()-1));
+		  (*_cbShiftDataOut)(endDev, ttype, getColumn(((endDev+1)*COL_SIZE)-1));
 
 	  // shift all the buffers along
-      for (int8_t buf=END_BUFFER; buf>=START_BUFFER; --buf)
+      for (int8_t buf = endDev; buf >= startDev; --buf)
       {
 		transformBuffer(buf, ttype);
 		// handle the boundary condition
@@ -209,9 +213,9 @@ bool MD_MAX72XX::transform(transformType_t ttype)
 	  // if we have a callback function, now is the time to get the data if we are
 	  // not in wraparound mode
 	  if (_cbShiftDataIn != NULL && !_wrapAround)
-		colData = (*_cbShiftDataIn)(ttype);
+		colData = (*_cbShiftDataIn)(startDev, ttype);
 
-	  setColumn(0, colData);
+	  setColumn((startDev*COL_SIZE), colData);
     break;
 
 
@@ -221,12 +225,12 @@ bool MD_MAX72XX::transform(transformType_t ttype)
 	  // callback at all - just save it for later.
 	  colData = 0;
 	  if (_wrapAround)
-		  colData = getColumn(0);
+		  colData = getColumn(startDev*COL_SIZE);
 	  else if (_cbShiftDataOut != NULL)
-		  (*_cbShiftDataOut)(ttype, getColumn(0));
+		  (*_cbShiftDataOut)(startDev, ttype, getColumn((startDev*COL_SIZE)));
 
 	  // shift all the buffers along
-      for (uint8_t buf=START_BUFFER; buf<=END_BUFFER; buf++)
+      for (uint8_t buf=startDev; buf<=endDev; buf++)
 	  {
 		  transformBuffer(buf, ttype);
 
@@ -237,24 +241,24 @@ bool MD_MAX72XX::transform(transformType_t ttype)
 	  // if we have a callback function, now is the time to get the data if we are
 	  // not in wraparound mode
 	  if (_cbShiftDataIn != NULL && !_wrapAround)
-		colData = (*_cbShiftDataIn)(ttype);
+		colData = (*_cbShiftDataIn)(endDev, ttype);
 
-	  setColumn(getColumnCount()-1, colData);
+	  setColumn(((endDev+1)*COL_SIZE)-1, colData);
 	break;
 
     case TFLR: // Transform Flip Left to Right (use the whole field)
 	  // first reverse the device buffers end for end
-      for (uint8_t buf=START_BUFFER; buf<=END_BUFFER/2; buf++)
+      for (uint8_t buf = 0; buf < (endDev - startDev)/2; buf++)
 	  {
 	      deviceInfo_t	t;
 			  
-		  t = _matrix[buf];
-		  _matrix[buf] = _matrix[END_BUFFER-buf];
-		  _matrix[END_BUFFER-buf] = t;
+		  t = _matrix[startDev + buf];
+		  _matrix[startDev + buf] = _matrix[endDev - buf];
+		  _matrix[endDev - buf] = t;
 	  }
 
 	  // now reverse the columns in each device
-      for (uint8_t buf=START_BUFFER; buf<=END_BUFFER; buf++)
+      for (uint8_t buf = startDev; buf <= endDev; buf++)
         transformBuffer(buf, ttype);
     break;
 
@@ -264,7 +268,7 @@ bool MD_MAX72XX::transform(transformType_t ttype)
 	case TFUD:	// Transform Flip Up to Down
 	case TRC:	// Transform Rotate Clockwise
     case TINV:	// Transform INVert
-      for (uint8_t buf=START_BUFFER; buf<=END_BUFFER; buf++)
+      for (uint8_t buf = startDev; buf <= endDev; buf++)
         transformBuffer(buf, ttype);
     break;
     

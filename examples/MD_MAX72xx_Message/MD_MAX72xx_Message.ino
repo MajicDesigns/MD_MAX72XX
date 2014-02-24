@@ -10,13 +10,14 @@
 #include <MD_MAX72xx.h>
 
 #define	USE_POT_CONTROL	0
+#define	PRINT_CALLBACK	0
 
 #define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES	4
+#define	MAX_DEVICES	8
 
 #define	CLK_PIN		13  // or SCK
 #define	DATA_PIN	11  // or MOSI
@@ -29,7 +30,7 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 
 // Scrolling parameters
 #if USE_POT_CONTROL
-#define	SPEED_IN	A0
+#define	SPEED_IN	A5
 #else
 #define SCROLL_DELAY	75	// in milliseconds
 #endif // USE_POT_CONTROL
@@ -66,16 +67,20 @@ void readSerial(void)
 	}
 }
 
-void scrollDataSink(MD_MAX72XX::transformType_t t, uint8_t col)
-// Callback function for data that is being srcolled off the display
+void scrollDataSink(uint8_t dev, MD_MAX72XX::transformType_t t, uint8_t col)
+// Callback function for data that is being scrolled off the display
 {
+#if PRINT_CALLBACK
 	Serial.print("\n cb ");
+	Serial.print(dev);
+	Serial.print(' ');
 	Serial.print(t);
 	Serial.print(' ');
 	Serial.println(col);
+#endif
 }
 
-uint8_t scrollDataSource(MD_MAX72XX::transformType_t t)
+uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
 // Callback function for data that is required for scrolling into the dusplay
 {
   static char		*p = curMessage;
@@ -87,7 +92,7 @@ uint8_t scrollDataSource(MD_MAX72XX::transformType_t t)
   // finite state machine to control what we do on the callback
   switch(state)
   {
-  case 0:	// Load the next character form the font table
+  case 0:	// Load the next character from the font table
 	showLen = mx.getChar(*p++, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
 	curLen = 0;
 	state++;
@@ -167,7 +172,7 @@ void setup()
   mx.clear();
   mx.setFont(NULL);
   mx.setShiftDataInCallback(scrollDataSource);
-//  mx.setShiftDataOutCallback(scrollDataSink);
+  mx.setShiftDataOutCallback(scrollDataSink);
 
 #if USE_POT_CONTROL
   pinMode(SPEED_IN, INPUT);

@@ -96,10 +96,10 @@ void MD_MAX72XX::begin(void)
 #endif // INCLUDE_LOCAL_FONT
 
   // clear internal memory map for this device
-  for (uint8_t d=START_BUFFER; d<=END_BUFFER; d++)
+  for (uint8_t d = FIRST_BUFFER; d <= LAST_BUFFER; d++)
   {
     _matrix[d].changed = ALL_CLEAR;
-    for (uint8_t i=0; i<ROW_SIZE; i++)
+    for (uint8_t i = 0; i < ROW_SIZE; i++)
     {
       _matrix[d].row[i] = 0;
     }
@@ -131,11 +131,13 @@ MD_MAX72XX::~MD_MAX72XX(void)
 #endif
 }
 
-void MD_MAX72XX::control(controlRequest_t mode, int value) 
+void MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value) 
 {
+  if (endDev < startDev) return;
+
   if (mode < UPDATE)	// device based control
   {
-    for (uint8_t i=START_BUFFER; i<=END_BUFFER; i++) 
+    for (uint8_t i = startDev; i <= endDev; i++) 
 	  control(i, mode, value); 
   }
   else					// global control function, doesn't relate to specific device
@@ -150,7 +152,7 @@ bool MD_MAX72XX::control(uint8_t buf, controlRequest_t mode, int value)
   uint8_t opcode = OP_NOOP;
   uint8_t param = 0;
 
-  if (buf > END_BUFFER) return(false);
+  if (buf > LAST_BUFFER) return(false);
   
   // work out data to write
   switch (mode)
@@ -212,7 +214,7 @@ void MD_MAX72XX::flushBufferAll()
 
 	spiClearBuffer();
 
-    for (uint8_t dev=START_BUFFER; dev<=END_BUFFER; dev++)	// all devices
+    for (uint8_t dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)	// all devices
     {
       if (bitRead(_matrix[dev].changed, i))
 	  {
@@ -227,7 +229,7 @@ void MD_MAX72XX::flushBufferAll()
   }
 
   // mark everything as cleared
-  for (uint8_t dev=START_BUFFER; dev<=END_BUFFER; dev++)
+  for (uint8_t dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)
 	_matrix[dev].changed = ALL_CLEAR;
 }
 
@@ -238,10 +240,10 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
   PRINT("\nflushBuf: ", buf);
   PRINTS(" r");
 
-  if (buf > END_BUFFER) 
+  if (buf > LAST_BUFFER) 
     return;
 
-  for (uint8_t i=0; i<ROW_SIZE; i++)
+  for (uint8_t i = 0; i < ROW_SIZE; i++)
   {
     if (bitRead(_matrix[buf].changed, i))
 	{
@@ -280,7 +282,7 @@ void MD_MAX72XX::spiTransmit()
   // shift out the data 
   if (_hardwareSPI)
   {
-    for (int i=SPI_DATA_SIZE-1; i>=0; i--)
+    for (int i = SPI_DATA_SIZE-1; i >= 0; i--)
 	{
 	  SPDR = _spiData[i];
 	  while (!(SPSR & _BV(SPIF)))	// wait for a clear bit
@@ -289,7 +291,7 @@ void MD_MAX72XX::spiTransmit()
   }
   else
   {
-    for (int i=SPI_DATA_SIZE-1; i>=0; i--)
+    for (int i = SPI_DATA_SIZE-1; i >= 0; i--)
       shiftOut(_dataPin, _clkPin, MSBFIRST, _spiData[i]);
   }
 		

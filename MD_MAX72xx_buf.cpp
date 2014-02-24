@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 bool MD_MAX72XX::clear(uint8_t buf) 
 {
-  if (buf > END_BUFFER)
+  if (buf > LAST_BUFFER)
     return(false);
     
   memset(_matrix[buf].row, 0, sizeof(_matrix[buf].row));
@@ -60,9 +60,9 @@ uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
   PRINTS(") ");
 
 #if USE_PAROLA_HW
-  if ((buf > END_BUFFER) || (c >= COL_SIZE))
+  if ((buf > LAST_BUFFER) || (c >= COL_SIZE))
 #else
-  if ((buf > END_BUFFER) || (c >= ROW_SIZE))
+  if ((buf > LAST_BUFFER) || (c >= ROW_SIZE))
 #endif
   return(0);
 
@@ -99,9 +99,9 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
   PRINTX(") 0x", value);
 
 #if USE_PAROLA_HW
-  if ((buf > END_BUFFER) || (c >= COL_SIZE))
+  if ((buf > LAST_BUFFER) || (c >= COL_SIZE))
 #else
-  if ((buf > END_BUFFER) || (c >= ROW_SIZE))
+  if ((buf > LAST_BUFFER) || (c >= ROW_SIZE))
 #endif
     return(false);
   
@@ -136,9 +136,9 @@ uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
   PRINTS(") ");
 
 #if USE_PAROLA_HW
-  if ((buf > END_BUFFER) || (r >= ROW_SIZE))
+  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
 #else
-  if ((buf > END_BUFFER) || (r >= COL_SIZE))
+  if ((buf > LAST_BUFFER) || (r >= COL_SIZE))
 #endif
 	  return(0);
 
@@ -163,9 +163,9 @@ bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t r, uint8_t value)
   PRINTX(") 0x", value);
 
 #if USE_PAROLA_HW
-  if ((buf > END_BUFFER) || (r >= ROW_SIZE))
+  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
 #else
-  if ((buf > END_BUFFER) || (r >= COL_SIZE))
+  if ((buf > LAST_BUFFER) || (r >= COL_SIZE))
 #endif
     return(false);
 
@@ -179,7 +179,7 @@ bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t r, uint8_t value)
 
 bool MD_MAX72XX::transform(uint8_t buf, transformType_t ttype)
 {
-  if (buf > END_BUFFER)
+  if (buf > LAST_BUFFER)
     return(false);
 
   if (!transformBuffer(buf, ttype))

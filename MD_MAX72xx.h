@@ -31,11 +31,14 @@ Topics
 Revision History 
 ----------------
 February 2014 - version 2.3
-- Complete rework of the font system
--- New font builder tool available
--- Removed USE_FONT_ADJUST and related code as font builder tool now available
--- Fixed width font has been removed from the code
--- fontype_t definition changed to suit new requirements
+- Extensive rework of the font system
+ + New font Microsoft Excel VBA based builder tool available
+ + Removed USE_FONT_ADJUST and related code - replace by builder tool
+ + Fixed width font has been removed from the library. Definition still available in font builder
+ + fontype_t definition changed to suit new requirements
+- Transform zoning implemented (contiguous subset of services)
+ + Transformation functions, control, clear, setRow methods overloaded with range specifier
+ + User callback for L/R rotation function syntax added a device parameter
 
 November 2013 - version 2.2
 - Replaced reference to SPI library with inline code to allow for different select lines
@@ -411,7 +414,21 @@ public:
    * \param value		parameter value or one of the control status defined.
    * \return no return value.
    */
-  void control(controlRequest_t mode, int value);
+  inline void control(controlRequest_t mode, int value) { control(0, getDeviceCount()-1, mode, value); };
+
+  /** 
+   * Set the control status of the specified parameter for contiguous subset of devices.
+   * 
+   * Invokes the control function for each device in turn for the devices in the subset.
+   * See documentation for the control() method.
+   *
+   * \param startDev	the first device for the transformation [0..getDeviceCount()-1]
+   * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
+   * \param mode		one of the defined control requests.
+   * \param value		parameter value or one of the control status defined.
+   * \return no return value.
+   */
+  void control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value);
 
   /**
    * Gets the number of devices attached to this class instance.
@@ -437,15 +454,16 @@ public:
    * - WRAPAROUND is not active, as the data is automatically supplied within the library.
    * - the call to transform() is global (ie, not for an individual buffer).
    *  
-   * The callback function takes one parameter (one of the transformation 
-   * types in transformType_t) that tells the callback function what shift is being 
-   * performed and the return value is the data for the column to be shifted into 
-   * the display.
+   * The callback function takes 2 parameters:
+   * - the device number requesting the data [0..getDeviceCount()-1] 
+   * - one of the transformation types in transformType_t) that tells the callback function 
+   * what shift is being performed
+   * The return value is the data for the column to be shifted into the display.
    * 
    * \param cb	the address of the function to be called from the library.
    * \return No return data
    */
-  void setShiftDataInCallback(uint8_t (*cb)(transformType_t t)) { _cbShiftDataIn = cb; };
+  void setShiftDataInCallback(uint8_t (*cb)(uint8_t dev, transformType_t t)) { _cbShiftDataIn = cb; };
 
   /** 
    * Set the Shift Data Out callback function.
@@ -457,7 +475,8 @@ public:
    * - WRAPAROUND is not active, as the data is automatically supplied to the tail end.
    * - the call to transform() is global (ie, not for an individual buffer).
    *  
-   * The callback function is with supplied 2 parameters, with no return value required:
+   * The callback function is with supplied 3 parameters, with no return value required:
+   * - the device number that is the source of the data [0..getDeviceCount()-1]
    * - one of the transformation types transformType_t that tells the callback 
    * function the type of shifting being executed
    * - the data for the column being shifted out
@@ -465,7 +484,7 @@ public:
    * \param cb	the address of the function to be called from the library.
    * \return No return data
    */
-  void setShiftDataOutCallback(void (*cb)(transformType_t t, uint8_t colData)) { _cbShiftDataOut = cb; };
+  void setShiftDataOutCallback(void (*cb)(uint8_t dev, transformType_t t, uint8_t colData)) { _cbShiftDataOut = cb; };
   
   /** @} */
 
@@ -478,7 +497,18 @@ public:
    *
    * \return no return value.
    */
-  void clear(void);
+  inline void clear(void) { clear(0, getDeviceCount()-1); };
+
+  /**
+   * Clear all the display data on a subset of devices.
+   *
+   * endDev must be greater than or equal to startDev.
+   * 
+   * \param startDev	the first device for the transformation [0..getDeviceCount()-1]
+   * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
+   * \return no return value.
+   */
+  void clear(uint8_t startDev, uint8_t endDev);
 
   /**
    * Draw a line between two points on the display
@@ -599,7 +629,24 @@ public:
    * \param value  each bit set to 1 will light up the corresponding LED on each device.
    * \return false if parameter errors, true otherwise.
    */
-  bool setRow(uint8_t r, uint8_t value);
+  inline bool setRow(uint8_t r, uint8_t value) { setRow(0, getDeviceCount()-1, r, value); };
+
+  /**
+   * Set all LEDs in a row to a new state on contiguous subset of devices.
+   *
+   * This method operates on a contiguous subset of devices, setting the value 
+   * of the LEDs in the row to the specified value bit field. The method is useful for 
+   * drawing patterns and lines horizontally across specific devices only.
+   * endDev must be greater than or equal to startDev.
+   * The least significant bit of the value is the lowest column number.
+   * 
+   * \param startDev	the first device for the transformation [0..getDeviceCount()-1]
+   * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
+   * \param r			row which is to be set [0..ROW_SIZE-1].
+   * \param value		each bit set to 1 will light up the corresponding LED on each device.
+   * \return false if parameter errors, true otherwise.
+   */
+  bool setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t value);
 
   /** 
    * Apply a transformation to the data in all the devices.
@@ -611,7 +658,22 @@ public:
    * \param ttype  one of the transformation types in transformType_t.
    * \return false if parameter errors, true otherwise.
    */
-  bool transform(transformType_t ttype);
+  inline bool transform(transformType_t ttype) { transform(0, getDeviceCount()-1, ttype); };
+
+  /** 
+   * Apply a transformation to the data in contiguous subset of devices.
+   *
+   * The buffers for all devices in the subset can be transformed using one of the enumerated 
+   * transformations in transformType_t. The transformation is carried across 
+   * device boundaries (ie, there is overflow to an adjacent devices if appropriate).
+   * endDev must be greater than or equal to startDev.
+   * 
+   * \param startDev	the first device for the transformation [0..getDeviceCount()-1]
+   * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
+   * \param ttype		one of the transformation types in transformType_t.
+   * \return false if parameter errors, true otherwise.
+   */
+  bool transform(uint8_t startDev, uint8_t endDev, transformType_t ttype);
 
   /** 
    * Turn auto display updates on or off.
@@ -828,8 +890,8 @@ private:
   uint8_t*	_spiData;		// data buffer for writing to SPI interface
 
   // User callback function for shifting operations
-  uint8_t	(*_cbShiftDataIn)(transformType_t t);
-  void		(*_cbShiftDataOut)(transformType_t t, uint8_t colData);
+  uint8_t	(*_cbShiftDataIn)(uint8_t dev, transformType_t t);
+  void		(*_cbShiftDataOut)(uint8_t dev, transformType_t t, uint8_t colData);
 	
   // Control data for the library
   bool		_updateEnabled; // update the display when this is true, suspend otherwise

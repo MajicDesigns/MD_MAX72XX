@@ -5,10 +5,9 @@
 #include <MD_MAX72xx.h>
 
 // Use a button to transfer between transformations or just do it on a timer basis
-#define	USE_SWITCH_BUTTON	1
+#define	USE_SWITCH_INPUT	1
 
-#define	SWITCH_PIN	3	// switch pin if enabled
-#define	RESET_PIN	4	// On during transform state 0
+#define	SWITCH_PIN	8	// switch pin if enabled - active LOW
 
 // We always wait a bit between updates of the display
 #define  DELAYTIME  500  // in milliseconds
@@ -34,18 +33,16 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 
 bool changeState(void)
 {
-	bool c = false;
+	bool b = false;
 
-#if USE_SWITCH_BUTTON
+#if USE_SWITCH_INPUT
 
 	static int8_t	lastStatus = HIGH;
 	int8_t	status = digitalRead(SWITCH_PIN);
 
-	c = (lastStatus == HIGH) && (status == LOW);
+	b = (lastStatus == HIGH) && (status == LOW);
 	lastStatus = status;
-
 #else
-
 	static uint32_t	lastTime = 0;
 	static uint8_t	repeatCount = 0;
 
@@ -55,12 +52,11 @@ bool changeState(void)
 	if (millis()-lastTime >= DELAYTIME)
 	{
 		lastTime = millis();
-		c = (--repeatCount == 0);
+		b = (--repeatCount == 0);
 	}
-
 #endif
 
-	return(c);
+	return(b);
 }
 
 void transformDemo(MD_MAX72XX::transformType_t tt, bool bNew) 
@@ -96,10 +92,9 @@ void setup()
   // use wraparound mode
   mx.control(MD_MAX72XX::WRAPAROUND, WRAPAROUND_MODE);
 
-#if USE_SWITCH_BUTTON
-  pinMode(SWITCH_PIN, INPUT);
+#if USE_SWITCH_INPUT
+  pinMode(SWITCH_PIN, INPUT_PULLUP);
 #endif
-  pinMode(RESET_PIN, OUTPUT);
 
   Serial.begin(57600);
   Serial.println("[Transform Test]");
@@ -118,13 +113,13 @@ void loop()
 
 	switch (tState)
 	{
-	case 0: transformDemo(MD_MAX72XX::TSL,		bNew);	if (bNew) digitalWrite(RESET_PIN, HIGH);	break;
-	case 1:	transformDemo(MD_MAX72XX::TSR,		bNew);	if (bNew) digitalWrite(RESET_PIN, LOW);		break;
-	case 2:	transformDemo(MD_MAX72XX::TSU,		bNew);	break;
-	case 3:	transformDemo(MD_MAX72XX::TSD,		bNew);	break;
+	case 0: transformDemo(MD_MAX72XX::TSL,	bNew);	break;
+	case 1:	transformDemo(MD_MAX72XX::TSR,	bNew);	break;
+	case 2:	transformDemo(MD_MAX72XX::TSU,	bNew);	break;
+	case 3:	transformDemo(MD_MAX72XX::TSD,	bNew);	break;
 	case 4:	transformDemo(MD_MAX72XX::TFUD,	bNew);	break;
 	case 5:	transformDemo(MD_MAX72XX::TFLR,	bNew);	break;
-	case 6:	transformDemo(MD_MAX72XX::TRC,		bNew);	break;
+	case 6:	transformDemo(MD_MAX72XX::TRC,	bNew);	break;
 	case 7:	transformDemo(MD_MAX72XX::TINV,	bNew);	break;
 	default:	tState = 0;	// just in case
 	}
