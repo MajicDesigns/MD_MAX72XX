@@ -10,7 +10,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES		8	// multiple of ZONE_SIZE
+#define	MAX_DEVICES		8	// 2, 4, 6, or 8 work best - see Z array
 
 #define	CLK_PIN		13  // or SCK
 #define	DATA_PIN	11  // or MOSI
@@ -34,12 +34,30 @@ typedef struct
 
 zoneDef_t Z[] = 
 {
+#if MAX_DEVICES == 2
+	{0, 0, 26, MD_MAX72XX::TSR  },
+	{1, 1, 27, MD_MAX72XX::TSL  },
+#endif // MAX_DEVICES 4
+#if MAX_DEVICES == 4
+	{0, 0, 26, MD_MAX72XX::TSR  },
+	{1, 1, 25, MD_MAX72XX::TSD  },
+	{2, 2, 24, MD_MAX72XX::TSU  },
+	{3, 3, 27, MD_MAX72XX::TSL  },
+#endif // MAX_DEVICES 4
+#if MAX_DEVICES == 6
+	{0, 1, 26, MD_MAX72XX::TSR  },
+	{2, 2, 24, MD_MAX72XX::TSU  },
+	{3, 3, 25, MD_MAX72XX::TSD  },
+	{4, 5, 27, MD_MAX72XX::TSL  },
+#endif // MAX_DEVICES 4
+#if MAX_DEVICES == 8
 	{0, 1, 26, MD_MAX72XX::TSR  },
 	{2, 2, 24, MD_MAX72XX::TSU  },
 	{3, 3, 25, MD_MAX72XX::TSD  },
 	{4, 4, 24, MD_MAX72XX::TSU  },
 	{5, 5, 25, MD_MAX72XX::TSD  },
 	{6, 7, 27, MD_MAX72XX::TSL  },
+#endif // MAX_DEVICES 8
 };
 
 #define	ARRAY_SIZE(A)	(sizeof(A)/sizeof(A[0]))

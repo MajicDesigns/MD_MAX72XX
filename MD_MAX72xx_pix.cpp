@@ -122,7 +122,8 @@ bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c)
 
 #if USE_PAROLA_HW
   return(bitRead(_matrix[buf].row[r], 7-c) == 1);
-#else
+#endif
+#if USE_GENERIC_HW
   return(bitRead(_matrix[buf].row[c], 7-r) == 1);
 #endif
 }
@@ -147,7 +148,8 @@ bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state)
     bitClear(_matrix[buf].row[r], 7-c);
 
   bitSet(_matrix[buf].changed, r);
-#else
+#endif
+#if USE_GENERIC_HW
   if (state)
     bitSet(_matrix[buf].row[c], 7-r);
   else 

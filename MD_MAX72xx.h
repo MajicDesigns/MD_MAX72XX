@@ -39,6 +39,9 @@ February 2014 - version 2.3
 - Transform zoning implemented (contiguous subset of services)
  + Transformation functions, control, clear, setRow methods overloaded with range specifier
  + User callback for L/R rotation function syntax added a device parameter
+ + New Zones example
+- USE_ hardware types now separated out for future flexibility
+- Rechecked and reworked examples for new library
 
 November 2013 - version 2.2
 - Replaced reference to SPI library with inline code to allow for different select lines
@@ -155,11 +158,11 @@ can be daisy chained, making them ideal for the purpose.
 
 The Parola and generic modules LED matrices are rotated with respect to each other.
 This difference is accounted for in software when the type of module is selected 
-using the USE_PAROLA_HW compile time switch.
+using the appropriate USE_*_HW compile time switch.
 ___
 
-Wiring your own matrix
-----------------------
+Wiring your own Parola standard matrix
+--------------------------------------
 
 How the LED matrix is wired is important for the library. The matrix used for library 
 development was a **common anode** type labelled 1088B. Connections should be made as 
@@ -243,11 +246,18 @@ spiral pattern.
 
 /**
  \def USE_PAROLA_HW
- Set to 1 (default) to use the Parola hardware modules. The library 
- may be used with similar generic modules (with top and bottom connectors),
- available from many sources, by setting this switch to 0.
+ Set to 1 (default) to use the Parola hardware modules. The
+ software is originally design to operate with this hardware type tha
+ simplifies the connections between modules.
  */
 #define	USE_PAROLA_HW	1
+
+/**
+ \def USE_GENERIC_HW
+ Set to 1 to use common generic hardware modules commonly available, with 
+ top and bottom connectors, available from many sources.
+ */
+#define	USE_GENERIC_HW	0
 
 /**
  \def USE_LOCAL_FONT

@@ -44,7 +44,8 @@ bool MD_MAX72XX::clear(uint8_t buf)
 
 #if USE_PAROLA_HW
 uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t c)
-#else
+#endif
+#if USE_GENERIC_HW
 uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
 #endif
 {
@@ -53,7 +54,8 @@ uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
   
 #if USE_PAROLA_HW
   PRINT("\ngetCol: (", buf);
-#else
+#endif
+#if USE_GENERIC_HW
   PRINT("\ngetRow: (", buf);
 #endif
   PRINT(", ", c);
@@ -61,7 +63,8 @@ uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
 
 #if USE_PAROLA_HW
   if ((buf > LAST_BUFFER) || (c >= COL_SIZE))
-#else
+#endif
+#if USE_GENERIC_HW
   if ((buf > LAST_BUFFER) || (c >= ROW_SIZE))
 #endif
   return(0);
@@ -82,7 +85,8 @@ uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
 
 #if USE_PAROLA_HW
 bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t c, uint8_t value)
-#else
+#endif
+#if USE_GENERIC_HW
 bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
 #endif
 {
@@ -92,7 +96,8 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
 
 #if USE_PAROLA_HW
   PRINT("\nsetCol: (", buf);
-#else
+#endif
+#if USE_GENERIC_HW
   PRINT("\nsetRow: (", buf);
 #endif
   PRINT(", ", c);
@@ -100,7 +105,8 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
 
 #if USE_PAROLA_HW
   if ((buf > LAST_BUFFER) || (c >= COL_SIZE))
-#else
+#endif
+#if USE_GENERIC_HW
   if ((buf > LAST_BUFFER) || (c >= ROW_SIZE))
 #endif
     return(false);
@@ -123,13 +129,15 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
 
 #if USE_PAROLA_HW
 uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t r)
-#else
+#endif
+#if USE_GENERIC_HW
 uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
 #endif
 {
 #if USE_PAROLA_HW
   PRINT("\ngetRow: (", buf);
-#else
+#endif
+#if USE_GENERIC_HW
   PRINT("\ngetCol: (", buf);
 #endif
   PRINT(", ", r);
@@ -137,7 +145,8 @@ uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
 
 #if USE_PAROLA_HW
   if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
-#else
+#endif
+#if USE_GENERIC_HW
   if ((buf > LAST_BUFFER) || (r >= COL_SIZE))
 #endif
 	  return(0);
@@ -150,13 +159,15 @@ uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
 
 #if USE_PAROLA_HW
 bool MD_MAX72XX::setRow(uint8_t buf, uint8_t r, uint8_t value)
-#else
+#endif
+#if USE_GENERIC_HW
 bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t r, uint8_t value)
 #endif
 {
 #if USE_PAROLA_HW
   PRINT("\nsetRow: (", buf);
-#else
+#endif
+#if USE_GENERIC_HW
   PRINT("\nsetCol: (", buf);
 #endif
   PRINT(", ", r);
@@ -164,7 +175,8 @@ bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t r, uint8_t value)
 
 #if USE_PAROLA_HW
   if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
-#else
+#endif
+#if USE_GENERIC_HW
   if ((buf > LAST_BUFFER) || (r >= COL_SIZE))
 #endif
     return(false);
@@ -202,7 +214,8 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 #if USE_PAROLA_HW
       for (uint8_t i=0; i<ROW_SIZE; i++)
         _matrix[buf].row[i] >>= 1;
-#else  // Same code a PAROLA_HW TSD
+#endif
+#if USE_GENERIC_HW	// Same code a PAROLA_HW TSD
       for (uint8_t i=ROW_SIZE; i>0; --i)
         _matrix[buf].row[i] = _matrix[buf].row[i-1];
 #endif
@@ -213,7 +226,8 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 #if USE_PAROLA_HW
       for (uint8_t i=0; i<ROW_SIZE; i++)
         _matrix[buf].row[i] <<= 1;
-#else  // Same code as PAROLA_HW TSU
+#endif
+#if USE_GENERIC_HW	// Same code as PAROLA_HW TSU
       for (uint8_t i=0; i<ROW_SIZE-1; i++)
         _matrix[buf].row[i] = _matrix[buf].row[i+1];
 #endif
@@ -229,7 +243,8 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 #if USE_PAROLA_HW
       for (uint8_t i=0; i<ROW_SIZE-1; i++)
         _matrix[buf].row[i] = _matrix[buf].row[i+1];
-#else  // Same code as PAROLA_HW TSR
+#endif
+#if USE_GENERIC_HW  // Same code as PAROLA_HW TSR
       for (int8_t i=ROW_SIZE-1; i>=0; i--)
         _matrix[buf].row[i] <<= 1;
 #endif
@@ -246,8 +261,8 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 #if USE_PAROLA_HW
       for (uint8_t i=ROW_SIZE; i>0; --i)
         _matrix[buf].row[i] = _matrix[buf].row[i-1];
-#else
-	  // Same code a PAROLA_HW TSL
+#endif
+#if USE_GENERIC_HW	  // Same code a PAROLA_HW TSL
       for (uint8_t i=0; i<ROW_SIZE; i++)
         _matrix[buf].row[i] >>= 1;
 #endif
@@ -257,7 +272,8 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 	//--------------
 #if USE_PAROLA_HW
 	case TFLR: // Transform Flip Left to Right
-#else
+#endif
+#if USE_GENERIC_HW
 	case TFUD: // Transform Flip Up to Down
 #endif
       for (uint8_t i=0; i<ROW_SIZE; i++)
@@ -267,7 +283,8 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 	//--------------
 #if USE_PAROLA_HW
     case TFUD: // Transform Flip Up to Down
-#else
+#endif
+#if USE_GENERIC_HW
 	case TFLR: // Transform Flip Left to Right
 #endif
       for (uint8_t i=0; i<ROW_SIZE/2; i++)
