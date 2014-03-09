@@ -34,7 +34,7 @@ bool MD_MAX72XX::clear(uint8_t buf)
   if (buf > LAST_BUFFER)
     return(false);
     
-  memset(_matrix[buf].row, 0, sizeof(_matrix[buf].row));
+  memset(_matrix[buf].dig, 0, sizeof(_matrix[buf].dig));
   _matrix[buf].changed = ALL_CHANGED;
 
   if (_updateEnabled) flushBuffer(buf);
@@ -42,83 +42,114 @@ bool MD_MAX72XX::clear(uint8_t buf)
   return(true);
 }
 
-#if USE_PAROLA_HW
-uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t c)
+uint8_t MD_MAX72XX::bitReverse(uint8_t b)
+// Reverse the order of bits within a byte.
+// Returns the reversed byte value.
+{
+  b = ((b & 0xf0) >>  4) | ((b & 0x0f) << 4);
+  b = ((b & 0xcc) >>  2) | ((b & 0x33) << 2);
+  b = ((b & 0xaa) >>  1) | ((b & 0x55) << 1);
+
+  return(b);
+}
+
+#if HW_DIG_ROWS
+bool MD_MAX72XX::copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest)
+#else
+bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t cSrc, uint8_t cDest)
 #endif
-#if USE_GENERIC_HW
+// Src and Dest are in pixel coordinates.
+// if we are just copying rows there is no need to repackage any data
+{
+  uint8_t maskSrc = 1 << HW_COL(cSrc);	// which column of bits is the column data
+
+#if HW_DIG_ROWS
+  PRINT("\ncopyCol: (", buf);
+#else
+  PRINT("\ncopyRow: (", buf);
+#endif
+  PRINT(", ", cSrc);
+  PRINT(", ", cDest);
+  PRINTS(") ");
+
+  if ((buf > LAST_BUFFER) || (cSrc >= COL_SIZE) || (cDest >= COL_SIZE))
+	  return(false);
+
+  for (uint8_t i=0; i<ROW_SIZE; i++)
+  {
+      if (_matrix[buf].dig[i] & maskSrc)
+        bitSet(_matrix[buf].dig[i], HW_COL(cDest));
+	  else
+        bitClear(_matrix[buf].dig[i], HW_COL(cDest));
+  }
+
+  _matrix[buf].changed = ALL_CHANGED;
+
+  if (_updateEnabled) flushBuffer(buf);
+
+  return(true);
+}
+
+#if HW_DIG_ROWS
+uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t c)
+#else
 uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
 #endif
+// c is in pixel coordinates and the return value must be in pixel coordinate order
 {
-  uint8_t mask = COL_ZERO_BIT;
-  uint8_t value = 0;
+  uint8_t mask = 1 << HW_COL(c);	// which column of bits is the column data
+  uint8_t value = 0;				// assembles data to be returned to caller
   
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
   PRINT("\ngetCol: (", buf);
-#endif
-#if USE_GENERIC_HW
+#else
   PRINT("\ngetRow: (", buf);
 #endif
   PRINT(", ", c);
   PRINTS(") ");
 
-#if USE_PAROLA_HW
   if ((buf > LAST_BUFFER) || (c >= COL_SIZE))
-#endif
-#if USE_GENERIC_HW
-  if ((buf > LAST_BUFFER) || (c >= ROW_SIZE))
-#endif
-  return(0);
+    return(0);
 
-  mask >>= c;
   PRINTX("mask 0x", mask);
 
+  // for each digit data, pull out the column/row bit and place
+  // it in value. The loop creates the data in pixel coordinate order as it goes.
   for (uint8_t i=0; i<ROW_SIZE; i++)
   {
-      if (_matrix[buf].row[i] & mask)
-        bitSet(value, 7-i);
+      if (_matrix[buf].dig[HW_ROW(i)] & mask)
+        bitSet(value, i);
   }
 
-  PRINTX(" = 0x", value);
+  PRINTX(" value 0x", value);
  
-  return(bitReverse(value));
+  return(value);
 }
 
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
 bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t c, uint8_t value)
-#endif
-#if USE_GENERIC_HW
+#else
 bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
 #endif
+// c and value are in pixel coordinate order
 {
-  uint8_t mask = COL_ZERO_BIT;
-
-  value = bitReverse(value);
-
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
   PRINT("\nsetCol: (", buf);
-#endif
-#if USE_GENERIC_HW
+#else
   PRINT("\nsetRow: (", buf);
 #endif
   PRINT(", ", c);
   PRINTX(") 0x", value);
 
-#if USE_PAROLA_HW
   if ((buf > LAST_BUFFER) || (c >= COL_SIZE))
-#endif
-#if USE_GENERIC_HW
-  if ((buf > LAST_BUFFER) || (c >= ROW_SIZE))
-#endif
     return(false);
   
   for (uint8_t i=0; i<ROW_SIZE; i++)
   {
-      if (value & mask)
-        bitSet(_matrix[buf].row[i], 7-c);
+      if (value & (1 << i))		// mask off next column value passed in and set it in the dig buffer
+        bitSet(_matrix[buf].dig[HW_ROW(i)], HW_COL(c));
       else
-        bitClear(_matrix[buf].row[i], 7-c);
-        
-      mask >>= 1;
+        bitClear(_matrix[buf].dig[HW_ROW(i)], HW_COL(c));
   }
   _matrix[buf].changed = ALL_CHANGED;
   
@@ -127,67 +158,87 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
   return(true);
 }
 
-#if USE_PAROLA_HW
-uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t r)
+#if HW_DIG_ROWS
+bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest)
+#else
+bool MD_MAX72XX::copyColumn(uint8_t buf, uint8_t rSrc, uint8_t rDest)
 #endif
-#if USE_GENERIC_HW
-uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
-#endif
+// Src and Dest are in pixel coordinates.
+// if we are just copying digits there is no need to repackage any data
 {
-#if USE_PAROLA_HW
-  PRINT("\ngetRow: (", buf);
+#if HW_DIG_ROWS
+  PRINT("\ncopyRow: (", buf);
+#else
+  PRINT("\ncopyColumn: (", buf);
 #endif
-#if USE_GENERIC_HW
-  PRINT("\ngetCol: (", buf);
-#endif
-  PRINT(", ", r);
+  PRINT(", ", rSrc);
+  PRINT(", ", rDest);
   PRINTS(") ");
 
-#if USE_PAROLA_HW
-  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
-#endif
-#if USE_GENERIC_HW
-  if ((buf > LAST_BUFFER) || (r >= COL_SIZE))
-#endif
-	  return(0);
+  if ((buf > LAST_BUFFER) || (rSrc >= ROW_SIZE) || (rDest >= ROW_SIZE))
+	  return(false);
 
-  PRINTX("0x", bitReverse(_matrix[buf].row[r]));
-
-  return(bitReverse(_matrix[buf].row[r]));
-
-}
-
-#if USE_PAROLA_HW
-bool MD_MAX72XX::setRow(uint8_t buf, uint8_t r, uint8_t value)
-#endif
-#if USE_GENERIC_HW
-bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t r, uint8_t value)
-#endif
-{
-#if USE_PAROLA_HW
-  PRINT("\nsetRow: (", buf);
-#endif
-#if USE_GENERIC_HW
-  PRINT("\nsetCol: (", buf);
-#endif
-  PRINT(", ", r);
-  PRINTX(") 0x", value);
-
-#if USE_PAROLA_HW
-  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
-#endif
-#if USE_GENERIC_HW
-  if ((buf > LAST_BUFFER) || (r >= COL_SIZE))
-#endif
-    return(false);
-
-  _matrix[buf].row[r] = bitReverse(value);
-  bitSet(_matrix[buf].changed, r);
+  _matrix[buf].dig[HW_ROW(rDest)] = _matrix[buf].dig[HW_ROW(rSrc)];
+  bitSet(_matrix[buf].changed, HW_ROW(rDest));
 
   if (_updateEnabled) flushBuffer(buf);
 
   return(true);
 }
+
+#if HW_DIG_ROWS
+uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t r)
+#else
+uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
+#endif
+// r is in pixel coordinates for this buffer
+// returned value is in pixel coordinates
+{
+#if HW_DIG_ROWS
+  PRINT("\ngetRow: (", buf);
+#else
+  PRINT("\ngetCol: (", buf);
+#endif
+  PRINT(", ", r);
+  PRINTS(") ");
+
+  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
+	  return(0);
+
+  uint8_t value = HW_REV_COLS ? bitReverse(_matrix[buf].dig[HW_ROW(r)]) : _matrix[buf].dig[HW_ROW(r)];
+  
+  PRINTX("0x", value);
+
+  return(value);
+}
+
+#if HW_DIG_ROWS
+bool MD_MAX72XX::setRow(uint8_t buf, uint8_t r, uint8_t value)
+#else
+bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t r, uint8_t value)
+#endif
+// r and value are in pixel coordinates
+{
+#if HW_DIG_ROWS
+  PRINT("\nsetRow: (", buf);
+#else
+  PRINT("\nsetCol: (", buf);
+#endif
+  PRINT(", ", r);
+
+  PRINTX(") 0x", value);
+
+  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
+    return(false);
+
+  _matrix[buf].dig[HW_ROW(r)] = HW_REV_COLS ? bitReverse(value) : value;
+  bitSet(_matrix[buf].changed, HW_ROW(r));
+
+  if (_updateEnabled) flushBuffer(buf);
+
+  return(true);
+}
+
 
 bool MD_MAX72XX::transform(uint8_t buf, transformType_t ttype)
 {
@@ -208,28 +259,33 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
       
   switch (ttype)
   {
-
 	//--------------
     case TSL: // Transform Shift Left one pixel element
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
       for (uint8_t i=0; i<ROW_SIZE; i++)
-        _matrix[buf].row[i] >>= 1;
+#if HW_REV_COL
+        _matrix[buf].dig[i] <<= 1;
+#else
+        _matrix[buf].dig[i] >>= 1;
 #endif
-#if USE_GENERIC_HW	// Same code a PAROLA_HW TSD
+#else
       for (uint8_t i=ROW_SIZE; i>0; --i)
-        _matrix[buf].row[i] = _matrix[buf].row[i-1];
+        _matrix[buf].dig[i] = _matrix[buf].dig[i-1];
 #endif
-    break;
+		break;
     
 	//--------------
 	case TSR:	// Transform Shift Right one pixel element
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
       for (uint8_t i=0; i<ROW_SIZE; i++)
-        _matrix[buf].row[i] <<= 1;
+#if HW_REV_COL
+        _matrix[buf].dig[i] >>= 1;
+#else
+        _matrix[buf].dig[i] <<= 1;
 #endif
-#if USE_GENERIC_HW	// Same code as PAROLA_HW TSU
+#else
       for (uint8_t i=0; i<ROW_SIZE-1; i++)
-        _matrix[buf].row[i] = _matrix[buf].row[i+1];
+        _matrix[buf].dig[i] = _matrix[buf].dig[i+1];
 #endif
     break;
     
@@ -240,13 +296,12 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 	  else
 		  t[0] = 0;
 
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
       for (uint8_t i=0; i<ROW_SIZE-1; i++)
-        _matrix[buf].row[i] = _matrix[buf].row[i+1];
-#endif
-#if USE_GENERIC_HW  // Same code as PAROLA_HW TSR
+        copyRow(buf, i+1, i);
+#else
       for (int8_t i=ROW_SIZE-1; i>=0; i--)
-        _matrix[buf].row[i] <<= 1;
+        _matrix[buf].dig[i] <<= 1;
 #endif
 	  setRow(buf, ROW_SIZE-1, t[0]);
     break;
@@ -258,40 +313,37 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 	  else
 		  t[0] = 0;
 
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
       for (uint8_t i=ROW_SIZE; i>0; --i)
-        _matrix[buf].row[i] = _matrix[buf].row[i-1];
-#endif
-#if USE_GENERIC_HW	  // Same code a PAROLA_HW TSL
+        copyRow(buf, i-1, i);
+#else
       for (uint8_t i=0; i<ROW_SIZE; i++)
-        _matrix[buf].row[i] >>= 1;
+        _matrix[buf].dig[i] >>= 1;
 #endif
       setRow(buf, 0, t[0]);
     break;
     
 	//--------------
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
 	case TFLR: // Transform Flip Left to Right
-#endif
-#if USE_GENERIC_HW
+#else
 	case TFUD: // Transform Flip Up to Down
 #endif
       for (uint8_t i=0; i<ROW_SIZE; i++)
-        _matrix[buf].row[i] = bitReverse(_matrix[buf].row[i]);
+        _matrix[buf].dig[i] = bitReverse(_matrix[buf].dig[i]);
     break;
     
 	//--------------
-#if USE_PAROLA_HW
+#if HW_DIG_ROWS
     case TFUD: // Transform Flip Up to Down
-#endif
-#if USE_GENERIC_HW
+#else
 	case TFLR: // Transform Flip Left to Right
 #endif
       for (uint8_t i=0; i<ROW_SIZE/2; i++)
       {
-        uint8_t	t = _matrix[buf].row[i];
-        _matrix[buf].row[i] = _matrix[buf].row[ROW_SIZE-i-1];
-        _matrix[buf].row[ROW_SIZE-i-1] = t;
+        uint8_t	t = _matrix[buf].dig[i];
+        _matrix[buf].dig[i] = _matrix[buf].dig[ROW_SIZE-i-1];
+        _matrix[buf].dig[ROW_SIZE-i-1] = t;
       }
     break;
     
@@ -307,7 +359,7 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 	//--------------
 	case TINV: // Transform INVert
       for (uint8_t i=0; i<ROW_SIZE; i++)
-        _matrix[buf].row[i] = ~_matrix[buf].row[i];
+        _matrix[buf].dig[i] = ~_matrix[buf].dig[i];
     break;
 
     default:
@@ -318,15 +370,3 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
   
   return(true);
 }
-
-uint8_t MD_MAX72XX::bitReverse(uint8_t b)
-// Reverse the order of bits within a byte.
-// Returns: The reversed byte value.
-{
-  b = ((b & 0xf0) >>  4) | ((b & 0x0f) << 4);
-  b = ((b & 0xcc) >>  2) | ((b & 0x33) << 2);
-  b = ((b & 0xaa) >>  1) | ((b & 0x55) << 1);
-
-  return(b);
-}
-

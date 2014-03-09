@@ -37,7 +37,7 @@ void MD_MAX72XX::clear(uint8_t startDev, uint8_t endDev)
 
   for (uint8_t buf = startDev; buf <= endDev; buf++) 
   {
-    memset(_matrix[buf].row, 0, sizeof(_matrix[buf].row));
+    memset(_matrix[buf].dig, 0, sizeof(_matrix[buf].dig));
 	_matrix[buf].changed = ALL_CHANGED;
   }
 
@@ -107,6 +107,15 @@ bool MD_MAX72XX::drawLine(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool
   return(true);
 }
 
+// used in getPoint and setPoint!
+#if HW_DIG_ROWS
+#define	R	r
+#define	C	c
+#else
+#define	R	c
+#define	C	r
+#endif
+
 bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c) 
 {
   uint8_t	buf = c/COL_SIZE;
@@ -120,12 +129,7 @@ bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c)
   if ((buf > LAST_BUFFER) || (r >= ROW_SIZE) || (c >= COL_SIZE))
     return(false);
 
-#if USE_PAROLA_HW
-  return(bitRead(_matrix[buf].row[r], 7-c) == 1);
-#endif
-#if USE_GENERIC_HW
-  return(bitRead(_matrix[buf].row[c], 7-r) == 1);
-#endif
+  return(bitRead(_matrix[buf].dig[HW_ROW(R)], HW_COL(C)) == 1);
 }
 
 bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state) 
@@ -141,27 +145,20 @@ bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state)
   if ((buf > LAST_BUFFER) || (r >= ROW_SIZE) || (c >= COL_SIZE))
     return(false);
 
-#if USE_PAROLA_HW
   if (state)
-    bitSet(_matrix[buf].row[r], 7-c);
+    bitSet(_matrix[buf].dig[HW_ROW(R)], HW_COL(C));
   else 
-    bitClear(_matrix[buf].row[r], 7-c);
+    bitClear(_matrix[buf].dig[HW_ROW(R)], HW_COL(C));
 
-  bitSet(_matrix[buf].changed, r);
-#endif
-#if USE_GENERIC_HW
-  if (state)
-    bitSet(_matrix[buf].row[c], 7-r);
-  else 
-    bitClear(_matrix[buf].row[c], 7-r);
-    
-  bitSet(_matrix[buf].changed, c);
-#endif
-  
+  bitSet(_matrix[buf].changed, HW_ROW(R));
+
   if (_updateEnabled) flushBuffer(buf);
 
   return(true);
 }
+
+#undef	R
+#undef	C
 
 bool MD_MAX72XX::setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t value)
 {

@@ -60,7 +60,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #define OP_SHUTDOWN    12	///< MAX72xx opcode for SHUT DOWN
 #define OP_DISPLAYTEST 15	///< MAX72xx opcode for DISPLAY TEST
 
-#define COL_ZERO_BIT  0b10000000	///< Binary mask for the zero numbered column in a row
 #define ALL_CHANGED   0xff			///< Mask for all rows changed in a buffer structure
 #define ALL_CLEAR     0x00			///< Mask for all rows clear in a buffer structure
 
@@ -74,5 +73,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 // variables shared in the library
 extern uint8_t _sysfont_var[];		///< System variable pitch font table
+
+// Coordinate system adjustment for different hardware configurations
+// 
+// Each hardware type translates into a transformation of coordinates and potential 
+// reversal of row and column indices. This creates 2 coordinates systems - a cartesian 
+// coordinate system based on the pixels seen and an underlying hardware coordinate 
+// system based on digits and segments.
+// Pixel coordinate space has it's origin in the top right hand corner of a display. 
+// - Columns numbers increase to the left (as do module numbers)  
+// - Row numbers increase down (0..7)
+//
+// All user functions are called using pixel coordinates space and all hardware buffers 
+// are stored in 'hardware ready' coordinates that depend on the hardware configuration. 
+// It is the job of the low level library functions to map one to the other. 
+//
+// All the dependent code is in the buffer and pixel modules. All other modules 
+// are written in terms of the primitives given in these affected modules.
+//
+// Library code sections will be activated depending on the defines below, to perform 
+// the appropriate coordinate remapping and transformations.
+// HW_DIG_ROWS - Max72xx digits are mapped to rows in on the matrix. 
+//               If digits are not rows then they are columns!
+// HW_REV_COLS - Max72xx column coordinates orientation is 0 col is on right
+// HW_REV_COLS - Max72xx row coordinates orientation is 0 row is at top  
+//
+// Note: Combinations not listed here have probably not been tested and may not work correctly.
+//
+#if USE_PAROLA_HW		// tested MC 8 March 2014
+#define	HW_DIG_ROWS	1
+#define	HW_REV_ROWS	0
+#define	HW_REV_COLS	1
+#endif
+
+#if USE_GENERIC_HW		// tested MC 9 March 2014
+#define	HW_DIG_ROWS	0
+#define	HW_REV_ROWS	0
+#define	HW_REV_COLS	1
+#endif
+
+#if USE_ICSTATION_HW	// tested MC 9 March 2014
+#define	HW_DIG_ROWS	1
+#define	HW_REV_ROWS	1
+#define	HW_REV_COLS	1
+#endif
+
+// Macros to map ROW and COLUMN coordinates
+#if HW_REV_ROWS
+#define	HW_ROW(r)	(7-r)	///< Pixel to hardware coordinate row mapping
+#else
+#define	HW_ROW(r)	(r)		///< Pixel to hardware coordinate row mapping
+#endif
+
+#if HW_REV_COLS
+#define	HW_COL(c)	(7-c)	///< Pixel to hardware coordinate column mapping
+#else
+#define	HW_COL(c)	(c)		///< Pixel to hardware coordinate column mapping
+#endif
 
 #endif

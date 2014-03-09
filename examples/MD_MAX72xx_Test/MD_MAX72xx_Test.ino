@@ -4,7 +4,7 @@
 #include <MD_MAX72xx.h>
 
 // Turn on debug statements to the serial output
-#define  DEBUG  0
+#define  DEBUG  1
 
 #if  DEBUG
 #define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
@@ -615,6 +615,7 @@ void setup()
 
 void loop() 
 {
+#if 0
   scrollText("Graphics  ");
   zeroPointSet();
   lines();
@@ -625,18 +626,25 @@ void loop()
   bullseye();
   bounce();
   spiral();
+#endif
 
+#if 0
   scrollText("Control  ");
   intensity();
   scanLimit();
   blinking();
+#endif
 
+#if 1
   scrollText("Transform  ");
   transformation1();
   transformation2();
+#endif
 
+#if 1
   scrollText("Charset  ");
   wrapText();
   showCharset();
+#endif
 }
 

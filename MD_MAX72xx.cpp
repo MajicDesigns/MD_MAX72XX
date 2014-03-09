@@ -85,7 +85,7 @@ void MD_MAX72XX::begin(void)
   setShiftDataInCallback(NULL);
   setShiftDataOutCallback(NULL);
 
-  _matrix = (deviceInfo_t *)malloc(sizeof(deviceInfo_t) * ((_maxDevices) * 2));
+  _matrix = (deviceInfo_t *)malloc(sizeof(deviceInfo_t) * _maxDevices);
   _spiData = (uint8_t *)malloc(SPI_DATA_SIZE);
 
 #if USE_LOCAL_FONT
@@ -101,7 +101,7 @@ void MD_MAX72XX::begin(void)
     _matrix[d].changed = ALL_CLEAR;
     for (uint8_t i = 0; i < ROW_SIZE; i++)
     {
-      _matrix[d].row[i] = 0;
+      _matrix[d].dig[i] = 0;
     }
   }
 			
@@ -220,7 +220,7 @@ void MD_MAX72XX::flushBufferAll()
 	  {
 	    // put our device data into the buffer
 		_spiData[SPI_OFFSET(dev, 1)] = OP_DIGIT0+i;
-		_spiData[SPI_OFFSET(dev, 0)] = _matrix[dev].row[i];
+		_spiData[SPI_OFFSET(dev, 0)] = _matrix[dev].dig[i];
 		bChange = true;
 	  }
     }
@@ -251,9 +251,8 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
       spiClearBuffer();
 
       // put our device data into the buffer
-      // device address is one less than the buffer address
       _spiData[SPI_OFFSET(buf,1)] = OP_DIGIT0+i;
-      _spiData[SPI_OFFSET(buf,0)] = _matrix[buf].row[i];
+      _spiData[SPI_OFFSET(buf,0)] = _matrix[buf].dig[i];
     
       spiTransmit();
     }
@@ -263,7 +262,6 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
 
 void MD_MAX72XX::spiSend(uint8_t dev, uint8_t opcode, uint8_t data) 
 // Use this function when needing to send just one byte (eg, a command)
-// dev does not need to be adjusted for virtual buffers as this is an internal function
 {
   spiClearBuffer();
 

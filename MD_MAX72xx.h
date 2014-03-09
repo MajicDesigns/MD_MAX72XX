@@ -30,7 +30,7 @@ Topics
 
 Revision History 
 ----------------
-February 2014 - version 2.3
+March 2014 - version 2.3
 - Extensive rework of the font system
  + New font Microsoft Excel VBA based builder tool available
  + Removed USE_FONT_ADJUST and related code - replace by builder tool
@@ -40,7 +40,9 @@ February 2014 - version 2.3
  + Transformation functions, control, clear, setRow methods overloaded with range specifier
  + User callback for L/R rotation function syntax added a device parameter
  + New Zones example
-- USE_ hardware types now separated out for future flexibility
+- USE_*_HW hardware types now separated out for future flexibility
+ + Rework of the library to use new schema for defining hardware characteristics
+ + New utility code to map out digits and segments for unknown hardware types
 - Rechecked and reworked examples for new library
 
 November 2013 - version 2.2
@@ -56,7 +58,7 @@ June 2013 - version 2.1
 - Include the selection of hardware SPI interface (10x speed improvement)
 - Tidied up comments
 
-April 2013 - version 2.0 
+April 2013 - version 2.0
 - Major update and rewrite of library code:
 - Improved speed and efficiency of code
 - Increased level of abstraction in the library for pixel methods
@@ -136,62 +138,183 @@ The support for fonts (methods and data) may be completely disabled  if not requ
 the compile-time switch INCLUDE_LOCAL_FONT. This will also disable user defined fonts.
 
 \page pageHardware Hardware
-Hardware Supported
+Supported Hardware
 ------------------
 This library supports the Parola hardware and the more commonly available LED modules available 
-from many low-cost sources. The circuits for the these modules are essentially the same except 
-but the LED matrix is oriented differently.
+from many other sources. The circuits for the these modules are essentially the same except 
+in the way that the LED matrix is wired to the MAX7219 IC. This difference is accounted for in 
+software when the type of module is selected using the appropriate USE_*_HW compile time switch.
 
-![Parola module] (Parola_Module.png "Parola Module") 
-![Generic Module] (Generic_Module.png "Generic Module")
+Hardware supported
+------------------
+- \subpage pageParola
+- \subpage pageGeneric
+- \subpage pageICStation
 
+Connecting Multiple Modules
+---------------------------
+Separate modules are connected by the plugging them together edge to edge, with the 
+OUT side of one module plugged to the IN side of the next. More details can be found 
+at the end of each module's hardware section.
 ___
+
+\page pageParola Parola Custom Module
+The Parola Module
+-----------------
+These custome modules allow a 'lego-like' approach to LED matrix display, using standard 8x8 on
+LED matrices. The software supports this flexibility through a scalable approach that
+only requires the definition of the number of modules to adapt existing software to 
+a new configuration.
+
+![Completed Parola module with and without the LED matrix] (PCB_Actual.jpg "Parola Custom Modules")
 
 Circuit Schematic
 -----------------
 The schematic is the basic application circuit that is found on the MAX7219 datasheet, 
-adapted to the LED matrix. Each Module consists of an 8x8 LED Common Anode matrix
-controlled by a MAX7219 LED controller and a few passive components. These controllers 
-can be daisy chained, making them ideal for the purpose.
+adapted to the LED matrix. Each Module consists of an 8x8 LED matrix controlled by a 
+MAX7219 LED controller and a few passive components. These controllers can be daisy 
+chained, making them ideal for the purpose.
 
-![Parola Circuit Schematic] (Circuit_Schematic.jpg "Module Schematic")
+![Parola Circuit Schematic] (Circuit_Schematic.jpg "Parola Schematic")
 
-The Parola and generic modules LED matrices are rotated with respect to each other.
-This difference is accounted for in software when the type of module is selected 
-using the appropriate USE_*_HW compile time switch.
-___
+The PCB design was executed using the autorouting facility in Eagle CAD, and the PCB was 
+manufactured by SeeedStudio. The Eagle CAD files for the layout and the Gerber files 
+suitable for SeeedStudio are found on the [Parola website] (http://parola.codeplex.com).
+The final design includes edge connections that allow many modules to be connected
+together into an extended display, one LED module high.
+
+![PCB layout ready for manufacture] (PCB_Layout.jpg "PCB Design")
 
 Wiring your own Parola standard matrix
 --------------------------------------
-
 How the LED matrix is wired is important for the library. The matrix used for library 
-development was a **common anode** type labelled 1088B. Connections should be made as 
-described in the table below to be consistent with the assumptions in the software library.
-- Columns are addressed through the digits section lines 
-- Rows are are addressed through the LED segment selection lines
+development was labelled 1088B and is sometime referred to as a **common anode** matrix.
+Connections should be made as described in the table below to be consistent with the 
+assumptions in the software library.
+- Columns are addressed through the segment selection lines 
+- Rows are are addressed through the digit selection lines
 
-Matrix|MAX Signal|MAX7219 pin|
-:----:|:--------:|----------:|
-Col1  |Dig0      |2          | 
-Col2  |Dig1      |11         |
-Col3  |Dig2      |6          |
-Col4  |Dig3      |7          |
-Col5  |Dig4      |3          |
-Col6  |Dig5      |10         |
-Col7  |Dig6      |5          |
-Col8  |Dig7      |8          |
-Row1  |SegDP     |22         |
-Row2  |SegA      |14         |
-Row3  |SegB      |16         |
-Row4  |SegC      |20         |
-Row5  |SegD      |23         |
-Row6  |SegE      |21         |
-Row7  |SegF      |15         |
-Row8  |SegG      |17         |
+MAX Signal|MAX7219 Pin|MAX Signal|MAX7219 Pin|  
+:--------:|----------:|:--------:|----------:|
+Dig0 (D0) |2          |SegDP     |22         |
+Dig1 (D1) |11         |SegA      |14         |
+Dig2 (D2) |6          |SegB      |16         |
+Dig3 (D3) |7          |SegC      |20         |
+Dig4 (D4) |3          |SegD      |23         |
+Dig5 (D5) |10         |SegE      |21         |
+Dig6 (D6) |5          |SegF      |15         |
+Dig7 (D7) |8          |SegG      |17         |
+
+Segment data is packed on a per-digit basis, with segment G as the least significant bit (bit 0) 
+through to A as bit 6 and DP as bit 7.
+____
+
+Module Orientation
+------------------
+
+      G  F  E  D  C  B  A  DP
+    +------------------------+ 
+    | 7  6  5  4  3  2  1  0 |- DIG0
+    |                      1 |- DIG1
+    |                      2 |- DIG2
+    |                      3 |- DIG3
+    | O                    4 |- DIG4
+    | O  O                 5 |- DIG5
+    | O  O  O              6 |- DIG6
+    | O  O  O  O           7 |- DIG7
+    +------------------------+
+      Vcc ----      ---- Vcc  
+     DOUT <---      ---< DIN 
+      GND ----      ---- GND
+    CS/LD <---      ---< CS/LD
+      CLK <---      ---< CLK
+
+____
+
+Module Interconnections
+-----------------------
+Parola modules are connected by plugging them together.
+![Connecting Parola modules] (Modules_conn.jpg "Parola Modules connected")
+____
+
+\page pageGeneric Generic Module
+Generic MAX7219 Modules
+------------------------
+These modules are commonly available from many suppliers (eg, eBay) at reasonable cost.
+They are characterised by IN and OUT connectors at the short ends of the rectangular PCB.
+
+![Generic Module] (Generic_Module.png "Generic Module")
+____
+
+Module Orientation
+------------------
+
+          C  C  D  G  V
+          L  S  I  N  c
+          K     N  D  c
+          |  |  |  |  |
+      D7 D6 D5 D4 D3 D2 D1 D0
+    +------------------------+ 
+    | 7  6  5  4  3  2  1  0 |- DP
+    |                      1 |- A
+    |                      2 |- B
+    |                      3 |- C
+    | O                    4 |- D
+    | O  O                 5 |- E
+    | O  O  O              6 |- F
+    | O  O  O  O           7 |- G
+    +-----+--+--+--+--+------+
+          |  |  |  |  |
+          C  C  D  G  V
+          L  S  O  N  c
+          K     U  D  c
+                T
+
+____
+
+Module Interconnections
+-----------------------
+Generic modules need to be oriented with the MAX7219 IC at the top and connected using 
+short patch cables in a spiral pattern.
+![Connecting Generic modules] (Generic_conn.jpg "Generic Modules connected")
+____
+
+\page pageICStation ICStation Modules
+ICStation DIY Kit Module
+------------------------
+These modules are avilable as kits from ICStation (http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs).
+
+![ICStation Module] (ICStation_Module.jpg "ICStation Module")
+____
+
+Module Orientation
+------------------
+
+               G  F  E  D  C  B  A  DP
+             +------------------------+ 
+             | 7  6  5  4  3  2  1  0 |- D7
+     CLK <---|                      1 |- D6 <--- CLK
+      CS <---|                      2 |- D5 <--- CS
+    DOUT <---|                      3 |- D4 <--- DIN
+     GND ----| O                    4 |- D3 ---- GND
+     VCC ----| O  O                 5 |- D2 ---- VCC
+             | O  O  O              6 |- D1
+             | O  O  O  O           7 |- D0
+             +------------------------+
+____
+
+Module Interconnections
+-----------------------
+ICStation Modules are connected using the links supplied with the hardware. The display is 
+oriented with the DIN side on the right.
+
+![Connecting ICStation modules] (ICStation_conn.jpg "ICStation Modules connected")
+
+____
 
 \page pageConnect System Connections
-Module to Arduino Connection (SPI interface)
---------------------------------------------
+Connections to the Arduino Board (SPI interface)
+------------------------------------------------
 The modules are connected through a 4-wire serial interface (SPI), and devices are cascaded, 
 with communications passed through the first device in the chain to all others. The Arduino 
 should be connected to the IN side (shown in the figure below) of the first module in the chain. 
@@ -220,19 +343,6 @@ software needs to instantiate a separate object for each display.
 The remaining interface pins are for +5V and GND. The power supply must be able to supply 
 enough current for the number of connected modules. The central position of the Parola GND
 connector provides some protection for accidentally reversing the connector.
-___
-
-Connecting Multiple Modules
----------------------------
-Separate modules are connected by the plugging them together edge to edge, with the 
-OUT side of one module plugged to the IN side of the next, as shown in the figures below.
-
-Parola modules are connected by plugging them together.
-![Connecting Parola modules] (Parola_conn.jpg "Parola Modules connected")
-
-Generic modules may need to be rotated and connected using short patch cables in a 
-spiral pattern.
-![Connecting Generic modules] (Generic_conn.jpg "Generic Modules connected")
 */
 #ifndef MD_MAX72xx_h
 #define MD_MAX72xx_h
@@ -250,14 +360,22 @@ spiral pattern.
  software is originally design to operate with this hardware type tha
  simplifies the connections between modules.
  */
-#define	USE_PAROLA_HW	1
+#define	USE_PAROLA_HW	0
 
 /**
  \def USE_GENERIC_HW
  Set to 1 to use common generic hardware modules commonly available, with 
  top and bottom connectors, available from many sources.
  */
-#define	USE_GENERIC_HW	0
+#define	USE_GENERIC_HW	1
+
+/**
+ \def USE_ICSTATION_HW
+ Set to 1 to use ICStation DIY hardware module kits available from 
+ http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs
+ This hardware must be set up with the input on the LHS.
+ */
+#define	USE_ICSTATION_HW	0
 
 /**
  \def USE_LOCAL_FONT
@@ -884,8 +1002,8 @@ public:
 private:
   typedef struct 
   {
-	uint8_t row[ROW_SIZE];	// data for each row of the display
-	uint8_t changed;        // one bit for each row changed ('dirty bit')
+	uint8_t dig[ROW_SIZE];	// data for each digit of the MAX72xx (DIG0-DIG7)
+	uint8_t changed;        // one bit for each digit changed ('dirty bit')
   } deviceInfo_t;
 
   // SPI interface data
@@ -925,6 +1043,9 @@ private:
 
   uint8_t bitReverse(uint8_t b);	// reverse the order of bits in the byte
   bool transformBuffer(uint8_t buf, transformType_t ttype);	// internal transform function
+
+  bool copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest);	// copy a row from Src to Dest
+  bool copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest);	// copy a row from Src to Dest
 
 };
 

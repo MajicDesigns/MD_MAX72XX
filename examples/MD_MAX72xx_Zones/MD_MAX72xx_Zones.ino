@@ -37,7 +37,7 @@ zoneDef_t Z[] =
 #if MAX_DEVICES == 2
 	{0, 0, 26, MD_MAX72XX::TSR  },
 	{1, 1, 27, MD_MAX72XX::TSL  },
-#endif // MAX_DEVICES 4
+#endif // MAX_DEVICES 2
 #if MAX_DEVICES == 4
 	{0, 0, 26, MD_MAX72XX::TSR  },
 	{1, 1, 25, MD_MAX72XX::TSD  },
@@ -49,7 +49,7 @@ zoneDef_t Z[] =
 	{2, 2, 24, MD_MAX72XX::TSU  },
 	{3, 3, 25, MD_MAX72XX::TSD  },
 	{4, 5, 27, MD_MAX72XX::TSL  },
-#endif // MAX_DEVICES 4
+#endif // MAX_DEVICES 6
 #if MAX_DEVICES == 8
 	{0, 1, 26, MD_MAX72XX::TSR  },
 	{2, 2, 24, MD_MAX72XX::TSU  },
