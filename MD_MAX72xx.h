@@ -360,20 +360,20 @@ connector provides some protection for accidentally reversing the connector.
  software is originally design to operate with this hardware type tha
  simplifies the connections between modules.
  */
-#define	USE_PAROLA_HW	0
+#define	USE_PAROLA_HW	1
 
 /**
  \def USE_GENERIC_HW
  Set to 1 to use common generic hardware modules commonly available, with 
  top and bottom connectors, available from many sources.
  */
-#define	USE_GENERIC_HW	1
+#define	USE_GENERIC_HW	0
 
 /**
  \def USE_ICSTATION_HW
  Set to 1 to use ICStation DIY hardware module kits available from 
  http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs
- This hardware must be set up with the input on the LHS.
+ This hardware must be set up with the input on the RHS.
  */
 #define	USE_ICSTATION_HW	0
 
