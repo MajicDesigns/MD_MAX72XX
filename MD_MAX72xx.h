@@ -112,6 +112,10 @@ Conditional Compilation Switches
 The library allows the run time code to be tailored through the use of compilation
 switches. The compile options start with USE_ and are documented in the section 
 related to the main header file MD_MAX72xx.h.
+
+Note: Compile switches must be edited in the library header file. Arduino header file
+'mashing' during compilation makes the setting of these switches from user code 
+completely unreliable.
 ___
 
 Font Storage Format
