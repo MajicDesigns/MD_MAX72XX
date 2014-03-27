@@ -26,37 +26,37 @@ uint32_t	lastTime = 0;
 
 typedef struct
 {
-	uint8_t	startDev;	// start of zone
-	uint8_t	endDev;		// end of zone
-	uint8_t	ch;		// character to show
-	MD_MAX72XX::transformType_t	tt;
+  uint8_t	startDev;	// start of zone
+  uint8_t	endDev;		// end of zone
+  uint8_t	ch;		// character to show
+  MD_MAX72XX::transformType_t	tt;
 } zoneDef_t;
 
 zoneDef_t Z[] = 
 {
 #if MAX_DEVICES == 2
-	{0, 0, 26, MD_MAX72XX::TSR  },
-	{1, 1, 27, MD_MAX72XX::TSL  },
+  {0, 0, 26, MD_MAX72XX::TSR  },
+  {1, 1, 27, MD_MAX72XX::TSL  },
 #endif // MAX_DEVICES 2
 #if MAX_DEVICES == 4
-	{0, 0, 26, MD_MAX72XX::TSR  },
-	{1, 1, 25, MD_MAX72XX::TSD  },
-	{2, 2, 24, MD_MAX72XX::TSU  },
-	{3, 3, 27, MD_MAX72XX::TSL  },
+  {0, 0, 26, MD_MAX72XX::TSR  },
+  {1, 1, 25, MD_MAX72XX::TSD  },
+  {2, 2, 24, MD_MAX72XX::TSU  },
+  {3, 3, 27, MD_MAX72XX::TSL  },
 #endif // MAX_DEVICES 4
 #if MAX_DEVICES == 6
-	{0, 1, 26, MD_MAX72XX::TSR  },
-	{2, 2, 24, MD_MAX72XX::TSU  },
-	{3, 3, 25, MD_MAX72XX::TSD  },
-	{4, 5, 27, MD_MAX72XX::TSL  },
+  {0, 1, 26, MD_MAX72XX::TSR  },
+  {2, 2, 24, MD_MAX72XX::TSU  },
+  {3, 3, 25, MD_MAX72XX::TSD  },
+  {4, 5, 27, MD_MAX72XX::TSL  },
 #endif // MAX_DEVICES 6
 #if MAX_DEVICES == 8
-	{0, 1, 26, MD_MAX72XX::TSR  },
-	{2, 2, 24, MD_MAX72XX::TSU  },
-	{3, 3, 25, MD_MAX72XX::TSD  },
-	{4, 4, 24, MD_MAX72XX::TSU  },
-	{5, 5, 25, MD_MAX72XX::TSD  },
-	{6, 7, 27, MD_MAX72XX::TSL  },
+  {0, 1, 26, MD_MAX72XX::TSR  },
+  {2, 2, 24, MD_MAX72XX::TSU  },
+  {3, 3, 25, MD_MAX72XX::TSD  },
+  {4, 4, 24, MD_MAX72XX::TSU  },
+  {5, 5, 25, MD_MAX72XX::TSD  },
+  {6, 7, 27, MD_MAX72XX::TSL  },
 #endif // MAX_DEVICES 8
 };
 
@@ -67,7 +67,7 @@ void runTransformation(void)
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 
   for (uint8_t i = 0; i < ARRAY_SIZE(Z); i++)
-	mx.transform(Z[i].startDev, Z[i].endDev, Z[i].tt);
+    mx.transform(Z[i].startDev, Z[i].endDev, Z[i].tt);
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 }
@@ -89,9 +89,9 @@ void setup()
   // set up the display characters
   for (uint8_t i = 0; i < ARRAY_SIZE(Z); i ++)
   {
-	  mx.clear(Z[i].startDev, Z[i].endDev);
-	  for (uint8_t j = Z[i].startDev; j <= Z[i].endDev; j++)
-        mx.setChar(((j+1)*COL_SIZE)-2, Z[i].ch);
+    mx.clear(Z[i].startDev, Z[i].endDev);
+    for (uint8_t j = Z[i].startDev; j <= Z[i].endDev; j++)
+      mx.setChar(((j+1)*COL_SIZE)-2, Z[i].ch);
   }
   lastTime = millis();
 
@@ -101,10 +101,10 @@ void setup()
 
 void loop() 
 {
-	if (millis() - lastTime >= DELAYTIME)
-	{
-		runTransformation();
-		lastTime = millis();
-	}
+  if (millis() - lastTime >= DELAYTIME)
+  {
+    runTransformation();
+    lastTime = millis();
+  }
 }
 

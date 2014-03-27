@@ -47,36 +47,36 @@ uint16_t	scrollDelay;	// in milliseconds
 
 void readSerial(void)
 {
-	static uint8_t	putIndex = 0;
+  static uint8_t	putIndex = 0;
 
-	while (Serial.available())
-	{
-		newMessage[putIndex] = (char)Serial.read();
-		if ((newMessage[putIndex] == '\n') || (putIndex >= BUF_SIZE-3))	// end of message character or full buffer
-		{
-			// put in a message separator and end the string
-			newMessage[putIndex++] = ' ';
-			newMessage[putIndex] = '\0';
-			// restart the index for next filling spree and flag we have a message waiting
-			putIndex = 0;
-			newMessageAvailable = true;
-		}
-		else
-			// Just save the next char in next location
-			newMessage[putIndex++];
-	}
+  while (Serial.available())
+  {
+    newMessage[putIndex] = (char)Serial.read();
+    if ((newMessage[putIndex] == '\n') || (putIndex >= BUF_SIZE-3))	// end of message character or full buffer
+    {
+      // put in a message separator and end the string
+      newMessage[putIndex++] = ' ';
+      newMessage[putIndex] = '\0';
+      // restart the index for next filling spree and flag we have a message waiting
+      putIndex = 0;
+      newMessageAvailable = true;
+    }
+    else
+      // Just save the next char in next location
+      newMessage[putIndex++];
+  }
 }
 
 void scrollDataSink(uint8_t dev, MD_MAX72XX::transformType_t t, uint8_t col)
 // Callback function for data that is being scrolled off the display
 {
 #if PRINT_CALLBACK
-	Serial.print("\n cb ");
-	Serial.print(dev);
-	Serial.print(' ');
-	Serial.print(t);
-	Serial.print(' ');
-	Serial.println(col);
+  Serial.print("\n cb ");
+  Serial.print(dev);
+  Serial.print(' ');
+  Serial.print(t);
+  Serial.print(' ');
+  Serial.println(col);
 #endif
 }
 
@@ -92,42 +92,42 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
   // finite state machine to control what we do on the callback
   switch(state)
   {
-  case 0:	// Load the next character from the font table
-	showLen = mx.getChar(*p++, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
-	curLen = 0;
-	state++;
+    case 0:	// Load the next character from the font table
+      showLen = mx.getChar(*p++, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
+      curLen = 0;
+      state++;
 
-	// if we reached end of message, reset the message pointer
-	if (*p == '\0')
-    {
-	  p = curMessage;			// reset the pointer to start of message
-      if (newMessageAvailable)	// there is a new message waiting
+      // if we reached end of message, reset the message pointer
+      if (*p == '\0')
       {
-        strcpy(curMessage, newMessage);	// copy it in
-        newMessageAvailable = false;
+        p = curMessage;			// reset the pointer to start of message
+        if (newMessageAvailable)	// there is a new message waiting
+        {
+          strcpy(curMessage, newMessage);	// copy it in
+          newMessageAvailable = false;
+        }
       }
-	}
-	// !! deliberately fall through to next state to start displaying
+      // !! deliberately fall through to next state to start displaying
 
-  case 1:	// display the next part of the character
-	colData = cBuf[curLen++];
-	if (curLen == showLen)
-	{
-	  showLen = CHAR_SPACING;
-	  curLen = 0;
-	  state = 2;
-	}
-	 break;
+    case 1:	// display the next part of the character
+      colData = cBuf[curLen++];
+      if (curLen == showLen)
+      {
+        showLen = CHAR_SPACING;
+        curLen = 0;
+        state = 2;
+      }
+      break;
 
-  case 2:	// display intercharacter spacing (blank column)
-	colData = 0;
-	curLen++;
-	if (curLen == showLen)
-	  state = 0;
-	break;
+    case 2:	// display intercharacter spacing (blank column)
+      colData = 0;
+      curLen++;
+      if (curLen == showLen)
+        state = 0;
+      break;
 
-  default:
-	state = 0;
+    default:
+      state = 0;
   }
 
   return(colData);
@@ -140,7 +140,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
   // Is it time to scroll the text?
   if (millis()-prevTime >= scrollDelay)
   {
-	mx.transform(MD_MAX72XX::TSL);	// scroll along - the callback will load all the data
+    mx.transform(MD_MAX72XX::TSL);	// scroll along - the callback will load all the data
     prevTime = millis();			// starting point for next time
   }
 }
@@ -148,14 +148,14 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
 uint16_t getScrollDelay(void)
 {
 #if USE_POT_CONTROL
-	uint16_t	t;
-	
-	t = analogRead(SPEED_IN);
-	t = map(t, 0, 1023, 25, 250);
+  uint16_t	t;
 
-	return(t);
+  t = analogRead(SPEED_IN);
+  t = map(t, 0, 1023, 25, 250);
+
+  return(t);
 #else
-	return(SCROLL_DELAY);
+  return(SCROLL_DELAY);
 #endif
 }
 

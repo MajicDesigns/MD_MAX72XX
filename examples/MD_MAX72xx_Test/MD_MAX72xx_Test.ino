@@ -49,9 +49,9 @@ void scrollText(char *p)
 
     for (uint8_t i=0; i<charWidth + 1; i++)	// allow space between characters
     {
-	  mx.transform(MD_MAX72XX::TSL);
-	  if (i < charWidth)
-		mx.setColumn(0, cBuf[i]);
+      mx.transform(MD_MAX72XX::TSL);
+      if (i < charWidth)
+        mx.setColumn(0, cBuf[i]);
       delay(DELAYTIME);
     }
   }
@@ -65,7 +65,7 @@ void zeroPointSet()
   mx.clear();
 
   if (MAX_DEVICES > 1)
-	  mx.setChar((2*COL_SIZE)-1, '0');
+    mx.setChar((2*COL_SIZE)-1, '0');
 
   for (uint8_t i=0; i<ROW_SIZE; i++)
   {
@@ -89,22 +89,22 @@ void lines()
   mx.clear();
   for (uint16_t c=0; c<(maxDev*COL_SIZE)-1; c+=stepSize)
   {
-	mx.drawLine(0, 0, ROW_SIZE-1, c, true);
-	delay(DELAYTIME);
+    mx.drawLine(0, 0, ROW_SIZE-1, c, true);
+    delay(DELAYTIME);
   }
 
   mx.clear();
   for (uint16_t c=0; c<(maxDev*COL_SIZE)-1; c+=stepSize)
   {
-	mx.drawLine(ROW_SIZE-1, 0, 0, c, true);
-	delay(DELAYTIME);
+    mx.drawLine(ROW_SIZE-1, 0, 0, c, true);
+    delay(DELAYTIME);
   }
 
   mx.clear();
   for (uint16_t c=0; c<(maxDev*COL_SIZE)-1; c+=stepSize)
   {
-	mx.drawLine(ROW_SIZE-1, (MAX_DEVICES*COL_SIZE)-1, 0, (MAX_DEVICES*COL_SIZE)-1-c, true);
-	delay(DELAYTIME);
+    mx.drawLine(ROW_SIZE-1, (MAX_DEVICES*COL_SIZE)-1, 0, (MAX_DEVICES*COL_SIZE)-1-c, true);
+    delay(DELAYTIME);
   }
 
   mx.clear();
@@ -123,9 +123,9 @@ void rows()
 
   for (uint8_t row=0; row<ROW_SIZE; row++) 
   {
-	mx.setRow(row, 0xff);
+    mx.setRow(row, 0xff);
     delay(DELAYTIME);
-	mx.setRow(row, 0x00);
+    mx.setRow(row, 0x00);
   }
 }
 
@@ -137,7 +137,7 @@ void columns()
 
   for (uint8_t col=0; col<mx.getColumnCount(); col++) 
   {
-	mx.setColumn(col, 0xff);
+    mx.setColumn(col, 0xff);
     delay(DELAYTIME/MAX_DEVICES);
     mx.setColumn(col, 0x00);
   }
@@ -154,54 +154,53 @@ void cross()
   // diagonally down the display R to L
   for (uint8_t i=0; i<ROW_SIZE; i++) 
   {
-	for (uint8_t j=0; j<MAX_DEVICES; j++)
-	{
-	  mx.setColumn(j, i, 0xff);
+    for (uint8_t j=0; j<MAX_DEVICES; j++)
+    {
+      mx.setColumn(j, i, 0xff);
       mx.setRow(j, i, 0xff);
-	}
+    }
     mx.update();
     delay(3*DELAYTIME);
-	for (uint8_t j=0; j<MAX_DEVICES; j++)
-	{
+    for (uint8_t j=0; j<MAX_DEVICES; j++)
+    {
       mx.setColumn(j, i, 0x00);
       mx.setRow(j, i, 0x00);
-	}
+    }
   }
   
   // moving up the display on the R
   for (int8_t i=ROW_SIZE-1; i>=0; i--)
   {
-	for (uint8_t j=0; j<MAX_DEVICES; j++)
-	{
+    for (uint8_t j=0; j<MAX_DEVICES; j++)
+    {
       mx.setColumn(j, i, 0xff);
       mx.setRow(j, ROW_SIZE-1, 0xff);
-	}
+    }
     mx.update();
     delay(3*DELAYTIME);
-	for (uint8_t j=0; j<MAX_DEVICES; j++)
-	{
+    for (uint8_t j=0; j<MAX_DEVICES; j++)
+    {
       mx.setColumn(j, i, 0x00);
       mx.setRow(j, ROW_SIZE-1, 0x00);
-	}
+    }
   }
   
   // diagonally up the display L to R
   for (uint8_t i=0; i<ROW_SIZE; i++) 
   {
-	for (uint8_t j=0; j<MAX_DEVICES; j++)
-	{
+    for (uint8_t j=0; j<MAX_DEVICES; j++)
+    {
       mx.setColumn(j, i, 0xff);
       mx.setRow(j, ROW_SIZE-1-i, 0xff);
-	}
+    }
     mx.update();
     delay(3*DELAYTIME);
-	for (uint8_t j=0; j<MAX_DEVICES; j++)
-	{
+    for (uint8_t j=0; j<MAX_DEVICES; j++)
+    {
       mx.setColumn(j, i, 0x00);
       mx.setRow(j, ROW_SIZE-1-i, 0x00);
-	}
+    }
   }
-
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 }
 
@@ -220,23 +219,23 @@ void bullseye()
 
     while (b != 0x00)
     {
-	  for (uint8_t j=0; j<MAX_DEVICES+1; j++)
-	  {
+      for (uint8_t j=0; j<MAX_DEVICES+1; j++)
+      {
         mx.setRow(j, i, b);
         mx.setColumn(j, i, b);
         mx.setRow(j, ROW_SIZE-1-i, b);
         mx.setColumn(j, COL_SIZE-1-i, b);
-	  }
-	  mx.update();
+      }
+      mx.update();
       delay(3*DELAYTIME);
-	  for (uint8_t j=0; j<MAX_DEVICES+1; j++)
-	  {
+      for (uint8_t j=0; j<MAX_DEVICES+1; j++)
+      {
         mx.setRow(j, i, 0);
         mx.setColumn(j, i, 0);
         mx.setRow(j, ROW_SIZE-1-i, 0);
         mx.setColumn(j, COL_SIZE-1-i, 0);
-	  }
-      
+      }
+        
       bitClear(b, i);
       bitClear(b, 7-i);
       i++;
@@ -244,23 +243,23 @@ void bullseye()
     
     while (b != 0xff)
     {
-	  for (uint8_t j=0; j<MAX_DEVICES+1; j++)
-	  {
+      for (uint8_t j=0; j<MAX_DEVICES+1; j++)
+      {
         mx.setRow(j, i, b);
         mx.setColumn(j, i, b);
         mx.setRow(j, ROW_SIZE-1-i, b);
         mx.setColumn(j, COL_SIZE-1-i, b);
-	  }
-	  mx.update();
+      }
+      mx.update();
       delay(3*DELAYTIME);
       for (uint8_t j=0; j<MAX_DEVICES+1; j++)
-	  {
+      {
         mx.setRow(j, i, 0);
         mx.setColumn(j, i, 0);
         mx.setRow(j, ROW_SIZE-1-i, 0);
         mx.setColumn(j, COL_SIZE-1-i, 0);
-	  }
-      
+      }
+        
       i--;
       bitSet(b, i);
       bitSet(b, 7-i);
@@ -282,11 +281,11 @@ void stripe()
 
   for (uint16_t col=0; col<maxCol + ROW_SIZE + stripeWidth; col++) 
   {
-	for (uint8_t row=0; row < ROW_SIZE; row++)
-	{
-		mx.setPoint(row, col-row, true);
-		mx.setPoint(row, col-row - stripeWidth, false);
-	}
+    for (uint8_t row=0; row < ROW_SIZE; row++)
+    {
+      mx.setPoint(row, col-row, true);
+      mx.setPoint(row, col-row - stripeWidth, false);
+    }
     delay(DELAYTIME);
   }
 }
@@ -313,7 +312,7 @@ void spiral()
     for (uint8_t i=rmin; i<=rmax; i++)
     {
       mx.setPoint(i, cmax, true);
-	  delay(DELAYTIME/MAX_DEVICES);
+      delay(DELAYTIME/MAX_DEVICES);
     }
     cmax--;
 
@@ -322,7 +321,7 @@ void spiral()
     {
       mx.setPoint(rmax, i, true);
       delay(DELAYTIME/MAX_DEVICES);
-	}
+    }
     rmax--;
     
     // do column
@@ -360,9 +359,9 @@ void bounce()
     delay(DELAYTIME/2);
     
     if ((r == minR) || (r == maxR)) 
-		dR = -dR;
+      dR = -dR;
     if ((c == minC) || (c == maxC)) 
-		dC = -dC;
+      dC = -dC;
   }
 }
 
@@ -381,8 +380,8 @@ void intensity()
   for (int8_t i=0; i<=MAX_INTENSITY; i++)
   {
     mx.control(MD_MAX72XX::INTENSITY, i);
-	if (i%2 == 0)
-	  mx.setRow(row++, 0xff);
+    if (i%2 == 0)
+      mx.setRow(row++, 0xff);
     delay(DELAYTIME*3);
   }
 
@@ -416,7 +415,7 @@ void scanLimit(void)
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
   for (uint8_t row=0; row<ROW_SIZE; row++) 
-	mx.setRow(row, 0xff);
+    mx.setRow(row, 0xff);
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 
   for (int8_t s=MAX_SCANLIMIT; s>=0; s--) 
@@ -445,19 +444,19 @@ void transformation1()
 
   MD_MAX72XX::transformType_t  t[] = 
   {
-	MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
-	MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
-	MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
-	MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
-	MD_MAX72XX::TFLR,
-	MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
-	MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
-	MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
-	MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
-	MD_MAX72XX::TRC,
-	MD_MAX72XX::TSD, MD_MAX72XX::TSD, MD_MAX72XX::TSD, MD_MAX72XX::TSD,
-	MD_MAX72XX::TSD, MD_MAX72XX::TSD, MD_MAX72XX::TSD, MD_MAX72XX::TSD,
-	MD_MAX72XX::TFUD,
+    MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
+    MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
+    MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
+    MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
+    MD_MAX72XX::TFLR,
+    MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
+    MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
+    MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
+    MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
+    MD_MAX72XX::TRC,
+    MD_MAX72XX::TSD, MD_MAX72XX::TSD, MD_MAX72XX::TSD, MD_MAX72XX::TSD,
+    MD_MAX72XX::TSD, MD_MAX72XX::TSD, MD_MAX72XX::TSD, MD_MAX72XX::TSD,
+    MD_MAX72XX::TFUD,
     MD_MAX72XX::TSU, MD_MAX72XX::TSU, MD_MAX72XX::TSU, MD_MAX72XX::TSU,
     MD_MAX72XX::TSU, MD_MAX72XX::TSU, MD_MAX72XX::TSU, MD_MAX72XX::TSU,
     MD_MAX72XX::TINV,
@@ -517,7 +516,7 @@ void transformation2()
   // run thru transformations
   for (uint8_t i=0; i<(sizeof(t)/sizeof(t[0])); i++)
   {
-	mx.transform(t[i]);
+    mx.transform(t[i]);
     delay(DELAYTIME*3);
   }
 }
@@ -539,22 +538,22 @@ void wrapText()
   // run thru transformations
   for (uint16_t i=0; i<3*COL_SIZE*MAX_DEVICES; i++)
   {
-	mx.transform(MD_MAX72XX::TSL);
+    mx.transform(MD_MAX72XX::TSL);
     delay(DELAYTIME/2);
   }
   for (uint16_t i=0; i<3*COL_SIZE*MAX_DEVICES; i++)
   {
-	mx.transform(MD_MAX72XX::TSR);
+    mx.transform(MD_MAX72XX::TSR);
     delay(DELAYTIME/2);
   }
   for (uint8_t i=0; i<ROW_SIZE; i++)
   {
-	mx.transform(MD_MAX72XX::TSU);
+    mx.transform(MD_MAX72XX::TSU);
     delay(DELAYTIME*2);
   }
   for (uint8_t i=0; i<ROW_SIZE; i++)
   {
-	mx.transform(MD_MAX72XX::TSD);
+    mx.transform(MD_MAX72XX::TSD);
     delay(DELAYTIME*2);
   }
 
@@ -569,23 +568,23 @@ void showCharset(void)
 
   for (uint16_t i=0; i<256; i++)
   {
-	mx.clear(0);
+    mx.clear(0);
     mx.setChar(COL_SIZE-1, i);
 
-	if (MAX_DEVICES >= 3)
-	{
-	  char hex[3];
+    if (MAX_DEVICES >= 3)
+    { 
+      char hex[3];
 
-	  sprintf(hex, "%02X", i);
+      sprintf(hex, "%02X", i);
 
-	  mx.clear(1);
+      mx.clear(1);
       mx.setChar((2*COL_SIZE)-1,hex[1]);
-	  mx.clear(2);
-	  mx.setChar((3*COL_SIZE)-1,hex[0]);
-	}
+      mx.clear(2);
+      mx.setChar((3*COL_SIZE)-1,hex[0]);
+    }
 
-	mx.update();
-	delay(DELAYTIME*2);
+    mx.update();
+    delay(DELAYTIME*2);
   }
   mx.update(MD_MAX72XX::ON);
 }
@@ -615,7 +614,7 @@ void setup()
 
 void loop() 
 {
-#if 0
+#if 1
   scrollText("Graphics  ");
   zeroPointSet();
   lines();
@@ -628,7 +627,7 @@ void loop()
   spiral();
 #endif
 
-#if 0
+#if 1
   scrollText("Control  ");
   intensity();
   scanLimit();

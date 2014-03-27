@@ -33,30 +33,30 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 
 bool changeState(void)
 {
-	bool b = false;
+  bool b = false;
 
 #if USE_SWITCH_INPUT
 
-	static int8_t	lastStatus = HIGH;
-	int8_t	status = digitalRead(SWITCH_PIN);
+  static int8_t	lastStatus = HIGH;
+  int8_t	status = digitalRead(SWITCH_PIN);
 
-	b = (lastStatus == HIGH) && (status == LOW);
-	lastStatus = status;
+  b = (lastStatus == HIGH) && (status == LOW);
+  lastStatus = status;
 #else
-	static uint32_t	lastTime = 0;
-	static uint8_t	repeatCount = 0;
+  static uint32_t	lastTime = 0;
+  static uint8_t	repeatCount = 0;
 
-	if (repeatCount == 0) 
-		repeatCount = REPEATS_PRESET;
+  if (repeatCount == 0) 
+    repeatCount = REPEATS_PRESET;
 
-	if (millis()-lastTime >= DELAYTIME)
-	{
-		lastTime = millis();
-		b = (--repeatCount == 0);
-	}
+  if (millis()-lastTime >= DELAYTIME)
+  {
+    lastTime = millis();
+    b = (--repeatCount == 0);
+  }
 #endif
 
-	return(b);
+  return(b);
 }
 
 void transformDemo(MD_MAX72XX::transformType_t tt, bool bNew) 
@@ -65,17 +65,17 @@ void transformDemo(MD_MAX72XX::transformType_t tt, bool bNew)
 
   if (bNew)
   {
-	  mx.clear();
+    mx.clear();
 
-	  for (uint8_t i=0; i<MAX_DEVICES; i++)
-		mx.setChar(((i+1)*COL_SIZE)-1, 'o'+i);
-	  lastTime = millis();
+    for (uint8_t i=0; i<MAX_DEVICES; i++)
+    mx.setChar(((i+1)*COL_SIZE)-1, 'o'+i);
+    lastTime = millis();
   }
 
   if (millis() - lastTime >= DELAYTIME)
   {
-	mx.transform(tt);
-	lastTime = millis();
+    mx.transform(tt);
+    lastTime = millis();
   }
 }
 
@@ -102,28 +102,28 @@ void setup()
 
 void loop() 
 {
-	static int8_t tState = -1;
-	static bool bNew = true;
+  static int8_t tState = -1;
+  static bool bNew = true;
 
-	if (bNew) 
-	{
-		tState = (tState+1) % 8;
-		Serial.print("State: "); Serial.println(tState);
-	}
+  if (bNew) 
+  {
+    tState = (tState+1) % 8;
+    Serial.print("State: "); Serial.println(tState);
+  }
 
-	switch (tState)
-	{
-	case 0: transformDemo(MD_MAX72XX::TSL,	bNew);	break;
-	case 1:	transformDemo(MD_MAX72XX::TSR,	bNew);	break;
-	case 2:	transformDemo(MD_MAX72XX::TSU,	bNew);	break;
-	case 3:	transformDemo(MD_MAX72XX::TSD,	bNew);	break;
-	case 4:	transformDemo(MD_MAX72XX::TFUD,	bNew);	break;
-	case 5:	transformDemo(MD_MAX72XX::TFLR,	bNew);	break;
-	case 6:	transformDemo(MD_MAX72XX::TRC,	bNew);	break;
-	case 7:	transformDemo(MD_MAX72XX::TINV,	bNew);	break;
-	default:	tState = 0;	// just in case
-	}
+  switch (tState)
+  {
+    case 0: transformDemo(MD_MAX72XX::TSL,	bNew);	break;
+    case 1:	transformDemo(MD_MAX72XX::TSR,	bNew);	break;
+    case 2:	transformDemo(MD_MAX72XX::TSU,	bNew);	break;
+    case 3:	transformDemo(MD_MAX72XX::TSD,	bNew);	break;
+    case 4:	transformDemo(MD_MAX72XX::TFUD,	bNew);	break;
+    case 5:	transformDemo(MD_MAX72XX::TFLR,	bNew);	break;
+    case 6:	transformDemo(MD_MAX72XX::TRC,	bNew);	break;
+    case 7:	transformDemo(MD_MAX72XX::TINV,	bNew);	break;
+    default:	tState = 0;	// just in case
+  }
 
-	bNew = changeState();
+  bNew = changeState();
 }
 

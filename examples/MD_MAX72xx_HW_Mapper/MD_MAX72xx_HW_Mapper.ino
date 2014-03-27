@@ -86,8 +86,8 @@ void mapDigit(uint8_t opCode)
 
 void clear(void)
 {
-	for (uint8_t i=0; i<8; i++)
-		spiTransmit(OP_DIGIT0 + i, 0);
+  for (uint8_t i=0; i<8; i++)
+    spiTransmit(OP_DIGIT0 + i, 0);
 }
 
 void loop()
