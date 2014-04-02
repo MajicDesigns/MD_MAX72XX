@@ -112,10 +112,12 @@ void MD_MAX72XX::begin(void)
   // otherwise, it will initially be set to scan one digit, will 
   // not decode data in the data registers, and the intensity 
   // register will be set to its minimum value.
+  delay(200);		// let things settle down before we start comms
   control(TEST, OFF);				// no test
   control(SHUTDOWN, OFF);			// devices are turned on
   control(SCANLIMIT, ROW_SIZE-1);	// scanlimit is set to max on startup
   control(INTENSITY, MAX_INTENSITY/2);	// set intensity to a reasonable value
+  control(DECODE, OFF);				// do not decode for 7 segment displays
   clear();
   control(SHUTDOWN, ON);			// devices are turned off
 }
@@ -170,6 +172,11 @@ bool MD_MAX72XX::control(uint8_t buf, controlRequest_t mode, int value)
     case INTENSITY:
       opcode = OP_INTENSITY;
       param = (value > MAX_INTENSITY ? MAX_INTENSITY : value);
+    break;
+    
+    case DECODE:
+      opcode = OP_DECODEMODE;
+      param = (value == OFF ? 0 : 0xff);
     break;
     
     case TEST:

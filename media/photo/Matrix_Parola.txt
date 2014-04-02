@@ -1,0 +1,16 @@
+  G  F  E  D  C  B  A  DP
++------------------------+ 
+| 7  6  5  4  3  2  1  0 |- DIG0
+|                      1 |- DIG1
+|                      2 |- DIG2
+|                      3 |- DIG3
+| O                    4 |- DIG4
+| O O                  5 |- DIG5
+| O O O                6 |- DIG6
+| O O O O              7 |- DIG7
++------------------------+
+  Vcc ----      ---- Vcc  
+ DOUT <---      <--- DIN 
+  GND ----      ---- GND
+CS/LD <---      <--- CS/LD
+  CLK <---      <--- CLK

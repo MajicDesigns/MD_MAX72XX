@@ -30,6 +30,9 @@ Topics
 
 Revision History 
 ----------------
+xx version 2.4
+- Changed initialisation at begin() to include OP_DECODEMODE OFF
+
 March 2014 - version 2.3
 - Extensive rework of the font system
  + New font Microsoft Excel VBA based builder tool available
@@ -434,6 +437,7 @@ public:
 		SCANLIMIT = 1,	///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT]
 		INTENSITY =	2,	///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY]
 		TEST = 3,		///< Set the MAX72XX in test mode. Requires ON/OFF value.
+		DECODE = 4,		///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value.
 		UPDATE = 10,	///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value.
 		WRAPAROUND = 11	///< Enable or disable wraparound when shifting (circular buffer). Requires ON/OFF value.
 	};
