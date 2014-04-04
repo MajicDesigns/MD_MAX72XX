@@ -2,9 +2,10 @@
 MD_MAX72xx - Library for using a MAX7219/7221 LED matrix controller
   
 See header file for comments
-This file contrains methods that work with the fonts and characters defined in the library
+
+This file contains methods that work with the fonts and characters defined in the library
   
-Copyright (C) 2012-13 Marco Colli. All rights reserved.
+Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

@@ -2,11 +2,12 @@
 MD_MAX72xx - Library for using a MAX7219/7221 LED matrix controller
   
 See header file for comments
-This file contrains methods that act on the matrix as a pixel field, 
+
+This file contains methods that act on the matrix as a pixel field, 
 generally only acting on the visible device range of the buffered 
 device field (ie, the physical pixel matrix).
   
-Copyright (C) 2012-13 Marco Colli. All rights reserved.
+Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -181,7 +182,7 @@ bool MD_MAX72XX::setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t val
 
 bool MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t ttype)
 {
-  uint8_t t[ROW_SIZE];
+ // uint8_t t[ROW_SIZE];
   uint8_t colData;
   bool b = _updateEnabled;
 

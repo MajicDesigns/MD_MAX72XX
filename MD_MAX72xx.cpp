@@ -2,9 +2,10 @@
 MD_MAX72xx - Library for using a MAX7219/7221 LED matrix controller
   
 See header file for comments
+
 This file contains class and hardware related methods.
   
-Copyright (C) 2012-13 Marco Colli. All rights reserved.
+Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -57,8 +58,8 @@ void MD_MAX72XX::begin(void)
 	// Set direction register for SCK and MOSI pin.
 	// MISO pin automatically overrides to INPUT.
 	// SS pin is still used and needs to be made HIGH
-	pinMode(SS, OUTPUT);
 	digitalWrite(SS, HIGH);
+	pinMode(SS, OUTPUT);
 	pinMode(MOSI, OUTPUT);
 	pinMode(SCK, OUTPUT);
 
@@ -78,8 +79,8 @@ void MD_MAX72XX::begin(void)
   }
 
   // initialise our preferred CS pin (could be same as SS)
-  pinMode(_csPin, OUTPUT);
   digitalWrite(_csPin, HIGH);
+  pinMode(_csPin, OUTPUT);
 
   // object memory and internals
   setShiftDataInCallback(NULL);
@@ -112,14 +113,11 @@ void MD_MAX72XX::begin(void)
   // otherwise, it will initially be set to scan one digit, will 
   // not decode data in the data registers, and the intensity 
   // register will be set to its minimum value.
-  delay(200);		// let things settle down before we start comms
   control(TEST, OFF);				// no test
-  control(SHUTDOWN, OFF);			// devices are turned on
   control(SCANLIMIT, ROW_SIZE-1);	// scanlimit is set to max on startup
   control(INTENSITY, MAX_INTENSITY/2);	// set intensity to a reasonable value
   control(DECODE, OFF);				// do not decode for 7 segment displays
   clear();
-  control(SHUTDOWN, ON);			// devices are turned off
 }
 
 MD_MAX72XX::~MD_MAX72XX(void)

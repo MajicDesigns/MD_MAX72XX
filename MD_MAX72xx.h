@@ -31,7 +31,10 @@ Topics
 Revision History 
 ----------------
 xx version 2.4
-- Changed initialisation at begin() to include OP_DECODEMODE OFF
+- Improved reliability of initialization code to remove artifacts 
+ + Changed order of hardware initialization for SS, _csPin
+ + Changed initialisation at begin() and included OP_DECODEMODE OFF
+- Cleanup up compiler warnings on inline wrapper code functions
 
 March 2014 - version 2.3
 - Extensive rework of the font system
@@ -55,7 +58,7 @@ November 2013 - version 2.2
 - Implemented USE_PAROLA_HW to allow cheaply available matrix modules to be used in ganged mode
 - Fixed reversal of bit field for set/get Row/Column functions -> flipped charset data
 - Added Eyes example program
-- Upgraded and reorganised documentation
+- Upgraded and reorganized documentation
 
 June 2013 - version 2.1
 - Include the selection of hardware SPI interface (10x speed improvement)
@@ -77,7 +80,7 @@ June 2012 - version 1.0
 
 Copyright
 ---------
-Copyright (C) 2012-13 Marco Colli. All rights reserved.
+Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -765,7 +768,7 @@ public:
    * \param value  each bit set to 1 will light up the corresponding LED on each device.
    * \return false if parameter errors, true otherwise.
    */
-  inline bool setRow(uint8_t r, uint8_t value) { setRow(0, getDeviceCount()-1, r, value); };
+  inline bool setRow(uint8_t r, uint8_t value) { return setRow(0, getDeviceCount()-1, r, value); };
 
   /**
    * Set all LEDs in a row to a new state on contiguous subset of devices.
@@ -794,7 +797,7 @@ public:
    * \param ttype  one of the transformation types in transformType_t.
    * \return false if parameter errors, true otherwise.
    */
-  inline bool transform(transformType_t ttype) { transform(0, getDeviceCount()-1, ttype); };
+  inline bool transform(transformType_t ttype) { return transform(0, getDeviceCount()-1, ttype); };
 
   /** 
    * Apply a transformation to the data in contiguous subset of devices.
@@ -821,9 +824,9 @@ public:
    * This function is a convenience wrapper for the more general control() function call.
    * 
    * \param mode	one of the types in controlValue_t (ON/OFF).
-   * \return bool value returned by control().
+   * \return No rdeturn value.
    */
-  bool update(controlValue_t mode) { control(UPDATE, mode); };
+  void update(controlValue_t mode) { control(UPDATE, mode); };
 
   /** 
    * Force an update of all devices 
@@ -846,9 +849,9 @@ public:
    * This function is a convenience wrapper for the more general control() function call.
    * 
    * \param mode	one of the types in controlValue_t (ON/OFF).
-   * \return bool value returned by control().
+   * \return No return value.
    */
-  bool wraparound(controlValue_t mode) { control(WRAPAROUND, mode); };
+  void wraparound(controlValue_t mode) { control(WRAPAROUND, mode); };
   /** @} */
 
   //--------------------------------------------------------------
@@ -939,9 +942,9 @@ public:
    * Note that control() messages are not buffered but cause immediate action.
    * 
    * \param buf	address of the display [0..getBufferCount()-1].
-   * \return false if parameter errors, true otherwise.
+   * \return No return value.
    */
-  bool update(uint8_t buf) { flushBuffer(buf); };
+  void update(uint8_t buf) { flushBuffer(buf); };
   /** @} */
 
 #if USE_LOCAL_FONT

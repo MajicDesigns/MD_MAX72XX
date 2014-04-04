@@ -12,7 +12,7 @@
 #include "MD_EyePair.h"
 
 // Define the number of devices we have in the chain and the hardware interface
-#define	MAX_DEVICES	2
+#define	MAX_DEVICES	22
 
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted

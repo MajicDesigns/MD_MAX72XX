@@ -2,10 +2,11 @@
 MD_MAX72xx - Library for using a MAX7219/7221 LED matrix controller
   
 See header file for comments
+
 This file contains library related definitions and is not visible
 to user code.
   
-Copyright (C) 2012-13 Marco Colli. All rights reserved.
+Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -35,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #define	PRINT(s, v)		{ Serial.print(F(s)); Serial.print(v); }		///< Print a string followed by a value (decimal)
 #define	PRINTX(s, v)	{ Serial.print(F(s)); Serial.print(v, HEX); }	///< Print a string followed by a value (hex)
 #define	PRINTB(s, v)	{ Serial.print(F(s)); Serial.print(v, BIN); }	///< Print a string followed by a value (binary)
-#define	PRINTS(s)		Serial.print(F(s))								///< Print a string
+#define	PRINTS(s)		{ Serial.print(F(s)); }							///< Print a string
 #else
 #define	PRINT(s, v)		///< Print a string followed by a value (decimal)
 #define	PRINTX(s, v)	///< Print a string followed by a value (hex)
