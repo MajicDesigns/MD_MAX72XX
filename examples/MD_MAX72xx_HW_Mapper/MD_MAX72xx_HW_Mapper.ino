@@ -33,10 +33,10 @@ void setup(void)
   Serial.println("[MD_MAX72xx Hardware mapping]\n");
 	
   // Initialise comms hardware
+  digitalWrite(CS_PIN, HIGH);
+  pinMode(CS_PIN, OUTPUT);
   pinMode(DATA_PIN, OUTPUT);
   pinMode(CLK_PIN, OUTPUT);
-  pinMode(CS_PIN, OUTPUT);
-  digitalWrite(CS_PIN, HIGH);
 	
   // Initialise the display devices. 
   // On initial power-up, all control registers are reset, the

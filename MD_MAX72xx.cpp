@@ -106,18 +106,21 @@ void MD_MAX72XX::begin(void)
     }
   }
 			
-  // Initialise the display devices. 
-  // On initial power-up, all control registers are reset, the
-  // display is blanked, and the MAX7219/MAX7221 enter shutdown 
-  // mode. We need to program the devices prior to display use, 
-  // otherwise, it will initially be set to scan one digit, will 
-  // not decode data in the data registers, and the intensity 
-  // register will be set to its minimum value.
+  // Initialize the display devices. On initial power-up
+  // - all control registers are reset, 
+  // - scan limit is set to one digit (row/col or LED),
+  // - Decoding mode is off, 
+  // - intensity is set to the minimum, 
+  // - the display is blanked, and 
+  // - the MAX7219/MAX7221 is shut down.
+  // The devices need to be set to our library defaults prior using the 
+  // display modules.
   control(TEST, OFF);				// no test
-  control(SCANLIMIT, ROW_SIZE-1);	// scanlimit is set to max on startup
+  control(SCANLIMIT, ROW_SIZE-1);	// scan limit is set to max on startup
   control(INTENSITY, MAX_INTENSITY/2);	// set intensity to a reasonable value
-  control(DECODE, OFF);				// do not decode for 7 segment displays
+//  control(DECODE, OFF);				// do not decode for 7 segment displays
   clear();
+  control(SHUTDOWN, OFF);			// take the modules out of shutdown mode
 }
 
 MD_MAX72XX::~MD_MAX72XX(void)
@@ -131,81 +134,102 @@ MD_MAX72XX::~MD_MAX72XX(void)
 #endif
 }
 
-void MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value) 
+void MD_MAX72XX::controlHardware(uint8_t dev, controlRequest_t mode, int value)
+// control command is for the devices, translate internal request to device bytes 
+// into the transmission buffer
 {
-  if (endDev < startDev) return;
+	uint8_t opcode = OP_NOOP;
+	uint8_t param = 0;
+
+	// work out data to write
+	switch (mode)
+	{
+		case SHUTDOWN:
+			opcode = OP_SHUTDOWN;	
+			param = (value == OFF ? 1 : 0);
+			break;
+	
+		case SCANLIMIT:
+			opcode = OP_SCANLIMIT;
+			param = (value > MAX_SCANLIMIT ? MAX_SCANLIMIT : value);
+			break;
+	
+		case INTENSITY:
+			opcode = OP_INTENSITY;
+			param = (value > MAX_INTENSITY ? MAX_INTENSITY : value);
+			break;
+	
+		case DECODE:
+			opcode = OP_DECODEMODE;
+			param = (value == OFF ? 0 : 0xff);
+			break;
+	
+		case TEST:
+			opcode = OP_DISPLAYTEST;
+			param = (value == OFF ? 0 : 1);
+			break;
+
+		default:
+			return;
+	}
+
+  // put our device data into the buffer
+  _spiData[SPI_OFFSET(dev,1)] = opcode;
+  _spiData[SPI_OFFSET(dev,0)] = param;
+}
+
+void MD_MAX72XX::controlLibrary(controlRequest_t mode, int value)
+// control command was internal, set required parameters
+{
+  switch (mode)
+  {
+	  case UPDATE:
+		  _updateEnabled = (value == ON);
+		  if (_updateEnabled) flushBufferAll();
+		  break;
+
+	  case WRAPAROUND:
+		  _wrapAround = (value == ON);
+		  break;
+  }
+}
+
+bool MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value) 
+{
+  if (endDev < startDev) return(false);
 
   if (mode < UPDATE)	// device based control
   {
+	spiClearBuffer();
     for (uint8_t i = startDev; i <= endDev; i++) 
-	  control(i, mode, value); 
+	  controlHardware(i, mode, value); 
+	spiSend();
   }
-  else					// global control function, doesn't relate to specific device
+  else					// internal control function, doesn't relate to specific device
   {
-    control(0, mode, value);
+    controlLibrary(mode, value);
   }
+  
+  return(true);
 }
   
 bool MD_MAX72XX::control(uint8_t buf, controlRequest_t mode, int value)
 // dev is zero based and needs adjustment if used
 {
-  uint8_t opcode = OP_NOOP;
-  uint8_t param = 0;
-
   if (buf > LAST_BUFFER) return(false);
   
-  // work out data to write
-  switch (mode)
+  if (mode < UPDATE)	// device based control
   {
-    case SHUTDOWN:
-      opcode = OP_SHUTDOWN;
-      param = (value == OFF ? 1 : 0);
-    break;
-    
-    case SCANLIMIT:
-      opcode = OP_SCANLIMIT;
-      param = (value > MAX_SCANLIMIT ? MAX_SCANLIMIT : value);
-    break;
-    
-    case INTENSITY:
-      opcode = OP_INTENSITY;
-      param = (value > MAX_INTENSITY ? MAX_INTENSITY : value);
-    break;
-    
-    case DECODE:
-      opcode = OP_DECODEMODE;
-      param = (value == OFF ? 0 : 0xff);
-    break;
-    
-    case TEST:
-      opcode = OP_DISPLAYTEST;
-      param = (value == OFF ? 0 : 1);
-    break;
-    
-    case UPDATE:
-      _updateEnabled = (value == ON);
-	  if (_updateEnabled) flushBufferAll();
-      break;
-
-    case WRAPAROUND:
-      _wrapAround = (value == ON);
-	  break;
-
-    default:
-      return(false);
+	  spiClearBuffer();
+	  controlHardware(buf, mode, value);
+	  spiSend();
   }
-
-  // actually do the write to the device
-  if (opcode != OP_NOOP) 
-    spiSend(buf, opcode, param);
-
+  else					// internal control function, doesn't relate to specific device
+  {
+	  controlLibrary(mode, value);
+  }
+  
   return(true);
-}
-
-void MD_MAX72XX::spiClearBuffer(void)
-// Clear out the spi data array
-{
-  memset(_spiData, SPI_DATA_SIZE, OP_NOOP);
 }
 
 void MD_MAX72XX::flushBufferAll()
@@ -230,7 +254,7 @@ void MD_MAX72XX::flushBufferAll()
 	  }
     }
 
-	if (bChange) spiTransmit();
+	if (bChange) spiSend();
   }
 
   // mark everything as cleared
@@ -259,25 +283,19 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
       _spiData[SPI_OFFSET(buf,1)] = OP_DIGIT0+i;
       _spiData[SPI_OFFSET(buf,0)] = _matrix[buf].dig[i];
     
-      spiTransmit();
+      spiSend();
     }
   }
   _matrix[buf].changed = ALL_CLEAR;
 }
 
-void MD_MAX72XX::spiSend(uint8_t dev, uint8_t opcode, uint8_t data) 
-// Use this function when needing to send just one byte (eg, a command)
+void MD_MAX72XX::spiClearBuffer(void)
+// Clear out the spi data array
 {
-  spiClearBuffer();
-
-  // put our device data into the buffer
-  _spiData[SPI_OFFSET(dev,1)] = opcode;
-  _spiData[SPI_OFFSET(dev,0)] = data;
-    
-  spiTransmit();
+	memset(_spiData, OP_NOOP, SPI_DATA_SIZE);
 }
 
-void MD_MAX72XX::spiTransmit() 
+void MD_MAX72XX::spiSend() 
 {
   // enable the devices to receive data
   digitalWrite(_csPin, LOW);

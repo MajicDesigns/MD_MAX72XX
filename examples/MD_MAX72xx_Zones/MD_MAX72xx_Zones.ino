@@ -78,12 +78,6 @@ void setup()
   Serial.println("[Zone Transform Test]");
 
   mx.begin();
-  // The MAX72XX is in power-saving mode on startup,
-  // we have to do a wakeup call
-  mx.control(MD_MAX72XX::SHUTDOWN, MD_MAX72XX::OFF);
-  // Set the brightness to a medium values
-  mx.control(MD_MAX72XX::INTENSITY, MAX_INTENSITY/2);
-  // use wraparound mode
   mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::ON);
 
   // set up the display characters

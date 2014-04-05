@@ -34,7 +34,10 @@ xx version 2.4
 - Improved reliability of initialization code to remove artifacts 
  + Changed order of hardware initialization for SS, _csPin
  + Changed initialisation at begin() and included OP_DECODEMODE OFF
+ + Fixed memset bug identified by bperrybap
+- Reworked command spi transmissions for efficiency
 - Cleanup up compiler warnings on inline wrapper code functions
+- Cleaned up examples begin() - better defined library default values
 
 March 2014 - version 2.3
 - Extensive rework of the font system
@@ -436,9 +439,9 @@ public:
 	 */
 	enum controlRequest_t
 	{
-		SHUTDOWN = 0,	///< Shut down the MAX72XX. Requires ON/OFF value
-		SCANLIMIT = 1,	///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT]
-		INTENSITY =	2,	///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY]
+		SHUTDOWN = 0,	///< Shut down the MAX72XX. Requires ON/OFF value.
+		SCANLIMIT = 1,	///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT].
+		INTENSITY =	2,	///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY].
 		TEST = 3,		///< Set the MAX72XX in test mode. Requires ON/OFF value.
 		DECODE = 4,		///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value.
 		UPDATE = 10,	///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value.
@@ -509,10 +512,13 @@ public:
   MD_MAX72XX(uint8_t csPin, uint8_t numDevices=1);
 
   /** 
-   * Initialise the object.
+   * Initialize the object.
    *
    * Initialise the object data. This needs to be called during setup() to initialise new 
    * data for the class that cannot be done during the object creation.
+   *
+   * The hardware is initialized to the middle intensity value, all rows showing, test mode
+   * off and all LEDs cleared (off) before being woken up from shutdown mode. 
    */
   void begin(void);
 
@@ -565,9 +571,9 @@ public:
    * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
    * \param mode		one of the defined control requests.
    * \param value		parameter value or one of the control status defined.
-   * \return no return value.
+   * \return false if parameter errors, true otherwise.
    */
-  void control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value);
+  bool control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value);
 
   /**
    * Gets the number of devices attached to this class instance.
@@ -643,8 +649,8 @@ public:
    *
    * endDev must be greater than or equal to startDev.
    * 
-   * \param startDev	the first device for the transformation [0..getDeviceCount()-1]
-   * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
+   * \param startDev	the first device to clear [0..getDeviceCount()-1]
+   * \param endDev		the last device to clear [0..getDeviceCount()-1]
    * \return no return value.
    */
   void clear(uint8_t startDev, uint8_t endDev);
@@ -1045,9 +1051,10 @@ private:
   void		buildFontIndex(void);			// build a font index
 #endif
   // Private functions
-  void spiTransmit(void);			// do the actual physical communications task
-  void spiSend(uint8_t dev, uint8_t opcode, uint8_t data);	// Send a single command to the correct device
-  void spiClearBuffer(void);		// clear the SPI send buffer
+  void spiSend(void);			// do the actual physical communications task
+  void spiClearBuffer(void);	// clear the SPI send buffer
+  void controlHardware(uint8_t dev, controlRequest_t mode, int value);	// set hardware control commands
+  void controlLibrary(controlRequest_t mode, int value);	// set internal control commands
 
   void flushBuffer(uint8_t buf);	// determine what needs to be sent for one device and transmit
   void flushBufferAll();			// determine what needs to be sent for all devices and transmit
@@ -1057,7 +1064,6 @@ private:
 
   bool copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest);	// copy a row from Src to Dest
   bool copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest);	// copy a row from Src to Dest
-
 };
 
 #endif

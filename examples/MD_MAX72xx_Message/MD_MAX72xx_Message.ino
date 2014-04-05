@@ -162,15 +162,6 @@ uint16_t getScrollDelay(void)
 void setup()
 {
   mx.begin();
-  // The MAX72XX is in power-saving mode on startup,
-  // we have to do a wakeup call
-  mx.control(MD_MAX72XX::SHUTDOWN, MD_MAX72XX::OFF);
-  // Set the brightness to a medium values
-  mx.control(MD_MAX72XX::INTENSITY, MAX_INTENSITY/2);
-  // Enable and clear the display
-  mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
-  mx.clear();
-  mx.setFont(NULL);
   mx.setShiftDataInCallback(scrollDataSource);
   mx.setShiftDataOutCallback(scrollDataSink);
 

@@ -12,7 +12,7 @@
 #include "MD_EyePair.h"
 
 // Define the number of devices we have in the chain and the hardware interface
-#define	MAX_DEVICES	22
+#define	MAX_DEVICES	10
 
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
@@ -36,10 +36,6 @@ MD_EyePair E[MAX_EYE_PAIR];
 void setup()
 {
   M.begin();
-  M.control(MD_MAX72XX::SHUTDOWN, MD_MAX72XX::OFF);
-  M.control(MD_MAX72XX::INTENSITY, MAX_INTENSITY/2);
-  M.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
-  M.clear();
 
   // initialise the eye view
   for (uint8_t i=0; i<MAX_EYE_PAIR; i++)

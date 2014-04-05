@@ -21,7 +21,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES	22
+#define	MAX_DEVICES	8
 
 #define	CLK_PIN		13  // or SCK
 #define	DATA_PIN	11  // or MOSI
@@ -592,14 +592,6 @@ void showCharset(void)
 void setup()
 {
   mx.begin();
-  // The MAX72XX is in power-saving mode on startup,
-  // we have to do a wakeup call
-  mx.control(MD_MAX72XX::SHUTDOWN, MD_MAX72XX::OFF);
-  // Set the brightness to a medium values
-  mx.control(MD_MAX72XX::INTENSITY, MAX_INTENSITY/2);
-  // Enable and clear the display
-  mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
-  mx.clear();
 
 #if  DEBUG || ENABLE_FONT_ADJUST 
   Serial.begin(57600);
