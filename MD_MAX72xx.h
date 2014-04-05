@@ -1,7 +1,7 @@
 /**
 \mainpage Arduino LED Matrix Library
-The Max72xx LED Controller IC
------------------------------
+The Maxim 72xx LED Controller IC
+--------------------------------
 The MAX7219/MAX7221 are compact, serial input/output display drivers that 
 interface microprocessors to 7-segment numeric LED displays of up to 8 digits,
 bar-graph displays, or 64 individual LEDs. Included on-chip are a BCD code-B 
@@ -30,14 +30,15 @@ Topics
 
 Revision History 
 ----------------
-xx version 2.4
+April 2014 version 2.4
 - Improved reliability of initialization code to remove artifacts 
  + Changed order of hardware initialization for SS, _csPin
- + Changed initialisation at begin() and included OP_DECODEMODE OFF
+ + Changed initialisation sequence at begin()
  + Fixed memset bug identified by bperrybap
-- Reworked command spi transmissions for efficiency
+- Reworked command SPI transmissions for efficiency
 - Cleanup up compiler warnings on inline wrapper code functions
 - Cleaned up examples begin() - better defined library default values
+- Reviewed and tidied up some documentation
 
 March 2014 - version 2.3
 - Extensive rework of the font system
@@ -122,7 +123,7 @@ The library allows the run time code to be tailored through the use of compilati
 switches. The compile options start with USE_ and are documented in the section 
 related to the main header file MD_MAX72xx.h.
 
-Note: Compile switches must be edited in the library header file. Arduino header file
+_NOTE_: Compile switches must be edited in the library header file. Arduino header file
 'mashing' during compilation makes the setting of these switches from user code 
 completely unreliable.
 ___
@@ -143,18 +144,18 @@ To find a character in the font table, the library looks at the first byte (size
 skips 'size'+1 bytes to the next character size byte and repeat until the last or 
 target character is reached.
 
-The compile-time switch INDEX_FONT enables indexing of the font table for faster access, at 
+The compile-time switch USE_INDEX_FONT enables indexing of the font table for faster access, at 
 the expense of increased RAM usage. If indexing is enabled, a single lookup is required to 
 access the character data, rather than the sequential search described above.
 
 The support for fonts (methods and data) may be completely disabled  if not required through 
-the compile-time switch INCLUDE_LOCAL_FONT. This will also disable user defined fonts.
+the compile-time switch USE_LOCAL_FONT. This will also disable user defined fonts.
 
 \page pageHardware Hardware
 Supported Hardware
 ------------------
 This library supports the Parola hardware and the more commonly available LED modules available 
-from many other sources. The circuits for the these modules are essentially the same except 
+from many other sources. The circuits for these modules are essentially identical except 
 in the way that the LED matrix is wired to the MAX7219 IC. This difference is accounted for in 
 software when the type of module is selected using the appropriate USE_*_HW compile time switch.
 
@@ -227,14 +228,14 @@ Module Orientation
 
       G  F  E  D  C  B  A  DP
     +------------------------+ 
-    | 7  6  5  4  3  2  1  0 |- DIG0
-    |                      1 |- DIG1
-    |                      2 |- DIG2
-    |                      3 |- DIG3
-    | O                    4 |- DIG4
-    | O  O                 5 |- DIG5
-    | O  O  O              6 |- DIG6
-    | O  O  O  O           7 |- DIG7
+    | 7  6  5  4  3  2  1  0 | DIG0
+    |                      1 | DIG1
+    |                      2 | DIG2
+    |                      3 | DIG3
+    | O                    4 | DIG4
+    | O  O                 5 | DIG5
+    | O  O  O              6 | DIG6
+    | O  O  O  O           7 | DIG7
     +------------------------+
       Vcc ----      ---- Vcc  
      DOUT <---      ---< DIN 
@@ -254,7 +255,7 @@ ____
 Generic MAX7219 Modules
 ------------------------
 These modules are commonly available from many suppliers (eg, eBay) at reasonable cost.
-They are characterised by IN and OUT connectors at the short ends of the rectangular PCB.
+They are characterized by IN and OUT connectors at the short ends of the rectangular PCB.
 
 ![Generic Module] (Generic_Module.png "Generic Module")
 ____
@@ -266,6 +267,7 @@ Module Orientation
           L  S  I  N  c
           K     N  D  c
           |  |  |  |  |
+          V  V  V  |  |
       D7 D6 D5 D4 D3 D2 D1 D0
     +------------------------+ 
     | 7  6  5  4  3  2  1  0 |- DP
@@ -278,6 +280,8 @@ Module Orientation
     | O  O  O  O           7 |- G
     +-----+--+--+--+--+------+
           |  |  |  |  |
+          V  V  V  |  |
+		  
           C  C  D  G  V
           L  S  O  N  c
           K     U  D  c
@@ -288,7 +292,7 @@ ____
 Module Interconnections
 -----------------------
 Generic modules need to be oriented with the MAX7219 IC at the top and connected using 
-short patch cables in a spiral pattern.
+short patch cables in a spiral pattern. The display is oriented with the IC at the top.
 ![Connecting Generic modules] (Generic_conn.jpg "Generic Modules connected")
 ____
 
@@ -305,14 +309,14 @@ Module Orientation
 
                G  F  E  D  C  B  A  DP
              +------------------------+ 
-             | 7  6  5  4  3  2  1  0 |- D7
-     CLK <---|                      1 |- D6 <--- CLK
-      CS <---|                      2 |- D5 <--- CS
-    DOUT <---|                      3 |- D4 <--- DIN
-     GND ----| O                    4 |- D3 ---- GND
-     VCC ----| O  O                 5 |- D2 ---- VCC
-             | O  O  O              6 |- D1
-             | O  O  O  O           7 |- D0
+             | 7  6  5  4  3  2  1  0 | D7
+     CLK <---|                      1 | D6 <--- CLK
+      CS <---|                      2 | D5 <--- CS
+    DOUT <---|                      3 | D4 <--- DIN
+     GND ----| O                    4 | D3 ---- GND
+     VCC ----| O  O                 5 | D2 ---- VCC
+             | O  O  O              6 | D1
+             | O  O  O  O           7 | D0
              +------------------------+
 ____
 
@@ -330,7 +334,7 @@ Connections to the Arduino Board (SPI interface)
 ------------------------------------------------
 The modules are connected through a 4-wire serial interface (SPI), and devices are cascaded, 
 with communications passed through the first device in the chain to all others. The Arduino 
-should be connected to the IN side (shown in the figure below) of the first module in the chain. 
+should be connected to the IN side of the first module in the chain. 
 
 The Arduino interface is implemented with either
 + The hardware SPI interface, or
@@ -349,13 +353,12 @@ the device's internal 16-bit shift register on CLK's rising edge.
 - LD (SS) - the interface is active when LoaD signal is LOW. Serial data are loaded into the 
 device shift register while LOAD is LOW and latched in on the rising edge.
 
-Note that the LD signal is used to select the entire device chain. This allows separate LD 
+The LD signal is used to select the entire device chain. This allows separate LD 
 outputs to control multiple displays sharing the same DIN and CLK signals. The 
 software needs to instantiate a separate object for each display.
 
 The remaining interface pins are for +5V and GND. The power supply must be able to supply 
-enough current for the number of connected modules. The central position of the Parola GND
-connector provides some protection for accidentally reversing the connector.
+enough current for the number of connected modules.
 */
 #ifndef MD_MAX72xx_h
 #define MD_MAX72xx_h
@@ -370,15 +373,14 @@ connector provides some protection for accidentally reversing the connector.
 /**
  \def USE_PAROLA_HW
  Set to 1 (default) to use the Parola hardware modules. The
- software is originally design to operate with this hardware type tha
- simplifies the connections between modules.
+ software was originally designed to operate with this hardware type.
  */
 #define	USE_PAROLA_HW	1
 
 /**
  \def USE_GENERIC_HW
- Set to 1 to use common generic hardware modules commonly available, with 
- top and bottom connectors, available from many sources.
+ Set to 1 to use 'generic' hardware modules commonly available, with 
+ connectors at the top and bottom of the PCB, available from many sources.
  */
 #define	USE_GENERIC_HW	0
 
@@ -394,7 +396,8 @@ connector provides some protection for accidentally reversing the connector.
  \def USE_LOCAL_FONT
  Set to 1 (default) to enable local font in this library and enable 
  loadChar() and related methods. If the library is just used for 
- graphics some memory can be saved by not including the font data.
+ graphics some FLASH RAM can be saved by not including the code to process
+ font data. The font file is stored in PROGMEM.
  */
 #define	USE_LOCAL_FONT	1
 
@@ -403,7 +406,8 @@ connector provides some protection for accidentally reversing the connector.
  Set to 1 to enable font indexing to speed up font lookups - usually disabled.
  This will trade off increased stack RAM usage for lookup speed if enabled. 
  When disabled lookups will then become linear searches through PROGMEM.
- Uses FONT_INDEX_SIZE elements of uint16_t (512 bytes) if enabled.
+ Uses FONT_INDEX_SIZE elements of uint16_t (512 bytes) if enabled. For most 
+ purposes the increase in speed is not needed.
 
  USE_LOCAL FONT must be enabled for this option to take effect.
  */
@@ -417,7 +421,7 @@ connector provides some protection for accidentally reversing the connector.
 #define	MAX_SCANLIMIT	7	///< The maximum scan limit value that can be set for the devices
 
 /**
- * Core object for the Parola library
+ * Core object for the MD_MAX72XX library
  */
 class MD_MAX72XX
 {
@@ -439,13 +443,13 @@ public:
 	 */
 	enum controlRequest_t
 	{
-		SHUTDOWN = 0,	///< Shut down the MAX72XX. Requires ON/OFF value.
-		SCANLIMIT = 1,	///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT].
-		INTENSITY =	2,	///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY].
-		TEST = 3,		///< Set the MAX72XX in test mode. Requires ON/OFF value.
-		DECODE = 4,		///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value.
-		UPDATE = 10,	///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value.
-		WRAPAROUND = 11	///< Enable or disable wraparound when shifting (circular buffer). Requires ON/OFF value.
+		SHUTDOWN = 0,	///< Shut down the MAX72XX. Requires ON/OFF value. Library default is OFF.
+		SCANLIMIT = 1,	///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT]. Library default is all on.
+		INTENSITY =	2,	///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY]. LIbrary default is MAX_INTENSITY/2.
+		TEST = 3,		///< Set the MAX72XX in test mode. Requires ON/OFF value. Library default is OFF.
+		DECODE = 4,		///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value. Library default is OFF.
+		UPDATE = 10,	///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value. Library default is ON.
+		WRAPAROUND = 11	///< Enable or disable wraparound when shifting (circular buffer). Requires ON/OFF value. Library default is OFF.
 	};
 
 	/**
@@ -517,8 +521,9 @@ public:
    * Initialise the object data. This needs to be called during setup() to initialise new 
    * data for the class that cannot be done during the object creation.
    *
-   * The hardware is initialized to the middle intensity value, all rows showing, test mode
-   * off and all LEDs cleared (off) before being woken up from shutdown mode. 
+   * The LED hardware is initialized to the middle intensity value, all rows showing, 
+   * and all LEDs cleared (off). Test, shutdown and decode modes are off. Display updates 
+   * are on and wraparound is off.
    */
   void begin(void);
 
@@ -553,11 +558,12 @@ public:
   /** 
    * Set the control status of the specified parameter for all devices.
    * 
-   * Invokes the control function for each device in turn. See documentation for the control() method.
+   * Invokes the control function for each device in turn. as this is a wrapper for the
+   * control(startDev, endDev, ...) methods, see the documentation for that method.
    *
    * \param mode		one of the defined control requests.
    * \param value		parameter value or one of the control status defined.
-   * \return no return value.
+   * \return No return value.
    */
   inline void control(controlRequest_t mode, int value) { control(0, getDeviceCount()-1, mode, value); };
 
@@ -583,9 +589,9 @@ public:
   uint8_t getDeviceCount(void) { return(_maxDevices); };
 
   /**
-   * Gets the maximium number of columns for devices attached to this class instance.
+   * Gets the maximum number of columns for devices attached to this class instance.
    *
-   * \return uint16_t representing the number of devices attached to this object.
+   * \return uint16_t representing the number of columns.
    */
   uint16_t getColumnCount(void) { return(_maxDevices*COL_SIZE); };
 
@@ -594,9 +600,9 @@ public:
    *
    * The callback function is called from the library when a transform shift left 
    * or shift right operation is executed and the library needs to obtain data for 
-   * the last element of the shift (ie, conceptually this is the new data that is 
+   * the end element of the shift (ie, conceptually this is the new data that is 
    * shifted 'into' the display). The callback function is invoked when
-   * - WRAPAROUND is not active, as the data is automatically supplied within the library.
+   * - WRAPAROUND is not active, as the data would automatically supplied within the library.
    * - the call to transform() is global (ie, not for an individual buffer).
    *  
    * The callback function takes 2 parameters:
@@ -617,7 +623,7 @@ public:
    * or shift right operation is executed and the library is about to discard the data for 
    * the first element of the shift (ie, conceptually this is the data that 'falls' off 
    * the front end of the scrolling display). The callback function is invoked when
-   * - WRAPAROUND is not active, as the data is automatically supplied to the tail end.
+   * - WRAPAROUND is not active, as the data would automatically supplied to the tail end.
    * - the call to transform() is global (ie, not for an individual buffer).
    *  
    * The callback function is with supplied 3 parameters, with no return value required:
@@ -640,7 +646,7 @@ public:
   /**
    * Clear all the display data on all the display devices.
    *
-   * \return no return value.
+   * \return No return value.
    */
   inline void clear(void) { clear(0, getDeviceCount()-1); };
 
@@ -651,7 +657,7 @@ public:
    * 
    * \param startDev	the first device to clear [0..getDeviceCount()-1]
    * \param endDev		the last device to clear [0..getDeviceCount()-1]
-   * \return no return value.
+   * \return No return value.
    */
   void clear(uint8_t startDev, uint8_t endDev);
 
@@ -734,7 +740,7 @@ public:
    * Set all LEDs in a specific column to a new state.
    *
    * This method operates on one column, setting the value of the LEDs in 
-   * the column to the specified value bit field. The column is 
+   * the column to the specified value bitfield. The column is 
    * referenced with the absolute column number (ie, the device number is 
    * inferred from the column). The method is useful for drawing vertical 
    * lines and patterns when the display is being treated as a pixel field.
@@ -830,7 +836,7 @@ public:
    * This function is a convenience wrapper for the more general control() function call.
    * 
    * \param mode	one of the types in controlValue_t (ON/OFF).
-   * \return No rdeturn value.
+   * \return No return value.
    */
   void update(controlValue_t mode) { control(UPDATE, mode); };
 
@@ -872,7 +878,7 @@ public:
    */
   bool clear(uint8_t buf);
 
-   /** 
+  /** 
    * Get the state of the LEDs in a specific column.
    * 
    * This method operates on the specific buffer, returning the bit field value of 
@@ -884,7 +890,7 @@ public:
    */
   uint8_t getColumn(uint8_t buf, uint8_t c);
 
-/**
+  /**
    * Get the state of the LEDs in a specified row.
    * 
    * This method operates on the specific buffer, returning the bit field value of 
@@ -966,7 +972,7 @@ public:
    * enough, only the first size elements are copied to the buffer.
    *
    * NOTE: This function is only available if the library defined value
-   * INCLUDE_LOCAL_FONT is set to 1.
+   * USE_LOCAL_FONT is set to 1.
    * 
    * \param c		the character to retrieve.
    * \param size	the size of the user buffer in unit8_t units.
@@ -982,7 +988,7 @@ public:
    * specified. The currently selected font table is used as the source.
    *
    * NOTE: This function is only available if the library defined value
-   * INCLUDE_LOCAL_FONT is set to 1.
+   * USE_LOCAL_FONT is set to 1.
    * 
    * \param col		column of the display in the range accepted [0..getColumnCount()-1].
    * \param c		the character to display.
@@ -999,23 +1005,18 @@ public:
    * character set, pass the PROGMEM address of the font table. Passing a NULL 
    * pointer resets the font table to the library default table.
    * This function also causes the font index table to be recreated if the 
-   * library defined value INDEX_TABLE is set to 1.
+   * library defined value USE_INDEX_TABLE is set to 1.
    *
    * NOTE: This function is only available if the library defined value
-   * INCLUDE_LOCAL_FONT is set to 1.
+   * USE_LOCAL_FONT is set to 1.
    * 
    * \param f	fontType_t pointer to the table of font data in PROGMEM or NULL.
    * \return false if parameter errors, true otherwise.
    */
   bool setFont(fontType_t f);
-#endif // INCLUDE_LOCAL_FONT
+#endif // USE_LOCAL_FONT
   /** @} */  
 
-#if USE_FONT_ADJUST
-  void adjustFont();		// utility routine for font fle transformations
-#endif // ENABLE_FONT_ADJUST
-
-  
 private:
   typedef struct 
   {
@@ -1025,13 +1026,13 @@ private:
 
   // SPI interface data
   uint8_t	_dataPin;		// DATA is shifted out of this pin ...
-  uint8_t	_clkPin;		// ... signalled by a CLOCK on this pin ...
+  uint8_t	_clkPin;		// ... signaled by a CLOCK on this pin ...
   uint8_t	_csPin;			// ... and LOADed when the chip select pin is driven HIGH to LOW
   bool		_hardwareSPI;	// true if SPI interface is the hardware interface
 	
   // Device buffer data
   uint8_t	_maxDevices;	// maximum number of devices in use
-  deviceInfo_t*	_matrix;	// the current status of the LED matrix
+  deviceInfo_t*	_matrix;	// the current status of the LED matrix (buffers)
   uint8_t*	_spiData;		// data buffer for writing to SPI interface
 
   // User callback function for shifting operations
@@ -1044,12 +1045,13 @@ private:
 
 #if USE_LOCAL_FONT
   // Font related data
-  fontType_t	_fontData;				// pointer to the current font data being used
-  uint16_t		*_fontIndex;			// font index for faster access to font table offsets
+  fontType_t	_fontData;		// pointer to the current font data being used
+  uint16_t		*_fontIndex;	// font index for faster access to font table offsets
 
   uint16_t	getFontCharOffset(uint8_t c);	// find the character in the font data 
   void		buildFontIndex(void);			// build a font index
 #endif
+
   // Private functions
   void spiSend(void);			// do the actual physical communications task
   void spiClearBuffer(void);	// clear the SPI send buffer

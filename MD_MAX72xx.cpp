@@ -52,7 +52,7 @@ _updateEnabled(true)
 
 void MD_MAX72XX::begin(void)
 {
-  // initialise the AVR hardware
+  // initialize the AVR hardware
   if (_hardwareSPI)
   {
 	// Set direction register for SCK and MOSI pin.
@@ -118,7 +118,7 @@ void MD_MAX72XX::begin(void)
   control(TEST, OFF);				// no test
   control(SCANLIMIT, ROW_SIZE-1);	// scan limit is set to max on startup
   control(INTENSITY, MAX_INTENSITY/2);	// set intensity to a reasonable value
-//  control(DECODE, OFF);				// do not decode for 7 segment displays
+  control(DECODE, OFF);				// make sure that no decoding happens (warm boot potential issue)
   clear();
   control(SHUTDOWN, OFF);			// take the modules out of shutdown mode
 }

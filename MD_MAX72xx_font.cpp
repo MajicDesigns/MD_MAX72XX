@@ -36,7 +36,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_MAX72XX::buildFontIndex(void)
 {
-  uint8_t	size;
   uint16_t	offset = 0;
 
   if (_fontIndex == NULL)
@@ -65,7 +64,6 @@ uint16_t MD_MAX72XX::getFontCharOffset(uint8_t c)
   else
   {
 	uint16_t	offset = 0;
-	uint8_t		size;
 
 	for (int8_t i=0; i<c; i++)
 	{
