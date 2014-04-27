@@ -81,7 +81,7 @@ void scrollDataSink(uint8_t dev, MD_MAX72XX::transformType_t t, uint8_t col)
 }
 
 uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
-// Callback function for data that is required for scrolling into the dusplay
+// Callback function for data that is required for scrolling into the display
 {
   static char		*p = curMessage;
   static uint8_t	state = 0;
@@ -119,7 +119,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
       }
       break;
 
-    case 2:	// display intercharacter spacing (blank column)
+    case 2:	// display inter-character spacing (blank column)
       colData = 0;
       curLen++;
       if (curLen == showLen)
