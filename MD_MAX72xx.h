@@ -30,6 +30,9 @@ Topics
 
 Revision History 
 ----------------
+xx 2014 version 2.5
+- Documented process for adding new hardware module type
+
 April 2014 version 2.4
 - Improved reliability of initialization code to remove artifacts 
  + Changed order of hardware initialization for SS, _csPin
@@ -164,6 +167,7 @@ Hardware supported
 - \subpage pageParola
 - \subpage pageGeneric
 - \subpage pageICStation
+- \subpage pageNewHardware
 
 Connecting Multiple Modules
 ---------------------------

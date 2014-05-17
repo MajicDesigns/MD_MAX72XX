@@ -1,7 +1,9 @@
 // Test software to map display hardware rows and columns
-// Generic SPI interface and only MAX72xx/8x8 LED module required
+// Generic SPI interface and only one MAX72xx/8x8 LED module required
 //
 // Does not use any libraries as the code is used to directly map the display orientation
+// Observe the display and relate it to the MAX7219 hardware being exercised through the 
+// output on the serial monitor.
 //
 
 // Hardware definition
