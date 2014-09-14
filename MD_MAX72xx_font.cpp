@@ -58,25 +58,28 @@ uint16_t MD_MAX72XX::getFontCharOffset(uint8_t c)
 
   if (_fontIndex != NULL)
   {
-    PRINTS("' from Table");
+    PRINTS(" from Table");
     return(_fontIndex[c]);
   }
   else
   {
-	uint16_t	offset = 0;
+    PRINTS(" by Search ");
 
-	for (int8_t i=0; i<c; i++)
-	{
-	  offset += pgm_read_byte(_fontData+offset);
-	  offset++;	// skip size byte we used above
-	}
-    PRINT("' searched offset ", offset);
+	  uint16_t	offset = 0;
 
-	return(offset);
+	  for (uint8_t i=0; i<c; i++)
+	  {
+      PRINTS(".");
+	    offset += pgm_read_byte(_fontData+offset);
+	    offset++;	// skip size byte we used above
+	  }
+    PRINT(" searched offset ", offset);
+
+	  return(offset);
   }
 }
 
-bool MD_MAX72XX::setFont(fontType_t f)
+bool MD_MAX72XX::setFont(fontType_t * f)
 {
 	_fontData = (f == NULL ? _sysfont_var : f);
 
@@ -88,7 +91,8 @@ bool MD_MAX72XX::setFont(fontType_t f)
 uint8_t MD_MAX72XX::getChar(uint8_t c, uint8_t size, uint8_t *buf)
 {
   PRINT("\ngetChar: '", (char)c);
-  PRINT("' bufsize ", size);
+  PRINT("' ASC ", c);
+  PRINT(" - bufsize ", size);
 
   if (buf == NULL) 
     return(0);
