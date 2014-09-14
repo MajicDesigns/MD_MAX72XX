@@ -129,7 +129,7 @@ uint8_t MD_MAX72XX::setChar(uint16_t col, uint8_t c)
 }
 
 // Standard font - variable spacing
-uint8_t _sysfont_var[] PROGMEM = 
+const uint8_t PROGMEM _sysfont_var[] = 
 {
 	0,							// 0 - 'Empty Cell'
 	5, 62, 91, 79, 91, 62,		// 1 - 'Sad Smiley'

@@ -73,9 +73,187 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #define	LAST_BUFFER		(_maxDevices-1)			///< Last buffer number
 
 // variables shared in the library
-extern uint8_t _sysfont_var[];		///< System variable pitch font table
+extern const uint8_t PROGMEM _sysfont_var[];		///< System variable pitch font table
 
 /**
+\page pageHardware Hardware
+Supported Hardware
+------------------
+This library supports the Parola hardware and the more commonly available LED modules available 
+from many other sources. The circuits for these modules are essentially identical except 
+in the way that the LED matrix is wired to the MAX7219 IC. This difference is accounted for in 
+software when the type of module is selected using the appropriate USE_*_HW compile time switch.
+
+Hardware supported
+------------------
+- \subpage pageParola
+- \subpage pageGeneric
+- \subpage pageICStation
+- \subpage pageNewHardware
+
+Connecting Multiple Modules
+---------------------------
+Separate modules are connected by the plugging them together edge to edge, with the 
+OUT side of one module plugged to the IN side of the next. More details can be found 
+at the end of each module's hardware section.
+___
+
+\page pageParola Parola Custom Module
+The Parola Module
+-----------------
+These custome modules allow a 'lego-like' approach to LED matrix display, using standard 8x8 on
+LED matrices. The software supports this flexibility through a scalable approach that
+only requires the definition of the number of modules to adapt existing software to 
+a new configuration.
+
+![Completed Parola module with and without the LED matrix] (PCB_Actual.jpg "Parola Custom Modules")
+
+Circuit Schematic
+-----------------
+The schematic is the basic application circuit that is found on the MAX7219 datasheet, 
+adapted to the LED matrix. Each Module consists of an 8x8 LED matrix controlled by a 
+MAX7219 LED controller and a few passive components. These controllers can be daisy 
+chained, making them ideal for the purpose.
+
+![Parola Circuit Schematic] (Circuit_Schematic.jpg "Parola Schematic")
+
+The PCB design was executed using the autorouting facility in Eagle CAD, and the PCB was 
+manufactured by SeeedStudio. The Eagle CAD files for the layout and the Gerber files 
+suitable for SeeedStudio are found on the [Parola website] (http://parola.codeplex.com).
+The final design includes edge connections that allow many modules to be connected
+together into an extended display, one LED module high.
+
+![PCB layout ready for manufacture] (PCB_Layout.jpg "PCB Design")
+
+Wiring your own Parola standard matrix
+--------------------------------------
+How the LED matrix is wired is important for the library. The matrix used for library 
+development was labelled 1088B and is sometime referred to as a **common anode** matrix.
+Connections should be made as described in the table below to be consistent with the 
+assumptions in the software library.
+- Columns are addressed through the segment selection lines 
+- Rows are are addressed through the digit selection lines
+
+MAX Signal|MAX7219 Pin|MAX Signal|MAX7219 Pin|  
+:--------:|----------:|:--------:|----------:|
+Dig0 (D0) |2          |SegDP     |22         |
+Dig1 (D1) |11         |SegA      |14         |
+Dig2 (D2) |6          |SegB      |16         |
+Dig3 (D3) |7          |SegC      |20         |
+Dig4 (D4) |3          |SegD      |23         |
+Dig5 (D5) |10         |SegE      |21         |
+Dig6 (D6) |5          |SegF      |15         |
+Dig7 (D7) |8          |SegG      |17         |
+
+Segment data is packed on a per-digit basis, with segment G as the least significant bit (bit 0) 
+through to A as bit 6 and DP as bit 7.
+____
+
+Module Orientation
+------------------
+
+      G  F  E  D  C  B  A  DP
+    +------------------------+ 
+    | 7  6  5  4  3  2  1  0 | DIG0
+    |                      1 | DIG1
+    |                      2 | DIG2
+    |                      3 | DIG3
+    | O                    4 | DIG4
+    | O  O                 5 | DIG5
+    | O  O  O              6 | DIG6
+    | O  O  O  O           7 | DIG7
+    +------------------------+
+      Vcc ----      ---- Vcc  
+     DOUT <---      ---< DIN 
+      GND ----      ---- GND
+    CS/LD <---      ---< CS/LD
+      CLK <---      ---< CLK
+
+____
+
+Module Interconnections
+-----------------------
+Parola modules are connected by plugging them together.
+![Connecting Parola modules] (Modules_conn.jpg "Parola Modules connected")
+____
+
+\page pageGeneric Generic Module
+Generic MAX7219 Modules
+------------------------
+These modules are commonly available from many suppliers (eg, eBay) at reasonable cost.
+They are characterized by IN and OUT connectors at the short ends of the rectangular PCB.
+
+![Generic Module] (Generic_Module.png "Generic Module")
+____
+
+Module Orientation
+------------------
+
+          C  C  D  G  V
+          L  S  I  N  c
+          K     N  D  c
+          |  |  |  |  |
+          V  V  V  |  |
+      D7 D6 D5 D4 D3 D2 D1 D0
+    +------------------------+ 
+    | 7  6  5  4  3  2  1  0 |- DP
+    |                      1 |- A
+    |                      2 |- B
+    |                      3 |- C
+    | O                    4 |- D
+    | O  O                 5 |- E
+    | O  O  O              6 |- F
+    | O  O  O  O           7 |- G
+    +-----+--+--+--+--+------+
+          |  |  |  |  |
+          V  V  V  |  |
+		  
+          C  C  D  G  V
+          L  S  O  N  c
+          K     U  D  c
+                T
+
+____
+
+Module Interconnections
+-----------------------
+Generic modules need to be oriented with the MAX7219 IC at the top and connected using 
+short patch cables in a spiral pattern. The display is oriented with the IC at the top.
+![Connecting Generic modules] (Generic_conn.jpg "Generic Modules connected")
+____
+
+\page pageICStation ICStation Modules
+ICStation DIY Kit Module
+------------------------
+These modules are avilable as kits from ICStation (http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs).
+
+![ICStation Module] (ICStation_Module.jpg "ICStation Module")
+____
+
+Module Orientation
+------------------
+
+               G  F  E  D  C  B  A  DP
+             +------------------------+ 
+             | 7  6  5  4  3  2  1  0 | D7
+     CLK <---|                      1 | D6 <--- CLK
+      CS <---|                      2 | D5 <--- CS
+    DOUT <---|                      3 | D4 <--- DIN
+     GND ----| O                    4 | D3 ---- GND
+     VCC ----| O  O                 5 | D2 ---- VCC
+             | O  O  O              6 | D1
+             | O  O  O  O           7 | D0
+             +------------------------+
+____
+
+Module Interconnections
+-----------------------
+ICStation Modules are connected using the links supplied with the hardware. The display is 
+oriented with the DIN side on the right.
+
+![Connecting ICStation modules] (ICStation_conn.jpg "ICStation Modules connected")
+
+____
 \page pageNewHardware New Hardware Types
 A word on coordinate systems
 ----------------------------
@@ -111,12 +289,12 @@ are limited to combinations (8 in total) of
 The hardware types defined in MD_MAX72xx.h activate different library code by defining 
 appropriate values for the defines listed below, in the MD_MAX72xx_lib.h file.
 
-HW_DIG_ROWS - MAX72xx digits are mapped to rows in on the matrix. 
-              If digits are not rows then they are columns!
-HW_REV_COLS - Normal column coordinates orientation is 0 col is on the right side of the display.
-              Set to 1 to reverse this (0 on left).
-HW_REV_ROWS - Normal row coordinates orientation is 0 row is at top of the display. 
-              Set to 1 to reverse this (0 at bottom).
+- HW_DIG_ROWS - MAX72xx digits are mapped to rows in on the matrix. If digits are 
+not rows then they are columns!
+- HW_REV_COLS - Normal column coordinates orientation is 0 col is on the right side 
+of the display. Set to 1 to reverse this (0 on left).
+- HW_REV_ROWS - Normal row coordinates orientation is 0 row is at top of the display.
+Set to 1 to reverse this (0 at bottom).
               
 Determining the type of mapping
 -------------------------------
@@ -157,7 +335,6 @@ that the modules are daisy chained from right to left.
 
 Having determined the values for the defines, the new mapping can be configured, or matched to 
 an existing hardware type.
-
 */
 
 // *******************************************************************************************
