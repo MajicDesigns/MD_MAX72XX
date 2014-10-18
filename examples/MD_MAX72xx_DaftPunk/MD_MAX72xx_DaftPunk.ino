@@ -4,7 +4,7 @@
 // the MODE_SWITCH pin. This can be substituted for any trigger as
 // implemented by the helmet wearer.
 //
-// Uses the MD-Keyswitch library found at http://arduinocode.codeplex.com/releases
+// Uses the MD_Keyswitch library found at http://arduinocode.codeplex.com/releases
 
 #include <MD_MAX72xx.h>
 #include <MD_KeySwitch.h>
@@ -75,6 +75,7 @@ uint32_t prevTime = 0;    // Used for remembering the mills() value
 // ========== Text routines ===========
 //
 // Text Message Table
+// To change messages simply reorder, add to, or delete from, this table
 char *msgTab[] = 
 {
   "DAFT PUNK", 
@@ -88,8 +89,8 @@ char *msgTab[] =
 bool scrollText(bool bInit, char *pmsg)
 // Callback function for data that is required for scrolling into the display
 {
-  static char     curMessage[BUF_SIZE];
-  static char		  *p = curMessage;
+  static char		curMessage[BUF_SIZE];
+  static char		*p = curMessage;
   static uint8_t	state = 0;
   static uint8_t	curLen, showLen;
   static uint8_t	cBuf[8];
@@ -183,6 +184,8 @@ bool graphicMidline2(bool bInit)
   {
     PRINTS("\n--- Midline2 init");
     resetMatrix();
+    idx = 0;
+    idOffs = 1;
     bInit = false;
   }
 
@@ -216,6 +219,7 @@ bool graphicMidline2(bool bInit)
 
 bool graphicScanner(bool bInit)
 {
+  const uint8_t width = 3;      // scanning bar width
   static uint8_t  idx = 0;      // position
   static int8_t   idOffs = 1;   // increment direction
 
@@ -224,6 +228,8 @@ bool graphicScanner(bool bInit)
   {
     PRINTS("\n--- Scanner init");
     resetMatrix();
+    idx = 0;
+    idOffs = 1;
     bInit = false;
   }
 
@@ -239,14 +245,16 @@ bool graphicScanner(bool bInit)
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 
   // turn off the old lines
-  mx.setColumn(idx, 0);
+  for (uint8_t i=0; i<width; i++)
+    mx.setColumn(idx+i, 0);
 
   idx += idOffs;
-  if ((idx == 0) || (idx == mx.getColumnCount()-1)) 
+  if ((idx == 0) || (idx + width == mx.getColumnCount())) 
     idOffs = -idOffs;
 
   // turn on the new lines
-  mx.setColumn(idx, 0xff);
+  for (uint8_t i=0; i<width; i++)
+    mx.setColumn(idx+i, 0xff);
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 
@@ -279,6 +287,7 @@ bool graphicRandom(bool bInit)
 
 bool graphicScroller(bool bInit)
 {
+  const uint8_t   width = 3;     // width of the scroll bar
   const uint8_t   offset = mx.getColumnCount()/3;
   static uint8_t  idx = 0;      // counter
 
@@ -287,6 +296,7 @@ bool graphicScroller(bool bInit)
   {
     PRINTS("\n--- Scroller init");
     resetMatrix();
+    idx = 0;
     bInit = false;
   }
 
@@ -301,7 +311,8 @@ bool graphicScroller(bool bInit)
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 
   mx.transform(MD_MAX72XX::TSL);
-  mx.setColumn(0, idx == 0 ? 0xff : 0);
+
+  mx.setColumn(0, idx>=0 && idx<width ? 0xff : 0);
   if (++idx == offset) idx = 0;
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
@@ -694,38 +705,45 @@ void runMatrixAnimation(void)
 // the mode switch is pressed.
 {
   static  uint8_t state = 0;
+  static  uint8_t mesg = 0;
   static  bool    bRestart = true;
 
   // check if the switch is pressed and handle that first
   if (ks.read())
   {
-    state++;
+    if (state == 0) // the message display state
+    {
+      mesg++;
+      if (mesg >= sizeof(msgTab)/sizeof(msgTab[0]))
+      {
+        mesg = 0;
+        state++;
+      }
+    }
+    else
+      state++;
+
     bRestart = true;
   };
 
   // now do whatever we do in the current state
   switch(state)
   {
-    case  0: bRestart = scrollText(bRestart, msgTab[0]); break;
-    case  1: bRestart = scrollText(bRestart, msgTab[1]); break;
-    case  2: bRestart = scrollText(bRestart, msgTab[2]); break;
-    case  3: bRestart = scrollText(bRestart, msgTab[3]); break;
-    case  4: bRestart = scrollText(bRestart, msgTab[4]); break;
-    case  5: bRestart = scrollText(bRestart, msgTab[5]); break;
-    case  6: bRestart = graphicMidline1(bRestart);       break;
-    case  7: bRestart = graphicMidline2(bRestart);       break;
-    case  8: bRestart = graphicScanner(bRestart);        break;
-    case  9: bRestart = graphicRandom(bRestart);         break;
-    case 10: bRestart = graphicFade(bRestart);           break;
-    case 11: bRestart = graphicSpectrum(bRestart);       break;
-    case 12: bRestart = graphicHeartbeat(bRestart);      break;
-    case 13: bRestart = graphicHearts(bRestart);         break;
-    case 14: bRestart = graphicEyes(bRestart);           break;
-    case 15: bRestart = graphicBounceBall(bRestart);     break;
-    case 16: bRestart = graphicArrow(bRestart);          break;
-    case 17: bRestart = graphicScroller(bRestart);       break;
-    case 18: bRestart = graphicWiper(bRestart);          break;
-    case 19: bRestart = graphicInvader(bRestart);        break;
+    case  0: bRestart = scrollText(bRestart, msgTab[mesg]); break;
+    case  1: bRestart = graphicMidline1(bRestart);       break;
+    case  2: bRestart = graphicMidline2(bRestart);       break;
+    case  3: bRestart = graphicScanner(bRestart);        break;
+    case  4: bRestart = graphicRandom(bRestart);         break;
+    case  5: bRestart = graphicFade(bRestart);           break;
+    case  6: bRestart = graphicSpectrum(bRestart);       break;
+    case  7: bRestart = graphicHeartbeat(bRestart);      break;
+    case  8: bRestart = graphicHearts(bRestart);         break;
+    case  9: bRestart = graphicEyes(bRestart);           break;
+    case 10: bRestart = graphicBounceBall(bRestart);     break;
+    case 11: bRestart = graphicArrow(bRestart);          break;
+    case 12: bRestart = graphicScroller(bRestart);       break;
+    case 13: bRestart = graphicWiper(bRestart);          break;
+    case 14: bRestart = graphicInvader(bRestart);        break;
    
     default: state = 0;
   }
