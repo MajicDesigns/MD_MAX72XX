@@ -132,7 +132,7 @@ development was labelled 1088B and is sometime referred to as a **common anode**
 Connections should be made as described in the table below to be consistent with the 
 assumptions in the software library.
 - Columns are addressed through the segment selection lines 
-- Rows are are addressed through the digit selection lines
+- Rows are addressed through the digit selection lines
 
 MAX Signal|MAX7219 Pin|MAX Signal|MAX7219 Pin|  
 :--------:|----------:|:--------:|----------:|
@@ -291,10 +291,12 @@ appropriate values for the defines listed below, in the MD_MAX72xx_lib.h file.
 
 - HW_DIG_ROWS - MAX72xx digits are mapped to rows in on the matrix. If digits are 
 not rows then they are columns!
-- HW_REV_COLS - Normal column coordinates orientation is 0 col is on the right side 
-of the display. Set to 1 to reverse this (0 on left).
-- HW_REV_ROWS - Normal row coordinates orientation is 0 row is at top of the display.
-Set to 1 to reverse this (0 at bottom).
+
+- HW_REV_COLS - Normal column coordinates orientation is 0 col on the right side 
+of the display. Set to 1 to reverse this (0 on the left).
+
+- HW_REV_ROWS - Normal row coordinates orientation is 0 row at top of the display.
+Set to 1 to reverse this (0 at the bottom).
               
 Determining the type of mapping
 -------------------------------
