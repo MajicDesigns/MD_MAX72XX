@@ -30,9 +30,12 @@ Topics
 
 Revision History 
 ----------------
-xx 2014 version 2.5
+February 2015 version 2.5
 - Documented process for adding new hardware module type
 - Fixed PROGMEM definitions for IDE version 1.5.7 compile error
+- Added Daft Punk example code
+- Updated HW_Mapper example/utility with built-in instructions
+- Minor problems with Parola font setting interaction fixed
 
 April 2014 version 2.4
 - Improved reliability of initialization code to remove artifacts 
