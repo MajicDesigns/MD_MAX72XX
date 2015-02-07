@@ -30,6 +30,10 @@ Topics
 
 Revision History 
 ----------------
+mmm 2015 version 2.6
+- Improvements to HW_Mapper utility
+- Added USE_HW_OTHER for user defined hardware configuration
+
 February 2015 version 2.5
 - Documented process for adding new hardware module type
 - Fixed PROGMEM definitions for IDE version 1.5.7 compile error
@@ -221,6 +225,15 @@ enough current for the number of connected modules.
  This hardware must be set up with the input on the RHS.
  */
 #define	USE_ICSTATION_HW	0
+
+/**
+ \def USE_OTHER_HW
+ Set to 1 to use other hardware not defined above. 
+ Module 0 (Data In) must be set up on the RHS and the CUSTOM hardware defines
+ must be set up in the MD_MAD72xx_lib.h file under for this section, using the HW_Mapper
+ utility to work out what the correct values to use are.
+ */
+#define	USE_OTHER_HW	0
 
 /**
  \def USE_LOCAL_FONT

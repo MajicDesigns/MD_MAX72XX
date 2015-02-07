@@ -344,20 +344,26 @@ an existing hardware type.
 // *******************************************************************************************
 #if USE_PAROLA_HW		// tested MC 8 March 2014
 #define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
-#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 to reverse this
-#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 to reverse this
+#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 #if USE_GENERIC_HW		// tested MC 9 March 2014
 #define	HW_DIG_ROWS	0 ///< MAX72xx digits are mapped to rows in on the matrix
-#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 to reverse this
-#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 to reverse this
+#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 #if USE_ICSTATION_HW	// tested MC 9 March 2014
 #define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
-#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 to reverse this
-#define	HW_REV_ROWS	1 ///< Normal orientation is row 0 at the top. Set to 1 to reverse this
+#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define	HW_REV_ROWS	1 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
+#endif
+
+#if USE_OTHER_HW	    // user defined custom hardware configuration
+#define	HW_DIG_ROWS	0 ///< MAX72xx digits are mapped to rows in on the matrix
+#define	HW_REV_COLS	0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 // Macros to map ROW and COLUMN coordinates

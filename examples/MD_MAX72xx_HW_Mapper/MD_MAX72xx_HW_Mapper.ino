@@ -28,13 +28,13 @@
 #define OP_SHUTDOWN    12	///< MAX72xx opcode for SHUT DOWN
 #define OP_DISPLAYTEST 15	///< MAX72xx opcode for DISPLAY TEST
 
+#define MAX_DIG 8
+#define MAX_SEG 8
+
+#define USER_DELAY  1000  // ms
+
 void spiTransmit(uint8_t opCode, uint8_t data) 
 {
-  /*
-  Serial.print("Opcode: ");  Serial.print(opCode);
-  Serial.print(" Data: ");   Serial.println(data);
-  */
-
   // enable the devices to receive data
   digitalWrite(CS_PIN, LOW);
 
@@ -48,7 +48,7 @@ void spiTransmit(uint8_t opCode, uint8_t data)
 
 void instructions(void)
 {
-  Serial.print(F("\n** INTRODUCTION **"));
+  Serial.print(F("\nINTRODUCTION\n------------"));
   Serial.print(F("\nHow the LED matrix is wired is important for the MD_MAX72xx library, and different"));
   Serial.print(F("\nboard modules are wired in different ways. The library can accommodate these, but"));
   Serial.print(F("\nit needs to know what transformations need to be carried out to map your board to the"));
@@ -70,16 +70,15 @@ void instructions(void)
   Serial.print(F("\n- HW_REV_ROWS - HardWare REVerse ROWS. The normal row coordinates orientation is 0"));
   Serial.print(F("\n                row at top of the display. Set to 1 to reverse this (ie, hardware 0"));
   Serial.print(F("\n                is at the bottom)."));
-  Serial.print(F("\n\n** INSTRUCTIONS **"));
+  Serial.print(F("\n\nINSTRUCTIONS\n------------"));
   Serial.print(F("\n1. Wire up one matrix only."));
-  Serial.print(F("\n2. The first row/column that illuminates during the test should be the zero column/row."));
-  Serial.print(F("\n   If possible the board should be oriented so that this is in the top right hand corner."));
+  Serial.print(F("\n2. Enter the answers to the question in the edit field at the top of Serial Monitor."));
 }
 
 void setup(void)
 {
   Serial.begin(57600);
-  Serial.print(F("\n[MD_MAX72xx Hardware mapping utility]\n"));
+  Serial.print(F("\n\n[MD_MAX72xx Hardware mapping utility]\n"));
   instructions();
 	
   // Initialise comms hardware
@@ -101,45 +100,86 @@ void setup(void)
 
 void mapSegment(char *label, uint8_t data)
 {
-  Serial.print("\nseg ");
+  Serial.print(F("-"));
   Serial.print(label);
   spiTransmit(OP_DIGIT0, data);
-  delay(2000);
+  delay(USER_DELAY);
 }
 
 void mapDigit(uint8_t opCode)
 {
-  Serial.print("\nD");
+  Serial.print(F("-"));
   Serial.print(opCode - OP_DIGIT0);
   spiTransmit(opCode, 0xff);
-  delay(2000);
+  delay(USER_DELAY);
   spiTransmit(opCode, 0x0);
 }
 
 void clear(void)
 {
-  for (uint8_t i=0; i<8; i++)
+  for (uint8_t i=0; i<MAX_DIG; i++)
     spiTransmit(OP_DIGIT0 + i, 0);
+}
+
+boolean getResponse(char *validInput)
+// blocking wait for user input from the serial monitor
+{
+  char  c = '\0';
+  
+  do 
+  {
+    if (Serial.available())
+    {
+      uint8_t i;
+      
+      c = Serial.read();
+      for (i=0; validInput[i] != '\0' && validInput[i] != c; i++)
+        ; // set the index I to the matching character or nul if none - all work done in the loop
+      c = validInput[i];  // could be nul character
+    }
+  } while (c == '\0');
+  
+  Serial.print(c);
+  
+  return(toupper(c));
 }
 
 void loop()
 {
+  boolean def_dig_rows, def_rev_cols, def_rev_rows;
+  
   clear();
 
-  Serial.print(F("\n\n** DIGITS MAPPING (rows) **")); 
-  mapDigit(OP_DIGIT0); 
-  mapDigit(OP_DIGIT1); 
-  mapDigit(OP_DIGIT2); 
-  mapDigit(OP_DIGIT3); 
-  mapDigit(OP_DIGIT4); 
-  mapDigit(OP_DIGIT5); 
-  mapDigit(OP_DIGIT6); 
-  mapDigit(OP_DIGIT7); 
-  Serial.print(F("\n->If you see ROWS animated then set HW_DIG_ROWS to 1."));
-  Serial.print(F("\n->If you saw BARS scanning right to left (or bottom to top if"));
-  Serial.print(F("\n  HW_DIG_ROWS) then set HW_REV_ROWS to 1."));
+  Serial.print(F("\n\n======================================================"));
+  Serial.print(F("\n\nSTEP 1 - DIGITS MAPPING (rows)\n------------------------------")); 
+  Serial.print(F("\nIn this step you will see a line moving across the LED matrix."));
+  Serial.print(F("\nYou need to observe whether the bar is scanning ROWS or COLUMNS,"));
+  Serial.print(F("\nand the direction it is moving."));
+  Serial.print(F("\n>> Enter Y when you are ready to start: "));
+  getResponse("Yy");
+  
+  Serial.print("\nDig");
+  for (uint8_t i=0; i<MAX_DIG; i++)
+    mapDigit(OP_DIGIT0+i); 
+  
+  clear();
 
-  Serial.print(F("\n\n** SEGMENT MAPPING (columns) **"));
+  Serial.print(F("\n>> Enter Y if you saw ROWS animated, N if you saw COLUMNS animated: "));
+  def_dig_rows = (getResponse("YyNn") == 'Y');
+  
+  if (def_dig_rows)
+    Serial.print(F("\n>> Enter Y if you saw the line moving BOTTOM to TOP, or enter N otherwise: "));
+  else
+    Serial.print(F("\n>> Enter Y if you saw the line moving LEFT to RIGHT, or enter N otherwise: "));
+  def_rev_rows = (getResponse("YyNn") == 'Y');
+
+  Serial.print(F("\n\nSTEP 2 - SEGMENT MAPPING (columns)\n----------------------------------"));
+  Serial.print(F("\nIn this step you will see a dot moving along one edge of the LED matrix."));
+  Serial.print(F("\nYou need to observe the direction it is moving."));
+  Serial.print(F("\n>> Enter Y when you are ready to start: "));
+  getResponse ("Yy");
+  
+  Serial.print(F("\nSeg"));
   mapSegment("G", 1); 
   mapSegment("F", 2); 
   mapSegment("E", 4); 
@@ -148,9 +188,22 @@ void loop()
   mapSegment("B", 32); 
   mapSegment("A", 64); 
   mapSegment("DP", 128); 
-  Serial.print(F("\n-> If you saw LEDS scanning bottom to top (or right"));
-  Serial.print(F("\n   to left if HW_DIG_ROWS) then set HW_REV_COLS to 1."));
-	
+
   clear();
-	
+    
+  if (def_dig_rows)
+    Serial.print(F("\n>> Enter Y if you saw the LED moving LEFT to RIGHT, or enter N otherwise: "));
+  else
+    Serial.print(F("\n>> Enter Y if you saw the LED bars BOTTOM to TOP, or enter N otherwise: "));
+  def_rev_cols = (getResponse("YyNn") == 'Y');
+
+  Serial.print(F("\n\nSTEP 3 - RESULTS (#defines)\n---------------------------"));
+  Serial.print(F("\nYour responses produce these configuration parameters\n"));
+  Serial.print(F("\n#define\tHW_DIG_ROWS\t")); Serial.print(def_dig_rows ? 1 : 0 );
+  Serial.print(F("\n#define\tHW_REV_COLS\t")); Serial.print(def_rev_cols ? 1 : 0 );
+  Serial.print(F("\n#define\tHW_REV_ROWS\t")); Serial.print(def_rev_rows ? 1 : 0 );
+  
+  Serial.print(F("\n\nNOTE: If this configuration does not work with the library, try rotating the matrix"));
+  Serial.print(F("\nby 180 degrees and re-run this utility."));
+  
 }
