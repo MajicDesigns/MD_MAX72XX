@@ -263,12 +263,13 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
     case TSL: // Transform Shift Left one pixel element
 #if HW_DIG_ROWS
       for (uint8_t i=0; i<ROW_SIZE; i++)
-#if HW_REV_COL
-        _matrix[buf].dig[i] <<= 1;
-#else
+#if HW_REV_COLS
         _matrix[buf].dig[i] >>= 1;
+#else
+        _matrix[buf].dig[i] <<= 1;
 #endif
 #else
+#warning HW_DIG_ROWS=0
       for (uint8_t i=ROW_SIZE; i>0; --i)
         _matrix[buf].dig[i] = _matrix[buf].dig[i-1];
 #endif
@@ -278,10 +279,10 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 	case TSR:	// Transform Shift Right one pixel element
 #if HW_DIG_ROWS
       for (uint8_t i=0; i<ROW_SIZE; i++)
-#if HW_REV_COL
-        _matrix[buf].dig[i] >>= 1;
-#else
+#if HW_REV_COLS
         _matrix[buf].dig[i] <<= 1;
+#else
+        _matrix[buf].dig[i] >>= 1;
 #endif
 #else
       for (uint8_t i=0; i<ROW_SIZE-1; i++)

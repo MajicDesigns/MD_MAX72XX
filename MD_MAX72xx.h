@@ -33,6 +33,8 @@ Revision History
 mmm 2015 version 2.6
 - Improvements to HW_Mapper utility
 - Added USE_HW_OTHER for user defined hardware configuration
+- Fixed incorrect spelling for HW_REV_COLS in transformbuffer() & corresponding bug
+- Added PrintText_ML example
 
 February 2015 version 2.5
 - Documented process for adding new hardware module type

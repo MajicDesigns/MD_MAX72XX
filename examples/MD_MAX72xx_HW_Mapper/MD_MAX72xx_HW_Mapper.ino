@@ -194,7 +194,7 @@ void loop()
   if (def_dig_rows)
     Serial.print(F("\n>> Enter Y if you saw the LED moving LEFT to RIGHT, or enter N otherwise: "));
   else
-    Serial.print(F("\n>> Enter Y if you saw the LED bars BOTTOM to TOP, or enter N otherwise: "));
+    Serial.print(F("\n>> Enter Y if you saw the LED moving BOTTOM to TOP, or enter N otherwise: "));
   def_rev_cols = (getResponse("YyNn") == 'Y');
 
   Serial.print(F("\n\nSTEP 3 - RESULTS (#defines)\n---------------------------"));
