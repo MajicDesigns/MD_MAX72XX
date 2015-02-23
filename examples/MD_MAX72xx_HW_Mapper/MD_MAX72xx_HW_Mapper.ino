@@ -121,7 +121,7 @@ void clear(void)
     spiTransmit(OP_DIGIT0 + i, 0);
 }
 
-boolean getResponse(char *validInput)
+char getResponse(char *validInput)
 // blocking wait for user input from the serial monitor
 {
   char  c = '\0';

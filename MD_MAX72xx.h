@@ -8,19 +8,14 @@ bar-graph displays, or 64 individual LEDs. Included on-chip are a BCD code-B
 decoder, multiplex scan circuitry, segment and digit drivers, and an 8x8 static 
 RAM that stores each digit.
 
-A convenient 4-wire serial interface (SPI) connects to all common microprocessors.
-The devices may be cascaded, with communications passed through the first device 
-in the chain to all others.
+A 4-wire serial interface (SPI) allows the devices to be cascaded, with 
+communications passed through the first device in the chain to all others. Individual 
+elements may be addressed and updated without rewriting the entire display.
 
-Individual digits may be addressed and updated without rewriting the entire 
-display. The MAX72XX also allow the user to select code-B decoding or no-decode
-for each digit.
-
-The devices include
-- a 150uA low-power shutdown mode
-- analog and digital brightness control
-- a scan limit register that allows the user to display from 1 to 8 digits
-- a test mode that forces all LEDs on
+This library implements functions that allow the MAX72xx to be used
+for LED matrices (64 individual LEDs), allowing the programmer to use the LED 
+matrix as a pixel device, displaying graphics elements much like any other 
+pixel addressable display.
 
 Topics
 ------
@@ -30,8 +25,9 @@ Topics
 
 Revision History 
 ----------------
-mmm 2015 version 2.6
+February 2015 version 2.6
 - Improvements to HW_Mapper utility
+- Added HW_USE_FC16 for FC-16 display modules
 - Added USE_HW_OTHER for user defined hardware configuration
 - Fixed incorrect spelling for HW_REV_COLS in transformbuffer() & corresponding bug
 - Added PrintText_ML example
@@ -97,7 +93,7 @@ June 2012 - version 1.0
 
 Copyright
 ---------
-Copyright (C) 2012-14 Marco Colli. All rights reserved.
+Copyright (C) 2012-15 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -227,6 +223,14 @@ enough current for the number of connected modules.
  This hardware must be set up with the input on the RHS.
  */
 #define	USE_ICSTATION_HW	0
+
+/**
+ \def USE_FC16_HW
+ Set to 1 to use FC16 hardware module kits. 
+ FC16 modules are similar in format to the ICStation modules but are wired differently.
+ Modules are identified by a FC-16 designation on the PCB 
+  */
+#define	USE_FC16_HW	0
 
 /**
  \def USE_OTHER_HW

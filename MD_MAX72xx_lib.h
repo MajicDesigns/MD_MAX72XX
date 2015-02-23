@@ -89,6 +89,7 @@ Hardware supported
 - \subpage pageParola
 - \subpage pageGeneric
 - \subpage pageICStation
+- \subpage pageFC16
 - \subpage pageNewHardware
 
 Connecting Multiple Modules
@@ -178,7 +179,7 @@ Parola modules are connected by plugging them together.
 ____
 
 \page pageGeneric Generic Module
-Generic MAX7219 Modules
+Generic MAX7219 Module
 ------------------------
 These modules are commonly available from many suppliers (eg, eBay) at reasonable cost.
 They are characterized by IN and OUT connectors at the short ends of the rectangular PCB.
@@ -222,10 +223,10 @@ short patch cables in a spiral pattern. The display is oriented with the IC at t
 ![Connecting Generic modules] (Generic_conn.jpg "Generic Modules connected")
 ____
 
-\page pageICStation ICStation Modules
+\page pageICStation ICStation Module
 ICStation DIY Kit Module
 ------------------------
-These modules are avilable as kits from ICStation (http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs).
+These modules are available as kits from ICStation (http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs).
 
 ![ICStation Module] (ICStation_Module.jpg "ICStation Module")
 ____
@@ -252,6 +253,40 @@ ICStation Modules are connected using the links supplied with the hardware. The 
 oriented with the DIN side on the right.
 
 ![Connecting ICStation modules] (ICStation_conn.jpg "ICStation Modules connected")
+
+____
+\page pageFC16 FC-16 Module
+FC-16 DIY Kit Module
+----------------------
+These modules are available as kits from some internet suppliers such as G&C Supermarket on eBay
+ (http://stores.ebay.com.au/gcsupermarkethkcoltd/). They are identifiable by the FC-16 designation
+  silkscreened on the PCB.
+
+![FC-16 Module] (FC-16_Module.jpg "FC-16 Module")
+____
+
+Module Orientation
+------------------
+
+               DP A  B  C  D  E  F  G
+             +------------------------+
+             | 7  6  5  4  3  2  1  0 | D0
+     CLK <---|                      1 | D1 <--- CLK
+      CS <---|                      2 | D2 <--- CS
+    DOUT <---|                      3 | D3 <--- DIN
+     GND ----| O                    4 | D4 ---- GND
+     VCC ----| O  O                 5 | D5 ---- VCC
+             | O  O  O              6 | D6
+             | O  O  O  O           7 | D7
+             +------------------------+
+____
+
+Module Interconnections
+-----------------------
+FC-16 Modules are connected using the links supplied with the hardware. The display is
+oriented with the DIN side on the right. PCB text may appear upside down.
+
+![Connecting FC-16 modules] (FC-16_conn.jpg "FC-16 Modules connected")
 
 ____
 \page pageNewHardware New Hardware Types
@@ -342,7 +377,8 @@ an existing hardware type.
 // *******************************************************************************************
 // ** Combinations not listed here have probably not been tested and may not work correctly **
 // *******************************************************************************************
-#if USE_PAROLA_HW		// tested MC 8 March 2014
+#if USE_PAROLA_HW		  // tested MC 8 March 2014
+
 #define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
 #define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
 #define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
@@ -360,10 +396,20 @@ an existing hardware type.
 #define	HW_REV_ROWS	1 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
+#if USE_FC16_HW	      // tested MC 23 Feb 2015
+#define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
+#define	HW_REV_COLS	0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
+#endif
+
 #if USE_OTHER_HW	    // user defined custom hardware configuration
 #define	HW_DIG_ROWS	0 ///< MAX72xx digits are mapped to rows in on the matrix
 #define	HW_REV_COLS	0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
 #define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
+#endif
+
+#ifndef HW_DIG_ROWS
+#error Invalid or missing module hardware type
 #endif
 
 // Macros to map ROW and COLUMN coordinates
