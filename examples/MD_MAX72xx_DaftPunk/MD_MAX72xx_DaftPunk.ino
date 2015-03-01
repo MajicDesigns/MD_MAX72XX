@@ -1,13 +1,21 @@
 // Use the MD_MAX72XX library to Display a Daft Punk LED Helmet
 //
-// Daft Punk LED display cycles, changes triggered by a switch on
-// the MODE_SWITCH pin. This can be substituted for any trigger as
-// implemented by the helmet wearer.
+// If RUN_DEMO is set to zero the display cycles changes triggered by a switch on
+// the MODE_SWITCH pin. This can be substituted for any trigger as implemented 
+// by the helmet wearer. 
+// If RUN_DEMO is set to 1 the sketch will cycle each element of the display every 
+// DEMO_DELAY seconds, without the need for a switch.
 //
 // Uses the MD_Keyswitch library found at http://arduinocode.codeplex.com/releases
 
+#define RUN_DEMO  1
+
 #include <MD_MAX72xx.h>
+#if RUN_DEMO
+#define DEMO_DELAY  15  // time to show each demo element in seconds
+#else
 #include <MD_KeySwitch.h>
+#endif
 
 #define	DEBUG	0		// Enable or disable (default) debugging output
 
@@ -39,12 +47,14 @@
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);                      // SPI hardware interface
 //MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES); // Arbitrary pins
 
+#if !RUN_DEMO
 // --------------------
 // Mode keyswitch parameters and object
 //
 #define MODE_SWITCH 9 // Digital Pin
 
 MD_KeySwitch  ks = MD_KeySwitch(MODE_SWITCH, LOW);
+#endif
 
 // --------------------
 // Constant parameters
@@ -70,7 +80,11 @@ MD_KeySwitch  ks = MD_KeySwitch(MODE_SWITCH, LOW);
 
 // ========== General Variables ===========
 //
-uint32_t prevTime = 0;    // Used for remembering the mills() value
+uint32_t prevTimeAnim = 0;    // Used for remembering the millis() value in animations
+#if RUN_DEMO
+uint32_t prevTimeDemo = 0;      //  Used for remembering the millis() time in demo loop
+uint8_t  timeDemo = DEMO_DELAY; // number of seconds left in this demo loop
+#endif
 
 // ========== Text routines ===========
 //
@@ -108,12 +122,12 @@ bool scrollText(bool bInit, char *pmsg)
   }
 
   // Is it time to scroll the text?
-  if (millis()-prevTime < SCROLL_DELAY)
+  if (millis()-prevTimeAnim < SCROLL_DELAY)
     return(bInit);
 
   // scroll the display
   mx.transform(MD_MAX72XX::TSL);	// scroll along
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the finite state machine to control what we do
   PRINT("\nScroll FSM S:", state);
@@ -190,9 +204,9 @@ bool graphicMidline2(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < MIDLINE_DELAY)
+  if (millis()-prevTimeAnim < MIDLINE_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   PRINT("\nML2 R:", idx);
   PRINT(" D:", idOffs);
@@ -234,9 +248,9 @@ bool graphicScanner(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < SCANNER_DELAY)
+  if (millis()-prevTimeAnim < SCANNER_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   PRINT("\nS R:", idx);
   PRINT(" D:", idOffs);
@@ -272,9 +286,9 @@ bool graphicRandom(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < RANDOM_DELAY)
+  if (millis()-prevTimeAnim < RANDOM_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the animation
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
@@ -301,9 +315,9 @@ bool graphicScroller(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < SCANNER_DELAY)
+  if (millis()-prevTimeAnim < SCANNER_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   PRINT("\nS I:", idx);
 
@@ -331,9 +345,9 @@ bool graphicSpectrum(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < SPECTRUM_DELAY)
+  if (millis()-prevTimeAnim < SPECTRUM_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the animation
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
@@ -373,9 +387,9 @@ bool graphicHeartbeat(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < HEARTBEAT_DELAY)
+  if (millis()-prevTimeAnim < HEARTBEAT_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the animation
   PRINT("\nHB S:", state);
@@ -446,9 +460,9 @@ bool graphicFade(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < FADE_DELAY)
+  if (millis()-prevTimeAnim < FADE_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the animation
   intensity += iOffs;
@@ -482,9 +496,9 @@ bool graphicHearts(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < HEARTS_DELAY)
+  if (millis()-prevTimeAnim < HEARTS_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the animation
   PRINT("\nH E:", bEmpty);
@@ -523,9 +537,9 @@ bool graphicEyes(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < EYES_DELAY)
+  if (millis()-prevTimeAnim < EYES_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the animation
   bOpen = (random(1000) > 100);
@@ -559,9 +573,9 @@ bool graphicBounceBall(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < SCANNER_DELAY)
+  if (millis()-prevTimeAnim < SCANNER_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   PRINT("\nBB R:", idx);
   PRINT(" D:", idOffs);
@@ -602,9 +616,9 @@ bool graphicArrow(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < ARROW_DELAY)
+  if (millis()-prevTimeAnim < ARROW_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the animation
   PRINT("\nAR I:", idx);
@@ -632,9 +646,9 @@ bool graphicWiper(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < WIPER_DELAY)
+  if (millis()-prevTimeAnim < WIPER_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   PRINT("\nW R:", idx);
   PRINT(" D:", idOffs);
@@ -668,9 +682,9 @@ bool graphicInvader(bool bInit)
   }
 
   // Is it time to animate?
-  if (millis()-prevTime < INVADER_DELAY)
+  if (millis()-prevTimeAnim < INVADER_DELAY)
     return(bInit);
-  prevTime = millis();			// starting point for next time
+  prevTimeAnim = millis();			// starting point for next time
 
   // now run the animation
   PRINT("\nINV I:", idx);
@@ -697,7 +711,7 @@ void resetMatrix(void)
   mx.control(MD_MAX72XX::INTENSITY, MAX_INTENSITY/2);
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
   mx.clear();
-  prevTime = 0;
+  prevTimeAnim = 0;
 }
 
 void runMatrixAnimation(void)
@@ -706,10 +720,26 @@ void runMatrixAnimation(void)
 {
   static  uint8_t state = 0;
   static  uint8_t mesg = 0;
-  static  bool    bRestart = true;
+  static  boolean bRestart = true;
+  boolean changeState = false;
 
+#if RUN_DEMO
+  // check if one second has passed and then count down the demo timer. Once this
+  // gets to zero, change the state.
+  if (millis()-prevTimeDemo >= 1000)
+  {
+    prevTimeDemo = millis();
+    if (--timeDemo == 0) 
+    {
+      timeDemo = DEMO_DELAY;
+      changeState = true;
+    }
+  }         
+#else
   // check if the switch is pressed and handle that first
-  if (ks.read())
+  changeState = ks.read();
+#endif
+  if (changeState)
   {
     if (state == 0) // the message display state
     {
@@ -752,8 +782,12 @@ void runMatrixAnimation(void)
 void setup()
 {
   mx.begin();
+  prevTimeAnim = millis();
+#if RUN_DEMO
+  prevTimeDemo = millis();
+#else
   ks.begin();
-
+#endif
 #if DEBUG
   Serial.begin(57600);
 #endif

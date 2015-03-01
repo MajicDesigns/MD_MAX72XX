@@ -25,6 +25,9 @@ Topics
 
 Revision History 
 ----------------
+xxx 2015 version 2.7
+- Changed to Daft Punk example to run without switch
+
 February 2015 version 2.6
 - Improvements to HW_Mapper utility
 - Added HW_USE_FC16 for FC-16 display modules
