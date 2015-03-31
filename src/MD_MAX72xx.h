@@ -25,8 +25,9 @@ Topics
 
 Revision History 
 ----------------
-xxx 2015 version 2.7
+April 2015 version 2.7
 - Changed to Daft Punk example to run without switch
+- Now supporting IDE Library Manager
 
 February 2015 version 2.6
 - Improvements to HW_Mapper utility
