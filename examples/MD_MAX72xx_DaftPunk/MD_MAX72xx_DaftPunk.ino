@@ -721,6 +721,7 @@ void runMatrixAnimation(void)
   static  uint8_t state = 0;
   static  uint8_t mesg = 0;
   static  boolean bRestart = true;
+	static boolean	bInMessages = false;
   boolean changeState = false;
 
 #if RUN_DEMO
@@ -737,16 +738,17 @@ void runMatrixAnimation(void)
   }         
 #else
   // check if the switch is pressed and handle that first
-  changeState = ks.read();
+  changeState = (ks.read() == MD_KeySwitch::KS_PRESS);
 #endif
   if (changeState)
   {
-    if (state == 0) // the message display state
+    if (bInMessages) // the message display state
     {
       mesg++;
       if (mesg >= sizeof(msgTab)/sizeof(msgTab[0]))
       {
         mesg = 0;
+				bInMessages = false;
         state++;
       }
     }
@@ -759,7 +761,7 @@ void runMatrixAnimation(void)
   // now do whatever we do in the current state
   switch(state)
   {
-    case  0: bRestart = scrollText(bRestart, msgTab[mesg]); break;
+    case  0: bInMessages = true; bRestart = scrollText(bRestart, msgTab[mesg]); break;
     case  1: bRestart = graphicMidline1(bRestart);       break;
     case  2: bRestart = graphicMidline2(bRestart);       break;
     case  3: bRestart = graphicScanner(bRestart);        break;

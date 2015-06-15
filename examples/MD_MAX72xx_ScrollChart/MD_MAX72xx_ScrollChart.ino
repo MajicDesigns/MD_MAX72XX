@@ -129,7 +129,7 @@ void runAnimation(void)
   static  bool    bRestart = true;
 
   // check if the switch is pressed and handle that first
-  if (ks.read())
+  if (ks.read() == MD_KeySwitch::KS_PRESS)
   {
     state = (state + 1) % 3;
     bRestart = true;
