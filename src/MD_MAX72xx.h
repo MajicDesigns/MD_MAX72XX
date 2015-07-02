@@ -25,6 +25,10 @@ Topics
 
 Revision History 
 ----------------
+xx 2015 version 2.8
+- Added example _Message_SD and renamed _Message to _Message_Serial
+- Added Pacman example
+
 April 2015 version 2.7
 - Changed to Daft Punk example to run without switch
 - Now supporting IDE Library Manager
