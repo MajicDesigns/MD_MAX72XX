@@ -18,7 +18,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES		8
+#define	MAX_DEVICES		4
 #define	WRAPAROUND_MODE	MD_MAX72XX::ON
 
 #define	CLK_PIN		13  // or SCK
@@ -74,7 +74,7 @@ void transformDemo(MD_MAX72XX::transformType_t tt, bool bNew)
 
   if (millis() - lastTime >= DELAYTIME)
   {
-    mx.transform(tt);
+    mx.transform(0, MAX_DEVICES-1, tt);
     lastTime = millis();
   }
 }
