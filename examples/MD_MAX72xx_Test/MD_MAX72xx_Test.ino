@@ -2,6 +2,9 @@
 //
 // Uses most of the functions in the library
 #include <MD_MAX72xx.h>
+#if USE_LIBRARY_SPI
+#include <SPI.h>
+#endif
 
 // Turn on debug statements to the serial output
 #define  DEBUG  1
@@ -594,7 +597,7 @@ void setup()
   mx.begin();
 
 #if  DEBUG || ENABLE_FONT_ADJUST 
-  Serial.begin(57600);
+  Serial.begin(115200);
   delay(1000);
 #if ENABLE_FONT_ADJUST
 //  mx.adjustFont();

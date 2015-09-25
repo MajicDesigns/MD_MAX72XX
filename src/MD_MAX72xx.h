@@ -28,7 +28,8 @@ Revision History
 xx 2015 version 2.8
 - Added example _Message_SD and renamed _Message to _Message_Serial
 - Added Pacman example
-- Aeede PushWheel example
+- Added PushWheel example
+- Added USE_LIBRARY_SPI to enable library SPI object
 
 April 2015 version 2.7
 - Changed to Daft Punk example to run without switch
@@ -271,12 +272,24 @@ enough current for the number of connected modules.
  */
 #define	USE_INDEX_FONT	0
 
+/**
+\def USE_LIBRARY_SPI
+Set to 1 to enable using the SPI object from the Arduino libraries.
+This will eliminate the local assembler implementation for SPI and use
+the more portable SPI Arduino library. The assembler code does not compile 
+with non-AVR CPU architectures (e.g. Arduino Due).
+
+Set to 0 for compatibility mode if there are problems.
+*/
+#define	USE_LIBRARY_SPI	1
+
+
 // Display parameter constants
 // Defined values that are used throughout the library to define physical limits
 #define	ROW_SIZE	8		///< The size in pixels of a row in the device LED matrix array
-#define COL_SIZE    8		///< The size in pixels of a column in the device LED matrix array
+#define COL_SIZE  8		///< The size in pixels of a column in the device LED matrix array
 #define	MAX_INTENSITY	0xf	///< The maximum intensity value that can be set for a LED array
-#define	MAX_SCANLIMIT	7	///< The maximum scan limit value that can be set for the devices
+#define	MAX_SCANLIMIT	7	  ///< The maximum scan limit value that can be set for the devices
 
 /**
  * Core object for the MD_MAX72XX library
@@ -301,12 +314,12 @@ public:
 	 */
 	enum controlRequest_t
 	{
-		SHUTDOWN = 0,	///< Shut down the MAX72XX. Requires ON/OFF value. Library default is OFF.
+		SHUTDOWN = 0,	  ///< Shut down the MAX72XX. Requires ON/OFF value. Library default is OFF.
 		SCANLIMIT = 1,	///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT]. Library default is all on.
 		INTENSITY =	2,	///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY]. LIbrary default is MAX_INTENSITY/2.
-		TEST = 3,		///< Set the MAX72XX in test mode. Requires ON/OFF value. Library default is OFF.
-		DECODE = 4,		///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value. Library default is OFF.
-		UPDATE = 10,	///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value. Library default is ON.
+		TEST = 3,		    ///< Set the MAX72XX in test mode. Requires ON/OFF value. Library default is OFF.
+		DECODE = 4,		  ///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value. Library default is OFF.
+		UPDATE = 10,	  ///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value. Library default is ON.
 		WRAPAROUND = 11	///< Enable or disable wraparound when shifting (circular buffer). Requires ON/OFF value. Library default is OFF.
 	};
 
@@ -883,14 +896,14 @@ private:
   } deviceInfo_t;
 
   // SPI interface data
-  uint8_t	_dataPin;		// DATA is shifted out of this pin ...
-  uint8_t	_clkPin;		// ... signaled by a CLOCK on this pin ...
-  uint8_t	_csPin;			// ... and LOADed when the chip select pin is driven HIGH to LOW
+  uint8_t	_dataPin;		  // DATA is shifted out of this pin ...
+  uint8_t	_clkPin;		  // ... signaled by a CLOCK on this pin ...
+  uint8_t	_csPin;			  // ... and LOADed when the chip select pin is driven HIGH to LOW
   bool		_hardwareSPI;	// true if SPI interface is the hardware interface
 	
   // Device buffer data
   uint8_t	_maxDevices;	// maximum number of devices in use
-  deviceInfo_t*	_matrix;	// the current status of the LED matrix (buffers)
+  deviceInfo_t*	_matrix;// the current status of the LED matrix (buffers)
   uint8_t*	_spiData;		// data buffer for writing to SPI interface
 
   // User callback function for shifting operations
@@ -899,7 +912,7 @@ private:
 	
   // Control data for the library
   bool		_updateEnabled; // update the display when this is true, suspend otherwise
-  bool		_wrapAround;	// when shifting, wrap left to right and vice versa (circular buffer)
+  bool		_wrapAround;	  // when shifting, wrap left to right and vice versa (circular buffer)
 
 #if USE_LOCAL_FONT
   // Font related data
@@ -911,19 +924,19 @@ private:
 #endif
 
   // Private functions
-  void spiSend(void);			// do the actual physical communications task
+  void spiSend(void);			    // do the actual physical communications task
   void spiClearBuffer(void);	// clear the SPI send buffer
   void controlHardware(uint8_t dev, controlRequest_t mode, int value);	// set hardware control commands
   void controlLibrary(controlRequest_t mode, int value);	// set internal control commands
 
-  void flushBuffer(uint8_t buf);	// determine what needs to be sent for one device and transmit
-  void flushBufferAll();			// determine what needs to be sent for all devices and transmit
+  void flushBuffer(uint8_t buf);// determine what needs to be sent for one device and transmit
+  void flushBufferAll();			  // determine what needs to be sent for all devices and transmit
 
   uint8_t bitReverse(uint8_t b);	// reverse the order of bits in the byte
   bool transformBuffer(uint8_t buf, transformType_t ttype);	// internal transform function
 
-  bool copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest);	// copy a row from Src to Dest
-  bool copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest);	// copy a row from Src to Dest
+  bool copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest);	  // copy a row from Src to Dest
+  bool copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest);// copy a row from Src to Dest
 };
 
 #endif

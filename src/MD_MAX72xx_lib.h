@@ -314,7 +314,7 @@ All other library modules are use the primitives made available in these modules
 What needs to change?
 ---------------------
 
-As there is no standard way of wiring a LED matrix to the MAX72xx, each hardware type 
+As there is no standard way of wiring a LED matrix to the MAX72xx IC, each hardware type 
 definition activates a series of coordinate mapping transformations. Possible changes 
 are limited to combinations (8 in total) of
 - swapping rows and column coordinates (digits and segments in MAX72xx),  

@@ -24,6 +24,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #include <Arduino.h>
 #include "MD_MAX72xx.h"
 #include "MD_MAX72xx_lib.h"
+#if USE_LIBRARY_SPI
+#include <SPI.h>
+#endif // USE_LIBRARY_SPI
 
 /**
  * \file
@@ -55,22 +58,29 @@ void MD_MAX72XX::begin(void)
   // initialize the AVR hardware
   if (_hardwareSPI)
   {
-	// Set direction register for SCK and MOSI pin.
-	// MISO pin automatically overrides to INPUT.
-	// SS pin is still used and needs to be made HIGH
-	digitalWrite(SS, HIGH);
-	pinMode(SS, OUTPUT);
-	pinMode(MOSI, OUTPUT);
-	pinMode(SCK, OUTPUT);
+    PRINTS("\nHardware SPI");
+    // Set direction register for SCK and MOSI pin.
+	  // MISO pin automatically overrides to INPUT.
+	  // SS pin is still used and needs to be made HIGH
+	  digitalWrite(SS, HIGH);
+	  pinMode(SS, OUTPUT);
+	  pinMode(MOSI, OUTPUT);
+	  pinMode(SCK, OUTPUT);
 
-	// Warning: if the SS ever becomes a LOW INPUT then SPI
-	// automatically switches to Slave, so the data direction of
-	// the SS pin MUST be kept as OUTPUT.
-	SPCR |= _BV(MSTR);
-	SPCR |= _BV(SPE);
+#if USE_LIBRARY_SPI
+    PRINTS("\nLibrary SPI");
+    SPI.begin();
+#else
+    PRINTS("\nNative SPI");
+    // Warning: if the SS ever becomes a LOW INPUT then SPI
+	  // automatically switches to Slave, so the data direction of
+	  // the SS pin MUST be kept as OUTPUT.
+	  SPCR |= _BV(MSTR);
+	  SPCR |= _BV(SPE);
 
-	// Set SPI to MSB first
+	  // Set SPI to MSB first
     SPCR &= ~(_BV(DORD));
+#endif // USE_LIBRARY_SPI
   }
   else
   {
@@ -125,7 +135,14 @@ void MD_MAX72XX::begin(void)
 
 MD_MAX72XX::~MD_MAX72XX(void)
 {
-	if (_hardwareSPI) SPCR &= ~_BV(SPE);	// reset SPI mode
+  if (_hardwareSPI)
+  {
+#if USE_LIBRARY_SPI
+    SPI.end();
+#else
+    SPCR &= ~_BV(SPE);	// reset SPI mode
+#endif
+  }
 
 	free(_matrix);
 	free(_spiData);
@@ -304,11 +321,15 @@ void MD_MAX72XX::spiSend()
   if (_hardwareSPI)
   {
     for (int i = SPI_DATA_SIZE-1; i >= 0; i--)
-	{
-	  SPDR = _spiData[i];
-	  while (!(SPSR & _BV(SPIF)))	// wait for a clear bit
-		;
-	}
+	  {
+#if USE_LIBRARY_SPI
+      SPI.transfer(_spiData[i]);
+#else
+	    SPDR = _spiData[i];
+	    while (!(SPSR & _BV(SPIF)))	// wait for a clear bit
+		  ;
+#endif // USE_LIBRARY_SPI
+    }
   }
   else
   {
