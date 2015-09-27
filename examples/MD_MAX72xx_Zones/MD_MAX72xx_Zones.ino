@@ -3,6 +3,9 @@
 // Test the library transformation functions with range subsets
 
 #include <MD_MAX72xx.h>
+#if USE_LIBRARY_SPI
+#include <SPI.h>
+#endif
 
 // We always wait a bit between updates of the display
 #define  DELAYTIME  300  // in milliseconds

@@ -8,6 +8,9 @@
 // message on the display.
 
 #include <MD_MAX72xx.h>
+#if USE_LIBRARY_SPI
+#include <SPI.h>
+#endif
 
 #define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }
 

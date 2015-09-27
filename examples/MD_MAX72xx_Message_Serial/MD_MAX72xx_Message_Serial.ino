@@ -8,6 +8,9 @@
 // Speed for the display is controlled by a pot on SPEED_IN analog in.
 
 #include <MD_MAX72xx.h>
+#if USE_LIBRARY_SPI
+#include <SPI.h>
+#endif
 
 #define	USE_POT_CONTROL	0
 #define	PRINT_CALLBACK	0

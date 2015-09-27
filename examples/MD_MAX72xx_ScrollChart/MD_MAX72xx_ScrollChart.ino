@@ -6,6 +6,9 @@
 // Uses the MD_Keyswitch library found at http://arduinocode.codeplex.com/releases
 
 #include <MD_MAX72xx.h>
+#if USE_LIBRARY_SPI
+#include <SPI.h>
+#endif
 #include <MD_KeySwitch.h>
 
 #define	DEBUG	0		// Enable or disable (default) debugging output
