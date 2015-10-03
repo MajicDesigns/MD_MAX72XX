@@ -30,7 +30,8 @@ xx 2015 version 2.8
 - Added Pacman example
 - Added PushWheel example
 - Added USE_LIBRARY_SPI to enable library SPI object
-- Modifed all examples to conditionally include <SPI.h> 
+- Modifed all examples to conditionally include <SPI.h>
+- FontBuilder modified to handle definitions for double height fonts
 
 April 2015 version 2.7
 - Changed to Daft Punk example to run without switch
