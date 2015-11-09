@@ -75,8 +75,11 @@ MD_KeySwitch  ks = MD_KeySwitch(MODE_SWITCH, LOW);
 #define HEARTS_DELAY    (28 * UNIT_DELAY)
 #define EYES_DELAY      (20 * UNIT_DELAY)
 #define WIPER_DELAY     (1 * UNIT_DELAY)
-#define ARROW_DELAY     (3 * UNIT_DELAY)
+#define ARROWS_DELAY    (3 * UNIT_DELAY)
+#define ARROWR_DELAY    (8 * UNIT_DELAY)
 #define INVADER_DELAY   (6 * UNIT_DELAY)   
+#define PACMAN_DELAY    (4 * UNIT_DELAY) 
+#define SINE_DELAY      (2 * UNIT_DELAY)
 
 #define	CHAR_SPACING	  1   // pixels between characters
 #define	BUF_SIZE	      75  // character buffer size
@@ -338,12 +341,12 @@ bool graphicScroller(bool bInit)
   return(bInit);
 }
 
-bool graphicSpectrum(bool bInit)
+bool graphicSpectrum1(bool bInit)
 {
   // are we initializing?
   if (bInit)
   {
-    PRINTS("\n--- Spectrum init");
+    PRINTS("\n--- Spectrum1 init");
     resetMatrix();
     bInit = false;
   }
@@ -364,6 +367,38 @@ bool graphicSpectrum(bool bInit)
       cd |= 1<<j;
     for (uint8_t j=1; j<COL_SIZE-1; j++)
       mx.setColumn(i, j, ~cd);
+  }
+  mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
+
+  return(bInit);
+}
+
+bool graphicSpectrum2(bool bInit)
+{
+  // are we initializing?
+  if (bInit)
+  {
+    PRINTS("\n--- Spectrum2init");
+    resetMatrix();
+    bInit = false;
+  }
+
+  // Is it time to animate?
+  if (millis() - prevTimeAnim < SPECTRUM_DELAY)
+    return(bInit);
+  prevTimeAnim = millis();			// starting point for next time
+
+  // now run the animation
+  mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
+  for (uint8_t i = 0; i<mx.getColumnCount(); i++)
+  {
+    uint8_t r = random(ROW_SIZE);
+    uint8_t cd = 0;
+
+    for (uint8_t j = 0; j<r; j++)
+      cd |= 1 << j;
+
+    mx.setColumn(i, ~cd);
   }
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 
@@ -604,7 +639,7 @@ bool graphicBounceBall(bool bInit)
   return(bInit);
 }
 
-bool graphicArrow(bool bInit)
+bool graphicArrowScroll(bool bInit)
 {
   const uint8_t arrow[] = { 0x3c, 0x66, 0xc3, 0x99 };
   const uint8_t dataSize = (sizeof(arrow)/sizeof(arrow[0]));
@@ -614,13 +649,13 @@ bool graphicArrow(bool bInit)
   // are we initializing?
   if (bInit)
   {
-    PRINTS("\n--- Arrow init");
+    PRINTS("\n--- ArrowScroll init");
     resetMatrix();
     bInit = false;
   }
 
   // Is it time to animate?
-  if (millis()-prevTimeAnim < ARROW_DELAY)
+  if (millis()-prevTimeAnim < ARROWS_DELAY)
     return(bInit);
   prevTimeAnim = millis();			// starting point for next time
 
@@ -708,6 +743,161 @@ bool graphicInvader(bool bInit)
   return(bInit);
 }
 
+bool graphicPacman(bool bInit)
+{
+  #define MAX_FRAMES  4   // number of animation frames
+  #define DATA_WIDTH  18  // 
+  const uint8_t pacman[MAX_FRAMES][DATA_WIDTH] =  // ghost pursued by a pacman
+  {
+    { 0x3c, 0x7e, 0x7e, 0xff, 0xe7, 0xc3, 0x81, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe },
+    { 0x3c, 0x7e, 0xff, 0xff, 0xe7, 0xe7, 0x42, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe },
+    { 0x3c, 0x7e, 0xff, 0xff, 0xff, 0xe7, 0x66, 0x24, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe },
+    { 0x3c, 0x7e, 0xff, 0xff, 0xff, 0xff, 0x7e, 0x3c, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe },
+  };
+
+  static int16_t idx;        // display index (column)
+  static uint8_t frame;      // current animation frame
+  static uint8_t deltaFrame; // the animation frame offset for the next frame
+
+  // are we initializing?
+  if (bInit)
+  {
+    PRINTS("\n--- Pacman init");
+    resetMatrix();
+    bInit = false;
+    idx = -1; //DATA_WIDTH;
+    frame = 0;
+    deltaFrame = 1;
+  }
+
+  // Is it time to animate?
+  if (millis() - prevTimeAnim < PACMAN_DELAY)
+    return(bInit);
+  prevTimeAnim = millis();			// starting point for next time
+
+  PRINT("\nPAC I:", idx);
+
+  mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
+  mx.clear();
+
+  // clear old graphic
+  for (uint8_t i = 0; i<DATA_WIDTH; i++)
+    mx.setColumn(idx - DATA_WIDTH + i, 0);
+  // move reference column and draw new graphic
+  idx++;
+  for (uint8_t i = 0; i<DATA_WIDTH; i++)
+    mx.setColumn(idx - DATA_WIDTH + i, pacman[frame][i]);
+
+  // advance the animation frame
+  frame += deltaFrame;
+  if (frame == 0 || frame == MAX_FRAMES - 1)
+    deltaFrame = -deltaFrame;
+
+  // check if we are completed and set initialise for next time around
+  if (idx == mx.getColumnCount() + DATA_WIDTH) bInit = true;
+
+  mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
+
+  return(bInit);
+}
+
+bool graphicArrowRotate(bool bInit)
+{
+  static uint16_t idx;        // transformation index
+
+  uint8_t arrow[COL_SIZE] =
+  { 
+    0b00000000,
+    0b00011000,
+    0b00111100,
+    0b01111110,
+    0b00011000,
+    0b00011000,
+    0b00011000,
+    0b00000000
+  };
+
+  MD_MAX72XX::transformType_t  t[] =
+  {
+    MD_MAX72XX::TRC, MD_MAX72XX::TRC,
+    MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
+    MD_MAX72XX::TRC, MD_MAX72XX::TRC, 
+    MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
+    MD_MAX72XX::TRC,
+  };
+
+  // are we initializing?
+  if (bInit)
+  {
+    PRINTS("\n--- ArrowRotate init");
+    resetMatrix();
+    bInit = false;
+    idx = 0;
+
+    // use the arrow bitmap
+    mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
+    for (uint8_t j = 0; j<mx.getDeviceCount(); j++)
+      mx.setBuffer(((j + 1)*COL_SIZE) - 1, COL_SIZE, arrow);
+    mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
+  }
+
+  // Is it time to animate?
+  if (millis() - prevTimeAnim < ARROWR_DELAY)
+    return(bInit);
+  prevTimeAnim = millis();			// starting point for next time
+
+  mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::ON);
+  mx.transform(t[idx++]);
+  mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
+
+  // check if we are completed and set initialise for next time around
+  if (idx == (sizeof(t) / sizeof(t[0]))) bInit = true;
+
+  return(bInit);
+}
+
+bool graphicSinewave(bool bInit)
+{
+  static uint8_t curWave = 0;
+  static uint8_t idx;
+
+  #define DATA_WIDTH  11    // valuid data coount followed by up to 10 data points
+  const uint8_t waves[][DATA_WIDTH] =
+  {
+    {  9,   8,  6,   1,   6,  24,  96, 128,  96,  16,   0 },
+    {  6,  12,  2,  12,  48,  64,  48,   0,   0,   0,   0 },
+    { 10,  12,   2,   1,   2,  12,  48,  64, 128,  64, 48 },
+
+  };
+  const uint8_t WAVE_COUNT = sizeof(waves) / (DATA_WIDTH * sizeof(uint8_t));
+
+  // are we initializing?
+  if (bInit)
+  {
+    PRINTS("\n--- Sinewave init");
+    resetMatrix();
+    bInit = false;
+    idx = 1;
+  }
+
+  // Is it time to animate?
+  if (millis() - prevTimeAnim < SINE_DELAY)
+    return(bInit);
+  prevTimeAnim = millis();			// starting point for next time
+
+  mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::ON);
+  mx.transform(MD_MAX72XX::TSL);
+  mx.setColumn(0, waves[curWave][idx++]);
+  if (idx > waves[curWave][0])
+  {
+    curWave = random(WAVE_COUNT);
+    idx = 1;
+  }
+  mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
+
+  return(bInit);
+}
+
 // ========== Control routines ===========
 //
 void resetMatrix(void)
@@ -771,15 +961,19 @@ void runMatrixAnimation(void)
     case  3: bRestart = graphicScanner(bRestart);        break;
     case  4: bRestart = graphicRandom(bRestart);         break;
     case  5: bRestart = graphicFade(bRestart);           break;
-    case  6: bRestart = graphicSpectrum(bRestart);       break;
+    case  6: bRestart = graphicSpectrum1(bRestart);      break;
     case  7: bRestart = graphicHeartbeat(bRestart);      break;
     case  8: bRestart = graphicHearts(bRestart);         break;
     case  9: bRestart = graphicEyes(bRestart);           break;
     case 10: bRestart = graphicBounceBall(bRestart);     break;
-    case 11: bRestart = graphicArrow(bRestart);          break;
+    case 11: bRestart = graphicArrowScroll(bRestart);    break;
     case 12: bRestart = graphicScroller(bRestart);       break;
     case 13: bRestart = graphicWiper(bRestart);          break;
     case 14: bRestart = graphicInvader(bRestart);        break;
+    case 15: bRestart = graphicPacman(bRestart);         break;
+    case 16: bRestart = graphicArrowRotate(bRestart);    break;
+    case 17: bRestart = graphicSpectrum2(bRestart);      break;
+    case 18: bRestart = graphicSinewave(bRestart);       break;
    
     default: state = 0;
   }
