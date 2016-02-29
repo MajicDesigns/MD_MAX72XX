@@ -372,6 +372,101 @@ that the modules are daisy chained from right to left.
 
 Having determined the values for the defines, the new mapping can be configured, or matched to 
 an existing hardware type.
+___
+
+\page pageFontUtility Create and Modify Fonts
+
+Font Storage Format
+-------------------
+One default font is defined as part of the library in PROGMEM memory. Alternative fonts
+can be specified to the library. The font builder utilities provide a convenient way to 
+modify existing or develop alternative fonts.
+
+Fonts are stored as a series of contiguous bytes in the following format:
+- byte 1 - the number of bytes that form this character (could be zero)
+- byte 2..n - each byte is a column of the character to be formed, starting with the 
+leftmost column of the character. The least significant bit of the byte is the bottom 
+pixel position of the character matrix (row 7).
+ 
+To find a character in the font table, the library looks at the first byte (size), 
+skips 'size'+1 bytes to the next character size byte and repeat until the last or 
+target character is reached.
+
+The compile-time switch USE_INDEX_FONT enables indexing of the font table for faster access, at 
+the expense of increased RAM usage. If indexing is enabled, a single lookup is required to 
+access the character data, rather than the sequential search described above.
+
+The support for fonts (methods and data) may be completely disabled  if not required through 
+the compile-time switch USE_LOCAL_FONT. This will also disable user defined fonts.
+
+____
+
+The txt2font Utility
+--------------------
+The txt2font utility is a command line application that converts a text definition of the font 
+into a data file in the right format for MD_MAX72xx to use.
+
+This utility is as an Win32 executable. Users with other Operating Systems will need to compile 
+a version to work with their OS, using the source code supplied.
+
+The application is invoked from the command line and only the root name of the file is given as a command 
+line parameter (eg "txt2font fred"). The application will look for and input file with a '.txt' extension 
+(fred.txt) and produce an output file with a '.h' extension (fred.h).
+
+The txt2font file format is line based. Lines starting with a '.' are directives for the application, all 
+other lines are data for the current character defintion. An example of the beginning of a font 
+definition file is shown below.
+
+      .NAME sys_var_single
+      .HEIGHT 1
+      .WIDTH 0
+      .CHAR 0
+      .NOTE  'Empty Cell'
+      .CHAR 1
+      .NOTE  'Sad Smiley'
+       @@@
+      @@@@@
+      @ @ @
+      @@@@@
+      @@ @@
+      @   @
+       @@@
+      .CHAR 2
+      .NOTE  'Happy Smiley'
+       ***
+
+The directives have the following meaning:
+- .NAME defines the name for the font and is used in naming the font table variable. 
+The name can apperar anywhere in the file. If omitted, a default name is used.
+- .HEIGHT defines the height for the font. Single height fonts are '1' and double height fonts are '2'. 
+If double height fonts are specified then the range of ASCII character values is restricted to 0..127 as
+the top and botton halves of the font are stored offset by 128 positions. If omitted, the application 
+assumes single height font.
+- .WIDTH specifies the width of the font for all the characters defined between this WIDTH and the 
+next WIDTH defintion. 0 means variable width; any other number defines the fixed width. WIDTH may be changed 
+within the file - for example to definine a fixed size space (no pixels!) character in a variable width font.
+- .CHAR ends the defintion of the current character and starts the defintion for the specified ASCII value. 
+Valid parameters are [0..255] for single height, and [0..127] for double height. If a character code is 
+omitted in the font definition file it is assumed to be empty.
+- .NOTE is an option note that will be added as a comment for the entry in the font data table.
+
+Any lines not starting with a '.' are data lines for the current character. The font characters are drawn 
+using a non-space character (eg, '*' or '@') wherever a LED needs to be 'on'. The application scans from 
+the top down, so any lines missing at the bottom of the character definition are assumed to be blank. 
+However, blank lines at the top need to be shown. Any extra rows are ignored will cause program errors.
+
+A number of font definition files are supplied as examples.
+___
+
+The FontBuilder Excel/VBA application
+-------------------------------------
+FontBuilder is an Microsoft Excel spreadsheet with VBA macros to manage a GUI interface for defining 
+and managing font characters. FontBuilder supports both single and double height fonts. The first tab 
+in the FontBuilder spreadsheet has instructions for use.
+
+As FontBuilder requires using Microsoft Office products, it does not work environments where 
+these are not available.
+
 */
 
 // *******************************************************************************************

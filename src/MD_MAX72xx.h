@@ -22,16 +22,39 @@ Topics
 - \subpage pageHardware
 - \subpage pageSoftware
 - \subpage pageConnect
+- \subpage pageFontUtility
+- \subpage pageRevisionHistory
 
+Copyright
+---------
+Copyright (C) 2012-16 Marco Colli. All rights reserved.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+
+\page pageRevisionHistory Revision History
 Revision History 
 ----------------
-Jan 2016 version 2.8
+Mar 2016 version 2.8
 - Added example _Message_SD and renamed _Message to _Message_Serial
 - Added Pacman example
 - Added PushWheel example
 - Added USE_LIBRARY_SPI to enable library SPI object
 - Modifed all examples to conditionally include <SPI.h>
 - FontBuilder modified to handle definitions for double height fonts
+- New txt2font utility for easier font creattion from a text file
+- Revised and ro-organised documentation; expanded section on fonts
 
 April 2015 version 2.7
 - Changed to Daft Punk example to run without switch
@@ -103,25 +126,7 @@ June 2012 - version 1.0
 - Incorporated elements of Arduino LedControl (Eberhard Fahle) and MAX7219 libraries
 - Easier functionality for pixel graphics treatment of 8x8 matrices
 
-Copyright
----------
-Copyright (C) 2012-15 Marco Colli. All rights reserved.
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-
-\page pageSoftware Software
+\page pageSoftware Software Library
 The Library
 -----------
 The library implements functions that allow the MAX72xx to be used
@@ -147,31 +152,6 @@ related to the main header file MD_MAX72xx.h.
 _NOTE_: Compile switches must be edited in the library header file. Arduino header file
 'mashing' during compilation makes the setting of these switches from user code 
 completely unreliable.
-___
-
-Font Storage Format
--------------------
-One default font is defined as part of the library in PROGMEM memory. Alternative fonts
-can be specified to the library. The font builder tool provides a convenient way to develop
-alternative fonts.
-
-The fonts are stored as a series of contiguous bytes in the following format:
-- byte 1 - the number of bytes that form this character (could be zero)
-- byte 2..n - each byte is a column of the character to be formed, starting with the 
-leftmost column of the character. The least significant bit of the byte is the bottom 
-pixel position of the character matrix (row 7).
- 
-To find a character in the font table, the library looks at the first byte (size), 
-skips 'size'+1 bytes to the next character size byte and repeat until the last or 
-target character is reached.
-
-The compile-time switch USE_INDEX_FONT enables indexing of the font table for faster access, at 
-the expense of increased RAM usage. If indexing is enabled, a single lookup is required to 
-access the character data, rather than the sequential search described above.
-
-The support for fonts (methods and data) may be completely disabled  if not required through 
-the compile-time switch USE_LOCAL_FONT. This will also disable user defined fonts.
-
 
 \page pageConnect System Connections
 Connections to the Arduino Board (SPI interface)

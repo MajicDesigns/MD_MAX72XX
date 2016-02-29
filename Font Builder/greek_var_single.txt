@@ -1,0 +1,680 @@
+.NAME greek_var_single
+.HEIGHT 1
+.WIDTH 0
+.CHAR 32
+.NOTE 'space'
+.WIDTH 2
+
+.CHAR 33
+.WIDTH 0
+.CHAR 128
+.NOTE  'ALPHA'
+  *
+ * *
+*   *
+*****
+*   *
+*   *
+*   *
+ 
+.CHAR 129
+.NOTE  'BETA'
+****
+*   *
+*   *
+****
+*   *
+*   *
+****
+ 
+.CHAR 130
+.NOTE  'GAMMA'
+*****
+*   *
+*
+*
+*
+*
+*
+ 
+.CHAR 131
+.NOTE  'DELTA'
+  *
+ * *
+*   *
+*   *
+*   *
+*   *
+*****
+ 
+.CHAR 132
+.NOTE  'EPSILON'
+*****
+*
+*
+****
+*
+*
+*****
+ 
+.CHAR 133
+.NOTE  'ZETA'
+*****
+*   *
+   *
+  *
+ *
+*   *
+*****
+ 
+.CHAR 134
+.NOTE  'ETA'
+*   *
+*   *
+*   *
+*****
+*   *
+*   *
+*   *
+ 
+.CHAR 135
+.NOTE  'THETA'
+ ***
+*   *
+*   *
+*****
+*   *
+*   *
+ ***
+ 
+.CHAR 136
+.NOTE  'IOTA'
+***
+ *
+ *
+ *
+ *
+ *
+***
+ 
+.CHAR 137
+.NOTE  'KAPPA'
+*   *
+*  *
+* *
+**
+* *
+*  *
+*   *
+ 
+.CHAR 138
+.NOTE  'LAMBDA'
+  *
+ * *
+*   *
+*   *
+*   *
+*   *
+*   *
+ 
+.CHAR 139
+.NOTE  'MU'
+*   *
+** **
+* * *
+* * *
+*   *
+*   *
+*   *
+ 
+.CHAR 140
+.NOTE  'NU'
+*   *
+**  *
+* * *
+*  **
+*   *
+*   *
+*   *
+ 
+.CHAR 141
+.NOTE  'XI'
+*****
+*   *
+ 
+ ***
+ 
+*   *
+*****
+ 
+.CHAR 142
+.NOTE  'OMICRON'
+ ***
+*   *
+*   *
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 143
+.NOTE  'PI'
+*****
+ * *
+ * *
+ * *
+ * *
+ * *
+ * *
+ 
+.CHAR 144
+.NOTE  'RHO'
+****
+*   *
+*   *
+****
+*
+*
+*
+ 
+.CHAR 145
+.NOTE  'SIGMA'
+*****
+*   *
+ *
+  *
+ *
+*   *
+*****
+ 
+.CHAR 146
+.NOTE  'TAU'
+*****
+* * *
+  *
+  *
+  *
+  *
+  *
+ 
+.CHAR 147
+.NOTE  'UPSILON'
+*   *
+*   *
+*   *
+ * *
+  *
+  *
+  *
+ 
+.CHAR 148
+.NOTE  'PHI'
+ ***
+  *
+ ***
+* * *
+ ***
+  *
+ ***
+ 
+.CHAR 149
+.NOTE  'CHI'
+*   *
+*   *
+ * *
+  *
+ * *
+*   *
+*   *
+ 
+.CHAR 150
+.NOTE  'PSI'
+* * *
+* * *
+* * *
+ ***
+  *
+  *
+  *
+ 
+.CHAR 151
+.NOTE  'OMEGA'
+ ***
+*   *
+*   *
+*   *
+*   *
+ * *
+** **
+ 
+.CHAR 152
+.NOTE  'alpha'
+ 
+ 
+ *
+* * *
+*  *
+*  *
+ ** *
+ 
+.CHAR 153
+.NOTE  'beta'
+ 
+ 
+ **
+*  *
+***
+*  *
+***
+*
+.CHAR 154
+.NOTE  'gamma'
+ 
+*   *
+ * *
+  *
+ * *
+ * *
+  *
+ 
+.CHAR 155
+.NOTE  'delta'
+  **
+ *
+  *
+ **
+*  *
+*  *
+ **
+ 
+.CHAR 156
+.NOTE  'epsilon'
+ 
+ 
+ ***
+*
+ **
+*
+ ***
+ 
+.CHAR 157
+.NOTE  'zeta'
+ 
+****
+   *
+  *
+ *
+***
+   *
+  **
+.CHAR 158
+.NOTE  'eta'
+ 
+ 
+* *
+** *
+*  *
+*  *
+*  *
+   *
+.CHAR 159
+.NOTE  'theta'
+ 
+ 
+ ***
+*   *
+*****
+*   *
+ ***
+ 
+.CHAR 160
+.NOTE  'iota'
+ 
+ 
+*
+*
+*
+*  *
+ **
+ 
+.CHAR 161
+.NOTE  'kappa'
+ 
+ 
+*  *
+* *
+**
+* *
+*  *
+ 
+.CHAR 162
+.NOTE  'lambda'
+ **
+*  *
+   *
+** *
+* **
+*  *
+*  *
+ 
+.CHAR 163
+.NOTE  'mu'
+ 
+ 
+*   *
+*   *
+*  **
+*** *
+*   *
+*
+.CHAR 164
+.NOTE  'nu'
+ 
+ 
+*   *
+*   *
+ * *
+ * *
+  *
+ 
+.CHAR 165
+.NOTE  'xi'
+ 
+ ***
+*
+ ***
+*
+ ***
+    *
+   *
+.CHAR 166
+.NOTE  'omicron'
+ 
+ 
+ ***
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 167
+.NOTE  'pi'
+ 
+ 
+*****
+ * *
+ * *
+ * *
+ * *
+ 
+.CHAR 168
+.NOTE  'rho'
+ 
+ 
+ **
+*  *
+*  *
+***
+*
+*
+.CHAR 169
+.NOTE  'sigma'
+ 
+ 
+ ****
+*  *
+*  *
+*  *
+ **
+ 
+.CHAR 170
+.NOTE  'sigma (final)'
+ 
+ 
+ ****
+*
+ ***
+    *
+****
+ 
+.CHAR 171
+.NOTE  'tau'
+ 
+ 
+*****
+  *
+  *
+  *
+   *
+ 
+.CHAR 172
+.NOTE  'upsilon'
+ 
+ 
+*   *
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 173
+.NOTE  'phi'
+ 
+   *
+* * *
+* * *
+ ***
+  *
+  *
+ 
+.CHAR 174
+.NOTE  'chi'
+ 
+ 
+*   *
+ * *
+  *
+ * *
+*   *
+ 
+.CHAR 175
+.NOTE  'psi'
+ 
+ 
+* * *
+* * *
+ ***
+  *
+  *
+ 
+.CHAR 224
+.NOTE  'omega'
+ 
+ 
+ * *
+*   *
+* * *
+* * *
+ * *
+ 
+.CHAR 225
+.NOTE  'alpha tonos'
+  *
+ 
+ *
+* * *
+*  *
+*  *
+ ** *
+ 
+.CHAR 226
+.NOTE  'epsilon tonos'
+  *
+ 
+ ***
+*
+ **
+*
+ ***
+ 
+.CHAR 227
+.NOTE  'eta tonos'
+  *
+ 
+* *
+** *
+*  *
+*  *
+*  *
+   *
+.CHAR 228
+.NOTE  'iota dialytika'
+* *
+ 
+ *
+ *
+ *
+ *  *
+  **
+ 
+.CHAR 229
+.NOTE  'iota tonos'
+*
+ 
+*
+*
+*
+*  *
+ **
+ 
+.CHAR 230
+.NOTE  'omicron tonos'
+  *
+ 
+ ***
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 231
+.NOTE  'upsilon tonos'
+  *
+ 
+*   *
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 232
+.NOTE  'upsilon dialytika'
+ * *
+ 
+*   *
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 233
+.NOTE  'omega tonos'
+  *
+ 
+ * *
+*   *
+* * *
+* * *
+ * *
+ 
+.CHAR 234
+.NOTE  'ALPHA tonos'
+*  *
+  * *
+ *   *
+ *****
+ *   *
+ *   *
+ *   *
+ 
+.CHAR 235
+.NOTE  'EPSILON'
+*****
+*
+*
+****
+*
+*
+*****
+ 
+.CHAR 236
+.NOTE  'ETA tonos'
+**  *
+*   *
+*   *
+*****
+*   *
+*   *
+*   *
+ 
+.CHAR 237
+.NOTE  'IOTA tonos'
+* **
+* *
+  *
+  *
+  *
+  *
+ ***
+ 
+.CHAR 238
+.NOTE  'OMICRON tonos'
+*  **
+  *  *
+ *   *
+ *   *
+ *   *
+ *   *
+  ***
+ 
+.CHAR 239
+.NOTE  'UPSILON tonos'
+*    *
+ *   *
+ *   *
+  * *
+   *
+   *
+   *
+ 
+.CHAR 240
+.NOTE  'OMEGA tonos'
+* ***
+ *   *
+ *   *
+ *   *
+ *   *
+  * *
+ ** **
+ 
+.CHAR 244
+.NOTE  'IOTA dialytika'
+* *
+ 
+***
+ *
+ *
+ *
+***
+ 
+.CHAR 245
+.NOTE  'UPSILON dialytika'
+ * *
+ 
+*   *
+*   *
+ * *
+  *
+  *
+ 
+.END

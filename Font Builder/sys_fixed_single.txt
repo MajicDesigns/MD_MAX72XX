@@ -1,0 +1,2542 @@
+.NAME sys_fixed_single
+.HEIGHT 1
+.WIDTH 5
+.CHAR 0
+.NOTE  'Empty Cell'
+
+.CHAR 1
+.NOTE  'Sad Smiley'
+ ***
+*****
+* * *
+*****
+** **
+*   *
+ ***
+ 
+.CHAR 2
+.NOTE  'Happy Smiley'
+ ***
+*****
+* * *
+*****
+*   *
+** **
+ ***
+ 
+.CHAR 3
+.NOTE  'Heart'
+ 
+ * *
+*****
+*****
+*****
+ ***
+  *
+ 
+.CHAR 4
+.NOTE  'Diamond'
+ 
+  *
+ ***
+*****
+*****
+ ***
+  *
+ 
+.CHAR 5
+.NOTE  'Clubs'
+ ***
+ * *
+*****
+* * *
+*****
+  *
+ ***
+ 
+.CHAR 6
+.NOTE  'Spades'
+  *
+ ***
+*****
+*****
+*****
+  *
+ ***
+ 
+.CHAR 7
+.NOTE  'Bullet Point'
+ 
+ 
+  *
+ ***
+ ***
+  *
+ 
+ 
+.CHAR 8
+.NOTE  'Rev Bullet Point'
+*****
+*****
+** **
+*   *
+*   *
+** **
+*****
+*****
+.CHAR 9
+.NOTE  'Hollow Bullet Point'
+ 
+ 
+  *
+ * *
+ * *
+  *
+ 
+ 
+.CHAR 10
+.NOTE  'Rev Hollow BP'
+*****
+*****
+** **
+* * *
+* * *
+** **
+*****
+*****
+.CHAR 11
+.NOTE  'Male'
+ 
+  ***
+   **
+ ** *
+* *
+* *
+ *
+ 
+.CHAR 12
+.NOTE  'Female'
+ ***
+*   *
+*   *
+ ***
+  *
+*****
+  *
+ 
+.CHAR 13
+.NOTE  'Music Note 1'
+ ****
+ *  *
+ ****
+ *
+ *
+ *
+**
+ 
+.CHAR 14
+.NOTE  'Music Note 2'
+ ****
+ *  *
+ ****
+ *  *
+ *  *
+ * **
+**
+ 
+.CHAR 15
+.NOTE  'Snowflake'
+  *
+* * *
+ ***
+** **
+** **
+ ***
+* * *
+  *
+.CHAR 16
+.NOTE  'Right Pointer'
+*
+**
+****
+*****
+****
+**
+*
+ 
+.CHAR 17
+.NOTE  'Left Pointer'
+    *
+   **
+ ****
+*****
+ ****
+   **
+    *
+ 
+.CHAR 18
+.NOTE  'UpDown Arrows'
+  *
+ ***
+* * *
+  *
+* * *
+ ***
+  *
+ 
+.CHAR 19
+.NOTE  'Double Exclamation'
+** **
+** **
+** **
+** **
+** **
+ 
+** **
+ 
+.CHAR 20
+.NOTE  'Paragraph Mark'
+ ****
+* * *
+* * *
+ ** *
+  * *
+  * *
+  * *
+ 
+.CHAR 21
+.NOTE  'Section Mark'
+  **
+ *  *
+ * *
+  * *
+   *
+ *  *
+ *  *
+  **
+.CHAR 22
+.NOTE  'Double Underline'
+ 
+ 
+ 
+ 
+ 
+*****
+*****
+ 
+.CHAR 23
+.NOTE  'UpDown Underlined'
+  *
+ ***
+* * *
+  *
+* * *
+ ***
+  *
+*****
+.CHAR 24
+.NOTE  'Up Arrow'
+ 
+  *
+ ***
+* * *
+  *
+  *
+  *
+ 
+.CHAR 25
+.NOTE  'Down Arrow'
+ 
+  *
+  *
+  *
+* * *
+ ***
+  *
+ 
+.CHAR 26
+.NOTE  'Right Arrow'
+ 
+  *
+   *
+*****
+   *
+  *
+ 
+ 
+.CHAR 27
+.NOTE  'Left Arrow'
+ 
+  *
+ *
+*****
+ *
+  *
+ 
+ 
+.CHAR 28
+.NOTE  'Angled'
+ 
+*
+*
+*
+*****
+ 
+ 
+ 
+.CHAR 29
+.NOTE  'Squashed #'
+ 
+ * *
+*****
+*****
+ * *
+ 
+ 
+ 
+.CHAR 30
+.NOTE  'Up Pointer'
+ 
+  *
+  *
+ ***
+*****
+*****
+ 
+ 
+.CHAR 31
+.NOTE  'Down Pointer'
+ 
+*****
+*****
+ ***
+  *
+  *
+ 
+ 
+.CHAR 32
+.WIDTH 2
+.NOTE  'Space'
+
+
+.CHAR 33
+.WIDTH 5
+.NOTE  '!'
+  *
+  *
+  *
+  *
+  *
+ 
+  *
+ 
+.CHAR 34
+.NOTE  '"'
+ * *
+ * *
+ * *
+ 
+ 
+ 
+ 
+ 
+.CHAR 35
+.NOTE  '#'
+ * *
+ * *
+*****
+ * *
+*****
+ * *
+ * *
+ 
+.CHAR 36
+.NOTE  '$'
+  *
+ ****
+* *
+ ***
+  * *
+****
+  *
+ 
+.CHAR 37
+.NOTE  '%'
+**
+**  *
+   *
+  *
+ *
+*  **
+   **
+ 
+.CHAR 38
+.NOTE  '&'
+ *
+* *
+* *
+ *
+* * *
+*  *
+ ** *
+ 
+.CHAR 39
+.NOTE  '''
+  **
+  **
+  *
+ *
+ 
+ 
+ 
+ 
+.CHAR 40
+.NOTE  '('
+   *
+  *
+ *
+ *
+ *
+  *
+   *
+ 
+.CHAR 41
+.NOTE  ')'
+ *
+  *
+   *
+   *
+   *
+  *
+ *
+ 
+.CHAR 42
+.NOTE  '*'
+  *
+* * *
+ ***
+*****
+ ***
+* * *
+  *
+ 
+.CHAR 43
+.NOTE  '+'
+ 
+  *
+  *
+*****
+  *
+  *
+ 
+ 
+.CHAR 44
+.NOTE  ','
+ 
+ 
+ 
+ 
+  **
+  **
+  *
+ *
+.CHAR 45
+.NOTE  '-'
+ 
+ 
+ 
+*****
+ 
+ 
+ 
+ 
+.CHAR 46
+.NOTE  '.'
+ 
+ 
+ 
+ 
+ 
+ **
+ **
+ 
+.CHAR 47
+.NOTE  '/'
+ 
+    *
+   *
+  *
+ *
+*
+ 
+ 
+.CHAR 48
+.NOTE  '0'
+ ***
+*   *
+*  **
+* * *
+**  *
+*   *
+ ***
+ 
+.CHAR 49
+.NOTE  '1'
+  *
+ **
+  *
+  *
+  *
+  *
+ ***
+ 
+.CHAR 50
+.NOTE  '2'
+ ***
+*   *
+    *
+ ***
+*
+*
+*****
+ 
+.CHAR 51
+.NOTE  '3'
+*****
+    *
+   *
+  **
+    *
+*   *
+ ***
+ 
+.CHAR 52
+.NOTE  '4'
+   *
+  **
+ * *
+*  *
+*****
+   *
+   *
+ 
+.CHAR 53
+.NOTE  '5'
+*****
+*
+****
+    *
+    *
+*   *
+ ***
+ 
+.CHAR 54
+.NOTE  '6'
+  ***
+ *
+*
+****
+*   *
+*   *
+ ***
+ 
+.CHAR 55
+.NOTE  '7'
+*****
+    *
+    *
+   *
+  *
+ *
+*
+ 
+.CHAR 56
+.NOTE  '8'
+ ***
+*   *
+*   *
+ ***
+*   *
+*   *
+ ***
+ 
+.CHAR 57
+.NOTE  '9'
+ ***
+*   *
+*   *
+ ****
+    *
+   *
+***
+ 
+.CHAR 58
+.NOTE  ':'
+ 
+ 
+  *
+ 
+  *
+ 
+ 
+ 
+.CHAR 59
+.NOTE  ';'
+ 
+ 
+ 
+  *
+ 
+  *
+  *
+ *
+.CHAR 60
+.NOTE  '<'
+    *
+   *
+  *
+ *
+  *
+   *
+    *
+ 
+.CHAR 61
+.NOTE  '='
+ 
+ 
+*****
+ 
+*****
+ 
+ 
+ 
+.CHAR 62
+.NOTE  '>'
+ *
+  *
+   *
+    *
+   *
+  *
+ *
+ 
+.CHAR 63
+.NOTE  '?'
+ ***
+*   *
+    *
+  **
+  *
+ 
+  *
+ 
+.CHAR 64
+.NOTE  '@'
+ ***
+*   *
+* * *
+* ***
+* **
+*
+ ****
+ 
+.CHAR 65
+.NOTE  'A'
+  *
+ * *
+*   *
+*   *
+*****
+*   *
+*   *
+ 
+.CHAR 66
+.NOTE  'B'
+****
+*   *
+*   *
+****
+*   *
+*   *
+****
+ 
+.CHAR 67
+.NOTE  'C'
+ ***
+*   *
+*
+*
+*
+*   *
+ ***
+ 
+.CHAR 68
+.NOTE  'D'
+****
+*   *
+*   *
+*   *
+*   *
+*   *
+****
+ 
+.CHAR 69
+.NOTE  'E'
+*****
+*
+*
+****
+*
+*
+*****
+ 
+.CHAR 70
+.NOTE  'F'
+*****
+*
+*
+****
+*
+*
+*
+ 
+.CHAR 71
+.NOTE  'G'
+ ****
+*   *
+*
+*
+*  **
+*   *
+ ****
+ 
+.CHAR 72
+.NOTE  'H'
+*   *
+*   *
+*   *
+*****
+*   *
+*   *
+*   *
+ 
+.CHAR 73
+.NOTE  'I'
+ ***
+  *
+  *
+  *
+  *
+  *
+ ***
+ 
+.CHAR 74
+.NOTE  'J'
+  ***
+   *
+   *
+   *
+   *
+*  *
+ **
+ 
+.CHAR 75
+.NOTE  'K'
+*   *
+*  *
+* *
+**
+* *
+*  *
+*   *
+ 
+.CHAR 76
+.NOTE  'L'
+*
+*
+*
+*
+*
+*
+*****
+ 
+.CHAR 77
+.NOTE  'M'
+*   *
+** **
+* * *
+* * *
+* * *
+*   *
+*   *
+ 
+.CHAR 78
+.NOTE  'N'
+*   *
+*   *
+**  *
+* * *
+*  **
+*   *
+*   *
+ 
+.CHAR 79
+.NOTE  'O'
+ ***
+*   *
+*   *
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 80
+.NOTE  'P'
+****
+*   *
+*   *
+****
+*
+*
+*
+ 
+.CHAR 81
+.NOTE  'Q'
+ ***
+*   *
+*   *
+*   *
+* * *
+*  *
+ ** *
+ 
+.CHAR 82
+.NOTE  'R'
+****
+*   *
+*   *
+****
+* *
+*  *
+*   *
+ 
+.CHAR 83
+.NOTE  'S'
+ ***
+*   *
+*
+ ***
+    *
+*   *
+ ***
+ 
+.CHAR 84
+.NOTE  'T'
+*****
+* * *
+  *
+  *
+  *
+  *
+  *
+ 
+.CHAR 85
+.NOTE  'U'
+*   *
+*   *
+*   *
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 86
+.NOTE  'V'
+*   *
+*   *
+*   *
+*   *
+*   *
+ * *
+  *
+ 
+.CHAR 87
+.NOTE  'W'
+*   *
+*   *
+*   *
+* * *
+* * *
+* * *
+ * *
+ 
+.CHAR 88
+.NOTE  'X'
+*   *
+*   *
+ * *
+  *
+ * *
+*   *
+*   *
+ 
+.CHAR 89
+.NOTE  'Y'
+*   *
+*   *
+ * *
+  *
+  *
+  *
+  *
+ 
+.CHAR 90
+.NOTE  'Z'
+*****
+    *
+   *
+ ***
+ *
+*
+*****
+ 
+.CHAR 91
+.NOTE  '['
+ ***
+ *
+ *
+ *
+ *
+ *
+ ***
+ 
+.CHAR 92
+.NOTE  '\'
+ 
+*
+ *
+  *
+   *
+    *
+ 
+ 
+.CHAR 93
+.NOTE  ']'
+ ***
+   *
+   *
+   *
+   *
+   *
+ ***
+ 
+.CHAR 94
+.NOTE  '^'
+  *
+ * *
+*   *
+ 
+ 
+ 
+ 
+ 
+.CHAR 95
+.NOTE  '_'
+ 
+ 
+ 
+ 
+ 
+ 
+*****
+ 
+.CHAR 96
+.NOTE  '`'
+ **
+ **
+  *
+   *
+ 
+ 
+ 
+ 
+.CHAR 97
+.NOTE  'a'
+ 
+ 
+ **
+   *
+ ***
+*  *
+ ****
+ 
+.CHAR 98
+.NOTE  'b'
+*
+*
+* **
+**  *
+*   *
+**  *
+* **
+ 
+.CHAR 99
+.NOTE  'c'
+ 
+ 
+ ***
+*   *
+*
+*   *
+ ***
+ 
+.CHAR 100
+.NOTE  'd'
+    *
+    *
+ ** *
+*  **
+*   *
+*  **
+ ** *
+ 
+.CHAR 101
+.NOTE  'e'
+ 
+ 
+ ***
+*   *
+*****
+*
+ ***
+ 
+.CHAR 102
+.NOTE  'f'
+  *
+ * *
+ *
+***
+ *
+ *
+ *
+ 
+.CHAR 103
+.NOTE  'g'
+ 
+ 
+ ***
+*  **
+*  **
+ ** *
+    *
+ ***
+.CHAR 104
+.NOTE  'h'
+*
+*
+* **
+**  *
+*   *
+*   *
+*   *
+ 
+.CHAR 105
+.NOTE  'i'
+  *
+ 
+ **
+  *
+  *
+  *
+ ***
+ 
+.CHAR 106
+.NOTE  'j'
+ 
+   *
+ 
+   *
+   *
+   *
+*  *
+ **
+.CHAR 107
+.NOTE  'k'
+ *
+ *
+ *  *
+ * *
+ **
+ * *
+ *  *
+ 
+.CHAR 108
+.NOTE  'l'
+ **
+  *
+  *
+  *
+  *
+  *
+ ***
+ 
+.CHAR 109
+.NOTE  'm'
+ 
+ 
+** *
+* * *
+* * *
+* * *
+* * *
+ 
+.CHAR 110
+.NOTE  'n'
+ 
+ 
+* **
+**  *
+*   *
+*   *
+*   *
+ 
+.CHAR 111
+.NOTE  'o'
+ 
+ 
+ ***
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 112
+.NOTE  'p'
+ 
+ 
+* **
+**  *
+**  *
+* **
+*
+*
+.CHAR 113
+.NOTE  'q'
+ 
+ 
+ ** *
+*  **
+*  **
+ ** *
+    *
+    *
+.CHAR 114
+.NOTE  'r'
+ 
+ 
+* **
+**  *
+*
+*
+*
+ 
+.CHAR 115
+.NOTE  's'
+ 
+ 
+ ****
+*
+ ***
+    *
+****
+ 
+.CHAR 116
+.NOTE  't'
+  *
+  *
+*****
+  *
+  *
+  * *
+   *
+ 
+.CHAR 117
+.NOTE  'u'
+ 
+ 
+*   *
+*   *
+*   *
+*  **
+ ** *
+ 
+.CHAR 118
+.NOTE  'v'
+ 
+ 
+*   *
+*   *
+*   *
+ * *
+  *
+ 
+.CHAR 119
+.NOTE  'w'
+ 
+ 
+*   *
+*   *
+* * *
+* * *
+ * *
+ 
+.CHAR 120
+.NOTE  'x'
+ 
+ 
+*   *
+ * *
+  *
+ * *
+*   *
+ 
+.CHAR 121
+.NOTE  'y'
+ 
+ 
+*   *
+*   *
+ ****
+    *
+*   *
+ ***
+.CHAR 122
+.NOTE  'z'
+ 
+ 
+*****
+   *
+  *
+ *
+*****
+ 
+.CHAR 123
+.NOTE  '{'
+   *
+  *
+  *
+ *
+  *
+  *
+   *
+ 
+.CHAR 124
+.NOTE  '|'
+  *
+  *
+  *
+ 
+  *
+  *
+  *
+ 
+.CHAR 125
+.NOTE  '}'
+ *
+  *
+  *
+   *
+  *
+  *
+ *
+ 
+.CHAR 126
+.NOTE  '~'
+ *
+* * *
+   *
+ 
+ 
+ 
+ 
+ 
+.CHAR 127
+.NOTE  'Hollow Up Arrow'
+  *
+ ***
+** **
+*   *
+*   *
+*****
+ 
+ 
+.CHAR 128
+.NOTE  'C sedilla'
+ ***
+*   *
+*
+*
+*   *
+ ***
+   *
+ **
+.CHAR 129
+.NOTE  'u umlaut'
+ 
+*   *
+ 
+*   *
+*   *
+*  **
+ ** *
+ 
+.CHAR 130
+.NOTE  'e acute'
+   **
+ 
+ ***
+*   *
+*****
+*
+ ****
+ 
+.CHAR 131
+.NOTE  'a accent'
+*****
+ 
+ **
+   *
+ ***
+*  *
+ ****
+ 
+.CHAR 132
+.NOTE  'a umlaut'
+*   *
+ 
+ **
+   *
+ ***
+*  *
+ ****
+ 
+.CHAR 133
+.NOTE  'a grave'
+**
+ 
+ **
+   *
+ ***
+*  *
+ ****
+ 
+.CHAR 134
+.NOTE  'a acute'
+  **
+ 
+ **
+   *
+ ***
+*  *
+ ****
+ 
+.CHAR 135
+.NOTE  'c sedilla'
+ 
+ ****
+**
+**
+ ****
+   *
+  **
+ 
+.CHAR 136
+.NOTE  'e accent'
+*****
+ 
+ ***
+*   *
+*****
+*
+ ****
+ 
+.CHAR 137
+.NOTE  'e umlaut'
+*   *
+ 
+ ***
+*   *
+*****
+*
+ ****
+ 
+.CHAR 138
+.NOTE  'e grave'
+**
+ 
+ ***
+*   *
+*****
+*
+ ****
+ 
+.CHAR 139
+.NOTE  'i umlaut'
+ * *
+ 
+ **
+  *
+  *
+  *
+ ***
+ 
+.CHAR 140
+.NOTE  'i hat'
+ **
+*  *
+ **
+  *
+  *
+  *
+ ***
+ 
+.CHAR 141
+.NOTE  'i grave'
+**
+ 
+ **
+  *
+  *
+  *
+ ***
+ 
+.CHAR 142
+.NOTE  'A umlaut'
+ * *
+ 
+  *
+ * *
+*   *
+*****
+*   *
+*   *
+.CHAR 143
+.NOTE  'A dot'
+  *
+ 
+  *
+ * *
+*   *
+*****
+*   *
+*   *
+.CHAR 144
+.NOTE  'E grave'
+  **
+ 
+****
+*
+***
+*
+****
+ 
+.CHAR 145
+.NOTE  'ae'
+ 
+ 
+ *****
+   *  *
+ *****
+*  *
+ *****
+ 
+.CHAR 146
+.NOTE  'AE'
+  ****
+ * *
+*  *
+******
+*  *
+*  *
+*  ***
+ 
+.CHAR 147
+.NOTE  'o hat'
+ ***
+*   *
+ 
+ ***
+*   *
+*   *
+ ***
+ 
+.CHAR 148
+.NOTE  'o umlaut'
+ 
+*   *
+ 
+ ***
+*   *
+*   *
+ ***
+ 
+.CHAR 149
+.NOTE  'o grave'
+ 
+**
+ 
+ ***
+*   *
+*   *
+ ***
+ 
+.CHAR 150
+.NOTE  'u hat'
+ ***
+*   *
+ 
+*   *
+*   *
+*  **
+ ** *
+ 
+.CHAR 151
+.NOTE  'u grave'
+ 
+**
+ 
+*   *
+*   *
+*  **
+ ** *
+ 
+.CHAR 152
+.NOTE  'y umlaut'
+*  *
+ 
+*  *
+*  *
+*  *
+ ***
+   *
+***
+.CHAR 153
+.NOTE  'O umlaut'
+*   *
+ 
+ ***
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 154
+.NOTE  'U umlaut'
+*   *
+ 
+*   *
+*   *
+*   *
+*   *
+ ***
+ 
+.CHAR 155
+.NOTE  'Cents'
+  *
+  *
+*****
+* *
+* *
+*****
+  *
+  *
+.CHAR 156
+.NOTE  'Pounds'
+  **
+ * **
+ *  *
+***
+ *
+ *  *
+*****
+ 
+.CHAR 157
+.NOTE  'Yen'
+** **
+** **
+ ***
+*****
+  *
+*****
+  *
+  *
+.CHAR 158
+.NOTE  'R +'
+***
+*  *
+*  *
+***
+*  *
+* ***
+*  *
+*  *
+.CHAR 159
+.NOTE  'f notation'
+   **
+  * *
+  *
+ ***
+  *
+  *
+* *
+**
+.CHAR 160
+.NOTE  'a acute'
+   **
+ 
+ **
+   *
+ ***
+*  *
+ ****
+ 
+.CHAR 161
+.NOTE  'i acute'
+  **
+ 
+ **
+  *
+  *
+  *
+ ***
+ 
+.CHAR 162
+.NOTE  'o acute'
+ 
+   **
+ 
+ ***
+*   *
+*   *
+ ***
+ 
+.CHAR 163
+.NOTE  'u acute'
+ 
+   **
+ 
+*   *
+*   *
+*  **
+ ** *
+ 
+.CHAR 164
+.NOTE  'n accent'
+ 
+****
+ 
+***
+*  *
+*  *
+*  *
+ 
+.CHAR 165
+.NOTE  'N accent'
+*****
+ 
+**  *
+*** *
+* ***
+*  **
+*   *
+ 
+.CHAR 166
+ ***
+*  *
+*  *
+ ****
+ 
+*****
+ 
+ 
+.CHAR 167
+ ***
+*   *
+*   *
+ ***
+ 
+*****
+ 
+ 
+.CHAR 168
+.NOTE  'Inverted ?'
+  *
+ 
+  *
+ **
+*
+*   *
+ ***
+ 
+.CHAR 169
+ 
+ 
+ 
+*****
+*
+*
+ 
+ 
+.CHAR 170
+ 
+ 
+ 
+*****
+    *
+    *
+ 
+ 
+.CHAR 171
+.NOTE  '1/2'
+*
+*   *
+*  *
+* ***
+ *  *
+*  **
+  *
+  ***
+.CHAR 172
+.NOTE  '1/4'
+*
+*   *
+*  *
+* * *
+ * **
+* ***
+    *
+    *
+.CHAR 173
+.NOTE  '| split'
+  *
+  *
+ 
+  *
+  *
+  *
+  *
+ 
+.CHAR 174
+.NOTE  '<<'
+ 
+  * *
+ * *
+* *
+ * *
+  * *
+ 
+ 
+.CHAR 175
+.NOTE  '>>'
+ 
+* *
+ * *
+  * *
+ * *
+* *
+ 
+ 
+.CHAR 176
+.NOTE  '30% shading'
+  *
+*   *
+  *
+*   *
+  *
+*   *
+  *
+*   *
+.CHAR 177
+.NOTE  '50% shading'
+ * *
+* * *
+ * *
+* * *
+ * *
+* * *
+ * *
+* * *
+.CHAR 178
+.NOTE  'Right side'
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+.CHAR 179
+.NOTE  'Right T'
+    *
+    *
+    *
+    *
+*****
+    *
+    *
+    *
+.CHAR 180
+.NOTE  'Right T double H'
+    *
+    *
+*****
+    *
+*****
+    *
+    *
+    *
+.CHAR 181
+.NOTE  'Right T double V'
+  * *
+  * *
+  * *
+  * *
+*** *
+  * *
+  * *
+  * *
+.CHAR 182
+.NOTE  'Top Right double V'
+ 
+ 
+ 
+ 
+*****
+  * *
+  * *
+  * *
+.CHAR 183
+.NOTE  'Top Right double H'
+ 
+ 
+*****
+    *
+*****
+    *
+    *
+    *
+.CHAR 184
+.NOTE  'Right T double all'
+  * *
+  * *
+*** *
+    *
+*** *
+  * *
+  * *
+  * *
+.CHAR 185
+.NOTE  'Right side double'
+  * *
+  * *
+  * *
+  * *
+  * *
+  * *
+  * *
+  * *
+.CHAR 186
+.NOTE  'Top Right double'
+ 
+ 
+*****
+    *
+*** *
+  * *
+  * *
+  * *
+.CHAR 187
+.NOTE  'Bot Right double'
+  * *
+  * *
+*** *
+    *
+*****
+ 
+ 
+ 
+.CHAR 188
+.NOTE  'Bot Right double V'
+  * *
+  * *
+  * *
+  * *
+*****
+ 
+ 
+ 
+.CHAR 189
+.NOTE  'Bot Right double H'
+    *
+    *
+*****
+    *
+*****
+ 
+ 
+ 
+.CHAR 190
+.NOTE  'Top Right'
+ 
+ 
+ 
+ 
+*****
+    *
+    *
+    *
+.CHAR 191
+.NOTE  'Bot Left'
+   *
+   *
+   *
+   *
+   **
+ 
+ 
+ 
+.CHAR 192
+.NOTE  'Bot T'
+   *
+   *
+   *
+   *
+*****
+ 
+ 
+ 
+.CHAR 193
+.NOTE  'Top T'
+ 
+ 
+ 
+ 
+*****
+   *
+   *
+   *
+.CHAR 194
+.NOTE  'Left T'
+   *
+   *
+   *
+   *
+   **
+   *
+   *
+   *
+.CHAR 195
+.NOTE  'Top side'
+ 
+ 
+ 
+ 
+*****
+ 
+ 
+ 
+.CHAR 196
+.NOTE  'Center +'
+   *
+   *
+   *
+   *
+*****
+   *
+   *
+   *
+.CHAR 197
+.NOTE  'Left side double H'
+   *
+   *
+   **
+   *
+   **
+   *
+   *
+   *
+.CHAR 198
+.NOTE  'Left side double'
+  * *
+  * *
+  * *
+  * *
+  * *
+  * *
+  * *
+  * *
+.CHAR 199
+.NOTE  'Bot Left double V'
+  * *
+  * *
+  * *
+  *
+  ***
+ 
+ 
+ 
+.CHAR 200
+.NOTE  'Top Left double V'
+ 
+ 
+  ***
+  *
+  * *
+  * *
+  * *
+  * *
+.CHAR 201
+.NOTE  'Bot T double'
+  * *
+  * *
+*** *
+ 
+*****
+ 
+ 
+ 
+.CHAR 202
+.NOTE  'Top T double'
+ 
+ 
+*****
+ 
+*** *
+  * *
+  * *
+  * *
+.CHAR 203
+.NOTE  'Left Side double spl'
+  * *
+  * *
+  * *
+  *
+  * *
+  * *
+  * *
+  * *
+.CHAR 204
+.NOTE  'Center double'
+ 
+ 
+*****
+ 
+*****
+ 
+ 
+ 
+.CHAR 205
+.NOTE  'Center + double'
+  * *
+  * *
+*** *
+ 
+*** *
+  * *
+  * *
+  * *
+.CHAR 206
+.NOTE  'Bot T double H'
+   *
+   *
+*****
+ 
+*****
+ 
+ 
+ 
+.CHAR 207
+.NOTE  'Bot Right double V'
+  * *
+  * *
+  * *
+  * *
+*****
+ 
+ 
+ 
+.CHAR 208
+.NOTE  'Top T double H'
+ 
+ 
+*****
+ 
+*****
+   *
+   *
+   *
+.CHAR 209
+.NOTE  'Top Right double V'
+ 
+ 
+ 
+ 
+*****
+  * *
+  * *
+  * *
+.CHAR 210
+.NOTE  'Bot Left double V'
+  * *
+  * *
+  * *
+  * *
+  ***
+ 
+ 
+ 
+.CHAR 211
+.NOTE  'Bot Right double H'
+   *
+   *
+   **
+   *
+   **
+ 
+ 
+ 
+.CHAR 212
+.NOTE  'Top Right double H'
+ 
+ 
+   **
+   *
+   **
+   *
+   *
+   *
+.CHAR 213
+.NOTE  'Top Right double V'
+ 
+ 
+ 
+ 
+  ***
+  * *
+  * *
+  * *
+.CHAR 214
+.NOTE  'Center + double V'
+  * *
+  * *
+  * *
+  * *
+*****
+  * *
+  * *
+  * *
+.CHAR 215
+.NOTE  'Center + double H'
+   *
+   *
+*****
+   *
+*****
+   *
+   *
+   *
+.CHAR 216
+.NOTE  'Bot Right'
+    *
+    *
+    *
+    *
+*****
+ 
+ 
+ 
+.CHAR 217
+.NOTE  'Top Left'
+ 
+ 
+ 
+ 
+   **
+   *
+   *
+   *
+.CHAR 218
+.NOTE  'Full Block'
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+.CHAR 219
+.NOTE  'Half Block Bottom'
+ 
+ 
+ 
+ 
+*****
+*****
+*****
+*****
+.CHAR 220
+.NOTE  'Half Block LHS'
+***
+***
+***
+***
+***
+***
+***
+***
+.CHAR 221
+.NOTE  'Half Block RHS'
+   **
+   **
+   **
+   **
+   **
+   **
+   **
+   **
+.CHAR 222
+.NOTE  'Half Block Top'
+*****
+*****
+*****
+*****
+ 
+ 
+ 
+ 
+.CHAR 223
+.NOTE  'Alpha'
+ 
+ 
+ ** *
+*  *
+*  *
+*  *
+ ** *
+ 
+.CHAR 224
+.NOTE  'Beta'
+ 
+ ***
+*  **
+****
+*  **
+****
+*
+ 
+.CHAR 225
+.NOTE  'Gamma'
+ 
+*****
+*  **
+*
+*
+*
+*
+ 
+.CHAR 226
+.NOTE  'Pi'
+ 
+*****
+ * *
+ * *
+ * *
+ * *
+ * *
+ 
+.CHAR 227
+.NOTE  'Sigma'
+*****
+*   *
+ *
+  *
+ *
+*   *
+*****
+ 
+.CHAR 228
+.NOTE  'Theta'
+ 
+ 
+ ****
+*  *
+*  *
+*  *
+ **
+ 
+.CHAR 229
+.NOTE  'mu'
+ 
+ * *
+ * *
+ * *
+ * *
+ ** *
+**
+ 
+.CHAR 230
+.NOTE  'Tau'
+ 
+*****
+* *
+  *
+  *
+  *
+  *
+ 
+.CHAR 231
+*****
+  *
+ ***
+*   *
+*   *
+ ***
+  *
+*****
+.CHAR 232
+  *
+ * *
+*   *
+*****
+*   *
+ * *
+  *
+ 
+.CHAR 233
+  *
+ * *
+*   *
+*   *
+ * *
+ * *
+** **
+ 
+.CHAR 234
+  **
+ *
+  **
+ ***
+*   *
+*   *
+ ***
+ 
+.CHAR 235
+ 
+ 
+ 
+ ***
+* * *
+* * *
+ ***
+ 
+.CHAR 236
+.NOTE  'Zero Slashed'
+    *
+ ***
+*  **
+* * *
+* * *
+**  *
+ ***
+*
+.CHAR 237
+ ***
+*
+*
+****
+*
+*
+ ***
+ 
+.CHAR 238
+ ***
+*   *
+*   *
+*   *
+*   *
+*   *
+*   *
+ 
+.CHAR 239
+.NOTE  '3 Bar Equals'
+ 
+*****
+ 
+*****
+ 
+*****
+ 
+ 
+.CHAR 240
+.NOTE  '+/-'
+  *
+  *
+*****
+  *
+  *
+ 
+*****
+ 
+.CHAR 241
+.NOTE  '>='
+ *
+  *
+   *
+  *
+ *
+ 
+*****
+ 
+.CHAR 242
+.NOTE  '<='
+   *
+  *
+ *
+  *
+   *
+ 
+*****
+ 
+.CHAR 243
+.NOTE  'Top of Integral'
+  ***
+  * *
+  *
+  *
+  *
+  *
+  *
+  *
+.CHAR 244
+.NOTE  'Bot of Integral'
+   *
+   *
+   *
+   *
+   *
+ * *
+ * *
+ ***
+.CHAR 245
+.NOTE  'Divide'
+  **
+  **
+ 
+*****
+ 
+  **
+  **
+ 
+.CHAR 246
+.NOTE  'Wavy ='
+ 
+*** *
+* ***
+ 
+*** *
+* ***
+ 
+ 
+.CHAR 247
+.NOTE  'Degree'
+ ***
+** **
+** **
+ ***
+ 
+ 
+ 
+ 
+.CHAR 248
+.NOTE  'Math Product'
+ 
+ 
+ 
+  **
+  **
+ 
+ 
+ 
+.CHAR 249
+.NOTE  'Short Dash'
+ 
+ 
+ 
+ 
+  **
+ 
+ 
+ 
+.CHAR 250
+.NOTE  'Square Root'
+  ***
+  *
+  *
+  *
+* *
+* *
+ **
+  *
+.CHAR 251
+.NOTE  'Superscript n'
+ ***
+ *  *
+ *  *
+ *  *
+ *  *
+ 
+ 
+ 
+.CHAR 252
+.NOTE  'Superscript 2'
+ ***
+   **
+  **
+ **
+ ****
+ 
+ 
+ 
+.CHAR 253
+.NOTE  'Centered Square'
+ 
+ 
+ ****
+ ****
+ ****
+ ****
+ 
+ 
+.CHAR 254
+.NOTE  'Full Frame'
+*****
+*   *
+*   *
+*   *
+*   *
+*   *
+*   *
+*****
+.CHAR 255
+.NOTE  'Full Block'
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+.END

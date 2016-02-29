@@ -1,0 +1,994 @@
+.NAME symbol_var_single
+.HEIGHT 1
+.WIDTH 0
+.CHAR 0
+.NOTE  'Arrow bent BL'
+ 
+  *
+ *
+*****
+ *  *
+  * *
+    *
+    *
+.CHAR 1
+.NOTE  'Arrow bent BR'
+ 
+  *
+   *
+*****
+*  *
+* *
+*
+*
+.CHAR 2
+.NOTE  'Arrow bent TL'
+    *
+    *
+  * *
+ *  *
+*****
+ *
+  *
+ 
+.CHAR 3
+.NOTE  'Arrow bent TR'
+*
+*
+* *
+*  *
+*****
+   *
+  *
+ 
+.CHAR 4
+.NOTE  'Arrow big L'
+   *
+  **
+ *******
+********
+ *******
+  **
+   *
+ 
+.CHAR 5
+.NOTE  'Arrow big R'
+    *
+    **
+*******
+********
+*******
+    **
+    *
+ 
+.CHAR 6
+.NOTE  'Arrow empty head L'
+   *
+  **
+ * **
+*
+ * **
+  **
+   *
+ 
+.CHAR 7
+.NOTE  'Arrow empty head R'
+ *
+ **
+** *
+    *
+** *
+ **
+ *
+ 
+.CHAR 8
+.NOTE  'Arrow empty shaft'
+ 
+ 
+**
+ 
+ 
+**
+ 
+ 
+.CHAR 9
+.NOTE  'Arrow filled head L'
+   *
+  **
+ ****
+*****
+ ****
+  **
+   *
+ 
+.CHAR 10
+.NOTE  'Arrow filled head R'
+ *
+ **
+****
+*****
+****
+ **
+ *
+ 
+.CHAR 11
+.NOTE  'Arrow shaft'
+ 
+ 
+ 
+********
+********
+ 
+ 
+ 
+.CHAR 12
+.NOTE  'Arrow simple E'
+ 
+  *
+   *
+*****
+   *
+  *
+ 
+ 
+.CHAR 13
+.NOTE  'Arrow simple N'
+ 
+  *
+ ***
+* * *
+  *
+  *
+  *
+ 
+.CHAR 14
+.NOTE  'Arrow simple NE'
+ 
+ ****
+   **
+  * *
+ *  *
+*
+ 
+ 
+.CHAR 15
+.NOTE  'Arrow simple NS'
+  *
+ ***
+* * *
+  *
+* * *
+ ***
+  *
+ 
+.CHAR 16
+.NOTE  'Arrow simple NW'
+ 
+****
+**
+* *
+*  *
+    *
+ 
+ 
+.CHAR 17
+.NOTE  'Arrow simple S'
+ 
+  *
+  *
+  *
+* * *
+ ***
+  *
+ 
+.CHAR 18
+.NOTE  'Arrow simple SE'
+ 
+*
+ *  *
+  * *
+   **
+ ****
+ 
+ 
+.CHAR 19
+.NOTE  'Arrow simple SW'
+ 
+    *
+*  *
+* *
+**
+****
+ 
+ 
+.CHAR 20
+.NOTE  'Arrow simple W'
+ 
+  *
+ *
+*****
+ *
+  *
+ 
+ 
+.CHAR 21
+.NOTE  'Arrow simple WE'
+ 
+  * *
+ *   *
+*******
+ *   *
+  * *
+ 
+ 
+.CHAR 22
+.NOTE  'Arrow tail closure'
+ 
+ 
+*
+*
+*
+ 
+ 
+ 
+.CHAR 23
+.NOTE  'Arrow tail L'
+    *  *
+   *  *
+  *  *
+******
+******
+  *  *
+   *  *
+    *  *
+.CHAR 24
+.NOTE  'Arrow tail R'
+*  *
+ *  *
+  *  *
+   *****
+   *****
+  *  *
+ *  *
+*  *
+.CHAR 25
+.NOTE  'Ball empty'
+ 
+ ****
+*    *
+*    *
+*    *
+*    *
+ ****
+ 
+.CHAR 26
+.NOTE  'Ball filled'
+ 
+ ****
+******
+******
+******
+******
+ ****
+ 
+.CHAR 27
+.NOTE  'Bullet Point empty'
+ 
+ 
+  *
+ * *
+ * *
+  *
+ 
+ 
+.CHAR 28
+.NOTE  'Bullet Point empty rev'
+*****
+*****
+** **
+* * *
+* * *
+** **
+*****
+*****
+.CHAR 29
+.NOTE  'Bullet Point filled'
+ 
+ 
+  *
+ ***
+ ***
+  *
+ 
+ 
+.CHAR 30
+.NOTE  'Bullet Point filled rev'
+*****
+*****
+** **
+*   *
+*   *
+** **
+*****
+*****
+.CHAR 31
+.NOTE  'Deg C'
+**
+**
+   ***
+  *
+  *
+  *
+   ***
+ 
+.CHAR 32
+.NOTE  'Deg F'
+**
+**
+  ****
+  *
+  ***
+  *
+  *
+ 
+.CHAR 33
+.NOTE  'Diamond empty'
+   *
+  ***
+ ** **
+**   **
+ ** **
+  ***
+   *
+ 
+.CHAR 34
+.NOTE  'Diamond filled'
+   *
+  ***
+ *****
+*******
+ *****
+  ***
+   *
+ 
+.CHAR 35
+.NOTE  'Icon bullet L'
+        *
+  *******
+ *  *****
+*   *****
+ *  *****
+  *******
+        *
+ 
+.CHAR 36
+.NOTE  'Icon bullet R'
+*
+*******
+*****  *
+*****   *
+*****  *
+*******
+*
+ 
+.CHAR 37
+.NOTE  'Icon cactus'
+   **
+   **
+   *****
+********
+***** **
+** ** **
+** **
+   **
+.CHAR 38
+.NOTE  'Icon card clubs'
+ ***
+ * *
+*****
+* * *
+*****
+  *
+ ***
+ 
+.CHAR 39
+.NOTE  'Icon card diamond'
+ 
+  *
+ ***
+*****
+*****
+ ***
+  *
+ 
+.CHAR 40
+.NOTE  'Icon card heart'
+ 
+ * *
+*****
+*****
+*****
+ ***
+  *
+ 
+.CHAR 41
+.NOTE  'Icon card spades'
+  *
+ ***
+*****
+*****
+*****
+  *
+ ***
+ 
+.CHAR 42
+.NOTE  'Icon gun'
+ 
+ 
+ * *****
+  ******
+ ****
+*****
+** *
+**
+.CHAR 43
+.NOTE  'Icon gun bullets'
+ *
+*
+ 
+** ** **
+** ** **
+ 
+*
+ *
+.CHAR 44
+.NOTE  'Icon house'
+ 
+    **
+   ****
+  ******
+ ********
+**********
+ ***  ***
+ ***  ***
+.CHAR 45
+.NOTE  'Icon pacman'
+  *****
+ *     *
+*  *  *
+*    *
+*   *
+*    **
+ *     *
+  *****
+.CHAR 46
+.NOTE  'Icon pacman ghost'
+ *****
+*     *
+* * * *
+*     *
+*     *
+*******
+* * * *
+* * * *
+.CHAR 47
+.NOTE  'Icon rocket'
+    *
+   ***
+   * *
+   ***
+   ***
+  *****
+  *****
+ *  *  *
+.CHAR 48
+.NOTE  'Icon sex female'
+ ***
+*   *
+*   *
+ ***
+  *
+*****
+  *
+ 
+.CHAR 49
+.NOTE  'Icon sex male'
+ 
+   ***
+    **
+ *** *
+*  *
+*  *
+ **
+ 
+.CHAR 50
+.NOTE  'Icon smiley happy'
+ ***
+*****
+* * *
+*****
+*   *
+** **
+ ***
+ 
+.CHAR 51
+.NOTE  'Icon smiley sad'
+ ***
+*****
+* * *
+*****
+** **
+*   *
+ ***
+ 
+.CHAR 52
+.NOTE  'Icon snowflake'
+ * *  *
+**  * **
+  ****
+ **  * *
+* *  **
+  ****
+** *  **
+ *  * *
+.CHAR 53
+.NOTE  'Icon telephone 1'
+ 
+    **
+    **
+     *
+    *
+** *
+***
+ 
+.CHAR 54
+.NOTE  'Icon telephone 2'
+  *****
+**     **
+** *** **
+  * * *
+ * *** *
+ *  *  *
+ *******
+ 
+.CHAR 55
+.NOTE  'Icon tetris'
+     *
+**** * *
+      **
+   *   *
+* ***
+*  *
+*    **
+** * **
+.CHAR 56
+.NOTE  'Music note 1'
+ ****
+ *  *
+ ****
+ *
+ *
+**
+**
+ 
+.CHAR 57
+.NOTE  'Music note 2'
+ ****
+ *  *
+ ****
+ *  *
+ * **
+** **
+**
+ 
+.CHAR 58
+.NOTE  'Music note 3'
+  *
+  **
+  * *
+  * *
+ **
+***
+**
+ 
+.CHAR 59
+.NOTE  'Pattern block bottom'
+ 
+ 
+ 
+ 
+*****
+*****
+*****
+*****
+.CHAR 60
+.NOTE  'Pattern block full'
+********
+********
+********
+********
+********
+********
+********
+********
+.CHAR 61
+.NOTE  'Pattern block L'
+****
+****
+****
+****
+****
+****
+****
+****
+.CHAR 62
+.NOTE  'Pattern block R'
+    ****
+    ****
+    ****
+    ****
+    ****
+    ****
+    ****
+    ****
+.CHAR 63
+.NOTE  'Pattern block top'
+*****
+*****
+*****
+*****
+ 
+ 
+ 
+ 
+.CHAR 64
+.NOTE  'Pattern box in box'
+********
+*      *
+* **** *
+* *  * *
+* *  * *
+* **** *
+*      *
+********
+.CHAR 65
+.NOTE  'Pattern carrots L'
+   *   *
+  *   *
+ *   *
+*   *
+*   *
+ *   *
+  *   *
+   *   *
+.CHAR 66
+.NOTE  'Pattern carrots R'
+*   *
+ *   *
+  *   *
+   *   *
+   *   *
+  *   *
+ *   *
+*   *
+.CHAR 67
+.NOTE  'Pattern chain link'
+ 
+  ****
+ *    *
+***  ***
+***  ***
+ *    *
+  ****
+ 
+.CHAR 68
+.NOTE  'Pattern check big'
+**  **
+**  **
+  **  **
+  **  **
+**  **
+**  **
+  **  **
+  **  **
+.CHAR 69
+.NOTE  'Pattern check edge big'
+**  **
+**  **
+ 
+ 
+ 
+ 
+  **  **
+  **  **
+.CHAR 70
+.NOTE  'Pattern check edge small'
+ * * * *
+* * * *
+ 
+ 
+ 
+ 
+ * * * *
+* * * *
+.CHAR 71
+.NOTE  'Pattern check small'
+* * * *
+ * * * *
+* * * *
+ * * * *
+* * * *
+ * * * *
+* * * *
+ * * * *
+.CHAR 72
+.NOTE  'Pattern round'
+*  **  *
+  *  *
+ *    *
+*  **  *
+*  **  *
+ *    *
+  *  *
+*  **  *
+.CHAR 73
+.NOTE  'Pattern spiral'
+********
+       *
+****** *
+*    * *
+* *  * *
+* **** *
+*      *
+********
+.CHAR 74
+.NOTE  'Pattern stripes diag L'
+*  *  *
+ *  *  *
+  *  *
+*  *  *
+ *  *  *
+  *  *
+*  *  *
+ *  *  *
+.CHAR 75
+.NOTE  'Pattern stripes diag R'
+ *  *  *
+*  *  *
+  *  *
+ *  *  *
+*  *  *
+  *  *
+ *  *  *
+*  *  *
+.CHAR 76
+.NOTE  'Pattern stripes H'
+********
+ 
+********
+ 
+********
+ 
+********
+ 
+.CHAR 77
+.NOTE  'Pattern stripes V'
+ * * * *
+ * * * *
+ * * * *
+ * * * *
+ * * * *
+ * * * *
+ * * * *
+ * * * *
+.CHAR 78
+.NOTE  'Pattern X'
+ *    *
+**    **
+  *  *
+   **
+   **
+  *  *
+**    **
+ *    *
+.CHAR 79
+.NOTE  'Pointer big E'
+*
+**
+***
+****
+***
+**
+*
+ 
+.CHAR 80
+.NOTE  'Pointer big S'
+ 
+ 
+*******
+ *****
+  ***
+   *
+ 
+ 
+.CHAR 81
+.NOTE  'Pointer big up'
+ 
+ 
+   *
+  ***
+ *****
+*******
+ 
+ 
+.CHAR 82
+.NOTE  'Pointer big W'
+   *
+  **
+ ***
+****
+ ***
+  **
+   *
+ 
+.CHAR 83
+.NOTE  'Pointer small E'
+ 
+*
+**
+***
+**
+*
+ 
+ 
+.CHAR 84
+.NOTE  'Pointer small N'
+ 
+ 
+  *
+ ***
+*****
+ 
+ 
+ 
+.CHAR 85
+.NOTE  'Pointer small S'
+ 
+ 
+*****
+ ***
+  *
+ 
+ 
+ 
+.CHAR 86
+.NOTE  'Pointer small W'
+ 
+  *
+ **
+***
+ **
+  *
+ 
+ 
+.CHAR 87
+.NOTE  'Wave Sine'
+*      *
+ *    *
+ *    *
+ *    *
+  *  *
+  *  *
+  *  *
+   **
+.CHAR 88
+.NOTE  'Wave square'
+***   **
+  *   *
+  *   *
+  *   *
+  *   *
+  *   *
+  *   *
+  *****
+.CHAR 89
+.NOTE  'Wave triangle'
+ 
+*
+ *       *
+  *     *
+   *   *
+    * *
+     *
+ 
+.CHAR 90
+.NOTE  'Pattern bars V 1'
+*
+*
+*
+*
+*
+*
+*
+*
+.CHAR 91
+.NOTE  'Pattern bars V 2'
+**
+**
+**
+**
+**
+**
+**
+**
+.CHAR 92
+.NOTE  'Pattern bars V 3'
+***
+***
+***
+***
+***
+***
+***
+***
+.CHAR 93
+.NOTE  'Pattern bars V 4'
+****
+****
+****
+****
+****
+****
+****
+****
+.CHAR 94
+.NOTE  'Pattern bars V 5'
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+.CHAR 95
+.NOTE  'Pattern bars V 6'
+ ****
+ ****
+ ****
+ ****
+ ****
+ ****
+ ****
+ ****
+.CHAR 96
+.NOTE  'Pattern bars V 7'
+  ***
+  ***
+  ***
+  ***
+  ***
+  ***
+  ***
+  ***
+.CHAR 97
+.NOTE  'Pattern bars V 8'
+   **
+   **
+   **
+   **
+   **
+   **
+   **
+   **
+.CHAR 98
+.NOTE  'Pattern bars V 9'
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+.END
