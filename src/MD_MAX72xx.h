@@ -46,6 +46,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History 
 ----------------
+xxx 2016 version 2.9
+- Added WordClock example
+
 Mar 2016 version 2.8
 - Added example _Message_SD and renamed _Message to _Message_Serial
 - Added Pacman example
