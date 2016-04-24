@@ -13,9 +13,7 @@
 // MD_MAX72xx and the SD card. Beware!
 
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
 #include <SdFat.h>
 
 #define	USE_POT_CONTROL	0

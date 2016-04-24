@@ -3,9 +3,7 @@
 // Test the library transformation functions
 
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
 
 // Use a button to transfer between transformations or just do it on a timer basis
 #define	USE_SWITCH_INPUT	1

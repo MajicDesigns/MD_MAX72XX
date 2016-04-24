@@ -24,9 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #include <Arduino.h>
 #include "MD_MAX72xx.h"
 #include "MD_MAX72xx_lib.h"
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif // USE_LIBRARY_SPI
 
 /**
  * \file
@@ -59,31 +57,11 @@ void MD_MAX72XX::begin(void)
   if (_hardwareSPI)
   {
     PRINTS("\nHardware SPI");
-    // Set direction register for SCK and MOSI pin.
-	  // MISO pin automatically overrides to INPUT.
-	  // SS pin is still used and needs to be made HIGH
-	  digitalWrite(SS, HIGH);
-	  pinMode(SS, OUTPUT);
-	  pinMode(MOSI, OUTPUT);
-	  pinMode(SCK, OUTPUT);
-
-#if USE_LIBRARY_SPI
-    PRINTS("\nLibrary SPI");
     SPI.begin();
-#else
-    PRINTS("\nNative SPI");
-    // Warning: if the SS ever becomes a LOW INPUT then SPI
-	  // automatically switches to Slave, so the data direction of
-	  // the SS pin MUST be kept as OUTPUT.
-	  SPCR |= _BV(MSTR);
-	  SPCR |= _BV(SPE);
-
-	  // Set SPI to MSB first
-    SPCR &= ~(_BV(DORD));
-#endif // USE_LIBRARY_SPI
   }
   else
   {
+    PRINTS("\nBitBang SPI")
     pinMode(_dataPin, OUTPUT);
   	pinMode(_clkPin, OUTPUT);
   }
@@ -135,14 +113,7 @@ void MD_MAX72XX::begin(void)
 
 MD_MAX72XX::~MD_MAX72XX(void)
 {
-  if (_hardwareSPI)
-  {
-#if USE_LIBRARY_SPI
-    SPI.end();
-#else
-    SPCR &= ~_BV(SPE);	// reset SPI mode
-#endif
-  }
+  if (_hardwareSPI) SPI.end();
 
 	free(_matrix);
 	free(_spiData);
@@ -314,22 +285,16 @@ void MD_MAX72XX::spiClearBuffer(void)
 
 void MD_MAX72XX::spiSend() 
 {
-  // enable the devices to receive data
+  // initialise the SPI transaction
+  if (_hardwareSPI)
+    SPI.beginTransaction(SPISettings(14000000, MSBFIRST, SPI_MODE0));
   digitalWrite(_csPin, LOW);
 
   // shift out the data 
   if (_hardwareSPI)
   {
     for (int i = SPI_DATA_SIZE-1; i >= 0; i--)
-	  {
-#if USE_LIBRARY_SPI
       SPI.transfer(_spiData[i]);
-#else
-	    SPDR = _spiData[i];
-	    while (!(SPSR & _BV(SPIF)))	// wait for a clear bit
-		  ;
-#endif // USE_LIBRARY_SPI
-    }
   }
   else
   {
@@ -337,6 +302,8 @@ void MD_MAX72XX::spiSend()
       shiftOut(_dataPin, _clkPin, MSBFIRST, _spiData[i]);
   }
 		
-  // latch the data onto the display
+  // end the SPI transaction
   digitalWrite(_csPin, HIGH);
-}    
+  if (_hardwareSPI) 
+    SPI.endTransaction();
+}

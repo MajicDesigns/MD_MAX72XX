@@ -1,71 +1,85 @@
 // Program to implement a Word Clock using the MD_MAX72XX library.
 // This is a full-featured and complex example!
 //
-// The word clock is modelled on the one found at the Adafruit web site
-// at https://learn.adafruit.com/neomatrix-8x8-word-clock/overview, but 
+// Description:
+// ------------
+// The word clock is inspired by one found at 
+// https://learn.adafruit.com/neomatrix-8x8-word-clock/overview, but 
 // uses a standard 8x8 LED matrix module.
 //
 // The clock face (word matrix) for the clock can be found in the doc 
-// folder of this example (Microsoft Word document and PDF versions). 
+// folder of this sketch (Microsoft Word document and PDF versions). 
 // The mask was printed on standard paper and placed over the matrix 
 // LEDs, folding over the small flaps on the sides and attaching them 
 // to the side of the matrix using double sided tape.
 //
-// To see the time in digits, press the setup switch once.
+// Additional hardware required is RTC clock module (DS3231 used here) 
+// and a momentary-on switch (tact switch or similar).
 //
-// To set up the time:
-// - Double click the setup switch
-// - Then click to progress the hours
-// - Double click to stop editing hours and edit minutes
-// - Then click to progress the minutes
-// - Double click to exit editing and set the new time
-// Setup mode has a timeout for no inactivity, seting new time and 
-// returning to normal word display.
+// Functions:
+// ----------
+// - To see the time in digits, press the setup switch once.
 //
-// This example has dependencies on the MD_DS1307 RTC library available
-// from https://arduinocode.codeplex.com/releases. Any other RTC may be 
+// - To set up the time:
+//   + Double click the setup switch
+//   + Then click to progress the hours
+//   + Double click to stop editing hours and edit minutes
+//   + Then click to progress the minutes
+//   + Double click to exit editing and set the new time
+// Setup mode has a timeout for no inactivity. On exit it sets the new time
+// and returns to normal word display.
+//
+// Library dependencies:
+// ---------------------
+// MD_DS1307 and MD_DS3231 RTC libraries found at 
+// https://arduinocode.codeplex.com/releases. Any other RTC may be 
 // substitiuted with few changes as the current time is passed to all 
 // matrix display functions.
 //
-// Dependency also on the MD_KeySwitch library to handle tact switch 
-// input, found at https://arduinocode.codeplex.com/releases.
+// MD_KeySwitch library to handle mode switch input, found at 
+// https://arduinocode.codeplex.com/releases.
 //
 
 #include <MD_MAX72xx.h>
-#include <MD_KeySwitch.h>
-#include <MD_DS1307.h>
-#include <Wire.h>       // I2C library for RTC
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
+#include <Wire.h>       // I2C library for RTC
+#include <MD_KeySwitch.h>
+#include <MD_DS3231.h>
 
 // --------------------------------------
 // Hardware definitions
-// // NOTE: For non-integrated SPI interface the pins will probably 
+// NOTE: For non-integrated SPI interface the pins will probably 
 // not work with your hardware and may need to be adapted.
-const uint8_t CLK_PIN = 13;  // or SCK
-const uint8_t DATA_PIN = 11; // or MOSI
-const uint8_t CS_PIN = 10;   // or SS
+const uint8_t CLK_PIN = 13;  // (or SCK) connect to matrix CLK
+const uint8_t DATA_PIN = 11; // (or MOSI) connect to matrix DATA
+const uint8_t CS_PIN = 10;   // (or SS) connect to matrix LOAD
 
-const uint8_t SETUP_SW_PIN = 4; // setup switch pin
+const uint8_t MODE_SW_PIN = 4; // setup pin connected to mode switch
 
 // --------------------------------------
 // Miscelaneous defines
-#define  DEBUG  0
-#define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
-const uint8_t CLOCK_UPDATE_TIME = 5;   // in seconds - display resolution to nearest 5 minutes does not need rapid updates
+const uint8_t CLOCK_UPDATE_TIME = 5;    // in seconds - time resolution to nearest 5 minutes does not need rapid updates!
 const uint32_t SHOW_DELAY_TIME = 1000;  // in millisecnds - how long to show time in digits
 const uint32_t SETUP_TIMEOUT = 10000;   // in milliseconds - timeout for setup mode
 
 // --------------------------------------
+// *** END OF USER CONFIG INFORMATION ***
+// --------------------------------------
+
+#define  DEBUG  0
+
+// --------------------------------------
+// Enumerated types for state machines
+typedef enum stateRun_t { SR_UPDATE, SR_IDLE, SR_SETUP, SR_TIME };
+typedef enum stateSetup_t { SS_DISP_HOUR, SS_HOUR, SS_DISP_MIN, SS_MIN, SS_END };
+
+// --------------------------------------
 // Global variables
-MD_KeySwitch  swSetup(SETUP_SW_PIN);        // setup switch object
+MD_KeySwitch  swMode(MODE_SW_PIN);          // mode/setup switch handler
 MD_MAX72XX clock = MD_MAX72XX(CS_PIN, 1);   // SPI hardware interface
 //MD_MAX72XX clock = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, 1); // Arbitrary pins
 
-// --------------------------------------
-// *** END OF USER CONFIG INFORMATION ***
-// --------------------------------------
+#define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 
 #if  DEBUG
 #define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
@@ -85,7 +99,7 @@ MD_MAX72XX clock = MD_MAX72XX(CS_PIN, 1);   // SPI hardware interface
 // character.
 // Font data is stored in rows.
 
-#define FONT_ROWS 8
+const uint8_t FONT_ROWS = 8;
 
 const PROGMEM uint8_t fontMap[][FONT_ROWS] =
 {
@@ -142,7 +156,8 @@ const clockWord_t PAST = { 3, 0b01111000 };
 // Some hour names have some split across rows, so use more
 // than one definition per word - make them all arrays for 
 // consistent handling in code.
-const clockWord_t H_01[] = { { 7, 0b01000011 } };
+//const clockWord_t H_01[] = { { 7, 0b01000011 } }; // 1-2 option
+const clockWord_t H_01[] = { { 7, 0b01001001 } }; // 1-1-1 symmetrical option
 const clockWord_t H_02[] = { { 6, 0b11000000 }, { 7, 0b01000000 } };
 const clockWord_t H_03[] = { { 5, 0b00011111 } };
 const clockWord_t H_04[] = { { 7, 0b11110000 } };
@@ -151,7 +166,8 @@ const clockWord_t H_06[] = { { 5, 0b11100000 } };
 const clockWord_t H_07[] = { { 5, 0b10000000 }, { 6, 0b00001111 } };
 const clockWord_t H_08[] = { { 4, 0b00011111 } };
 const clockWord_t H_09[] = { { 7, 0b00001111 } };
-// const clockWord_t H_10[] = { { 6, 0b10000011 } };	// horizontal option
+//const clockWord_t H_10[] = { { 6, 0b10000011 } };	// 1-2 horizontal option
+//const clockWord_t H_10[] = { { 6, 0b10001001 } };	// 1-1-1 horizontal option
 const clockWord_t H_10[] = { { 4, 0b00000001 }, { 5, 0b00000001 }, { 6, 0b00000001 } };		// vertical option
 const clockWord_t H_11[] = { { 6, 0b00111111 } };
 const clockWord_t H_12[] = { { 6, 0b11110110 } };
@@ -205,67 +221,66 @@ void setupTime(uint8_t &h, uint8_t &m)
 {
   uint32_t  timeLastActivity = millis();
   uint8_t map[FONT_ROWS];
-  uint8_t state = 0;
+  stateSetup_t state = SS_DISP_HOUR;
 
-  while (state != 99)
+  while (state != SS_END)
   {
     // check if we time out
     if (millis() - timeLastActivity >= SETUP_TIMEOUT)
     {
       PRINTS("\nSetup inactivity timeout");
-      state = 99;
+      state = SS_END;
     }
 
     // process current state
     switch (state)
     {
-    case 0:   // show the hour
+    case SS_DISP_HOUR:   // show the hour
       mapBuild(map, h);
       mapShow(map);
-      state = 1;
+      state = SS_HOUR;
       break;
 
-    case 1:   // handle setting hours
-      switch (swSetup.read())
+    case SS_HOUR:   // handle setting hours
+      switch (swMode.read())
       {
       case MD_KeySwitch::KS_DPRESS:   // move on to minutes
         timeLastActivity = millis();
-        state = 2;
+        state = SS_DISP_MIN;
         break;
       case MD_KeySwitch::KS_PRESS:    // increment the hours
         timeLastActivity = millis();
         h++;
         if (h == 13) h = 1;
-        mapBuild(map, h);
-        mapShow(map);
+        state = SS_DISP_HOUR;
         break;
       }
       break;
 
-    case 2:   // show the minutes
+    case SS_DISP_MIN:   // show the minutes
       mapBuild(map, m);
       mapShow(map);
-      state = 3;
+      state = SS_MIN;
       break;
 
-    case 3:   // handle setting minutes
-      switch (swSetup.read())
+    case SS_MIN:   // handle setting minutes
+      switch (swMode.read())
       {
       case MD_KeySwitch::KS_DPRESS:   // move on to end
         timeLastActivity = millis();
-        state = 4;
+        state = SS_END;
         break;
       case MD_KeySwitch::KS_PRESS:    // increment the minutes
         timeLastActivity = millis();
         m = (m + 1) % 60;
-        mapBuild(map, m);
+        state = SS_DISP_MIN;
         mapShow(map);
         break;
       }
       break;
 
     default:  // our work is done
-      state = 99;
+      state = SS_END;
     }
   }
 }
@@ -287,8 +302,10 @@ void updateClock(uint8_t h, uint8_t m)
 // Work out what current time it is in words and turn on the right
 // parts of the display. The time is passed to the function so that
 // it is dependent of the time source.
-
 {
+  const uint8_t PRE_DELTA = 2;    // interval around the actual
+  const uint8_t POST_DELTA = 2;
+
   PRINTS("\nT: ");
   displayTime();  // debug output only
 
@@ -303,26 +320,53 @@ void updateClock(uint8_t h, uint8_t m)
   // across all the checks in this part of the code
   switch (m)
   {
-  case 0 ... 2:  
-  case 58 ... 59:  break;  // nothing to say
-  case 3 ... 7:  
-  case 53 ... 57:  clock.setRow(M_05.row, M_05.data);  PRINTS("FIVE"); break;
-  case 8 ... 12: 
-  case 48 ... 52:  clock.setRow(M_10.row, M_10.data);  PRINTS("TEN"); break;
-  case 13 ... 17: 
-  case 43 ... 47:  clock.setRow(M_15.row, M_15.data);  PRINTS("QUARTER");   break;
-  case 18 ... 22: 
-  case 38 ... 42:  clock.setRow(M_20.row, M_20.data);  PRINTS("TWENTY"); break;
-  case 23 ... 27:  
-  case 33 ... 37:  clock.setRow(M_05.row, M_05.data); clock.setRow(M_20.row, M_20.data); PRINTS(" TWENTY-FIVE"); break;
-  case 28 ... 32:  clock.setRow(M_30.row, M_30.data);  PRINTS("HALF"); break;
+  case 0 ... 0+POST_DELTA:  
+  case 60-PRE_DELTA ... 59:  
+    // nothing to say at top of the hour
+    break;  
+
+  case 5-PRE_DELTA ... 5+POST_DELTA:  
+  case 55-PRE_DELTA ... 55+POST_DELTA:
+    PRINTS("FIVE");
+    clock.setRow(M_05.row, M_05.data);
+    break;
+
+  case 10-PRE_DELTA ... 10+POST_DELTA: 
+  case 50-PRE_DELTA ... 50+POST_DELTA:  
+    PRINTS("TEN");
+    clock.setRow(M_10.row, M_10.data);
+    break;
+
+  case 15-PRE_DELTA ... 15+POST_DELTA: 
+  case 45-PRE_DELTA ... 45+POST_DELTA:
+    PRINTS("QUARTER");
+    clock.setRow(M_15.row, M_15.data);
+    break;
+
+  case 20-PRE_DELTA ... 20+POST_DELTA: 
+  case 40-PRE_DELTA ... 40+POST_DELTA:
+    PRINTS("TWENTY");
+    clock.setRow(M_20.row, M_20.data);
+    break;
+
+  case 25-PRE_DELTA ... 25+POST_DELTA:  
+  case 35-PRE_DELTA ... 35+POST_DELTA:
+    PRINTS(" TWENTY-FIVE");
+    clock.setRow(M_05.row, M_05.data); 
+    clock.setRow(M_20.row, M_20.data);
+    break;
+
+  case 30-PRE_DELTA ... 30+POST_DELTA:
+    PRINTS("HALF"); 
+    clock.setRow(M_30.row, M_30.data);
+    break;
   }
 
   // To/past display
   // Note that after the half hour we have also have to adjust the hour number!
-  if (m > 2 && m < 58)  // top of the hour displays the hour only
+  if (m > 0+POST_DELTA && m < 60-PRE_DELTA)  // top of the hour displays the hour only
   {
-    if (m <= 32)  // in the first half hour it is 'past' and ...
+    if (m <= 30+POST_DELTA)  // in the first half hour it is 'past' and ...
     {
       clock.setRow(PAST.row, PAST.data);
       PRINTS(" PAST ");
@@ -334,7 +378,7 @@ void updateClock(uint8_t h, uint8_t m)
     }
   }
 
-  if (m > 32)		// adjust the hour
+  if (m > 30+POST_DELTA)		// adjust the hour
   {
     if (h < 12) h++;
     else h = 1;
@@ -376,57 +420,59 @@ void setup()
   PRINTS("\n[MD_MAX72XX_WordClock Demo]");
 
   clock.begin();
-  swSetup.begin();
 
-  // turn the clock on to 12H mode, and start it if not running
-  RTC.control(DS1307_12H, DS1307_ON);
-  if (!RTC.isRunning())
-    RTC.control(DS1307_CLOCK_HALT, DS1307_OFF);
+  swMode.begin();
+  swMode.enableLongPress(false);
+  swMode.setRepeatTime(300);
+
+  // turn the clock on to 12H mode and make sure it is running
+  RTC.control(DS3231_12H, DS3231_ON);
+  RTC.control(DS3231_CLOCK_HALT, DS3231_OFF);
 }
 
 void loop() 
 {
-  static uint8_t  state = 0;
+  static stateRun_t state = SR_UPDATE;
   static uint32_t timeLastUpdate = 0;
 
   switch (state)
   {
-  case 0:   // update the display
+  case SR_UPDATE:   // update the display
     timeLastUpdate = millis();
     RTC.readTime();
     updateClock(RTC.h, RTC.m);
-    state = 1;
+    state = SR_IDLE;
     break;
 
-  case 1:   // wait for ...
-    // ... update time or ...
+  case SR_IDLE:   // wait for ...
+    // ... time to update the display or ...
     if (millis() - timeLastUpdate >= CLOCK_UPDATE_TIME * 1000UL)
-      state = 0;
+      state = SR_UPDATE;
 
-    // ... user input
-    switch (swSetup.read())
+    // ... user input from mode switch
+    switch (swMode.read())
     {
-    case MD_KeySwitch::KS_DPRESS: state = 2; break;
-    case MD_KeySwitch::KS_PRESS:  state = 3; break;
+    case MD_KeySwitch::KS_DPRESS: state = SR_SETUP; break;
+    case MD_KeySwitch::KS_PRESS:  state = SR_TIME; break;
     }
     break;
 
-  case 2:   // time setup
+  case SR_SETUP:   // time setup
     setupTime(RTC.h, RTC.m);
     // write new time to the RTC
     RTC.s = 0;
     RTC.writeTime();
     PRINTS("\nNew T: ");
     displayTime();
-    state = 0;
+    state = SR_UPDATE;
     break;
 
-  case 3:   // show time as digits
+  case SR_TIME:   // show time as digits
     showTime(RTC.h, RTC.m);
-    state = 0;
+    state = SR_UPDATE;
     break;
 
   default:
-    state = 0;
+    state = SR_UPDATE;
   }
 }

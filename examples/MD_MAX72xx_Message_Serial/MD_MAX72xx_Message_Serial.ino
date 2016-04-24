@@ -8,9 +8,7 @@
 // Speed for the display is controlled by a pot on SPEED_IN analog in.
 
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
 
 #define	USE_POT_CONTROL	0
 #define	PRINT_CALLBACK	0
@@ -64,9 +62,9 @@ void readSerial(void)
       putIndex = 0;
       newMessageAvailable = true;
     }
-    else
+    else if (newMessage[putIndex] != '\r')
       // Just save the next char in next location
-      newMessage[putIndex++];
+      putIndex++;
   }
 }
 

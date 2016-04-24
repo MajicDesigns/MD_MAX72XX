@@ -2,9 +2,7 @@
 // Just for fun!
 
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
 
 #define	DEBUG	0		// Enable or disable (default) debugging output
 

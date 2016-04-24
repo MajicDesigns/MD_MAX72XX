@@ -48,6 +48,7 @@ Revision History
 ----------------
 xxx 2016 version 2.9
 - Added WordClock example
+- Deprecated USE_LIBRARY_SPI as no problems reported with new implementation
 
 Mar 2016 version 2.8
 - Added example _Message_SD and renamed _Message to _Message_Serial
@@ -202,7 +203,7 @@ enough current for the number of connected modules.
  Set to 1 (default) to use the Parola hardware modules. The
  software was originally designed to operate with this hardware type.
  */
-#define	USE_PAROLA_HW	1
+#define	USE_PAROLA_HW	0
 
 /**
  \def USE_GENERIC_HW
@@ -217,7 +218,7 @@ enough current for the number of connected modules.
  http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs
  This hardware must be set up with the input on the RHS.
  */
-#define	USE_ICSTATION_HW	0
+#define	USE_ICSTATION_HW	1
 
 /**
  \def USE_FC16_HW
@@ -256,18 +257,6 @@ enough current for the number of connected modules.
  USE_LOCAL FONT must be enabled for this option to take effect.
  */
 #define	USE_INDEX_FONT	0
-
-/**
-\def USE_LIBRARY_SPI
-Set to 1 to enable using the SPI object from the Arduino libraries.
-This will eliminate the local assembler implementation for SPI and use
-the more portable SPI Arduino library. The assembler code does not compile 
-with non-AVR CPU architectures (e.g. Arduino Due).
-
-Set to 0 for compatibility mode if there are problems.
-*/
-#define	USE_LIBRARY_SPI	1
-
 
 // Display parameter constants
 // Defined values that are used throughout the library to define physical limits

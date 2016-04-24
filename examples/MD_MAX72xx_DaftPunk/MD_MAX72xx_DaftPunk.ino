@@ -11,9 +11,7 @@
 #define RUN_DEMO  1
 
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
 
 #if RUN_DEMO
 #define DEMO_DELAY  15  // time to show each demo element in seconds

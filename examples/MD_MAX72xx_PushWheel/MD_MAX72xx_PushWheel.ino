@@ -7,9 +7,7 @@
 // 'Speed' displayed is read from pot on SPEED_IN analog in.
 
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
 #include "Font_Data.h"
 
 #define DEBUG 0
