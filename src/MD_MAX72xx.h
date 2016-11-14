@@ -46,9 +46,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History 
 ----------------
-xxx 2016 version 2.9
+Nov 2016 version 2.9
 - Added WordClock example
 - Deprecated USE_LIBRARY_SPI as no problems reported with new implementation
+- Changed MD_ branding to new MajicDesigns diamond
+- Small adjustments to initialisation code
 
 Mar 2016 version 2.8
 - Added example _Message_SD and renamed _Message to _Message_Serial

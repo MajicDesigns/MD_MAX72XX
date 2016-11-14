@@ -39,7 +39,7 @@ _updateEnabled(true), _hardwareSPI(false)
 
 MD_MAX72XX::MD_MAX72XX(uint8_t csPin, uint8_t numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin), _maxDevices(numDevices),
-_updateEnabled(true), _hardwareSPI(true);
+_updateEnabled(true), _hardwareSPI(true)
 {
 }
 
