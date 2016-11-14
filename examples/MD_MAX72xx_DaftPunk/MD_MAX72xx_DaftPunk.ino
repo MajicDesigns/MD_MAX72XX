@@ -6,7 +6,7 @@
 // If RUN_DEMO is set to 1 the sketch will cycle each element of the display every 
 // DEMO_DELAY seconds, without the need for a switch.
 //
-// Uses the MD_Keyswitch library found at http://arduinocode.codeplex.com/releases
+// Uses the MD_Keyswitch library found at https://github.com/MajicDesigns/KeySwitch
 
 #define RUN_DEMO  1
 

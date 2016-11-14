@@ -3,7 +3,7 @@
 // Scroll Chart Style can be changed from line to bar chart, triggered 
 // by a switch on the MODE_SWITCH pin.
 //
-// Uses the MD_Keyswitch library found at http://arduinocode.codeplex.com/releases
+// Uses the MD_Keyswitch library found at https://github.com/MajicDesigns/KeySwitch
 
 #include <MD_MAX72xx.h>
 #include <SPI.h>
