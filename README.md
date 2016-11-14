@@ -6,9 +6,8 @@ In this scenario, it is convenient to abstract out the concept of the hardware d
 
 The library still retains flexibility for device level control, should the developer require, through the use of overloaded class methods.
 
----
 _**NOTE: Please make sure that you find and read the html documentation that comes with the library (open index.html). You will need to edit the MAX72xx.h file to configure the type of matrix you are using. This is the most asked support question so avoid frustration and READ THE MANUAL in the _doc_ subfolder.**_
----
+
 
 ## Feb 2016 version 2.8
 * Added example "Message_SD" and renamed Message to "Message_Serial"
