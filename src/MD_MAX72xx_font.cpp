@@ -65,23 +65,23 @@ uint16_t MD_MAX72XX::getFontCharOffset(uint8_t c)
   {
     PRINTS(" by Search ");
 
-	  uint16_t	offset = 0;
+    uint16_t	offset = 0;
 
-	  for (uint8_t i=0; i<c; i++)
-	  {
+    for (uint8_t i=0; i<c; i++)
+    {
       PRINTS(".");
-	    offset += pgm_read_byte(_fontData+offset);
-	    offset++;	// skip size byte we used above
-	  }
+	  offset += pgm_read_byte(_fontData+offset);
+	  offset++;	// skip size byte we used above
+    }
     PRINT(" searched offset ", offset);
 
-	  return(offset);
+	return(offset);
   }
 }
 
 bool MD_MAX72XX::setFont(fontType_t * f)
 {
-	_fontData = (f == NULL ? _sysfont_var : f);
+  _fontData = (f == NULL ? _sysfont_var : f);
 
   buildFontIndex();
 

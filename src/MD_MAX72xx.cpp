@@ -33,22 +33,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 MD_MAX72XX::MD_MAX72XX(uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
 _dataPin(dataPin), _clkPin(clkPin), _csPin(csPin), _maxDevices(numDevices),
-_updateEnabled(true)
+_updateEnabled(true), _hardwareSPI(false)
 {
-	_hardwareSPI = false;
-#if USE_LOCAL_FONT && USE_FONT_INDEX
-	_fontIndex = NULL;
-#endif
 }
 
 MD_MAX72XX::MD_MAX72XX(uint8_t csPin, uint8_t numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin), _maxDevices(numDevices),
-_updateEnabled(true)
+_updateEnabled(true), _hardwareSPI(true);
 {
-	_hardwareSPI = true;
-#if USE_LOCAL_FONT && USE_FONT_INDEX
-	_fontIndex = NULL;
-#endif
 }
 
 void MD_MAX72XX::begin(void)
@@ -80,6 +72,8 @@ void MD_MAX72XX::begin(void)
 #if USE_LOCAL_FONT
 #if USE_INDEX_FONT
   _fontIndex = (uint16_t *)malloc(sizeof(uint16_t) * FONT_INDEX_SIZE);
+#else
+  _fontIndex = NULL;
 #endif
   setFont(NULL);
 #endif // INCLUDE_LOCAL_FONT

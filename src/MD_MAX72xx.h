@@ -218,7 +218,7 @@ enough current for the number of connected modules.
  http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs
  This hardware must be set up with the input on the RHS.
  */
-#define	USE_ICSTATION_HW	1
+#define	USE_ICSTATION_HW	0
 
 /**
  \def USE_FC16_HW
@@ -277,7 +277,7 @@ public:
 	 *
 	 * This type is used in the setFont() method to set the font to be used
 	 */
-	typedef const PROGMEM uint8_t 	fontType_t;
+	typedef  const PROGMEM uint8_t	fontType_t;
 #endif
 
 	/**

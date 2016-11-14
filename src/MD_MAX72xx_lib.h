@@ -301,6 +301,7 @@ Two Cartesian coordinate systems are used in the library
 Display coordinates always have their origin in the top right corner of a display. 
 - Column numbers increase to the left (as do module numbers)  
 - Row numbers increase down (0..7)
+
 All user functions are consistent and use display coordinates. 
 
 Display memory buffers are stored in hardware coordinates that depend on 
@@ -318,7 +319,7 @@ As there is no standard way of wiring a LED matrix to the MAX72xx IC, each hardw
 definition activates a series of coordinate mapping transformations. Possible changes 
 are limited to combinations (8 in total) of
 - swapping rows and column coordinates (digits and segments in MAX72xx),  
-- a reversal row indices, and
+- a reversal of row indices, and
 - a reversal of column indices. 
 
 The hardware types defined in MD_MAX72xx.h activate different library code by defining 
@@ -437,14 +438,14 @@ definition file is shown below.
 
 The directives have the following meaning:
 - .NAME defines the name for the font and is used in naming the font table variable. 
-The name can apperar anywhere in the file. If omitted, a default name is used.
+The name can appear anywhere in the file. If omitted, a default name is used.
 - .HEIGHT defines the height for the font. Single height fonts are '1' and double height fonts are '2'. 
 If double height fonts are specified then the range of ASCII character values is restricted to 0..127 as
 the top and botton halves of the font are stored offset by 128 positions. If omitted, the application 
 assumes single height font.
 - .WIDTH specifies the width of the font for all the characters defined between this WIDTH and the 
 next WIDTH defintion. 0 means variable width; any other number defines the fixed width. WIDTH may be changed 
-within the file - for example to definine a fixed size space (no pixels!) character in a variable width font.
+within the file - for example to define a fixed size space (no pixels!) character in a variable width font.
 - .CHAR ends the defintion of the current character and starts the defintion for the specified ASCII value. 
 Valid parameters are [0..255] for single height, and [0..127] for double height. If a character code is 
 omitted in the font definition file it is assumed to be empty.
@@ -460,7 +461,7 @@ ___
 
 The FontBuilder Excel/VBA application
 -------------------------------------
-FontBuilder is an Microsoft Excel spreadsheet with VBA macros to manage a GUI interface for defining 
+FontBuilder is a Microsoft Excel spreadsheet with VBA macros to manage a GUI interface for defining 
 and managing font characters. FontBuilder supports both single and double height fonts. The first tab 
 in the FontBuilder spreadsheet has instructions for use.
 
@@ -472,8 +473,7 @@ these are not available.
 // *******************************************************************************************
 // ** Combinations not listed here have probably not been tested and may not work correctly **
 // *******************************************************************************************
-#if USE_PAROLA_HW		  // tested MC 8 March 2014
-
+#if USE_PAROLA_HW		// tested MC 8 March 2014
 #define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
 #define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
 #define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
