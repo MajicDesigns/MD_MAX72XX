@@ -78,16 +78,6 @@ void MD_MAX72XX::begin(void)
   setFont(NULL);
 #endif // INCLUDE_LOCAL_FONT
 
-  // clear internal memory map for this device
-  for (uint8_t d = FIRST_BUFFER; d <= LAST_BUFFER; d++)
-  {
-    _matrix[d].changed = ALL_CLEAR;
-    for (uint8_t i = 0; i < ROW_SIZE; i++)
-    {
-      _matrix[d].dig[i] = 0;
-    }
-  }
-			
   // Initialize the display devices. On initial power-up
   // - all control registers are reset, 
   // - scan limit is set to one digit (row/col or LED),
