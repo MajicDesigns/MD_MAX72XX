@@ -21,8 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
-//#include <avr/io.h> 
-//#include <avr/pgmspace.h>  
+#include <Arduino.h> 
 #include "MD_MAX72xx.h"
 #include "MD_MAX72xx_lib.h"
 
@@ -79,7 +78,7 @@ uint16_t MD_MAX72XX::getFontCharOffset(uint8_t c)
   }
 }
 
-bool MD_MAX72XX::setFont(fontType_t * f)
+bool MD_MAX72XX::setFont(fontType_t *f)
 {
   _fontData = (f == NULL ? _sysfont_var : f);
 
@@ -133,7 +132,7 @@ uint8_t MD_MAX72XX::setChar(uint16_t col, uint8_t c)
 }
 
 // Standard font - variable spacing
-const uint8_t PROGMEM _sysfont_var[] = 
+MD_MAX72XX::fontType_t PROGMEM _sysfont_var[] = 
 {
   0,	// 0 - 'Empty Cell'
   5, 0x3e, 0x5b, 0x4f, 0x5b, 0x3e,	// 1 - 'Sad Smiley'

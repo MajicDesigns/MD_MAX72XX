@@ -8,4 +8,4 @@ The library still retains flexibility for device level control, should the devel
 
 _NOTE: Please make sure that you find and read the html documentation that comes with the library (open "doc/index.html"). You will need to edit the MAX72xx.h file to configure the type of matrix you are using. This is the most asked support question so avoid frustration and READ THE MANUAL in the _doc_ subfolder._
 
-[Library Documentation](https://majicdesigns.github.io/MAX72xx/)
+[Library Documentation](https://majicdesigns.github.io/MD_MAX72XX/)

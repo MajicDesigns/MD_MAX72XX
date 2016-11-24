@@ -26,12 +26,12 @@
 
 #define	CLK_PIN		13  // or SCK
 #define	DATA_PIN	11  // or MOSI
-#define	CS_PIN		10  // or SS
+#define	CS_PIN		8//10  // or SS
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 // Arbitrary pins
-//MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+// MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // We always wait a bit between updates of the display 
 #define  DELAYTIME  100  // in milliseconds
@@ -607,7 +607,8 @@ void setup()
 
 void loop() 
 {
-#if 1
+  lines();
+#if 0
   scrollText("Graphics  ");
   zeroPointSet();
   lines();
@@ -620,20 +621,20 @@ void loop()
   spiral();
 #endif
 
-#if 1
+#if 0
   scrollText("Control  ");
   intensity();
   scanLimit();
   blinking();
 #endif
 
-#if 1
+#if 0
   scrollText("Transform  ");
   transformation1();
   transformation2();
 #endif
 
-#if 1
+#if 0
   scrollText("Charset  ");
   wrapText();
   showCharset();

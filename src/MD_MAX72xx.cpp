@@ -22,9 +22,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 #include <Arduino.h>
+#include <SPI.h>
 #include "MD_MAX72xx.h"
 #include "MD_MAX72xx_lib.h"
-#include <SPI.h>
 
 /**
  * \file
@@ -50,6 +50,9 @@ void MD_MAX72XX::begin(void)
   {
     PRINTS("\nHardware SPI");
     SPI.begin();
+	SPI.setDataMode(SPI_MODE0);
+	SPI.setBitOrder(MSBFIRST);
+	SPI.setClockDivider(SPI_CLOCK_DIV2);
   }
   else
   {
@@ -97,7 +100,7 @@ void MD_MAX72XX::begin(void)
 
 MD_MAX72XX::~MD_MAX72XX(void)
 {
-  if (_hardwareSPI) SPI.end();
+	if (_hardwareSPI) SPI.end();	// reset SPI mode
 
 	free(_matrix);
 	free(_spiData);
@@ -146,8 +149,8 @@ void MD_MAX72XX::controlHardware(uint8_t dev, controlRequest_t mode, int value)
 	}
 
   // put our device data into the buffer
-  _spiData[SPI_OFFSET(dev,1)] = opcode;
-  _spiData[SPI_OFFSET(dev,0)] = param;
+  _spiData[SPI_OFFSET(dev, 0)] = opcode;
+  _spiData[SPI_OFFSET(dev, 1)] = param;
 }
 
 void MD_MAX72XX::controlLibrary(controlRequest_t mode, int value)
@@ -220,8 +223,8 @@ void MD_MAX72XX::flushBufferAll()
       if (bitRead(_matrix[dev].changed, i))
 	  {
 	    // put our device data into the buffer
-		_spiData[SPI_OFFSET(dev, 1)] = OP_DIGIT0+i;
-		_spiData[SPI_OFFSET(dev, 0)] = _matrix[dev].dig[i];
+		_spiData[SPI_OFFSET(dev, 0)] = OP_DIGIT0+i;
+		_spiData[SPI_OFFSET(dev, 1)] = _matrix[dev].dig[i];
 		bChange = true;
 	  }
     }
@@ -252,8 +255,8 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
       spiClearBuffer();
 
       // put our device data into the buffer
-      _spiData[SPI_OFFSET(buf,1)] = OP_DIGIT0+i;
-      _spiData[SPI_OFFSET(buf,0)] = _matrix[buf].dig[i];
+      _spiData[SPI_OFFSET(buf, 0)] = OP_DIGIT0+i;
+      _spiData[SPI_OFFSET(buf, 1)] = _matrix[buf].dig[i];
     
       spiSend();
     }
@@ -277,12 +280,12 @@ void MD_MAX72XX::spiSend()
   // shift out the data 
   if (_hardwareSPI)
   {
-    for (int i = SPI_DATA_SIZE-1; i >= 0; i--)
+    for (int i = 0; i < SPI_DATA_SIZE; i++)
       SPI.transfer(_spiData[i]);
   }
   else
   {
-    for (int i = SPI_DATA_SIZE-1; i >= 0; i--)
+    for (int i = 0; i < SPI_DATA_SIZE; i++)
       shiftOut(_dataPin, _clkPin, MSBFIRST, _spiData[i]);
   }
 		

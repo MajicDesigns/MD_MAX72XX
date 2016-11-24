@@ -10,7 +10,7 @@
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 
-#define	USE_POT_CONTROL	0
+#define	USE_POT_CONTROL	1
 #define	PRINT_CALLBACK	0
 
 #define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }

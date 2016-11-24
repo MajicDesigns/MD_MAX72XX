@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Includes library definitions
  */
 
-#define	MAX_DEBUG	0		///< Enable or disable (default) debugging output from the MD_MAX72xx library
+#define	MAX_DEBUG	1		///< Enable or disable (default) debugging output from the MD_MAX72xx library
 
 #if MAX_DEBUG
 #define	PRINT(s, v)		{ Serial.print(F(s)); Serial.print(v); }		  ///< Print a string followed by a value (decimal)
@@ -68,7 +68,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 // Shortcuts
 #define	SPI_DATA_SIZE	(sizeof(uint8_t)*_maxDevices*2)	///< Size of the SPI data buffers
-#define	SPI_OFFSET(i,x)	(((i)*2)+(x))			///< SPI data offset for buffer i, digit x
+#define	SPI_OFFSET(i,x)	(((LAST_BUFFER-(i))*2)+(x))	///< SPI data offset for buffer i, digit x
 #define	FIRST_BUFFER	0						        ///< First buffer number
 #define	LAST_BUFFER		(_maxDevices-1)			///< Last buffer number
 

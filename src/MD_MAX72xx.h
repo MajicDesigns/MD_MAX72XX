@@ -46,6 +46,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History 
 ----------------
+xxx 2016 version 2.10
+- Changed SPI buffer handling and isolation of AVR specific features (eg PROGMEM)
+- Added MD_MAX72xx_Message_ESP8266 example
+
 Nov 2016 version 2.9
 - Added WordClock example
 - Deprecated USE_LIBRARY_SPI as no problems reported with new implementation
@@ -279,7 +283,7 @@ public:
 	 *
 	 * This type is used in the setFont() method to set the font to be used
 	 */
-	typedef  const PROGMEM uint8_t	fontType_t;
+  typedef  const uint8_t	fontType_t;
 #endif
 
 	/**
