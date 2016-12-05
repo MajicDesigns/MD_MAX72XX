@@ -1,0 +1,22 @@
+{
+  "name": "MD_MAX72XX",
+  "keywords": "led, matrix, driver",
+  "description": "Implements functions that allow the MAX72xx (MAX7219) to be used for LED matrices (64 individual LEDs)",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/MajicDesigns/MD_MAX72XX.git"
+  },
+  "authors":
+  [
+    {
+        "name": "Marco Colli",
+        "url": "http://github.com/MajicDesigns/",
+        "maintainer": true
+    }
+  ],
+  "include": "src",
+  "examples": "examples/*/*.ino",
+  "frameworks": "arduino",
+  "platforms": "atmelavr"
+}

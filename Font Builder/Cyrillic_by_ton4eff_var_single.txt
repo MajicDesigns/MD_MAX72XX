@@ -1,0 +1,2564 @@
+.NAME Cyrillic_by_ton4eff
+.HEIGHT 1
+.WIDTH 0
+.CHAR 0
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 1
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 2
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 3
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 4
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 5
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 6
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 7
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 8
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 9
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 10
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 11
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 12
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 13
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 14
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 15
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 16
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 17
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 18
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 19
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 20
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 21
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 22
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 23
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 24
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 25
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 26
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 27
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 28
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 29
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 30
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 31
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 32
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 33
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 34
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 35
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 36
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 37
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 38
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 39
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 40
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 41
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 42
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 43
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 44
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 45
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 46
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 47
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 48
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 49
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 50
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 51
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 52
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 53
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 54
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 55
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 56
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 57
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 58
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 59
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 60
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 61
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 62
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 63
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 64
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 65
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 66
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 67
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 68
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 69
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 70
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 71
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 72
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 73
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 74
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 75
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 76
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 77
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 78
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 79
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 80
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 81
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 82
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 83
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 84
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 85
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 86
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 87
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 88
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 89
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 90
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 91
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 92
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 93
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 94
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 95
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 96
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 97
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 98
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 99
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 100
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 101
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 102
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 103
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 104
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 105
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 106
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 107
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 108
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 109
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 110
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 111
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 112
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 113
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 114
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 115
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 116
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 117
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 118
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 119
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 120
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 121
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 122
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 123
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 124
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 125
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 126
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 127
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 128
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 129
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 130
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 131
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 132
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 133
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 134
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 135
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 136
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 137
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 138
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 139
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 140
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 141
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 142
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 143
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 144
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 145
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 146
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 147
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 148
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 149
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 150
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 151
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 152
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 153
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 154
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 155
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 156
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 157
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 158
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 159
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 160
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 161
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 162
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 163
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 164
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 165
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 166
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 167
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 168
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 169
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 170
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 171
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 172
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 173
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 174
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 175
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 176
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 177
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 178
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 179
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 180
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 181
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 182
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 183
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 184
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 185
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 186
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 187
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 188
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 189
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 190
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 191
+.NOTE 
+
+
+
+
+
+
+
+
+.CHAR 192
+.NOTE  '?'  x0c0
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 193
+.NOTE  '?'  x0c1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 194
+.NOTE  'B'  x0c2
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 195
+.NOTE  '?'  x0c3
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 196
+.NOTE  '?'  x0c4
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 197
+.NOTE  'E'  x0c5
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 198
+.NOTE  '?'  x0c6
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 199
+.NOTE  '?'  x0c7
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 200
+.NOTE  '?'  x0c8
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 201
+.NOTE  '?'  x0c9
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 202
+.NOTE  'K'  x0ca
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 203
+.NOTE  '?'  x0cb
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 204
+.NOTE  'M'  x0cc
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 205
+.NOTE  'H'  x0cd
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 206
+.NOTE  'O'  x0ce
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 207
+.NOTE  '?'  x0cf
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 208
+.NOTE  '?'  x0d0
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 209
+.NOTE  'C'  x0d1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 210
+.NOTE  'T'  x0d2
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 211
+.NOTE  '?'  x0d3
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 212
+.NOTE  '?'  x0d4
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 213
+.NOTE  'X'  x0d5
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 214
+.NOTE  '?'  x0d6
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 215
+.NOTE  '?'  x0d7
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 216
+.NOTE  '?'  x0d8
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 217
+.NOTE  '?'  x0d9
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 218
+.NOTE  '?'  x0da
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 219
+.NOTE  '?'  x0db
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 220
+.NOTE  '?'  x0dc
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 221
+.NOTE  '?'  x0dd
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 222
+.NOTE  '?'  x0de
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 223
+.NOTE  '?'  x0df
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 224
+.NOTE  '?'  x0e0
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 225
+.NOTE  '?'  x0e1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 226
+.NOTE  '?'  x0e2
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 227
+.NOTE  '?'  x0e3
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 228
+.NOTE  '?'  x0e4
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 229
+.NOTE  'e'  x0e5
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 230
+.NOTE  '?'  x0e6
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 231
+.NOTE  '?'  x0e7
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 232
+.NOTE  '?'  x0e8
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 233
+.NOTE  '?'  x0e9
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 234
+.NOTE  '?'  x0ea
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 235
+.NOTE  '?'  x0eb
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 236
+.NOTE  '?'  x0ec
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 237
+.NOTE  '?'  x0ed
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 238
+.NOTE  'o'  x0ee
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 239
+.NOTE  '?'  x0ef
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 240
+.NOTE  '?'  x0f0
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 241
+.NOTE  '?'  x0f1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 242
+.NOTE  '?'  x0f2
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 243
+.NOTE  '?'  x0f3
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 244
+.NOTE  '?'  x0f4
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 245
+.NOTE  'x'  x0f5
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 246
+.NOTE  '?'  x0f6
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 247
+.NOTE  '?'  x0f7
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 248
+.NOTE  '?'  x0f8
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 249
+.NOTE  '?'  x0f9
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 250
+.NOTE  '?'  x0fa
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 251
+.NOTE  '?'  x0fb
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 252
+.NOTE  '?'  x0fc
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 253
+.NOTE  '?'  x0fd
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 254
+.NOTE  '?'  x0fe
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.CHAR 255
+.NOTE  '?'  x0ff
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.END
