@@ -50,9 +50,9 @@ void MD_MAX72XX::begin(void)
   {
     PRINTS("\nHardware SPI");
     SPI.begin();
-	SPI.setDataMode(SPI_MODE0);
-	SPI.setBitOrder(MSBFIRST);
-	SPI.setClockDivider(SPI_CLOCK_DIV2);
+	  SPI.setDataMode(SPI_MODE0);
+	  SPI.setBitOrder(MSBFIRST);
+	  SPI.setClockDivider(SPI_CLOCK_DIV2);
   }
   else
   {

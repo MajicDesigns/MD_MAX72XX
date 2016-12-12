@@ -26,7 +26,7 @@
 
 #define	CLK_PIN		13  // or SCK
 #define	DATA_PIN	11  // or MOSI
-#define	CS_PIN		8//10  // or SS
+#define	CS_PIN		10  // or SS
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
@@ -594,12 +594,9 @@ void setup()
 {
   mx.begin();
 
-#if  DEBUG || ENABLE_FONT_ADJUST 
+#if  DEBUG
   Serial.begin(115200);
   delay(1000);
-#if ENABLE_FONT_ADJUST
-//  mx.adjustFont();
-#endif // ENABLE_FONT_ADJUST
 #endif
   PRINTS("\n[MD_MAX72XX Test & Demo]");
 //  scrollText("MD_MAX72xx Test  ");
@@ -607,8 +604,7 @@ void setup()
 
 void loop() 
 {
-  lines();
-#if 0
+#if 1
   scrollText("Graphics  ");
   zeroPointSet();
   lines();
@@ -621,20 +617,20 @@ void loop()
   spiral();
 #endif
 
-#if 0
+#if 1
   scrollText("Control  ");
   intensity();
   scanLimit();
   blinking();
 #endif
 
-#if 0
+#if 1
   scrollText("Transform  ");
   transformation1();
   transformation2();
 #endif
 
-#if 0
+#if 1
   scrollText("Charset  ");
   wrapText();
   showCharset();

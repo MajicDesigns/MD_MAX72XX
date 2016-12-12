@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Includes library definitions
  */
 
-#define	MAX_DEBUG	1		///< Enable or disable (default) debugging output from the MD_MAX72xx library
+#define	MAX_DEBUG	0		///< Enable or disable (default) debugging output from the MD_MAX72xx library
 
 #if MAX_DEBUG
 #define	PRINT(s, v)		{ Serial.print(F(s)); Serial.print(v); }		  ///< Print a string followed by a value (decimal)
