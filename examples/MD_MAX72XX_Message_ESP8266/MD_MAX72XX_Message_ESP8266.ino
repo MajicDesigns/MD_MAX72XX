@@ -37,7 +37,7 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 
 // WiFi login parameters - network name and password
 const char* ssid = "NovoCS";
-const char* password = "topolino";
+const char* password = "WifiTestNetwork";
 
 // WiFi Server object and parameters
 WiFiServer server(80);
