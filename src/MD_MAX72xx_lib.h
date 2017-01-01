@@ -474,37 +474,42 @@ these are not available.
 // ** Combinations not listed here have probably not been tested and may not work correctly **
 // *******************************************************************************************
 #if USE_PAROLA_HW		// tested MC 8 March 2014
+//#pragma message "PAROLA HW selected"
 #define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
 #define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
 #define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 #if USE_GENERIC_HW		// tested MC 9 March 2014
+//#pragma message "GENERIC HW selected"
 #define	HW_DIG_ROWS	0 ///< MAX72xx digits are mapped to rows in on the matrix
 #define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
 #define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 #if USE_ICSTATION_HW	// tested MC 9 March 2014
+//#pragma message "ICSTATION HW selected"
 #define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
 #define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
 #define	HW_REV_ROWS	1 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 #if USE_FC16_HW	      // tested MC 23 Feb 2015
+//#pragma message "FC16 HW selected"
 #define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
 #define	HW_REV_COLS	0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
 #define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 #if USE_OTHER_HW	    // user defined custom hardware configuration
+//#pragma message "OTHER HW selected"
 #define	HW_DIG_ROWS	0 ///< MAX72xx digits are mapped to rows in on the matrix
 #define	HW_REV_COLS	0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
 #define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 #ifndef HW_DIG_ROWS
-#error Invalid or missing module hardware type
+#error "INVALID or missing hardware selected"
 #endif
 
 // Macros to map ROW and COLUMN coordinates
