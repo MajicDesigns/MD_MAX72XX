@@ -69,7 +69,7 @@ char curMessage[MESG_SIZE];
 char newMessage[MESG_SIZE];
 bool newMessageAvailable = false;
 
-char WebResponse[] = "HTTP / 1.1 200 OK\nContent-Type: text/html\n\n";
+char WebResponse[] = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
 
 char WebPage[] =
 "<!DOCTYPE html>" \
@@ -228,9 +228,7 @@ void handleWiFi(void)
   case S_RESPONSE: // send the response to the client
     PRINTS("\nS_RESPONSE");
     // Return the response to the client (web page)
-    client.println("HTTP/1.1 200 OK");
-    client.println("Content-Type: text/html");
-    client.println(""); //  do not forget this one
+    client.print(WebResponse);
     client.print(WebPage);
     state = S_DISCONN;
     break;
