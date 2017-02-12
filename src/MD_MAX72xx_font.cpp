@@ -1,10 +1,10 @@
 /*
 MD_MAX72xx - Library for using a MAX7219/7221 LED matrix controller
-  
+
 See header file for comments
 
 This file contains methods that work with the fonts and characters defined in the library
-  
+
 Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#include <Arduino.h> 
+#include <Arduino.h>
 #include "MD_MAX72xx.h"
 #include "MD_MAX72xx_lib.h"
 
@@ -93,15 +93,15 @@ uint8_t MD_MAX72XX::getChar(uint8_t c, uint8_t size, uint8_t *buf)
   PRINT("' ASC ", c);
   PRINT(" - bufsize ", size);
 
-  if (buf == NULL) 
+  if (buf == NULL)
     return(0);
 
   uint16_t offset = getFontCharOffset(c);
   size = min(size, pgm_read_byte(_fontData+offset));
 
-  offset++;	// skip the size byte  
+  offset++;	// skip the size byte
 
-  for (uint8_t i=0; i<size; i++) 
+  for (uint8_t i=0; i<size; i++)
     *buf++ = pgm_read_byte(_fontData+offset+i);
 
   return(size);
@@ -116,10 +116,10 @@ uint8_t MD_MAX72XX::setChar(uint16_t col, uint8_t c)
   uint16_t offset = getFontCharOffset(c);
   uint8_t size = pgm_read_byte(_fontData+offset);
 
-  offset++;	// skip the size byte  
+  offset++;	// skip the size byte
 
   _updateEnabled = false;
-  for (int8_t i=0; i<size; i++) 
+  for (int8_t i=0; i<size; i++)
   {
     uint8_t colData = pgm_read_byte(_fontData+offset+i);
 	setColumn(col--, colData);
@@ -132,7 +132,7 @@ uint8_t MD_MAX72XX::setChar(uint16_t col, uint8_t c)
 }
 
 // Standard font - variable spacing
-MD_MAX72XX::fontType_t PROGMEM _sysfont_var[] = 
+MD_MAX72XX::fontType_t PROGMEM _sysfont_var[] =
 {
   0,	// 0 - 'Empty Cell'
   5, 0x3e, 0x5b, 0x4f, 0x5b, 0x3e,	// 1 - 'Sad Smiley'

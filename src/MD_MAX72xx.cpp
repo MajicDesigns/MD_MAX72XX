@@ -1,10 +1,10 @@
 /*
 MD_MAX72xx - Library for using a MAX7219/7221 LED matrix controller
-  
+
 See header file for comments
 
 This file contains class and hardware related methods.
-  
+
 Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -82,13 +82,13 @@ void MD_MAX72XX::begin(void)
 #endif // INCLUDE_LOCAL_FONT
 
   // Initialize the display devices. On initial power-up
-  // - all control registers are reset, 
+  // - all control registers are reset,
   // - scan limit is set to one digit (row/col or LED),
-  // - Decoding mode is off, 
-  // - intensity is set to the minimum, 
-  // - the display is blanked, and 
+  // - Decoding mode is off,
+  // - intensity is set to the minimum,
+  // - the display is blanked, and
   // - the MAX7219/MAX7221 is shut down.
-  // The devices need to be set to our library defaults prior using the 
+  // The devices need to be set to our library defaults prior using the
   // display modules.
   control(TEST, OFF);				// no test
   control(SCANLIMIT, ROW_SIZE-1);	// scan limit is set to max on startup
@@ -110,7 +110,7 @@ MD_MAX72XX::~MD_MAX72XX(void)
 }
 
 void MD_MAX72XX::controlHardware(uint8_t dev, controlRequest_t mode, int value)
-// control command is for the devices, translate internal request to device bytes 
+// control command is for the devices, translate internal request to device bytes
 // into the transmission buffer
 {
 	uint8_t opcode = OP_NOOP;
@@ -120,25 +120,25 @@ void MD_MAX72XX::controlHardware(uint8_t dev, controlRequest_t mode, int value)
 	switch (mode)
 	{
 		case SHUTDOWN:
-			opcode = OP_SHUTDOWN;	
+			opcode = OP_SHUTDOWN;
 			param = (value == OFF ? 1 : 0);
 			break;
-	
+
 		case SCANLIMIT:
 			opcode = OP_SCANLIMIT;
 			param = (value > MAX_SCANLIMIT ? MAX_SCANLIMIT : value);
 			break;
-	
+
 		case INTENSITY:
 			opcode = OP_INTENSITY;
 			param = (value > MAX_INTENSITY ? MAX_INTENSITY : value);
 			break;
-	
+
 		case DECODE:
 			opcode = OP_DECODEMODE;
 			param = (value == OFF ? 0 : 0xff);
 			break;
-	
+
 		case TEST:
 			opcode = OP_DISPLAYTEST;
 			param = (value == OFF ? 0 : 1);
@@ -169,30 +169,30 @@ void MD_MAX72XX::controlLibrary(controlRequest_t mode, int value)
   }
 }
 
-bool MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value) 
+bool MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value)
 {
   if (endDev < startDev) return(false);
 
   if (mode < UPDATE)	// device based control
   {
 	spiClearBuffer();
-    for (uint8_t i = startDev; i <= endDev; i++) 
-	  controlHardware(i, mode, value); 
+    for (uint8_t i = startDev; i <= endDev; i++)
+	  controlHardware(i, mode, value);
 	spiSend();
   }
   else					// internal control function, doesn't relate to specific device
   {
     controlLibrary(mode, value);
   }
-  
+
   return(true);
 }
-  
+
 bool MD_MAX72XX::control(uint8_t buf, controlRequest_t mode, int value)
 // dev is zero based and needs adjustment if used
 {
   if (buf > LAST_BUFFER) return(false);
-  
+
   if (mode < UPDATE)	// device based control
   {
 	  spiClearBuffer();
@@ -203,13 +203,13 @@ bool MD_MAX72XX::control(uint8_t buf, controlRequest_t mode, int value)
   {
 	  controlLibrary(mode, value);
   }
-  
+
   return(true);
 }
 
 void MD_MAX72XX::flushBufferAll()
 // Only one data byte is sent to a device, so if there are many changes, it is more
-// efficient to send a data byte all devices at the same time, substantially cutting 
+// efficient to send a data byte all devices at the same time, substantially cutting
 // the number of communication messages required.
 {
   for (uint8_t i=0; i<ROW_SIZE; i++)	// all data rows
@@ -244,7 +244,7 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
   PRINT("\nflushBuf: ", buf);
   PRINTS(" r");
 
-  if (buf > LAST_BUFFER) 
+  if (buf > LAST_BUFFER)
     return;
 
   for (uint8_t i = 0; i < ROW_SIZE; i++)
@@ -257,7 +257,7 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
       // put our device data into the buffer
       _spiData[SPI_OFFSET(buf, 0)] = OP_DIGIT0+i;
       _spiData[SPI_OFFSET(buf, 1)] = _matrix[buf].dig[i];
-    
+
       spiSend();
     }
   }
@@ -270,14 +270,14 @@ void MD_MAX72XX::spiClearBuffer(void)
 	memset(_spiData, OP_NOOP, SPI_DATA_SIZE);
 }
 
-void MD_MAX72XX::spiSend() 
+void MD_MAX72XX::spiSend()
 {
   // initialise the SPI transaction
   if (_hardwareSPI)
     SPI.beginTransaction(SPISettings(14000000, MSBFIRST, SPI_MODE0));
   digitalWrite(_csPin, LOW);
 
-  // shift out the data 
+  // shift out the data
   if (_hardwareSPI)
   {
     for (int i = 0; i < SPI_DATA_SIZE; i++)
@@ -288,9 +288,9 @@ void MD_MAX72XX::spiSend()
     for (int i = 0; i < SPI_DATA_SIZE; i++)
       shiftOut(_dataPin, _clkPin, MSBFIRST, _spiData[i]);
   }
-		
+
   // end the SPI transaction
   digitalWrite(_csPin, HIGH);
-  if (_hardwareSPI) 
+  if (_hardwareSPI)
     SPI.endTransaction();
 }

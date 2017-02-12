@@ -23,7 +23,7 @@
 // --------------------
 // MD_MAX72xx hardware definitions and object
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 //
 #define	MAX_DEVICES	12
@@ -37,7 +37,7 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);                      // SPI har
 // --------------------
 // Constant parameters
 //
-#define ANIMATION_DELAY 75	// milliseconds   
+#define ANIMATION_DELAY 75	// milliseconds
 #define MAX_FRAMES      4   // number of animation frames
 
 // ========== General Variables ===========
@@ -79,14 +79,14 @@ void setup()
 void loop(void)
 {
   static boolean bInit = true;  // initialise the animation
-  
+
   // Is it time to animate?
   if (millis()-prevTimeAnim < ANIMATION_DELAY)
     return;
   prevTimeAnim = millis();			// starting point for next time
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
-  
+
   // Initialise
   if (bInit)
   {
@@ -95,7 +95,7 @@ void loop(void)
     frame = 0;
     deltaFrame = 1;
     bInit = false;
-    
+
     // Lay out the dots
     for (uint8_t i=0; i<MAX_DEVICES; i++)
     {
@@ -120,12 +120,12 @@ void loop(void)
 
   // advance the animation frame
   frame += deltaFrame;
-  if (frame == 0 || frame == MAX_FRAMES-1) 
+  if (frame == 0 || frame == MAX_FRAMES-1)
     deltaFrame = -deltaFrame;
 
   // check if we are completed and set initialise for next time around
   bInit = (idx == mx.getColumnCount()+DATA_WIDTH);
-  
+
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 
   return;

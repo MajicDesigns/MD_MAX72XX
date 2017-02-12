@@ -24,7 +24,7 @@
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	4
 
@@ -46,7 +46,7 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 #define ANIMATION_FRAME_DELAY 30  // in milliseconds
 
 // Structure to hold the data for each character to be displayed and animated
-// this could be expanded to include other charactyer specific data (eg, column 
+// this could be expanded to include other charactyer specific data (eg, column
 // where it starts if display is spaced irregularly).
 struct digitData
 {
@@ -164,7 +164,7 @@ boolean displayValue(uint16_t value)
               digit[i].charMap[j] |= newChar[j];
             }
           }
-          else 
+          else
           {
             // scroll up
             for (uint8_t j = 0; j < digit[i].charCols; j++)
@@ -193,7 +193,7 @@ boolean displayValue(uint16_t value)
         {
           allDone = allDone && (digit[i].oldValue == digit[i].newValue);
         }
-        
+
         if (allDone) state = ST_WAIT;
       }
       break;
@@ -218,10 +218,10 @@ void setup()
   pinMode(SPEED_IN, INPUT);
 }
 
-void loop() 
+void loop()
 {
   int16_t value = analogRead(SPEED_IN)/10;  // remove jitters
-  
+
   displayValue(value);
 }
 

@@ -17,7 +17,7 @@
 #define	REPEATS_PRESET	16
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES		4
 #define	WRAPAROUND_MODE	MD_MAX72XX::ON
@@ -47,7 +47,7 @@ bool changeState(void)
   static uint32_t	lastTime = 0;
   static uint8_t	repeatCount = 0;
 
-  if (repeatCount == 0) 
+  if (repeatCount == 0)
     repeatCount = REPEATS_PRESET;
 
   if (millis()-lastTime >= DELAYTIME)
@@ -60,7 +60,7 @@ bool changeState(void)
   return(b);
 }
 
-void transformDemo(MD_MAX72XX::transformType_t tt, bool bNew) 
+void transformDemo(MD_MAX72XX::transformType_t tt, bool bNew)
 {
   static uint32_t lastTime = 0;
 
@@ -94,12 +94,12 @@ void setup()
   Serial.println("[Transform Test]");
 }
 
-void loop() 
+void loop()
 {
   static int8_t tState = -1;
   static bool bNew = true;
 
-  if (bNew) 
+  if (bNew)
   {
     tState = (tState+1) % 8;
     Serial.print("State: "); Serial.println(tState);

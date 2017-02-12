@@ -9,7 +9,7 @@
 #define  DELAYTIME  300  // in milliseconds
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES		8	// 2, 4, 6, or 8 work best - see Z array
 
@@ -33,7 +33,7 @@ typedef struct
   MD_MAX72XX::transformType_t	tt;
 } zoneDef_t;
 
-zoneDef_t Z[] = 
+zoneDef_t Z[] =
 {
 #if MAX_DEVICES == 2
   {0, 0, 26, MD_MAX72XX::TSR  },
@@ -63,7 +63,7 @@ zoneDef_t Z[] =
 
 #define	ARRAY_SIZE(A)	(sizeof(A)/sizeof(A[0]))
 
-void runTransformation(void) 
+void runTransformation(void)
 {
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 
@@ -94,7 +94,7 @@ void setup()
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 }
 
-void loop() 
+void loop()
 {
   if (millis() - lastTime >= DELAYTIME)
   {

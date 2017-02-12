@@ -20,7 +20,7 @@
 #endif
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 
@@ -33,7 +33,7 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 // Arbitrary pins
 // MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-// We always wait a bit between updates of the display 
+// We always wait a bit between updates of the display
 #define  DELAYTIME  100  // in milliseconds
 
 void scrollText(char *p)
@@ -43,8 +43,8 @@ void scrollText(char *p)
 
   PRINTS("\nScrolling text");
   mx.clear();
-  
-  while (*p != '\0') 
+
+  while (*p != '\0')
   {
     charWidth = mx.getChar(*p++, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
 
@@ -59,7 +59,7 @@ void scrollText(char *p)
 }
 
 void zeroPointSet()
-// Demonstrates the use of setPoint and 
+// Demonstrates the use of setPoint and
 // show where the zero point is in the display
 {
   PRINTS("\nZero point highlight");
@@ -116,13 +116,13 @@ void lines()
   }
 }
 
-void rows() 
+void rows()
 // Demonstrates the use of setRow()
 {
   PRINTS("\nRows 0->7");
   mx.clear();
 
-  for (uint8_t row=0; row<ROW_SIZE; row++) 
+  for (uint8_t row=0; row<ROW_SIZE; row++)
   {
     mx.setRow(row, 0xff);
     delay(DELAYTIME);
@@ -130,13 +130,13 @@ void rows()
   }
 }
 
-void columns() 
+void columns()
 // Demonstrates the use of setColumn()
 {
   PRINTS("\nCols 0->max");
   mx.clear();
 
-  for (uint8_t col=0; col<mx.getColumnCount(); col++) 
+  for (uint8_t col=0; col<mx.getColumnCount(); col++)
   {
     mx.setColumn(col, 0xff);
     delay(DELAYTIME/MAX_DEVICES);
@@ -144,7 +144,7 @@ void columns()
   }
 }
 
-void cross() 
+void cross()
 // Combination of setRow() and setColumn() with user controlled
 // display updates to ensure concurrent changes.
 {
@@ -153,7 +153,7 @@ void cross()
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 
   // diagonally down the display R to L
-  for (uint8_t i=0; i<ROW_SIZE; i++) 
+  for (uint8_t i=0; i<ROW_SIZE; i++)
   {
     for (uint8_t j=0; j<MAX_DEVICES; j++)
     {
@@ -168,7 +168,7 @@ void cross()
       mx.setRow(j, i, 0x00);
     }
   }
-  
+
   // moving up the display on the R
   for (int8_t i=ROW_SIZE-1; i>=0; i--)
   {
@@ -185,9 +185,9 @@ void cross()
       mx.setRow(j, ROW_SIZE-1, 0x00);
     }
   }
-  
+
   // diagonally up the display L to R
-  for (uint8_t i=0; i<ROW_SIZE; i++) 
+  for (uint8_t i=0; i<ROW_SIZE; i++)
   {
     for (uint8_t j=0; j<MAX_DEVICES; j++)
     {
@@ -236,12 +236,12 @@ void bullseye()
         mx.setRow(j, ROW_SIZE-1-i, 0);
         mx.setColumn(j, COL_SIZE-1-i, 0);
       }
-        
+
       bitClear(b, i);
       bitClear(b, 7-i);
       i++;
     }
-    
+
     while (b != 0xff)
     {
       for (uint8_t j=0; j<MAX_DEVICES+1; j++)
@@ -260,7 +260,7 @@ void bullseye()
         mx.setRow(j, ROW_SIZE-1-i, 0);
         mx.setColumn(j, COL_SIZE-1-i, 0);
       }
-        
+
       i--;
       bitSet(b, i);
       bitSet(b, 7-i);
@@ -270,7 +270,7 @@ void bullseye()
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 }
 
-void stripe() 
+void stripe()
 // Demonstrates animation of a diagonal stripe moving across the display
 // with points plotted outside the display region ignored.
 {
@@ -280,7 +280,7 @@ void stripe()
   PRINTS("\nEach individually by row then col");
   mx.clear();
 
-  for (uint16_t col=0; col<maxCol + ROW_SIZE + stripeWidth; col++) 
+  for (uint16_t col=0; col<maxCol + ROW_SIZE + stripeWidth; col++)
   {
     for (uint8_t row=0; row < ROW_SIZE; row++)
     {
@@ -291,13 +291,13 @@ void stripe()
   }
 }
 
-void spiral() 
+void spiral()
 // setPoint() used to draw a spiral across the whole display
 {
   PRINTS("\nSpiral in");
   int  rmin = 0, rmax = ROW_SIZE-1;
   int  cmin = 0, cmax = (COL_SIZE*MAX_DEVICES)-1;
- 
+
   mx.clear();
   while ((rmax > rmin) && (cmax > cmin))
   {
@@ -308,7 +308,7 @@ void spiral()
       delay(DELAYTIME/MAX_DEVICES);
     }
     rmin++;
-  
+
     // do column
     for (uint8_t i=rmin; i<=rmax; i++)
     {
@@ -324,7 +324,7 @@ void spiral()
       delay(DELAYTIME/MAX_DEVICES);
     }
     rmax--;
-    
+
     // do column
     for (uint8_t i=rmax; i>=rmin; i--)
     {
@@ -335,7 +335,7 @@ void spiral()
   }
 }
 
-void bounce() 
+void bounce()
 // Animation of a bouncing ball
 {
   const int minC = 0;
@@ -344,10 +344,10 @@ void bounce()
   const int maxR = ROW_SIZE-1;
 
   int  nCounter = 0;
-  
+
   int  r = 0, c = 2;
   int8_t dR = 1, dC = 1;	// delta row and column
-  
+
   PRINTS("\nBouncing ball");
   mx.clear();
 
@@ -358,15 +358,15 @@ void bounce()
     c += dC;
     mx.setPoint(r, c, true);
     delay(DELAYTIME/2);
-    
-    if ((r == minR) || (r == maxR)) 
+
+    if ((r == minR) || (r == maxR))
       dR = -dR;
-    if ((c == minC) || (c == maxC)) 
+    if ((c == minC) || (c == maxC))
       dC = -dC;
   }
 }
 
-void intensity() 
+void intensity()
 // Demonstrates the control of display intensity (brightness) across
 // the full range.
 {
@@ -389,7 +389,7 @@ void intensity()
   mx.control(MD_MAX72XX::INTENSITY, 8);
 }
 
-void blinking() 
+void blinking()
 // Uses the test function of the MAX72xx to blink the display on and off.
 {
   int  nDelay = 1000;
@@ -415,11 +415,11 @@ void scanLimit(void)
   mx.clear();
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
-  for (uint8_t row=0; row<ROW_SIZE; row++) 
+  for (uint8_t row=0; row<ROW_SIZE; row++)
     mx.setRow(row, 0xff);
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 
-  for (int8_t s=MAX_SCANLIMIT; s>=0; s--) 
+  for (int8_t s=MAX_SCANLIMIT; s>=0; s--)
   {
     mx.control(MD_MAX72XX::SCANLIMIT, s);
     delay(DELAYTIME*5);
@@ -427,23 +427,23 @@ void scanLimit(void)
   mx.control(MD_MAX72XX::SCANLIMIT, MAX_SCANLIMIT);
 }
 
-void transformation1() 
+void transformation1()
 // Demonstrates the use of transform() to move bitmaps on the display
 // In this case a user defined bitmap is created and animated.
 {
-  uint8_t arrow[COL_SIZE] = 
-  { 
-    0b00001000, 
-    0b00011100, 
-    0b00111110, 
-    0b01111111, 
-    0b00011100, 
-    0b00011100, 
-    0b00111110, 
+  uint8_t arrow[COL_SIZE] =
+  {
+    0b00001000,
+    0b00011100,
+    0b00111110,
+    0b01111111,
+    0b00011100,
+    0b00011100,
+    0b00111110,
     0b00000000
-  };     
+  };
 
-  MD_MAX72XX::transformType_t  t[] = 
+  MD_MAX72XX::transformType_t  t[] =
   {
     MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
     MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
@@ -464,7 +464,7 @@ void transformation1()
     MD_MAX72XX::TRC, MD_MAX72XX::TRC, MD_MAX72XX::TRC, MD_MAX72XX::TRC,
     MD_MAX72XX::TINV
   };
-    
+
   PRINTS("\nTransformation1");
   mx.clear();
 
@@ -485,24 +485,24 @@ void transformation1()
   mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
 }
 
-void transformation2() 
+void transformation2()
 // Demonstrates the use of transform() to move bitmaps on the display
 // In this case font characters are loaded into the display for animation.
 {
-  MD_MAX72XX::transformType_t  t[] = 
+  MD_MAX72XX::transformType_t  t[] =
   {
     MD_MAX72XX::TINV,
     MD_MAX72XX::TRC, MD_MAX72XX::TRC, MD_MAX72XX::TRC, MD_MAX72XX::TRC,
     MD_MAX72XX::TINV,
     MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
-    MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, 
+    MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
     MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
     MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
     MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
     MD_MAX72XX::TSD, MD_MAX72XX::TSU, MD_MAX72XX::TSD, MD_MAX72XX::TSU,
     MD_MAX72XX::TFLR, MD_MAX72XX::TFLR, MD_MAX72XX::TFUD, MD_MAX72XX::TFUD
   };
-    
+
   PRINTS("\nTransformation2");
   mx.clear();
   mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
@@ -513,7 +513,7 @@ void transformation2()
     mx.setChar(((j+1)*COL_SIZE)-1, '0'+j);
   }
   delay(DELAYTIME*5);
-  
+
   // run thru transformations
   for (uint8_t i=0; i<(sizeof(t)/sizeof(t[0])); i++)
   {
@@ -535,7 +535,7 @@ void wrapText()
     mx.setChar(((j+1)*COL_SIZE)-1, (j&1 ? 'M' : 'W'));
   }
   delay(DELAYTIME*5);
-  
+
   // run thru transformations
   for (uint16_t i=0; i<3*COL_SIZE*MAX_DEVICES; i++)
   {
@@ -573,7 +573,7 @@ void showCharset(void)
     mx.setChar(COL_SIZE-1, i);
 
     if (MAX_DEVICES >= 3)
-    { 
+    {
       char hex[3];
 
       sprintf(hex, "%02X", i);
@@ -602,7 +602,7 @@ void setup()
 //  scrollText("MD_MAX72xx Test  ");
 }
 
-void loop() 
+void loop()
 {
 #if 1
   scrollText("Graphics  ");

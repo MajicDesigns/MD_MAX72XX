@@ -1,17 +1,17 @@
 // Use the MD_MAX72XX library to scroll text on the display
 // received through the ESP8266 WiFi interface.
 //
-// Demonstrates the use of the callback function to control what 
-// is scrolled on the display text. User can enter text through 
-// a web browser and this will display as a scrolling message on 
+// Demonstrates the use of the callback function to control what
+// is scrolled on the display text. User can enter text through
+// a web browser and this will display as a scrolling message on
 // the display.
 //
-// IP address for the ESP8266 is displayed on the scrolling display 
+// IP address for the ESP8266 is displayed on the scrolling display
 // after startup initialisation and connected to the WiFi network.
 //
 // Connections for ESP8266 hardware SPI are:
 // Vcc       3v3     LED matrices seem to work at 3.3V
-// GND       GND     GND     
+// GND       GND     GND
 // DIN        D7     HSPID or HMOSI
 // CS or LD   D8     HSPICS or HCS
 // CLK        D5     CLK or HCLK
@@ -40,7 +40,7 @@
 #endif
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 
@@ -131,12 +131,12 @@ boolean getText(char *szMesg, char *psz, uint8_t len)
   // get pointer to the beginning of the text
   pStart = strstr(szMesg, "/&MSG=");
 
-  if (pStart != NULL) 
+  if (pStart != NULL)
   {
     pStart += 6;  // skip to start of data
     pEnd = strstr(pStart, "/&");
 
-    if (pEnd != NULL) 
+    if (pEnd != NULL)
     {
       while (pStart != pEnd)
       {
@@ -279,13 +279,13 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
     }
     state = S_NEXT_CHAR;
     break;
-  
+
   case S_NEXT_CHAR: // Load the next character from the font table
     PRINTS("\nS_NEXT_CHAR");
     if (*p == '\0')
       state = S_IDLE;
     else
-    {      
+    {
       showLen = mx.getChar(*p++, sizeof(cBuf) / sizeof(cBuf[0]), cBuf);
       curLen = 0;
       state = S_SHOW_CHAR;
@@ -378,7 +378,7 @@ void loop()
 
   if (millis() - timeLast >= HB_LED_TIME)
   {
-    digitalWrite(HB_LED, digitalRead(HB_LED) == LOW ? HIGH : LOW); 
+    digitalWrite(HB_LED, digitalRead(HB_LED) == LOW ? HIGH : LOW);
     timeLast = millis();
   }
 #endif

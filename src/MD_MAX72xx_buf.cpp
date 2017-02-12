@@ -1,9 +1,9 @@
 /*
 MD_MAX72xx - Library for using a MAX7219/7221 LED matrix controller
-  
+
 See header file for comments
 This file contains methods that act on display buffers.
-  
+
 Copyright (C) 2012-13 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -29,11 +29,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements buffer related methods
  */
 
-bool MD_MAX72XX::clear(uint8_t buf) 
+bool MD_MAX72XX::clear(uint8_t buf)
 {
   if (buf > LAST_BUFFER)
     return(false);
-    
+
   memset(_matrix[buf].dig, 0, sizeof(_matrix[buf].dig));
   _matrix[buf].changed = ALL_CHANGED;
 
@@ -99,7 +99,7 @@ uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
 {
   uint8_t mask = 1 << HW_COL(c);	// which column of bits is the column data
   uint8_t value = 0;				// assembles data to be returned to caller
-  
+
 #if HW_DIG_ROWS
   PRINT("\ngetCol: (", buf);
 #else
@@ -122,7 +122,7 @@ uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
   }
 
   PRINTX(" value 0x", value);
- 
+
   return(value);
 }
 
@@ -143,7 +143,7 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
 
   if ((buf > LAST_BUFFER) || (c >= COL_SIZE))
     return(false);
-  
+
   for (uint8_t i=0; i<ROW_SIZE; i++)
   {
       if (value & (1 << i))		// mask off next column value passed in and set it in the dig buffer
@@ -152,7 +152,7 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
         bitClear(_matrix[buf].dig[HW_ROW(i)], HW_COL(c));
   }
   _matrix[buf].changed = ALL_CHANGED;
-  
+
   if (_updateEnabled) flushBuffer(buf);
 
   return(true);
@@ -206,7 +206,7 @@ uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
 	  return(0);
 
   uint8_t value = HW_REV_COLS ? bitReverse(_matrix[buf].dig[HW_ROW(r)]) : _matrix[buf].dig[HW_ROW(r)];
-  
+
   PRINTX("0x", value);
 
   return(value);
@@ -256,7 +256,7 @@ bool MD_MAX72XX::transform(uint8_t buf, transformType_t ttype)
 bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 {
   uint8_t t[ROW_SIZE];
-      
+
   switch (ttype)
   {
 	//--------------
@@ -274,7 +274,7 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
         _matrix[buf].dig[i] = _matrix[buf].dig[i-1];
 #endif
 		break;
-    
+
 	//--------------
 	case TSR:	// Transform Shift Right one pixel element
 #if HW_DIG_ROWS
@@ -289,7 +289,7 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
         _matrix[buf].dig[i] = _matrix[buf].dig[i+1];
 #endif
     break;
-    
+
 	//--------------
     case TSU: // Transform Shift Up one pixel element
 	  if (_wrapAround)	// save the first row or a zero row
@@ -306,7 +306,7 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 #endif
 	  setRow(buf, ROW_SIZE-1, t[0]);
     break;
-    
+
 	//--------------
     case TSD: // Transform Shift Down one pixel element
 	  if (_wrapAround)	// save the last row or a zero row
@@ -323,7 +323,7 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 #endif
       setRow(buf, 0, t[0]);
     break;
-    
+
 	//--------------
 #if HW_DIG_ROWS
 	case TFLR: // Transform Flip Left to Right
@@ -333,7 +333,7 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
       for (uint8_t i=0; i<ROW_SIZE; i++)
         _matrix[buf].dig[i] = bitReverse(_matrix[buf].dig[i]);
     break;
-    
+
 	//--------------
 #if HW_DIG_ROWS
     case TFUD: // Transform Flip Up to Down
@@ -347,16 +347,16 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
         _matrix[buf].dig[ROW_SIZE-i-1] = t;
       }
     break;
-    
+
 	//--------------
     case TRC: // Transform Rotate Clockwise
 		for (uint8_t i=0; i<ROW_SIZE; i++)
-			t[i] = getColumn(buf, COL_SIZE-1-i); 
+			t[i] = getColumn(buf, COL_SIZE-1-i);
 
 		for (uint8_t i=0; i<ROW_SIZE; i++)
 			setRow(buf, i, t[i]);
     break;
-    
+
 	//--------------
 	case TINV: // Transform INVert
       for (uint8_t i=0; i<ROW_SIZE; i++)
@@ -366,8 +366,8 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
     default:
       return(false);
   }
-  
+
   _matrix[buf].changed = ALL_CHANGED;
-  
+
   return(true);
 }

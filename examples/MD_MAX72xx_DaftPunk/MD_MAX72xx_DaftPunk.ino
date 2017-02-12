@@ -1,9 +1,9 @@
 // Use the MD_MAX72XX library to Display a Daft Punk LED Helmet
 //
 // If RUN_DEMO is set to zero the display cycles changes triggered by a switch on
-// the MODE_SWITCH pin. This can be substituted for any trigger as implemented 
-// by the helmet wearer. 
-// If RUN_DEMO is set to 1 the sketch will cycle each element of the display every 
+// the MODE_SWITCH pin. This can be substituted for any trigger as implemented
+// by the helmet wearer.
+// If RUN_DEMO is set to 1 the sketch will cycle each element of the display every
 // DEMO_DELAY seconds, without the need for a switch.
 //
 // Uses the MD_Keyswitch library found at https://github.com/MajicDesigns/MD_KeySwitch
@@ -38,7 +38,7 @@
 // --------------------
 // MD_MAX72xx hardware definitions and object
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 //
 #define	MAX_DEVICES	5
@@ -65,8 +65,8 @@ MD_KeySwitch  ks = MD_KeySwitch(MODE_SWITCH, LOW);
 #define UNIT_DELAY      25
 #define SCROLL_DELAY	  (4 * UNIT_DELAY)
 #define MIDLINE_DELAY	  (6 * UNIT_DELAY)
-#define SCANNER_DELAY   (2 * UNIT_DELAY) 
-#define RANDOM_DELAY    (6 * UNIT_DELAY) 
+#define SCANNER_DELAY   (2 * UNIT_DELAY)
+#define RANDOM_DELAY    (6 * UNIT_DELAY)
 #define FADE_DELAY      (8 * UNIT_DELAY)
 #define SPECTRUM_DELAY  (4 * UNIT_DELAY)
 #define HEARTBEAT_DELAY (1 * UNIT_DELAY)
@@ -75,8 +75,8 @@ MD_KeySwitch  ks = MD_KeySwitch(MODE_SWITCH, LOW);
 #define WIPER_DELAY     (1 * UNIT_DELAY)
 #define ARROWS_DELAY    (3 * UNIT_DELAY)
 #define ARROWR_DELAY    (8 * UNIT_DELAY)
-#define INVADER_DELAY   (6 * UNIT_DELAY)   
-#define PACMAN_DELAY    (4 * UNIT_DELAY) 
+#define INVADER_DELAY   (6 * UNIT_DELAY)
+#define PACMAN_DELAY    (4 * UNIT_DELAY)
 #define SINE_DELAY      (2 * UNIT_DELAY)
 
 #define	CHAR_SPACING	  1   // pixels between characters
@@ -95,10 +95,10 @@ uint8_t  timeDemo = DEMO_DELAY; // number of seconds left in this demo loop
 //
 // Text Message Table
 // To change messages simply reorder, add to, or delete from, this table
-char *msgTab[] = 
+char *msgTab[] =
 {
-  "DAFT PUNK", 
-  "GET LUCKY", 
+  "DAFT PUNK",
+  "GET LUCKY",
   "ONE MORE TIME",
   "HARDER  BETTER  FASTER  STRONGER",
   "HUMAN AND ROBOT",
@@ -159,7 +159,7 @@ bool scrollText(bool bInit, char *pmsg)
 
     case 2:	// display inter-character spacing (blank column) or scroll off the display
       mx.setColumn(0, 0);
-      if (++curLen == showLen) 
+      if (++curLen == showLen)
       {
         state = 0;
         bInit = (*p == '\0');
@@ -224,7 +224,7 @@ bool graphicMidline2(bool bInit)
   mx.drawLine(ROW_SIZE-1-idx, 0, ROW_SIZE-1-idx, mx.getColumnCount()-1, false);
 
   idx += idOffs;
-  if ((idx == 0) || (idx == ROW_SIZE-1)) 
+  if ((idx == 0) || (idx == ROW_SIZE-1))
     idOffs = -idOffs;
 
   // turn on the new lines
@@ -268,7 +268,7 @@ bool graphicScanner(bool bInit)
     mx.setColumn(idx+i, 0);
 
   idx += idOffs;
-  if ((idx == 0) || (idx + width == mx.getColumnCount())) 
+  if ((idx == 0) || (idx + width == mx.getColumnCount()))
     idOffs = -idOffs;
 
   // turn on the new lines
@@ -359,8 +359,8 @@ bool graphicSpectrum1(bool bInit)
   for (uint8_t i=0; i<MAX_DEVICES; i++)
   {
     uint8_t r = random(ROW_SIZE);
-    uint8_t cd = 0; 
-    
+    uint8_t cd = 0;
+
     for (uint8_t j=0; j<r; j++)
       cd |= 1<<j;
     for (uint8_t j=1; j<COL_SIZE-1; j++)
@@ -443,9 +443,9 @@ bool graphicHeartbeat(bool bInit)
       c--;
       break;
 
-    case 1: // first stroke 
+    case 1: // first stroke
       if (r != 0) { r--; c--; }
-      else state = 2;      
+      else state = 2;
       break;
 
     case 2: // down stroke
@@ -459,7 +459,7 @@ bool graphicHeartbeat(bool bInit)
       break;
 
     case 4: // straight line to the left
-      if (c == 0) 
+      if (c == 0)
       {
         c = mx.getColumnCount()-1;
         bPoint = !bPoint;
@@ -625,7 +625,7 @@ bool graphicBounceBall(bool bInit)
   mx.setColumn(idx+1, 0);
 
   idx += idOffs;
-  if ((idx == 0) || (idx == mx.getColumnCount()-2)) 
+  if ((idx == 0) || (idx == mx.getColumnCount()-2))
     idOffs = -idOffs;
 
   // turn on the new lines
@@ -693,7 +693,7 @@ bool graphicWiper(bool bInit)
   // now run the animation
   mx.setColumn(idx, idOffs == 1 ? 0xff : 0);
   idx += idOffs;
-  if ((idx == 0) || (idx == mx.getColumnCount())) 
+  if ((idx == 0) || (idx == mx.getColumnCount()))
     idOffs = -idOffs;
 
   return(bInit);
@@ -744,7 +744,7 @@ bool graphicInvader(bool bInit)
 bool graphicPacman(bool bInit)
 {
   #define MAX_FRAMES  4   // number of animation frames
-  #define DATA_WIDTH  18  // 
+  #define DATA_WIDTH  18
   const uint8_t pacman[MAX_FRAMES][DATA_WIDTH] =  // ghost pursued by a pacman
   {
     { 0x3c, 0x7e, 0x7e, 0xff, 0xe7, 0xc3, 0x81, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe },
@@ -804,7 +804,7 @@ bool graphicArrowRotate(bool bInit)
   static uint16_t idx;        // transformation index
 
   uint8_t arrow[COL_SIZE] =
-  { 
+  {
     0b00000000,
     0b00011000,
     0b00111100,
@@ -819,7 +819,7 @@ bool graphicArrowRotate(bool bInit)
   {
     MD_MAX72XX::TRC, MD_MAX72XX::TRC,
     MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR, MD_MAX72XX::TSR,
-    MD_MAX72XX::TRC, MD_MAX72XX::TRC, 
+    MD_MAX72XX::TRC, MD_MAX72XX::TRC,
     MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL, MD_MAX72XX::TSL,
     MD_MAX72XX::TRC,
   };
@@ -907,7 +907,7 @@ void resetMatrix(void)
 }
 
 void runMatrixAnimation(void)
-// Schedule the animations, switching to the next one when the 
+// Schedule the animations, switching to the next one when the
 // the mode switch is pressed.
 {
   static  uint8_t state = 0;
@@ -922,12 +922,12 @@ void runMatrixAnimation(void)
   if (millis()-prevTimeDemo >= 1000)
   {
     prevTimeDemo = millis();
-    if (--timeDemo == 0) 
+    if (--timeDemo == 0)
     {
       timeDemo = DEMO_DELAY;
       changeState = true;
     }
-  }         
+  }
 #else
   // check if the switch is pressed and handle that first
   changeState = (ks.read() == MD_KeySwitch::KS_PRESS);
@@ -972,7 +972,7 @@ void runMatrixAnimation(void)
     case 16: bRestart = graphicArrowRotate(bRestart);    break;
     case 17: bRestart = graphicSpectrum2(bRestart);      break;
     case 18: bRestart = graphicSinewave(bRestart);       break;
-   
+
     default: state = 0;
   }
 }
@@ -992,7 +992,7 @@ void setup()
   PRINTS("\n[MD_MAX72XX DaftPunk]");
 }
 
-void loop() 
+void loop()
 {
   runMatrixAnimation();
   // other code to run the helmet goes here

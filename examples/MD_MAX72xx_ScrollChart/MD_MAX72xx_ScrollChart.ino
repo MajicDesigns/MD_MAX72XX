@@ -1,6 +1,6 @@
 // Use the MD_MAX72XX library to Display a Scrolling Chart
 //
-// Scroll Chart Style can be changed from line to bar chart, triggered 
+// Scroll Chart Style can be changed from line to bar chart, triggered
 // by a switch on the MODE_SWITCH pin.
 //
 // Uses the MD_Keyswitch library found at https://github.com/MajicDesigns/MD_KeySwitch
@@ -28,7 +28,7 @@
 // --------------------
 // MD_MAX72xx hardware definitions and object
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 //
 #define	MAX_DEVICES	8
@@ -79,17 +79,17 @@ bool graphDisplay(bool bInit, uint8_t nType)
     switch (nType)
     {
       case 0:   // continuous display next point should be +/-1 or 0
-        curPoint += random(3) - 1; 
+        curPoint += random(3) - 1;
         if (curPoint < 0) curPoint = 0;
         if (curPoint > 7) curPoint = 7;
         break;
 
       case 1:  // random height
-      case 2: 
-        curPoint = random(8); 
+      case 2:
+        curPoint = random(8);
         break;
     }
-    
+
     // now work out the new column value
     switch (nType)
     {
@@ -123,7 +123,7 @@ void resetDisplay(void)
 }
 
 void runAnimation(void)
-// Schedule the animations, switching to the next one when the 
+// Schedule the animations, switching to the next one when the
 // the mode switch is pressed.
 {
   static  uint8_t state = 0;
@@ -151,7 +151,7 @@ void setup()
   PRINTS("\n[MD_MAX72XX Scroll Chart]");
 }
 
-void loop() 
+void loop()
 {
   runAnimation();
 }

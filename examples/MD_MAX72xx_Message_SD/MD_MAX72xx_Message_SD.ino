@@ -1,9 +1,9 @@
 // Use the MD_MAX72XX library to scroll text on the display
 //
-// Demonstrates the use of the callback function to control what 
+// Demonstrates the use of the callback function to control what
 // is scrolled on the display text.
 //
-// Text to be displayed is stored n an SD card. Each line is scrolled 
+// Text to be displayed is stored n an SD card. Each line is scrolled
 // continuously on the display and run off before the next one is shown.
 // At end of file the display loops back to the first line.
 // Speed for the display is controlled by a pot on SPEED_IN analog in.
@@ -31,9 +31,9 @@
 
 // ** MD_MAX72xx hardware definitions
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	CLK_PIN		6  // or SCK 
+#define	CLK_PIN		6  // or SCK
 #define	DATA_PIN	7  // or MOSI
 #define	CS_PIN		8  // or SS or LD
 
@@ -63,12 +63,12 @@ SdFile myFile;
 
 #define	CHAR_SPACING	1	// pixels between characters
 
-// Global data 
+// Global data
 uint16_t	scrollDelay;	// in milliseconds
 
 int readFile(void)
 // Return the next character from the file or a -1 if eof.
-// End of line is marked by a '\n' returned to the caller, '\r' is skipped. 
+// End of line is marked by a '\n' returned to the caller, '\r' is skipped.
 {
 	int c = '\0';
 
@@ -76,21 +76,21 @@ int readFile(void)
   {
     PRINT("\nOpening ", fName);
 		// open the file for read
-		if (!myFile.open(fName, O_READ)) 
+		if (!myFile.open(fName, O_READ))
 			sd.errorHalt("Cannot open file for read");
     PRINTS("- open\n");
 	}
-	
-	do 
+
+	do
 		c = myFile.read();
   while (c == '\r');
-	
+
 	if (c == -1)	// end of file or error
 	{
     PRINTS("\nRewind\n");
 		myFile.rewind();
 	}
-	
+
 	return(c);
 }
 
@@ -127,7 +127,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
 				state = 2;
 				break;
 			}
-			
+
       PRINT("", (char)c);
       showLen = mx.getChar(c, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
       curLen = 0;
@@ -215,7 +215,7 @@ void setup()
 #endif
 }
 
-void loop() 
+void loop()
 {
   scrollDelay = getScrollDelay();
   scrollText();

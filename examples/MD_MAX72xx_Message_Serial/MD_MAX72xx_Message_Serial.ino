@@ -1,6 +1,6 @@
 // Use the MD_MAX72XX library to scroll text on the display
 //
-// Demonstrates the use of the callback function to control what 
+// Demonstrates the use of the callback function to control what
 // is scrolled on the display text.
 //
 // User can enter text on the serial monitor and this will display as a
@@ -16,7 +16,7 @@
 #define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 
@@ -179,7 +179,7 @@ void setup()
   Serial.print("\n[MD_MAX72XX Message Display]\nType a message for the scrolling display\nEnd message line with a newline");
 }
 
-void loop() 
+void loop()
 {
   scrollDelay = getScrollDelay();
   readSerial();

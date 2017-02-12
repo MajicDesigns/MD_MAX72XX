@@ -11,7 +11,7 @@
 #define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 
@@ -54,7 +54,7 @@ void readSerial(void)
 }
 
 void printText(uint8_t modStart, uint8_t modEnd, char *pMsg)
-// Print the text string to the LED matrix modules specified. 
+// Print the text string to the LED matrix modules specified.
 // Message area is padded with blank columns after printing.
 {
   uint8_t   state = 0;
@@ -88,7 +88,7 @@ void printText(uint8_t modStart, uint8_t modEnd, char *pMsg)
         mx.setColumn(col--, cBuf[curLen++]);
 
         // done with font character, now display the space between chars
-        if (curLen == showLen)  
+        if (curLen == showLen)
         {
           showLen = CHAR_SPACING;
           state = 2;
@@ -103,7 +103,7 @@ void printText(uint8_t modStart, uint8_t modEnd, char *pMsg)
       case 3:	// display inter-character spacing or end of message padding (blank columns)
         mx.setColumn(col--, 0);
         curLen++;
-        if (curLen == showLen) 
+        if (curLen == showLen)
           state = 0;
         break;
 
@@ -123,7 +123,7 @@ void setup()
   Serial.print("\n[MD_MAX72XX Message Display]\nType a message for the scrolling display\nEnd message line with a newline");
 }
 
-void loop() 
+void loop()
 {
   readSerial();
   if (newMessageAvailable)

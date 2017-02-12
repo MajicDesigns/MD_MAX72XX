@@ -21,11 +21,11 @@ protected:
 	// Pupil related information
 	enum posPupil_t // Initials are for Top, Middle and Bottom; Left, Center and Right (eg, TL = Top Left)
 	{
-	  P_TL = 0, P_TC = 1, P_TR = 2, 
+	  P_TL = 0, P_TC = 1, P_TR = 2,
 	  P_ML = 3, P_MC = 4, P_MR = 5,
 	  P_BL = 6, P_BC = 7, P_BR = 8
 	};
-	
+
 	// Class static data
 	static uint8_t	_pupilData[];
 	static uint8_t	_eyeballData[];

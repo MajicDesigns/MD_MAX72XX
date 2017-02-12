@@ -1,7 +1,7 @@
 // Use the MD_MAX72XX library to Print some text on the display
 //
 // Demonstrates the use of the library to print text on multiple lines
-// by using separate matrix displays (no zones). The DAT and CLK lines 
+// by using separate matrix displays (no zones). The DAT and CLK lines
 // are shared with one LD/CS per string of matrix devices
 //
 // User can enter text on the serial monitor and this will display as a
@@ -28,7 +28,7 @@ struct LineDefinition
 // Add new entries for more lines.
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-struct LineDefinition  Line[] = 
+struct LineDefinition  Line[] =
 {
   { MD_MAX72XX(11, 13, 10, MAX_DEVICES), "abc", true },
   { MD_MAX72XX(11, 13,  9, MAX_DEVICES), "def", true }
@@ -69,7 +69,7 @@ void readSerial(void)
 }
 
 void printText(uint8_t lineID, uint8_t modStart, uint8_t modEnd, char *pMsg)
-// Print the text string to the LED matrix modules specified. 
+// Print the text string to the LED matrix modules specified.
 // Message area is padded with blank columns after printing.
 {
   uint8_t   state = 0;
@@ -103,7 +103,7 @@ void printText(uint8_t lineID, uint8_t modStart, uint8_t modEnd, char *pMsg)
         Line[lineID].mx.setColumn(col--, cBuf[curLen++]);
 
         // done with font character, now display the space between chars
-        if (curLen == showLen)  
+        if (curLen == showLen)
         {
           showLen = CHAR_SPACING;
           state = 2;
@@ -118,7 +118,7 @@ void printText(uint8_t lineID, uint8_t modStart, uint8_t modEnd, char *pMsg)
       case 3:	// display inter-character spacing or end of message padding (blank columns)
         Line[lineID].mx.setColumn(col--, 0);
         curLen++;
-        if (curLen == showLen) 
+        if (curLen == showLen)
           state = 0;
         break;
 
@@ -142,7 +142,7 @@ void setup()
     Line[i].mx.begin();
 }
 
-void loop() 
+void loop()
 {
   readSerial();
   for (uint8_t i=0; i<MAX_LINES; i++)

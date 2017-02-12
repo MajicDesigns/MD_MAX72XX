@@ -1,12 +1,12 @@
 /*
 MD_MAX72xx - Library for using a MAX7219/7221 LED matrix controller
-  
+
 See header file for comments
 
-This file contains methods that act on the matrix as a pixel field, 
-generally only acting on the visible device range of the buffered 
+This file contains methods that act on the matrix as a pixel field,
+generally only acting on the visible device range of the buffered
 device field (ie, the physical pixel matrix).
-  
+
 Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ void MD_MAX72XX::clear(uint8_t startDev, uint8_t endDev)
 {
   if (endDev < startDev) return;
 
-  for (uint8_t buf = startDev; buf <= endDev; buf++) 
+  for (uint8_t buf = startDev; buf <= endDev; buf++)
   {
     memset(_matrix[buf].dig, 0, sizeof(_matrix[buf].dig));
 	_matrix[buf].changed = ALL_CHANGED;
@@ -50,7 +50,7 @@ bool MD_MAX72XX::getBuffer(uint16_t col, uint8_t size, uint8_t *pd)
   if ((col >= getColumnCount()) || (pd == NULL))
     return(false);
 
-  for (uint8_t i=0; i<size; i++) 
+  for (uint8_t i=0; i<size; i++)
     *pd++ = getColumn(col--);
 
   return(true);
@@ -64,7 +64,7 @@ bool MD_MAX72XX::setBuffer(uint16_t col, uint8_t size, uint8_t *pd)
     return(false);
 
   _updateEnabled = false;
-  for (uint8_t i=0; i<size; i++) 
+  for (uint8_t i=0; i<size; i++)
     setColumn(col--, *pd++);
   _updateEnabled = b;
 
@@ -92,15 +92,15 @@ bool MD_MAX72XX::drawLine(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool
   int16_t	dr = abs(r2-r1);
   int16_t	sr = r1<r2 ? 1 : -1;
   int16_t	err = (dc>dr ? dc : -dr)/2;
-  int16_t	e2;   
+  int16_t	e2;
 
   for(;;)
-  {    
-	setPoint(r1, c1, state);
-	if (c1 == c2 && r1 == r2) break;
-	e2 = err;
-	if (e2 >-dc) { err -= dr; c1 += sc; } 
-	if (e2 < dr) { err += dc; r1 += sr; }
+  {
+	  setPoint(r1, c1, state);
+	  if (c1 == c2 && r1 == r2) break;
+	  e2 = err;
+	  if (e2 >-dc) { err -= dr; c1 += sc; }
+	  if (e2 < dr) { err += dc; r1 += sr; }
   }
 
   if (_updateEnabled) flushBufferAll();
@@ -117,7 +117,7 @@ bool MD_MAX72XX::drawLine(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool
 #define	C	r
 #endif
 
-bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c) 
+bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c)
 {
   uint8_t	buf = c/COL_SIZE;
 
@@ -133,7 +133,7 @@ bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c)
   return(bitRead(_matrix[buf].dig[HW_ROW(R)], HW_COL(C)) == 1);
 }
 
-bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state) 
+bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state)
 {
   uint8_t	buf = c/COL_SIZE;
   c %= COL_SIZE;
@@ -148,7 +148,7 @@ bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state)
 
   if (state)
     bitSet(_matrix[buf].dig[HW_ROW(R)], HW_COL(C));
-  else 
+  else
     bitClear(_matrix[buf].dig[HW_ROW(R)], HW_COL(C));
 
   bitSet(_matrix[buf].changed, HW_ROW(R));
@@ -171,8 +171,8 @@ bool MD_MAX72XX::setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t val
     return(false);
 
   _updateEnabled = false;
-  for (uint8_t i = startDev; i <= endDev; i++) 
-	setRow(i, r, value); 
+  for (uint8_t i = startDev; i <= endDev; i++)
+	setRow(i, r, value);
   _updateEnabled = b;
 
   if (_updateEnabled) flushBufferAll();
@@ -195,7 +195,7 @@ bool MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t tty
     case TSL: // Transform Shift Left one pixel element (with overflow)
 	  colData = 0;
 	  // if we can call the user function later then we don't need to do anything here
-	  // however, warparound mode means we know the data so no need to request from the 
+	  // however, warparound mode means we know the data so no need to request from the
 	  // callback at all - just save it for later
 	  if (_wrapAround)
 		  colData = getColumn(((endDev+1)*COL_SIZE)-1);
@@ -221,7 +221,7 @@ bool MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t tty
 
     case TSR:	// Transform Shift Right one pixel element (with overflow)
 	  // if we can call the user function later then we don't need to do anything here
-	  // however, warparound mode means we know the data so no need to request from the 
+	  // however, warparound mode means we know the data so no need to request from the
 	  // callback at all - just save it for later.
 	  colData = 0;
 	  if (_wrapAround)
@@ -244,14 +244,14 @@ bool MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t tty
 		colData = (*_cbShiftDataIn)(endDev, ttype);
 
 	  setColumn(((endDev+1)*COL_SIZE)-1, colData);
-	break;
+	  break;
 
     case TFLR: // Transform Flip Left to Right (use the whole field)
 	  // first reverse the device buffers end for end
       for (uint8_t buf = 0; buf < (endDev - startDev)/2; buf++)
 	  {
 	      deviceInfo_t	t;
-			  
+
 		  t = _matrix[startDev + buf];
 		  _matrix[startDev + buf] = _matrix[endDev - buf];
 		  _matrix[endDev - buf] = t;
@@ -262,20 +262,20 @@ bool MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t tty
         transformBuffer(buf, ttype);
     break;
 
-	// These next transformation work the same just by doing the individual devices
-	case TSU:	// Transform Shift Up one pixel element
-	case TSD:	// Transform Shift Down one pixel element
-	case TFUD:	// Transform Flip Up to Down
-	case TRC:	// Transform Rotate Clockwise
+	  // These next transformation work the same just by doing the individual devices
+	  case TSU:	// Transform Shift Up one pixel element
+	  case TSD:	// Transform Shift Down one pixel element
+	  case TFUD:	// Transform Flip Up to Down
+	  case TRC:	// Transform Rotate Clockwise
     case TINV:	// Transform INVert
       for (uint8_t buf = startDev; buf <= endDev; buf++)
         transformBuffer(buf, ttype);
     break;
-    
+
     default:
       return(false);
   }
-  
+
   _updateEnabled = b;
 
   if (_updateEnabled) flushBufferAll();

@@ -10,7 +10,7 @@
 // Class static variables
 
 #if SMALL_EYEBALL
-uint8_t MD_EyePair::_pupilData[] = 
+uint8_t MD_EyePair::_pupilData[] =
 {
 	/* P_TL */ PACK_RC(2,5), /* P_TC */ PACK_RC(2,4), /* P_TR */ PACK_RC(2,3),
 	/* P_ML */ PACK_RC(3,5), /* P_MC */ PACK_RC(3,4), /* P_MR */ PACK_RC(3,3),
@@ -19,18 +19,18 @@ uint8_t MD_EyePair::_pupilData[] =
 
 // Eye related information
 uint8_t MD_EyePair::_eyeballData[EYEBALL_ROWS] = { 0x00, 0x3c, 0x7e, 0x7e, 0x7e, 0x7e, 0x3c, 0x00 }; // row data
-#define	LAST_BLINK_ROW	6		// last row for the blink animation	
+#define	LAST_BLINK_ROW	6		// last row for the blink animation
 
 #else
 
-uint8_t MD_EyePair::_pupilData[] = 
+uint8_t MD_EyePair::_pupilData[] =
 {
 	/* P_TL */ PACK_RC(3,5), /* P_TC */ PACK_RC(3,4), /* P_TR */ PACK_RC(3,3),
 	/* P_ML */ PACK_RC(4,5), /* P_MC */ PACK_RC(4,4), /* P_MR */ PACK_RC(4,3),
 	/* P_BL */ PACK_RC(5,5), /* P_BC */ PACK_RC(5,4), /* P_BR */ PACK_RC(5,3),
 };
 uint8_t MD_EyePair::_eyeballData[EYEBALL_ROWS] = { 0x3c, 0x7e, 0x7e, 0x7e, 0x7e, 0x7e, 0x7e, 0x3c };	// row data
-#define	LAST_BLINK_ROW	7		// last row for the blink animation	
+#define	LAST_BLINK_ROW	7		// last row for the blink animation
 
 #endif
 
@@ -92,12 +92,12 @@ bool MD_EyePair::blinkEyeball(bool bFirst)
 			_currentDelay /= 2;
 			_blinkState = 3;
 			// fall through
-			
+
 		case 3:
 			_blinkLine--;
 			_M->setRow(_sd, _ed, _blinkLine, _savedEyeball[_blinkLine]);
 
-			if (_blinkLine == 0)	
+			if (_blinkLine == 0)
 			{
 				_blinkState = 99;
 			}
@@ -110,38 +110,38 @@ bool MD_EyePair::blinkEyeball(bool bFirst)
 }
 
 void MD_EyePair::drawPupil(posPupil_t posOld, posPupil_t posNew)
-// Draw the pupil in the current position. Needs to erase the 
+// Draw the pupil in the current position. Needs to erase the
 // old position first, then put in the new position
 {
 	_M->control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 
-	// first blank out the old pupil by writing back the 
+	// first blank out the old pupil by writing back the
 	// eyeball background 'row'
 	{
 		uint8_t	row = UNPACK_R(_pupilData[posOld]);
 
-		_M->setRow(_sd, _ed, row, _eyeballData[row]); 
-		_M->setRow(_sd, _ed, row+1, _eyeballData[row+1]); 
+		_M->setRow(_sd, _ed, row, _eyeballData[row]);
+		_M->setRow(_sd, _ed, row+1, _eyeballData[row+1]);
 	}
 
-	// now show the new pupil by displaying the new background 'row' 
+	// now show the new pupil by displaying the new background 'row'
 	// with the pupil masked out of it
 	{
 		uint8_t	row = UNPACK_R(_pupilData[posNew]);
 		uint8_t	col = UNPACK_C(_pupilData[posNew]);
 		uint8_t colMask = ~((1<<col)|(1<<(col-1)));
 
-		_M->setRow(_sd, _ed, row, (_eyeballData[row]&colMask)); 
-		_M->setRow(_sd, _ed, row+1, (_eyeballData[row+1]&colMask)); 
+		_M->setRow(_sd, _ed, row, (_eyeballData[row]&colMask));
+		_M->setRow(_sd, _ed, row+1, (_eyeballData[row+1]&colMask));
 	}
 	_M->control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 }
 
 bool MD_EyePair::posIsAdjacent(posPupil_t posCur, posPupil_t posNew)
 // If the new pos is an adjacent position to the old, return true
-// the arrangement is P_TL  P_TC  P_TR 
+// the arrangement is P_TL  P_TC  P_TR
 //                    P_ML  P_MC  P_MR
-//                    P_BL  P_BC  P_BR 
+//                    P_BL  P_BC  P_BR
 {
 	switch (posCur)
 	{
@@ -176,7 +176,7 @@ void MD_EyePair::animate(void)
 // this cane either be a blink or an eye movement
 {
 	// do the blink if we are currently already blinking
-	if (_inBlinkCycle) 
+	if (_inBlinkCycle)
 	{
 		_inBlinkCycle = blinkEyeball(false);
 		return;
@@ -190,7 +190,7 @@ void MD_EyePair::animate(void)
 	_timeLast = millis();
 	_timeDelay = TrueRandom.random(_maxDelay);
 
-	// Do the animation most of the time, so bias the 
+	// Do the animation most of the time, so bias the
 	// random number check to achieve this
 	if (TrueRandom.random(1000) <= 900)
 	{

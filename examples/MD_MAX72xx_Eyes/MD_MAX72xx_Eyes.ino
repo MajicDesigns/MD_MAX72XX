@@ -4,7 +4,7 @@
 // Eyes are coordinated to work together.
 // Eyes are created to fill all available modules.
 //
-// Uses the TrueRandom library to generate random numbers for the 
+// Uses the TrueRandom library to generate random numbers for the
 // animation, available at http://code.google.com/p/tinkerit
 //
 #include <MD_MAX72xx.h>
@@ -15,7 +15,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 #define	MAX_DEVICES	10
 
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	CLK_PIN		13  // or SCK
 #define	DATA_PIN	11  // or MOSI
@@ -43,7 +43,7 @@ void setup()
     E[i].begin(i*2, &M, DELAYTIME);
 }
 
-void loop() 
+void loop()
 {
   for (uint8_t i=0; i<MAX_EYE_PAIR; i++)
     E[i].animate();
