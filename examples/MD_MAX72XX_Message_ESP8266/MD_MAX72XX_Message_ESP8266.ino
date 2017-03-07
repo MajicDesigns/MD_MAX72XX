@@ -54,8 +54,8 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 //MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // WiFi login parameters - network name and password
-const char* ssid = "NovoCS";
-const char* password = "WifiTestNetwork";
+const char* ssid = "";
+const char* password = "";
 
 // WiFi Server object and parameters
 WiFiServer server(80);
@@ -85,7 +85,7 @@ char WebPage[] =
 "  nocache = \"/&nocache=\" + Math.random() * 1000000;" \
 "  var request = new XMLHttpRequest();" \
 "  strLine = \"&MSG=\" + document.getElementById(\"txt_form\").Message.value;" \
-"  request.open(\"GET\", strLine + nocache, true);" \
+"  request.open(\"GET\", strLine + nocache, false);" \
 "  request.send(null);" \
 "}" \
 "</script>" \

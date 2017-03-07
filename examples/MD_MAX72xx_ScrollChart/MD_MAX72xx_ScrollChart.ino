@@ -100,7 +100,7 @@ bool graphDisplay(bool bInit, uint8_t nType)
 
       case 2:   // bar chart
         for (uint8_t i=0; i<8; i++)
-          curCol |= (i<=curPoint ? 0 : 1) << i;
+          curCol |= (i<curPoint ? 0 : 1) << i;
         break;
     }
 
