@@ -1,9 +1,6 @@
 // Use the MD_MAX72XX library to create an mechanical pushwheel type display
 // When numbers change they are scrolled up or down as if on a cylinder
 //
-// User can enter text on the serial monitor and this will display as a
-// scrolling message on the display. Needs a fixed width font to work correctly.
-//
 // 'Speed' displayed is read from pot on SPEED_IN analog in.
 
 #include <MD_MAX72xx.h>
