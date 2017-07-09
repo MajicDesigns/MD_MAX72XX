@@ -46,12 +46,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History
 ----------------
-xxx 2016 version 2.9.1
+xxx 2017 version 2.9.1
 - Changed SPI buffer handling and isolation of AVR specific features (eg PROGMEM)
 - Added MD_MAX72xx_Message_ESP8266 example
 - Minor source file cleanup
 - Added Extended ASCII font in fontbuilder
 - Modifed fontbuilder output code for consistency with new code
+- Added vertical rotated font
 
 Nov 2016 version 2.9.0
 - Added WordClock example
