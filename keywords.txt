@@ -16,7 +16,7 @@ fontType_t	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-begin KEYWORD2
+begin	KEYWORD2
 control	KEYWORD2
 getDeviceCount	KEYWORD2
 getColumnCount	KEYWORD2
@@ -32,12 +32,12 @@ getColumn	KEYWORD2
 setColumn	KEYWORD2
 getRow	KEYWORD2
 setRow	KEYWORD2
-transform KEYWORD2
-update  KEYWORD2
+transform	KEYWORD2
+update	KEYWORD2
 wraparound	KEYWORD2
-getChar  KEYWORD2
-setChar  KEYWORD2
-setFont  KEYWORD2
+getChar	KEYWORD2
+setChar	KEYWORD2
+setFont	KEYWORD2
 
 ######################################
 # Constants (LITERAL1)
