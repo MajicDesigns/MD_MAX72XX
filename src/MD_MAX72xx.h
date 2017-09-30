@@ -50,9 +50,9 @@ xxx 2017 version 2.9.1
 - Changed SPI buffer handling and isolation of AVR specific features (eg PROGMEM)
 - Added MD_MAX72xx_Message_ESP8266 example
 - Minor source file cleanup
-- Added Extended ASCII font in fontbuilder
+- Added Extended ASCII font, vertical rotated font and RobotEyes font in fontbuilder
 - Modifed fontbuilder output code for consistency with new code
-- Added vertical rotated font
+- Added getFont() method
 
 Nov 2016 version 2.9.0
 - Added WordClock example
@@ -869,6 +869,18 @@ public:
    * \return false if parameter errors, true otherwise.
    */
   bool setFont(fontType_t *f);
+  /**
+   * Get the pointer to current font table.
+   *
+   * Returns the pointer to the current font table. Useful if user code needs 
+   * to replace the current font temporarily and then restore previous font.
+   *
+   * NOTE: This function is only available if the library defined value
+   * USE_LOCAL_FONT is set to 1.
+   *
+   * \return pointer to the start of the font table in PROGMEM.
+   */
+  fontType_t getFont(void) { return(_fontData); };
 #endif // USE_LOCAL_FONT
   /** @} */
 
