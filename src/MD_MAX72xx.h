@@ -52,7 +52,7 @@ xxx 2017 version 2.9.1
 - Minor source file cleanup
 - Added Extended ASCII font, vertical rotated font and RobotEyes font in fontbuilder
 - Modifed fontbuilder output code for consistency with new code
-- Added getFont() method
+- Added getFont(), getMaxFontWidth() methods
 
 Nov 2016 version 2.9.0
 - Added WordClock example
@@ -261,7 +261,7 @@ enough current for the number of connected modules.
  Set to 1 to enable font indexing to speed up font lookups - usually disabled.
  This will trade off increased stack RAM usage for lookup speed if enabled.
  When disabled lookups will then become linear searches through PROGMEM.
- Uses FONT_INDEX_SIZE elements of uint16_t (512 bytes) if enabled. For most
+ Uses ASCII_INDEX_SIZE elements of uint16_t (512 bytes) if enabled. For most
  purposes the increase in speed is not needed.
 
  USE_LOCAL FONT must be enabled for this option to take effect.
@@ -857,18 +857,34 @@ public:
    * Font data is stored in PROGMEM, in the format described elsewhere in the
    * documentation. All characters retrieved or used after this call will use
    * the nominated font (default or user defined). To specify a user defined
-   * character set, pass the PROGMEM address of the font table. Passing a NULL
-   * pointer resets the font table to the library default table.
+   * character set, pass the PROGMEM address of the font table. Passing a nullptr
+   * resets the font table to the library default table.
+   * 
    * This function also causes the font index table to be recreated if the
    * library defined value USE_INDEX_TABLE is set to 1.
    *
    * NOTE: This function is only available if the library defined value
    * USE_LOCAL_FONT is set to 1.
    *
-   * \param f	fontType_t pointer to the table of font data in PROGMEM or NULL.
+   * \param f	fontType_t pointer to the table of font data in PROGMEM or nullptr.
    * \return false if parameter errors, true otherwise.
    */
   bool setFont(fontType_t *f);
+
+  /**
+  * Get the maximum width character for the font.
+  *
+  * Returns the number of columns for the widest character in the currently
+  * selected font table. Useful to allocated buffers of the right size before 
+  * loading characters from the font table.
+  *
+  * NOTE: This function is only available if the library defined value
+  * USE_LOCAL_FONT is set to 1.
+  *
+  * \return number of columns (width) for the widest character.
+  */
+  uint8_t getMaxFontWidth(void);
+
   /**
    * Get the pointer to current font table.
    *
@@ -880,7 +896,7 @@ public:
    *
    * \return pointer to the start of the font table in PROGMEM.
    */
-  fontType_t getFont(void) { return(_fontData); };
+  fontType_t *getFont(void) { return(_fontData); };
 #endif // USE_LOCAL_FONT
   /** @} */
 

@@ -1,6 +1,6 @@
 var class_m_d___m_a_x72_x_x =
 [
-    [ "fontType_t", "class_m_d___m_a_x72_x_x.html#a1e2bab7ab6b529b8b6a3464c58c6079c", null ],
+    [ "fontType_t", "class_m_d___m_a_x72_x_x.html#a5b2e511f00bddbcc1fffa78757d71bf5", null ],
     [ "controlRequest_t", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4f", [
       [ "SHUTDOWN", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fad2d5ee4317d7dfb62c9f0dcc88562e1a", null ],
       [ "SCANLIMIT", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa5bd97d72ff4cc7d30ee1d24213cee6a7", null ],
@@ -41,6 +41,8 @@ var class_m_d___m_a_x72_x_x =
     [ "getColumn", "class_m_d___m_a_x72_x_x.html#ab0db87a521190dad074e4b240a8288fb", null ],
     [ "getColumnCount", "class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20", null ],
     [ "getDeviceCount", "class_m_d___m_a_x72_x_x.html#a5508f498566c3b3e80422e6ff9501ec3", null ],
+    [ "getFont", "class_m_d___m_a_x72_x_x.html#a4b59272f96f8cae6a41ad7dd0cd5aae2", null ],
+    [ "getMaxFontWidth", "class_m_d___m_a_x72_x_x.html#a88b4a38d90588e39ffc70986a501ed2e", null ],
     [ "getPoint", "class_m_d___m_a_x72_x_x.html#aa1533adc9aa15e29a143e69d9db12881", null ],
     [ "getRow", "class_m_d___m_a_x72_x_x.html#a59eefabcaf003dc37dd17f41c5d6d211", null ],
     [ "setBuffer", "class_m_d___m_a_x72_x_x.html#a1aaabf8c4df556c3e9a04a1319234261", null ],

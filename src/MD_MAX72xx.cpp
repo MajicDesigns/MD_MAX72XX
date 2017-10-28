@@ -74,7 +74,7 @@ void MD_MAX72XX::begin(void)
 
 #if USE_LOCAL_FONT
 #if USE_INDEX_FONT
-  _fontIndex = (uint16_t *)malloc(sizeof(uint16_t) * FONT_INDEX_SIZE);
+  _fontIndex = (uint16_t *)malloc(sizeof(uint16_t) * ASCII_INDEX_SIZE);
 #else
   _fontIndex = NULL;
 #endif

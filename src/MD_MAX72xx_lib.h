@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #endif
 
 // Opcodes for the MAX7221 and MAX7219
- // All OP_DIGITn are offsets from OP_DIGIT0
+// All OP_DIGITn are offsets from OP_DIGIT0
 #define	OP_NOOP   		0	///< MAX72xx opcode for NO OP
 #define OP_DIGIT0 		1	///< MAX72xx opcode for DIGIT0
 #define OP_DIGIT1 		2	///< MAX72xx opcode for DIGIT1
@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #define ALL_CHANGED   0xff			///< Mask for all rows changed in a buffer structure
 #define ALL_CLEAR     0x00			///< Mask for all rows clear in a buffer structure
 
-#define	FONT_INDEX_SIZE	256			///< Number of characters in a font table (ASCII maximum)
+#define	ASCII_INDEX_SIZE	256			///< Number of characters in a font table (ASCII maximum)
 
 // Shortcuts
 #define	SPI_DATA_SIZE	(sizeof(uint8_t)*_maxDevices*2)	///< Size of the SPI data buffers
