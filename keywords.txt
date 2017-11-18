@@ -37,7 +37,9 @@ update	KEYWORD2
 wraparound	KEYWORD2
 getChar	KEYWORD2
 setChar	KEYWORD2
+getFont	KEYWORD2
 setFont	KEYWORD2
+getMaxFontWidth	KEYWORD2
 
 ######################################
 # Constants (LITERAL1)

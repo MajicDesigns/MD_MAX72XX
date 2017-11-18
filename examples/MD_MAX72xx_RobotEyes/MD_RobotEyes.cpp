@@ -2,7 +2,7 @@
 #include "MD_RobotEyes_Data.h"
 
 // Debugging macros
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG
 #define PRINTS(s)    { Serial.print(F(s)); }
@@ -53,6 +53,7 @@ void MD_RobotEyes::drawEyes(uint8_t L, uint8_t R)
 
 #if DEBUG
 void MD_RobotEyes::dumpSequence(const animFrame_t* pBuf, uint8_t numElements)
+// Debugging routine to display an animation table in PROGMEM
 {
   for (uint8_t i = 0; i < numElements; i++)
   {
@@ -75,15 +76,17 @@ uint8_t MD_RobotEyes::loadSequence(emotion_t e)
   for (uint8_t i = 0; i < ARRAY_SIZE(lookupTable); i++)
   {
     memcpy_P(&_animEntry, &lookupTable[i], sizeof(animTable_t));
-    if (_animEntry.e == e) break;
+    if (_animEntry.e == e)
+    {
+#if DEBUG
+      dumpSequence(_animEntry.seq, _animEntry.size);
+#endif
+      break;
+    }
   }
 
   // set up the current index depending on direction of animation
   if (_animReverse) _animIndex = _animEntry.size - 1; else _animIndex = 0;
-
-#if DEBUG
-  dumpSequence(_animCurrent, _animSeqSize);
-#endif
 
   return(_animEntry.size);
 }

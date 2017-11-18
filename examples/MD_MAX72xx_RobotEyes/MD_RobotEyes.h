@@ -75,7 +75,7 @@ public:
   * Initialise the object data. This needs to be called during setup() to initialise new
   * data for the class that cannot be done during the object creation.
   *
-  * OUtside of the class, the MD_MAX72xx library should be initialised and the pointer
+  * Outside of the class, the MD_MAX72xx library should be initialised and the pointer
   * to the MD_MAX72xx object passed to the parameter. Also, as the eyes could be in the 
   * middle of a string of LED modules, the first 'eye' module can be specified.
   *
@@ -193,10 +193,11 @@ protected:
   // Methods
   void loadEye(uint8_t module, uint8_t ch);
   void drawEyes(uint8_t L, uint8_t R);
-  void dumpSequence(const animFrame_t* pBuf, uint8_t numElements);
   uint8_t loadSequence(emotion_t e);  // return the size of the sequence
   void loadFrame(animFrame_t* pBuf);
   void showText(bool bInit = false);
+
+  void dumpSequence(const animFrame_t* pBuf, uint8_t numElements);  // debugging routine only
 
   // Static data tables
   static const animFrame_t seqBlink[], seqWink[];

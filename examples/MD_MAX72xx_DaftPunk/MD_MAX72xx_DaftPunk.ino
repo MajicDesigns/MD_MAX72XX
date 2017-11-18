@@ -6,9 +6,9 @@
 // If RUN_DEMO is set to 1 the sketch will cycle each element of the display every
 // DEMO_DELAY seconds, without the need for a switch.
 //
-// Uses the MD_Keyswitch library found at https://github.com/MajicDesigns/MD_KeySwitch
+// Uses the MD_UISwitch library found at https://github.com/MajicDesigns/MD_UISwitch
 
-#define RUN_DEMO  1
+#define RUN_DEMO  0
 
 #include <MD_MAX72xx.h>
 #include <SPI.h>
@@ -16,7 +16,7 @@
 #if RUN_DEMO
 #define DEMO_DELAY  15  // time to show each demo element in seconds
 #else
-#include <MD_KeySwitch.h>
+#include <MD_UISwitch.h>
 #endif
 
 #define	DEBUG	0		// Enable or disable (default) debugging output
@@ -55,7 +55,7 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);                      // SPI har
 //
 #define MODE_SWITCH 9 // Digital Pin
 
-MD_KeySwitch  ks = MD_KeySwitch(MODE_SWITCH, LOW);
+MD_UISwitch_Digital  ks = MD_UISwitch_Digital(MODE_SWITCH, LOW);
 #endif
 
 // --------------------
@@ -930,7 +930,7 @@ void runMatrixAnimation(void)
   }
 #else
   // check if the switch is pressed and handle that first
-  changeState = (ks.read() == MD_KeySwitch::KS_PRESS);
+  changeState = (ks.read() == MD_UISwitch::KEY_PRESS);
 #endif
   if (changeState)
   {

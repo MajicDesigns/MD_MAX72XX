@@ -3,11 +3,11 @@
 // Scroll Chart Style can be changed from line to bar chart, triggered
 // by a switch on the MODE_SWITCH pin.
 //
-// Uses the MD_Keyswitch library found at https://github.com/MajicDesigns/MD_KeySwitch
+// Uses the MD_UIswitch library found at https://github.com/MajicDesigns/MD_UISwitch
 
 #include <MD_MAX72xx.h>
 #include <SPI.h>
-#include <MD_KeySwitch.h>
+#include <MD_UISwitch.h>
 
 #define	DEBUG	0		// Enable or disable (default) debugging output
 
@@ -44,7 +44,7 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);                      // SPI har
 //
 #define MODE_SWITCH 9 // Digital Pin
 
-MD_KeySwitch  ks = MD_KeySwitch(MODE_SWITCH, LOW);
+MD_UISwitch_Digital  ks = MD_UISwitch_Digital(MODE_SWITCH, LOW);
 
 // --------------------
 // Constant parameters
@@ -130,7 +130,7 @@ void runAnimation(void)
   static  bool    bRestart = true;
 
   // check if the switch is pressed and handle that first
-  if (ks.read() == MD_KeySwitch::KS_PRESS)
+  if (ks.read() == MD_UISwitch::KEY_PRESS)
   {
     state = (state + 1) % 3;
     bRestart = true;

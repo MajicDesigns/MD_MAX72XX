@@ -259,8 +259,9 @@ ____
 FC-16 DIY Kit Module
 ----------------------
 These modules are available as kits from some internet suppliers such as G&C Supermarket on eBay
- (http://stores.ebay.com.au/gcsupermarkethkcoltd/). They are identifiable by the FC-16 designation
-  silkscreened on the PCB.
+(http://stores.ebay.com.au/gcsupermarkethkcoltd/). They are identifiable by the FC-16 designation
+silkscreened on the PCB. Most of the available sets of 4 modules connected as one unit are 
+FC-16 type.
 
 ![FC-16 Module] (FC-16_Module.jpg "FC-16 Module")
 ____
