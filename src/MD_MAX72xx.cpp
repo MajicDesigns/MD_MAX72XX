@@ -50,9 +50,10 @@ void MD_MAX72XX::begin(void)
   {
     PRINTS("\nHardware SPI");
     SPI.begin();
-	  SPI.setDataMode(SPI_MODE0);
-	  SPI.setBitOrder(MSBFIRST);
-	  SPI.setClockDivider(SPI_CLOCK_DIV2);
+    // Old mode of operations!
+	  //SPI.setDataMode(SPI_MODE0);
+	  //SPI.setBitOrder(MSBFIRST);
+	  //SPI.setClockDivider(SPI_CLOCK_DIV2);
   }
   else
   {
@@ -175,10 +176,10 @@ bool MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode
 
   if (mode < UPDATE)	// device based control
   {
-	spiClearBuffer();
+	  spiClearBuffer();
     for (uint8_t i = startDev; i <= endDev; i++)
 	  controlHardware(i, mode, value);
-	spiSend();
+	  spiSend();
   }
   else					// internal control function, doesn't relate to specific device
   {
@@ -216,17 +217,17 @@ void MD_MAX72XX::flushBufferAll()
   {
     bool bChange = false;	// set to true if we detected a change
 
-	spiClearBuffer();
+	  spiClearBuffer();
 
     for (uint8_t dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)	// all devices
     {
       if (bitRead(_matrix[dev].changed, i))
-	  {
-	    // put our device data into the buffer
-		_spiData[SPI_OFFSET(dev, 0)] = OP_DIGIT0+i;
-		_spiData[SPI_OFFSET(dev, 1)] = _matrix[dev].dig[i];
-		bChange = true;
-	  }
+	    {
+	      // put our device data into the buffer
+		    _spiData[SPI_OFFSET(dev, 0)] = OP_DIGIT0+i;
+		    _spiData[SPI_OFFSET(dev, 1)] = _matrix[dev].dig[i];
+		    bChange = true;
+	    }
     }
 
 	if (bChange) spiSend();
@@ -234,7 +235,7 @@ void MD_MAX72XX::flushBufferAll()
 
   // mark everything as cleared
   for (uint8_t dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)
-	_matrix[dev].changed = ALL_CLEAR;
+	  _matrix[dev].changed = ALL_CLEAR;
 }
 
 void MD_MAX72XX::flushBuffer(uint8_t buf)
@@ -250,8 +251,8 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
   for (uint8_t i = 0; i < ROW_SIZE; i++)
   {
     if (bitRead(_matrix[buf].changed, i))
-	{
-	  PRINT("", i);
+	  {
+	    PRINT("", i);
       spiClearBuffer();
 
       // put our device data into the buffer
@@ -274,7 +275,7 @@ void MD_MAX72XX::spiSend()
 {
   // initialise the SPI transaction
   if (_hardwareSPI)
-    SPI.beginTransaction(SPISettings(14000000, MSBFIRST, SPI_MODE0));
+    SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
   digitalWrite(_csPin, LOW);
 
   // shift out the data
