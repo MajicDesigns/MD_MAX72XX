@@ -46,6 +46,12 @@ ipch/
 [Rr]elease*/
 Ankh.NoLoad
 
+#Video files
+*.mov
+*.mp3
+*.mp4
+*.wlmp
+
 #Pelles C files
 *.ppj
 *.tag
