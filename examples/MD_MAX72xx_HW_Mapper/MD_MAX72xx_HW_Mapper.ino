@@ -3,8 +3,11 @@
 //
 // Does not use any libraries as the code is used to directly map the display orientation
 // Observe the display and relate it to the MAX7219 hardware being exercised through the
-// output on the serial monitor.
+// instructions and output on the serial monitor.
 //
+// NOTE: You need to change the hardware pins to match your specific setup
+
+#define SERIAL_SPEED 57600
 
 // Hardware definition
 #define	CLK_PIN		13  // or SCK
@@ -49,18 +52,18 @@ void spiTransmit(uint8_t opCode, uint8_t data)
 void instructions(void)
 {
   Serial.print(F("\nINTRODUCTION\n------------"));
-  Serial.print(F("\nHow the LED matrix is wired is important for the MD_MAX72xx library, and different"));
-  Serial.print(F("\nboard modules are wired in different ways. The library can accommodate these, but"));
-  Serial.print(F("\nit needs to know what transformations need to be carried out to map your board to the"));
+  Serial.print(F("\nHow the LED matrix is wired is important for the MD_MAX72xx library as different"));
+  Serial.print(F("\nLED modules are wired differently. The library can accommodate these, but it"));
+  Serial.print(F("\nneeds to know what transformations need to be carried out to map your board to the"));
   Serial.print(F("\nstandard coordinate system. This utility shows you how the matrix is wired so that"));
-  Serial.print(F("\nyou can set the appropriate #defines in the library header file."));
-  Serial.print(F("\n\nThe library expects that in the HARDWARE"));
-  Serial.print(F("\n- COLUMNS are addressed through the SEGMENT selection lines"));
-  Serial.print(F("\n- ROWS are addressed through the DIGIT selection lines"));
-  Serial.print(F("\nThe DISPLAY always has its origin in the top right corner of a display:"));
-  Serial.print(F("\n- LED matrix module numbers increase to the right"));
-  Serial.print(F("\n- Column numbers (ie, the hardware segment numbers) increase from right to left (0..7)"));
-  Serial.print(F("\n- Row numbers (ie, the hardware digit numbers) increase down (0..7)"));
+  Serial.print(F("\nyou can set the correct USE_*_HW #defines in the MD_MAX72xx.h library header file."));
+  Serial.print(F("\n\nThe standard fucntions in the library expect that:"));
+  Serial.print(F("\no COLUMNS are addressed through the SEGMENT selection lines, and"));
+  Serial.print(F("\no ROWS are addressed through the DIGIT selection lines."));
+  Serial.print(F("\n\nThe DISPLAY always has its origin in the top right corner of a display:"));
+  Serial.print(F("\no LED matrix module numbers increase from right to left,"));
+  Serial.print(F("\no Column numbers (ie, the hardware segment numbers) increase from right to left (0..7), and "));
+  Serial.print(F("\no Row numbers (ie, the hardware digit numbers) increase down (0..7)."));
   Serial.print(F("\n\nThere are three hardware setting that describe your hardware configuration:"));
   Serial.print(F("\n- HW_DIG_ROWS - HardWare DIGits are ROWS. Set to 1 if the digits map to the rows"));
   Serial.print(F("\n                of the matrix, 0 otherwise"));
@@ -70,14 +73,16 @@ void instructions(void)
   Serial.print(F("\n- HW_REV_ROWS - HardWare REVerse ROWS. The normal row coordinates orientation is 0"));
   Serial.print(F("\n                row at top of the display. Set to 1 to reverse this (ie, hardware 0"));
   Serial.print(F("\n                is at the bottom)."));
+  Serial.print(F("\n\nThese individual setting are determined as a consequence of nominating the model type"));
+  Serial.print(F("\nof the hardware you are using, you do not need to change these directly."));
   Serial.print(F("\n\nINSTRUCTIONS\n------------"));
-  Serial.print(F("\n1. Wire up one matrix only."));
+  Serial.print(F("\n1. Wire up one matrix only, or cover up the other modules, to avoid confusion."));
   Serial.print(F("\n2. Enter the answers to the question in the edit field at the top of Serial Monitor."));
 }
 
 void setup(void)
 {
-  Serial.begin(57600);
+  Serial.begin(SERIAL_SPEED);
   Serial.print(F("\n\n[MD_MAX72xx Hardware mapping utility]\n"));
   instructions();
 
@@ -86,11 +91,14 @@ void setup(void)
   pinMode(CS_PIN, OUTPUT);
   pinMode(DATA_PIN, OUTPUT);
   pinMode(CLK_PIN, OUTPUT);
+}
 
-  // Initialise the display devices.
-  // On initial power-up, all control registers are reset, the
-  // display is blanked, and the MAX7219/MAX7221 enters shutdown
-  // mode.
+void initialise(void)
+// Initialise the display devices.
+// On initial power-up, all control registers are reset, the
+// display is blanked, and the MAX7219/MAX7221 enters shutdown
+// mode.
+{
   spiTransmit(OP_SHUTDOWN, 1);	// wake up
   spiTransmit(OP_SCANLIMIT, 7);	// all on
   spiTransmit(OP_INTENSITY, 7);	// mid intensity
@@ -158,6 +166,8 @@ void loop()
   Serial.print(F("\n>> Enter Y when you are ready to start: "));
   getResponse("Yy");
 
+  initialise();
+
   Serial.print("\nDig");
   for (uint8_t i=0; i<MAX_DIG; i++)
     mapDigit(OP_DIGIT0+i);
@@ -203,6 +213,23 @@ void loop()
   Serial.print(F("\n#define\tHW_REV_COLS\t")); Serial.print(def_rev_cols ? 1 : 0 );
   Serial.print(F("\n#define\tHW_REV_ROWS\t")); Serial.print(def_rev_rows ? 1 : 0 );
 
-  Serial.print(F("\n\nNOTE: If this configuration does not work with the library, try rotating the matrix"));
-  Serial.print(F("\nby 180 degrees and re-run this utility."));
+  Serial.print(F("\n\nYour hardware matches the setting for "));
+  if (def_dig_rows && def_rev_cols && !def_rev_rows)
+    Serial.print(F("Parola modules. Please set USE_PAROLA_HW."));
+  else if (!def_dig_rows && def_rev_cols && !def_rev_rows)
+    Serial.print(F("Generic modules. Please set USE_GENERIC_HW."));
+  else if (def_dig_rows && def_rev_cols && def_rev_rows)
+    Serial.print(F("IC Station modules. Please set USE_ICSTATION_HW."));
+  else if (def_dig_rows && !def_rev_cols && !def_rev_rows)
+    Serial.print(F("FC-16 modules. Please set USE_FC16_HW."));
+  else
+  {
+    Serial.print(F("none of the preconfigured module types."));
+    Serial.print(F("\nYou should try rotating the matrix by 180 degrees and re-running this utility."));
+    Serial.print(F("\n\nIf that still fails to provide a solution - congratulations! You have discovered"));
+    Serial.print(F("\na new type of hardware module! Please contact the author of the libraries so that"));
+    Serial.print(F("\nthese can be included in the next official release. In the meantime, you could"));
+    Serial.print(F("\nselect USE_OTHER_HW and add your specific settings in the USE_OTHER_HW section"));
+    Serial.print(F("\nin MD_MAX72xx_lib.h"));
+  }
 }

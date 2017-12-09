@@ -33,13 +33,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 MD_MAX72XX::MD_MAX72XX(uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
 _dataPin(dataPin), _clkPin(clkPin), _csPin(csPin), _maxDevices(numDevices),
-_updateEnabled(true), _hardwareSPI(false)
+_hardwareSPI(false), _updateEnabled(true)
 {
 }
 
 MD_MAX72XX::MD_MAX72XX(uint8_t csPin, uint8_t numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin), _maxDevices(numDevices),
-_updateEnabled(true), _hardwareSPI(true)
+_hardwareSPI(true), _updateEnabled(true)
 {
 }
 
@@ -178,7 +178,7 @@ bool MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode
   {
 	  spiClearBuffer();
     for (uint8_t i = startDev; i <= endDev; i++)
-	  controlHardware(i, mode, value);
+	    controlHardware(i, mode, value);
 	  spiSend();
   }
   else					// internal control function, doesn't relate to specific device
@@ -281,12 +281,12 @@ void MD_MAX72XX::spiSend()
   // shift out the data
   if (_hardwareSPI)
   {
-    for (int i = 0; i < SPI_DATA_SIZE; i++)
+    for (uint8_t i = 0; i < SPI_DATA_SIZE; i++)
       SPI.transfer(_spiData[i]);
   }
   else
   {
-    for (int i = 0; i < SPI_DATA_SIZE; i++)
+    for (uint8_t i = 0; i < SPI_DATA_SIZE; i++)
       shiftOut(_dataPin, _clkPin, MSBFIRST, _spiData[i]);
   }
 

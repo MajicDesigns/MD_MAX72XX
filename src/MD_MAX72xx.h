@@ -46,7 +46,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History
 ----------------
-Nov 2017 version 2.9.1
+xxx 2018 version 2.10.1
+- Reworked HW Mapping utility.
+
+Nov 2017 version 2.10.0
 - Changed SPI buffer handling and isolation of AVR specific features (eg PROGMEM)
 - Added MD_MAX72xx_Message_ESP8266 example
 - Minor source file cleanup
