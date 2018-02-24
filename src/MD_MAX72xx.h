@@ -24,10 +24,12 @@ Topics
 - \subpage pageConnect
 - \subpage pageFontUtility
 - \subpage pageRevisionHistory
+- \subpage pageCopyright
 
+\page pageCopyright Copyright
 Copyright
 ---------
-Copyright (C) 2012-16 Marco Colli. All rights reserved.
+Copyright (C) 2012-18 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -48,13 +50,14 @@ Revision History
 ----------------
 xxx 2018 version 2.10.1
 - Reworked HW Mapping utility.
+- setColumn() parameter changed from uint8_t to uint16_t to allow for more than 256 column in the matrix [BUG]
 
 Nov 2017 version 2.10.0
 - Changed SPI buffer handling and isolation of AVR specific features (eg PROGMEM)
 - Added MD_MAX72xx_Message_ESP8266 example
 - Minor source file cleanup
 - Added Extended ASCII font, vertical rotated font and RobotEyes font in fontbuilder
-- Modifed fontbuilder output code for consistency with new code
+- Modified fontbuilder output code for consistency with new code
 - Added getFont(), getMaxFontWidth() methods
 - Changed example - replaced MD_KeySwitch with new MD_UISwitch library
 
@@ -62,17 +65,17 @@ Nov 2016 version 2.9.0
 - Added WordClock example
 - Deprecated USE_LIBRARY_SPI as no problems reported with new implementation
 - Changed MD_ branding to new MajicDesigns diamond
-- Small adjustments to initialisation code
+- Small adjustments to initialization code
 
 Mar 2016 version 2.8
-- Added example _Message_SD and renamed _Message to _Message_Serial
+- Added example Message_SD and renamed Message to Message_Serial
 - Added Pacman example
 - Added PushWheel example
 - Added USE_LIBRARY_SPI to enable library SPI object
-- Modifed all examples to conditionally include <SPI.h>
+- Modified all examples to conditionally include <SPI.h>
 - FontBuilder modified to handle definitions for double height fonts
-- New txt2font utility for easier font creattion from a text file
-- Revised and ro-organised documentation; expanded section on fonts
+- New txt2font utility for easier font creation from a text file
+- Revised and re-organized documentation; expanded section on fonts
 
 April 2015 version 2.7
 - Changed to Daft Punk example to run without switch
@@ -82,7 +85,7 @@ February 2015 version 2.6
 - Improvements to HW_Mapper utility
 - Added HW_USE_FC16 for FC-16 display modules
 - Added USE_HW_OTHER for user defined hardware configuration
-- Fixed incorrect spelling for HW_REV_COLS in transformbuffer() & corresponding bug
+- Fixed incorrect spelling for HW_REV_COLS in transformBuffer() & corresponding bug
 - Added PrintText_ML example
 
 February 2015 version 2.5
@@ -95,7 +98,7 @@ February 2015 version 2.5
 April 2014 version 2.4
 - Improved reliability of initialization code to remove artifacts
  + Changed order of hardware initialization for SS, _csPin
- + Changed initialisation sequence at begin()
+ + Changed initialization sequence at begin()
  + Fixed memset bug identified by bperrybap
 - Reworked command SPI transmissions for efficiency
 - Cleanup up compiler warnings on inline wrapper code functions
@@ -104,7 +107,7 @@ April 2014 version 2.4
 
 March 2014 - version 2.3
 - Extensive rework of the font system
- + New font Microsoft Excel VBA based builder tool available
+ + New Microsoft Excel VBA based font builder tool available
  + Removed USE_FONT_ADJUST and related code - replace by builder tool
  + Fixed width font has been removed from the library. Definition still available in font builder
  + fontype_t definition changed to suit new requirements
@@ -132,12 +135,12 @@ June 2013 - version 2.1
 
 April 2013 - version 2.0
 - Major update and rewrite of library code:
-- Improved speed and efficiency of code
-- Increased level of abstraction in the library for pixel methods
-- Increased level of abstraction for character and font methods
-- Increased number of functions and added variable sized font
-- Changed defines to enumerated types within the scope of the class
-- Updated functionality to simplify controlling multiple devices
+ + Improved speed and efficiency of code
+ + Increased level of abstraction in the library for pixel methods
+ + Increased level of abstraction for character and font methods
+ + Increased number of functions and added variable sized font
+ + Changed defines to enumerated types within the scope of the class
+ + Updated functionality to simplify controlling multiple devices
 - Changed text and comments to be aligned to doxygen documentation generation
 
 June 2012 - version 1.0
@@ -217,14 +220,14 @@ enough current for the number of connected modules.
  Set to 1 (default) to use the Parola hardware modules. The
  software was originally designed to operate with this hardware type.
  */
-#define	USE_PAROLA_HW	1
+#define USE_PAROLA_HW 1
 
 /**
  \def USE_GENERIC_HW
  Set to 1 to use 'generic' hardware modules commonly available, with
  connectors at the top and bottom of the PCB, available from many sources.
  */
-#define	USE_GENERIC_HW	0
+#define USE_GENERIC_HW 0
 
 /**
  \def USE_ICSTATION_HW
@@ -232,7 +235,7 @@ enough current for the number of connected modules.
  http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs
  This hardware must be set up with the input on the RHS.
  */
-#define	USE_ICSTATION_HW	0
+#define USE_ICSTATION_HW 0
 
 /**
  \def USE_FC16_HW
@@ -240,7 +243,7 @@ enough current for the number of connected modules.
  FC16 modules are similar in format to the ICStation modules but are wired differently.
  Modules are identified by a FC-16 designation on the PCB
   */
-#define	USE_FC16_HW	0
+#define USE_FC16_HW 0
 
 /**
  \def USE_OTHER_HW
@@ -249,7 +252,7 @@ enough current for the number of connected modules.
  must be set up in the MD_MAD72xx_lib.h file under for this section, using the HW_Mapper
  utility to work out what the correct values to use are.
  */
-#define	USE_OTHER_HW	0
+#define USE_OTHER_HW 0
 
 /**
  \def USE_LOCAL_FONT
@@ -258,7 +261,7 @@ enough current for the number of connected modules.
  graphics some FLASH RAM can be saved by not including the code to process
  font data. The font file is stored in PROGMEM.
  */
-#define	USE_LOCAL_FONT	1
+#define USE_LOCAL_FONT 1
 
 /**
  \def USE_INDEX_FONT
@@ -270,14 +273,14 @@ enough current for the number of connected modules.
 
  USE_LOCAL FONT must be enabled for this option to take effect.
  */
-#define	USE_INDEX_FONT	0
+#define USE_INDEX_FONT 0
 
 // Display parameter constants
 // Defined values that are used throughout the library to define physical limits
-#define	ROW_SIZE	8		///< The size in pixels of a row in the device LED matrix array
-#define COL_SIZE  8		///< The size in pixels of a column in the device LED matrix array
-#define	MAX_INTENSITY	0xf	///< The maximum intensity value that can be set for a LED array
-#define	MAX_SCANLIMIT	7	  ///< The maximum scan limit value that can be set for the devices
+#define ROW_SIZE  8   ///< The size in pixels of a row in the device LED matrix array
+#define COL_SIZE  8   ///< The size in pixels of a column in the device LED matrix array
+#define MAX_INTENSITY 0xf ///< The maximum intensity value that can be set for a LED array
+#define MAX_SCANLIMIT 7   ///< The maximum scan limit value that can be set for the devices
 
 /**
  * Core object for the MD_MAX72XX library
@@ -286,61 +289,61 @@ class MD_MAX72XX
 {
 public:
 #if USE_LOCAL_FONT
-	/**
-	 * Font definition type.
-	 *
-	 * This type is used in the setFont() method to set the font to be used
-	 */
+  /**
+  * Font definition type.
+  *
+  * This type is used in the setFont() method to set the font to be used
+  */
   typedef  const uint8_t	fontType_t;
 #endif
 
-	/**
-	 * Control Request enumerated type.
-	 *
-	 * This enumerated type is used with the control() method to identify
-	 * the control action request.
-	 */
-	enum controlRequest_t
-	{
-		SHUTDOWN = 0,	  ///< Shut down the MAX72XX. Requires ON/OFF value. Library default is OFF.
-		SCANLIMIT = 1,	///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT]. Library default is all on.
-		INTENSITY =	2,	///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY]. LIbrary default is MAX_INTENSITY/2.
-		TEST = 3,		    ///< Set the MAX72XX in test mode. Requires ON/OFF value. Library default is OFF.
-		DECODE = 4,		  ///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value. Library default is OFF.
-		UPDATE = 10,	  ///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value. Library default is ON.
-		WRAPAROUND = 11	///< Enable or disable wraparound when shifting (circular buffer). Requires ON/OFF value. Library default is OFF.
-	};
+  /**
+  * Control Request enumerated type.
+  *
+  * This enumerated type is used with the control() method to identify
+  * the control action request.
+  */
+  enum controlRequest_t
+  {
+    SHUTDOWN = 0,   ///< Shut down the MAX72XX. Requires ON/OFF value. Library default is OFF.
+    SCANLIMIT = 1,  ///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT]. Library default is all on.
+    INTENSITY =	2,  ///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY]. LIbrary default is MAX_INTENSITY/2.
+    TEST = 3,	      ///< Set the MAX72XX in test mode. Requires ON/OFF value. Library default is OFF.
+    DECODE = 4,	    ///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value. Library default is OFF.
+    UPDATE = 10,    ///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value. Library default is ON.
+    WRAPAROUND = 11 ///< Enable or disable wraparound when shifting (circular buffer). Requires ON/OFF value. Library default is OFF.
+  }
 
-	/**
-	 * Control Value enumerated type.
-	 *
-	 * This enumerated type is used with the control() method as the
-	 * ON/OFF value for a control request. Other values may be used
-	 * if numeric data is required.
-	 */
-	enum controlValue_t
-	{
-		OFF = 0,	///< General OFF status request
-		ON = 1		///< General ON status request
-	};
+  /**
+  * Control Value enumerated type.
+  *
+  * This enumerated type is used with the control() method as the
+  * ON/OFF value for a control request. Other values may be used
+  * if numeric data is required.
+  */
+  enum controlValue_t
+  {
+    OFF = 0,  ///< General OFF status request
+    ON = 1    ///< General ON status request
+  };
 
-	/**
-	 * Transformation Types enumerated type.
-	 *
-	 * This enumerated type is used in the transform() methods to identify a
-	 * specific transformation of the display data in the device buffers.
-	 */
-	enum transformType_t
-	{
-		TSL,	///< Transform Shift Left one pixel element
-		TSR,	///< Transform Shift Right one pixel element
-		TSU,	///< Transform Shift Up one pixel element
-		TSD,	///< Transform Shift Down one pixel element
-		TFLR,	///< Transform Flip Left to Right
-		TFUD,	///< Transform Flip Up to Down
-		TRC,	///< Transform Rotate Clockwise 90 degrees
-		TINV	///< Transform INVert (pixels inverted)
-	};
+  /**
+   * Transformation Types enumerated type.
+  *
+  * This enumerated type is used in the transform() methods to identify a
+  * specific transformation of the display data in the device buffers.
+  */
+  enum transformType_t
+  {
+    TSL,  ///< Transform Shift Left one pixel element
+    TSR,  ///< Transform Shift Right one pixel element
+    TSU,  ///< Transform Shift Up one pixel element
+    TSD,  ///< Transform Shift Down one pixel element
+    TFLR, ///< Transform Flip Left to Right
+    TFUD, ///< Transform Flip Up to Down
+    TRC,  ///< Transform Rotate Clockwise 90 degrees
+    TINV  ///< Transform INVert (pixels inverted)
+  };
 
   /**
    * Class Constructor - arbitrary digital interface.
@@ -349,10 +352,10 @@ public:
    * connect the software to the hardware. Multiple instances may co-exist
    * but they should not share the same hardware CS pin (SPI interface).
    *
-   * \param dataPin		output on the Arduino where data gets shifted out.
-   * \param clkPin		output for the clock signal.
-   * \param csPin		output for selecting the device.
-   * \param numDevices	number of devices connected. Default is 1 if not supplied.
+   * \param dataPin   output on the Arduino where data gets shifted out.
+   * \param clkPin    output for the clock signal.
+   * \param csPin     output for selecting the device.
+   * \param numDevices  number of devices connected. Default is 1 if not supplied.
    *                    Memory for device buffers is dynamically allocated based
    *                    on this parameter.
    */
@@ -367,8 +370,8 @@ public:
    * The dataPin and the clockPin are defined by the Arduino hardware definition
    * (SPI MOSI and SCK signals).
    *
-   * \param csPin		output for selecting the device.
-   * \param numDevices	number of devices connected. Default is 1 if not supplied.
+   * \param csPin   output for selecting the device.
+   * \param numDevices  number of devices connected. Default is 1 if not supplied.
    *                    Memory for device buffers is dynamically allocated based
    *                    on this parameter.
    */
@@ -377,8 +380,8 @@ public:
   /**
    * Initialize the object.
    *
-   * Initialise the object data. This needs to be called during setup() to initialise new
-   * data for the class that cannot be done during the object creation.
+   * Initialize the object data. This needs to be called during setup() to initialize 
+   * new data for the class that cannot be done during the object creation.
    *
    * The LED hardware is initialized to the middle intensity value, all rows showing,
    * and all LEDs cleared (off). Test, shutdown and decode modes are off. Display updates
@@ -407,9 +410,9 @@ public:
    * needs to be supplied on the control action required is one of the defined
    * actions in controlValue_t or a numeric parameter suitable for the control action.
    *
-   * \param dev			address of the device to control [0..getDeviceCount()-1].
-   * \param mode		one of the defined control requests.
-   * \param value		parameter value or one of the control status defined.
+   * \param dev     address of the device to control [0..getDeviceCount()-1].
+   * \param mode    one of the defined control requests.
+   * \param value   parameter value or one of the control status defined.
    * \return false if parameter errors, true otherwise.
    */
   bool control(uint8_t dev, controlRequest_t mode, int value);
@@ -420,8 +423,8 @@ public:
    * Invokes the control function for each device in turn. as this is a wrapper for the
    * control(startDev, endDev, ...) methods, see the documentation for that method.
    *
-   * \param mode		one of the defined control requests.
-   * \param value		parameter value or one of the control status defined.
+   * \param mode    one of the defined control requests.
+   * \param value   parameter value or one of the control status defined.
    * \return No return value.
    */
   inline void control(controlRequest_t mode, int value) { control(0, getDeviceCount()-1, mode, value); };
@@ -432,10 +435,10 @@ public:
    * Invokes the control function for each device in turn for the devices in the subset.
    * See documentation for the control() method.
    *
-   * \param startDev	the first device for the transformation [0..getDeviceCount()-1]
-   * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
-   * \param mode		one of the defined control requests.
-   * \param value		parameter value or one of the control status defined.
+   * \param startDev  the first device for the transformation [0..getDeviceCount()-1]
+   * \param endDev    the last device for the transformation [0..getDeviceCount()-1]
+   * \param mode      one of the defined control requests.
+   * \param value     parameter value or one of the control status defined.
    * \return false if parameter errors, true otherwise.
    */
   bool control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value);
@@ -470,7 +473,7 @@ public:
    * what shift is being performed
    * The return value is the data for the column to be shifted into the display.
    *
-   * \param cb	the address of the function to be called from the library.
+   * \param cb  the address of the user function to be called from the library.
    * \return No return data
    */
   void setShiftDataInCallback(uint8_t (*cb)(uint8_t dev, transformType_t t)) { _cbShiftDataIn = cb; };
@@ -491,7 +494,7 @@ public:
    * function the type of shifting being executed
    * - the data for the column being shifted out
    *
-   * \param cb	the address of the function to be called from the library.
+   * \param cb  the address of the user function to be called from the library.
    * \return No return data
    */
   void setShiftDataOutCallback(void (*cb)(uint8_t dev, transformType_t t, uint8_t colData)) { _cbShiftDataOut = cb; };
@@ -514,8 +517,8 @@ public:
    *
    * endDev must be greater than or equal to startDev.
    *
-   * \param startDev	the first device to clear [0..getDeviceCount()-1]
-   * \param endDev		the last device to clear [0..getDeviceCount()-1]
+   * \param startDev  the first device to clear [0..getDeviceCount()-1]
+   * \param endDev    the last device to clear [0..getDeviceCount()-1]
    * \return No return value.
    */
   void clear(uint8_t startDev, uint8_t endDev);
@@ -528,11 +531,11 @@ public:
    * into the device and column within the device, allowing the LEDs to be treated
    * as a continuous pixel field.
    *
-   * \param r1		starting row coordinate for the point [0..ROW_SIZE-1].
-   * \param c1		starting column coordinate for the point [0..getColumnCount()-1].
-   * \param r2		ending row coordinate for the point [0..ROW_SIZE-1].
-   * \param c2		ending column coordinate for the point [0..getColumnCount())-1].
-   * \param state	true - switch on; false - switch off.
+   * \param r1    starting row coordinate for the point [0..ROW_SIZE-1].
+   * \param c1    starting column coordinate for the point [0..getColumnCount()-1].
+   * \param r2    ending row coordinate for the point [0..ROW_SIZE-1].
+   * \param c2    ending column coordinate for the point [0..getColumnCount())-1].
+   * \param state true - switch on; false - switch off.
    * \return false if parameter errors, true otherwise.
    */
   bool drawLine(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state);
@@ -545,9 +548,9 @@ public:
    * pointer should be a block of uint8_t data of size elements that will
    * contain the returned data.
    *
-   * \param col		address of the display column [0..getColumnCount()-1].
-   * \param size	number of columns of data to return.
-   * \param *pd		Pointer to a data buffer [0..size-1].
+   * \param col   address of the display column [0..getColumnCount()-1].
+   * \param size  number of columns of data to return.
+   * \param *pd   Pointer to a data buffer [0..size-1].
    * \return false if parameter errors, true otherwise. If true, data will be in the buffer at *pd.
    */
   bool getBuffer(uint16_t col, uint8_t size, uint8_t *pd);
@@ -561,7 +564,7 @@ public:
    * the LEDs in the column. The column is referenced with the absolute column
    * number (ie, the device number is inferred from the column).
    *
-   * \param c		column which is to be set [0..getColumnCount()-1].
+   * \param c   column to be read [0..getColumnCount()-1].
    * \return uint8_t value with each bit set to 1 if the corresponding LED is lit. 0 is returned for parameter error.
    */
   uint8_t getColumn(uint8_t c) { return getColumn((c / COL_SIZE), c % COL_SIZE); };
@@ -574,8 +577,8 @@ public:
    * and column within the device, allowing the LEDs to be treated as a
    * continuous pixel field.
    *
-   * \param r		row coordinate for the point [0..ROW_SIZE-1].
-   * \param c		column coordinate for the point [0..getColumnCount()-1].
+   * \param r   row coordinate for the point [0..ROW_SIZE-1].
+   * \param c   column coordinate for the point [0..getColumnCount()-1].
    * \return true if LED is on, false if off or parameter errors.
    */
   bool getPoint(uint8_t r, uint16_t c);
@@ -588,9 +591,9 @@ public:
    * pointer should be a block of uint8_t data of size elements that define
    * the bitmap.
    *
-   * \param col		address of the display column [0..getColumnCount()-1].
-   * \param size	number of columns of data following.
-   * \param *pd		Pointer to a data buffer [0..size-1].
+   * \param col   address of the start display column [0..getColumnCount()-1].
+   * \param size  number of columns of data following.
+   * \param *pd   Pointer to a data buffer [0..size-1].
    * \return false if parameter errors, true otherwise.
    */
   bool setBuffer(uint16_t col, uint8_t size, uint8_t *pd);
@@ -605,11 +608,11 @@ public:
    * lines and patterns when the display is being treated as a pixel field.
    * The least significant bit of the value is the lowest row number.
    *
-   * \param c		column which is to be set [0..getColumnCount()-1].
-   * \param value	each bit set to 1 will light up the corresponding LED.
+   * \param c     column which is to be set [0..getColumnCount()-1].
+   * \param value each bit set to 1 will light up the corresponding LED.
    * \return false if parameter errors, true otherwise.
    */
-  bool setColumn(uint8_t c, uint8_t value) { return setColumn((c / COL_SIZE), c % COL_SIZE, value); };
+  bool setColumn(uint16_t c, uint8_t value) { return setColumn((c / COL_SIZE), c % COL_SIZE, value); };
 
   /**
    * Set the status of a single LED, addressed as a pixel.
@@ -620,9 +623,9 @@ public:
    * column within the device, allowing the LEDs to be treated as a
    * continuous pixel field.
    *
-   * \param r		row coordinate for the point [0..ROW_SIZE-1].
-   * \param c		column coordinate for the point [0..getColumnCount()-1].
-   * \param state	true - switch on; false - switch off.
+   * \param r     row coordinate for the point [0..ROW_SIZE-1].
+   * \param c     column coordinate for the point [0..getColumnCount()-1].
+   * \param state true - switch on; false - switch off.
    * \return false if parameter errors, true otherwise.
    */
   bool setPoint(uint8_t r, uint16_t c, bool state);
@@ -635,7 +638,7 @@ public:
    * drawing patterns and lines horizontally across on the entire display.
    * The least significant bit of the value is the lowest column number.
    *
-   * \param r	   row which is to be set [0..ROW_SIZE-1].
+   * \param r      row which is to be set [0..ROW_SIZE-1].
    * \param value  each bit set to 1 will light up the corresponding LED on each device.
    * \return false if parameter errors, true otherwise.
    */
@@ -650,10 +653,10 @@ public:
    * endDev must be greater than or equal to startDev.
    * The least significant bit of the value is the lowest column number.
    *
-   * \param startDev	the first device for the transformation [0..getDeviceCount()-1]
-   * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
-   * \param r			row which is to be set [0..ROW_SIZE-1].
-   * \param value		each bit set to 1 will light up the corresponding LED on each device.
+   * \param startDev  the first device for the transformation [0..getDeviceCount()-1]
+   * \param endDev    the last device for the transformation [0..getDeviceCount()-1]
+   * \param r         row which is to be set [0..ROW_SIZE-1].
+   * \param value     each bit set to 1 will light up the corresponding LED on each device.
    * \return false if parameter errors, true otherwise.
    */
   bool setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t value);
@@ -678,9 +681,9 @@ public:
    * device boundaries (ie, there is overflow to an adjacent devices if appropriate).
    * endDev must be greater than or equal to startDev.
    *
-   * \param startDev	the first device for the transformation [0..getDeviceCount()-1]
-   * \param endDev		the last device for the transformation [0..getDeviceCount()-1]
-   * \param ttype		one of the transformation types in transformType_t.
+   * \param startDev  the first device for the transformation [0..getDeviceCount()-1]
+   * \param endDev    the last device for the transformation [0..getDeviceCount()-1]
+   * \param ttype     one of the transformation types in transformType_t.
    * \return false if parameter errors, true otherwise.
    */
   bool transform(uint8_t startDev, uint8_t endDev, transformType_t ttype);
@@ -694,7 +697,7 @@ public:
    *
    * This function is a convenience wrapper for the more general control() function call.
    *
-   * \param mode	one of the types in controlValue_t (ON/OFF).
+   * \param mode  one of the types in controlValue_t (ON/OFF).
    * \return No return value.
    */
   void update(controlValue_t mode) { control(UPDATE, mode); };
@@ -719,7 +722,7 @@ public:
    *
    * This function is a convenience wrapper for the more general control() function call.
    *
-   * \param mode	one of the types in controlValue_t (ON/OFF).
+   * \param mode  one of the types in controlValue_t (ON/OFF).
    * \return No return value.
    */
   void wraparound(controlValue_t mode) { control(WRAPAROUND, mode); };
@@ -732,7 +735,7 @@ public:
   /**
    * Clear all display data in the specified buffer.
    *
-   * \param buf		address of the buffer to clear [0..getDeviceCount()-1].
+   * \param buf   address of the buffer to clear [0..getDeviceCount()-1].
    * \return false if parameter errors, true otherwise.
    */
   bool clear(uint8_t buf);
@@ -743,8 +746,8 @@ public:
    * This method operates on the specific buffer, returning the bit field value of
    * the LEDs in the column.
    *
-   * \param buf		address of the display [0..getDeviceCount()-1].
-   * \param c		column which is to be set [0..COL_SIZE-1].
+   * \param buf   address of the display [0..getDeviceCount()-1].
+   * \param c     column which is to be set [0..COL_SIZE-1].
    * \return uint8_t value with each bit set to 1 if the corresponding LED is lit. 0 is returned for parameter error.
    */
   uint8_t getColumn(uint8_t buf, uint8_t c);
@@ -755,8 +758,8 @@ public:
    * This method operates on the specific buffer, returning the bit field value of
    * the LEDs in the row.
    *
-   * \param buf		address of the display [0..getDeviceCount()-1].
-   * \param r		row which is to be set [0..ROW_SIZE-1].
+   * \param buf   address of the display [0..getDeviceCount()-1].
+   * \param r     row which is to be set [0..ROW_SIZE-1].
    * \return uint8_t value with each bit set to 1 if the corresponding LED is lit. 0 is returned for parameter error.
    */
   uint8_t getRow(uint8_t buf, uint8_t r);
@@ -769,9 +772,9 @@ public:
    * drawing patterns and lines vertically on the display device.
    * The least significant bit of the value is the lowest column number.
    *
-   * \param buf		address of the display [0..getDeviceCount()-1].
-   * \param c		column which is to be set [0..COL_SIZE-1].
-   * \param value   each bit set to 1 will light up the	corresponding LED.
+   * \param buf   address of the display [0..getDeviceCount()-1].
+   * \param c     column which is to be set [0..COL_SIZE-1].
+   * \param value each bit set to 1 will light up the	corresponding LED.
    * \return false if parameter errors, true otherwise.
    */
   bool setColumn(uint8_t buf, uint8_t c, uint8_t value);
@@ -784,9 +787,9 @@ public:
    * drawing patterns and lines horizontally across the display device.
    * The least significant bit of the value is the lowest row number.
    *
-   * \param buf		address of the display [0..getDeviceCount()-1].
-   * \param r		row which is to be set [0..ROW_SIZE-1].
-   * \param value   each bit set to 1 within this byte will light up the corresponding LED.
+   * \param buf   address of the display [0..getDeviceCount()-1].
+   * \param r     row which is to be set [0..ROW_SIZE-1].
+   * \param value each bit set to 1 within this byte will light up the corresponding LED.
    * \return false if parameter errors, true otherwise.
    */
   bool setRow(uint8_t buf, uint8_t r, uint8_t value);
@@ -798,7 +801,7 @@ public:
    * transformations in transformType_t. The transformation is limited to the
    * nominated device buffer only (ie, there is no overflow to an adjacent device).
    *
-   * \param buf	   address of the display [0..getBufferCount()-1].
+   * \param buf    address of the display [0..getBufferCount()-1].
    * \param ttype  one of the transformation types in transformType_t.
    * \return false if parameter errors, true otherwise.
    */
@@ -812,7 +815,7 @@ public:
    * the specified device at the same time.
    * Note that control() messages are not buffered but cause immediate action.
    *
-   * \param buf	address of the display [0..getBufferCount()-1].
+   * \param buf address of the display [0..getBufferCount()-1].
    * \return No return value.
    */
   void update(uint8_t buf) { flushBuffer(buf); };
@@ -833,9 +836,9 @@ public:
    * NOTE: This function is only available if the library defined value
    * USE_LOCAL_FONT is set to 1.
    *
-   * \param c		the character to retrieve.
-   * \param size	the size of the user buffer in unit8_t units.
-   * \param buf		address of the user buffer supplied.
+   * \param c     the character to retrieve.
+   * \param size  the size of the user buffer in unit8_t units.
+   * \param buf   address of the user buffer supplied.
    * \return width (in columns) of the character, 0 if parameter errors.
    */
   uint8_t getChar(uint8_t c, uint8_t size, uint8_t *buf);
@@ -849,8 +852,8 @@ public:
    * NOTE: This function is only available if the library defined value
    * USE_LOCAL_FONT is set to 1.
    *
-   * \param col		column of the display in the range accepted [0..getColumnCount()-1].
-   * \param c		the character to display.
+   * \param col column of the display in the range accepted [0..getColumnCount()-1].
+   * \param c   the character to display.
    * \return width (in columns) of the character, 0 if parameter errors.
    */
   uint8_t setChar(uint16_t col, uint8_t c);
@@ -870,7 +873,7 @@ public:
    * NOTE: This function is only available if the library defined value
    * USE_LOCAL_FONT is set to 1.
    *
-   * \param f	fontType_t pointer to the table of font data in PROGMEM or nullptr.
+   * \param f fontType_t pointer to the table of font data in PROGMEM or nullptr.
    * \return false if parameter errors, true otherwise.
    */
   bool setFont(fontType_t *f);
@@ -907,51 +910,51 @@ public:
 private:
   typedef struct
   {
-	uint8_t dig[ROW_SIZE];	// data for each digit of the MAX72xx (DIG0-DIG7)
-	uint8_t changed;        // one bit for each digit changed ('dirty bit')
+  uint8_t dig[ROW_SIZE];  // data for each digit of the MAX72xx (DIG0-DIG7)
+  uint8_t changed;        // one bit for each digit changed ('dirty bit')
   } deviceInfo_t;
 
   // SPI interface data
-  uint8_t	_dataPin;		  // DATA is shifted out of this pin ...
-  uint8_t	_clkPin;		  // ... signaled by a CLOCK on this pin ...
-  uint8_t	_csPin;			  // ... and LOADed when the chip select pin is driven HIGH to LOW
-  bool		_hardwareSPI;	// true if SPI interface is the hardware interface
+  uint8_t _dataPin;     // DATA is shifted out of this pin ...
+  uint8_t _clkPin;      // ... signaled by a CLOCK on this pin ...
+  uint8_t _csPin;       // ... and LOADed when the chip select pin is driven HIGH to LOW
+  bool    _hardwareSPI; // true if SPI interface is the hardware interface
 
   // Device buffer data
-  uint8_t	_maxDevices;	// maximum number of devices in use
-  deviceInfo_t*	_matrix;// the current status of the LED matrix (buffers)
-  uint8_t*	_spiData;		// data buffer for writing to SPI interface
+  uint8_t _maxDevices;  // maximum number of devices in use
+  deviceInfo_t* _matrix;// the current status of the LED matrix (buffers)
+  uint8_t*  _spiData;   // data buffer for writing to SPI interface
 
   // User callback function for shifting operations
-  uint8_t	(*_cbShiftDataIn)(uint8_t dev, transformType_t t);
-  void		(*_cbShiftDataOut)(uint8_t dev, transformType_t t, uint8_t colData);
+  uint8_t (*_cbShiftDataIn)(uint8_t dev, transformType_t t);
+  void    (*_cbShiftDataOut)(uint8_t dev, transformType_t t, uint8_t colData);
 
   // Control data for the library
-  bool		_updateEnabled; // update the display when this is true, suspend otherwise
-  bool		_wrapAround;	  // when shifting, wrap left to right and vice versa (circular buffer)
+  bool    _updateEnabled; // update the display when this is true, suspend otherwise
+  bool    _wrapAround;    // when shifting, wrap left to right and vice versa (circular buffer)
 
 #if USE_LOCAL_FONT
   // Font related data
-  fontType_t	*_fontData;		// pointer to the current font data being used
-  uint16_t		*_fontIndex;	// font index for faster access to font table offsets
+  fontType_t  *_fontData;   // pointer to the current font data being used
+  uint16_t    *_fontIndex;  // font index for faster access to font table offsets
 
-  uint16_t	getFontCharOffset(uint8_t c);	// find the character in the font data
-  void		buildFontIndex(void);			// build a font index
+  uint16_t  getFontCharOffset(uint8_t c); // find the character in the font data
+  void      buildFontIndex(void);         // build a font index
 #endif
 
   // Private functions
-  void spiSend(void);			    // do the actual physical communications task
-  void spiClearBuffer(void);	// clear the SPI send buffer
-  void controlHardware(uint8_t dev, controlRequest_t mode, int value);	// set hardware control commands
-  void controlLibrary(controlRequest_t mode, int value);	// set internal control commands
+  void spiSend(void);         // do the actual physical communications task
+  void spiClearBuffer(void);  // clear the SPI send buffer
+  void controlHardware(uint8_t dev, controlRequest_t mode, int value);  // set hardware control commands
+  void controlLibrary(controlRequest_t mode, int value);  // set internal control commands
 
-  void flushBuffer(uint8_t buf);// determine what needs to be sent for one device and transmit
-  void flushBufferAll();			  // determine what needs to be sent for all devices and transmit
+  void flushBuffer(uint8_t buf);  // determine what needs to be sent for one device and transmit
+  void flushBufferAll();          // determine what needs to be sent for all devices and transmit
 
-  uint8_t bitReverse(uint8_t b);	// reverse the order of bits in the byte
-  bool transformBuffer(uint8_t buf, transformType_t ttype);	// internal transform function
+  uint8_t bitReverse(uint8_t b);  // reverse the order of bits in the byte
+  bool transformBuffer(uint8_t buf, transformType_t ttype); // internal transform function
 
-  bool copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest);	  // copy a row from Src to Dest
+  bool copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest);   // copy a row from Src to Dest
   bool copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest);// copy a row from Src to Dest
 };
 

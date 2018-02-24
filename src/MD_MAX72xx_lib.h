@@ -30,50 +30,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Includes library definitions
  */
 
-#define	MAX_DEBUG	0		///< Enable or disable (default) debugging output from the MD_MAX72xx library
+#define MAX_DEBUG 0   ///< Enable or disable (default) debugging output from the MD_MAX72xx library
 
 #if MAX_DEBUG
-#define	PRINT(s, v)		{ Serial.print(F(s)); Serial.print(v); }		  ///< Print a string followed by a value (decimal)
-#define	PRINTX(s, v)	{ Serial.print(F(s)); Serial.print(v, HEX); }	///< Print a string followed by a value (hex)
-#define	PRINTB(s, v)	{ Serial.print(F(s)); Serial.print(v, BIN); }	///< Print a string followed by a value (binary)
-#define	PRINTS(s)		  { Serial.print(F(s)); }							          ///< Print a string
+#define PRINT(s, v)   { Serial.print(F(s)); Serial.print(v); }      ///< Print a string followed by a value (decimal)
+#define PRINTX(s, v)  { Serial.print(F(s)); Serial.print(v, HEX); } ///< Print a string followed by a value (hex)
+#define PRINTB(s, v)  { Serial.print(F(s)); Serial.print(v, BIN); } ///< Print a string followed by a value (binary)
+#define PRINTS(s)     { Serial.print(F(s)); }                       ///< Print a string
 #else
-#define	PRINT(s, v)		///< Print a string followed by a value (decimal)
-#define	PRINTX(s, v)	///< Print a string followed by a value (hex)
-#define	PRINTB(s, v)	///< Print a string followed by a value (binary)
-#define	PRINTS(s)		  ///< Print a string
+#define PRINT(s, v)   ///< Print a string followed by a value (decimal)
+#define PRINTX(s, v)  ///< Print a string followed by a value (hex)
+#define PRINTB(s, v)  ///< Print a string followed by a value (binary)
+#define PRINTS(s)     ///< Print a string
 #endif
 
 // Opcodes for the MAX7221 and MAX7219
 // All OP_DIGITn are offsets from OP_DIGIT0
-#define	OP_NOOP   		0	///< MAX72xx opcode for NO OP
-#define OP_DIGIT0 		1	///< MAX72xx opcode for DIGIT0
-#define OP_DIGIT1 		2	///< MAX72xx opcode for DIGIT1
-#define OP_DIGIT2 		3	///< MAX72xx opcode for DIGIT2
-#define OP_DIGIT3 		4	///< MAX72xx opcode for DIGIT3
-#define OP_DIGIT4 		5	///< MAX72xx opcode for DIGIT4
-#define OP_DIGIT5 		6	///< MAX72xx opcode for DIGIT5
-#define OP_DIGIT6 		7	///< MAX72xx opcode for DIGIT6
-#define OP_DIGIT7 		8	///< MAX72xx opcode for DIGIT7
-#define OP_DECODEMODE  	9	///< MAX72xx opcode for DECODE MODE
-#define OP_INTENSITY   10	///< MAX72xx opcode for SET INTENSITY
-#define OP_SCANLIMIT   11	///< MAX72xx opcode for SCAN LIMIT
-#define OP_SHUTDOWN    12	///< MAX72xx opcode for SHUT DOWN
-#define OP_DISPLAYTEST 15	///< MAX72xx opcode for DISPLAY TEST
+#define OP_NOOP       0 ///< MAX72xx opcode for NO OP
+#define OP_DIGIT0     1 ///< MAX72xx opcode for DIGIT0
+#define OP_DIGIT1     2 ///< MAX72xx opcode for DIGIT1
+#define OP_DIGIT2     3 ///< MAX72xx opcode for DIGIT2
+#define OP_DIGIT3     4 ///< MAX72xx opcode for DIGIT3
+#define OP_DIGIT4     5 ///< MAX72xx opcode for DIGIT4
+#define OP_DIGIT5     6 ///< MAX72xx opcode for DIGIT5
+#define OP_DIGIT6     7 ///< MAX72xx opcode for DIGIT6
+#define OP_DIGIT7     8 ///< MAX72xx opcode for DIGIT7
+#define OP_DECODEMODE  9  ///< MAX72xx opcode for DECODE MODE
+#define OP_INTENSITY   10 ///< MAX72xx opcode for SET INTENSITY
+#define OP_SCANLIMIT   11 ///< MAX72xx opcode for SCAN LIMIT
+#define OP_SHUTDOWN    12 ///< MAX72xx opcode for SHUT DOWN
+#define OP_DISPLAYTEST 15 ///< MAX72xx opcode for DISPLAY TEST
 
-#define ALL_CHANGED   0xff			///< Mask for all rows changed in a buffer structure
-#define ALL_CLEAR     0x00			///< Mask for all rows clear in a buffer structure
+#define ALL_CHANGED   0xff    ///< Mask for all rows changed in a buffer structure
+#define ALL_CLEAR     0x00    ///< Mask for all rows clear in a buffer structure
 
-#define	ASCII_INDEX_SIZE	256			///< Number of characters in a font table (ASCII maximum)
+#define ASCII_INDEX_SIZE  256 ///< Number of characters in a font table (ASCII maximum)
 
 // Shortcuts
-#define	SPI_DATA_SIZE	(sizeof(uint8_t)*_maxDevices*2)	///< Size of the SPI data buffers
-#define	SPI_OFFSET(i,x)	(((LAST_BUFFER-(i))*2)+(x))	///< SPI data offset for buffer i, digit x
-#define	FIRST_BUFFER	0						        ///< First buffer number
-#define	LAST_BUFFER		(_maxDevices-1)			///< Last buffer number
+#define SPI_DATA_SIZE (sizeof(uint8_t)*_maxDevices*2)   ///< Size of the SPI data buffers
+#define SPI_OFFSET(i,x) (((LAST_BUFFER-(i))*2)+(x))     ///< SPI data offset for buffer i, digit x
+
+#define FIRST_BUFFER 0                 ///< First buffer number
+#define LAST_BUFFER  (_maxDevices-1)   ///< Last buffer number
 
 // variables shared in the library
-extern const uint8_t PROGMEM _sysfont_var[];		///< System variable pitch font table
+extern const uint8_t PROGMEM _sysfont_var[];  ///< System variable pitch font table
 
 /**
 \page pageHardware Hardware
@@ -102,9 +103,9 @@ ___
 \page pageParola Parola Custom Module
 The Parola Module
 -----------------
-These custome modules allow a 'lego-like' approach to LED matrix display, using standard 8x8 on
-LED matrices. The software supports this flexibility through a scalable approach that
-only requires the definition of the number of modules to adapt existing software to
+These custom modules allow a 'lego-like' approach to LED matrix display, using standard
+8x8 on LED matrices. The software supports this flexibility through a scalable approach 
+that only requires the definition of the number of modules to adapt existing software to
 a new configuration.
 
 ![Completed Parola module with and without the LED matrix] (PCB_Actual.jpg "Parola Custom Modules")
@@ -118,7 +119,7 @@ chained, making them ideal for the purpose.
 
 ![Parola Circuit Schematic] (Circuit_Schematic.jpg "Parola Schematic")
 
-The PCB design was executed using the autorouting facility in Eagle CAD, and the PCB was
+The PCB design was executed using the auto routing facility in Eagle CAD, and the PCB was
 manufactured by SeeedStudio. The Eagle CAD files for the layout and the Gerber files
 suitable for SeeedStudio are found on the [Parola website] (https://github.com/MajicDesigns/MD_Parola).
 The final design includes edge connections that allow many modules to be connected
@@ -129,7 +130,7 @@ together into an extended display, one LED module high.
 Wiring your own Parola standard matrix
 --------------------------------------
 How the LED matrix is wired is important for the library. The matrix used for library
-development was labelled 1088B and is sometime referred to as a **common anode** matrix.
+development was labeled 1088B and is sometime referred to as a **common anode** matrix.
 Connections should be made as described in the table below to be consistent with the
 assumptions in the software library.
 - Columns are addressed through the segment selection lines
@@ -260,7 +261,7 @@ FC-16 DIY Kit Module
 ----------------------
 These modules are available as kits from some internet suppliers such as G&C Supermarket on eBay
 (http://stores.ebay.com.au/gcsupermarkethkcoltd/). They are identifiable by the FC-16 designation
-silkscreened on the PCB. Most of the available sets of 4 modules connected as one unit are 
+silk screened on the PCB. Most of the available sets of 4 modules connected as one unit are 
 FC-16 type.
 
 ![FC-16 Module] (FC-16_Module.jpg "FC-16 Module")
@@ -416,7 +417,7 @@ line parameter (eg "txt2font fred"). The application will look for and input fil
 (fred.txt) and produce an output file with a '.h' extension (fred.h).
 
 The txt2font file format is line based. Lines starting with a '.' are directives for the application, all
-other lines are data for the current character defintion. An example of the beginning of a font
+other lines are data for the current character definition. An example of the beginning of a font
 definition file is shown below.
 
       .NAME sys_var_single
@@ -442,12 +443,12 @@ The directives have the following meaning:
 The name can appear anywhere in the file. If omitted, a default name is used.
 - .HEIGHT defines the height for the font. Single height fonts are '1' and double height fonts are '2'.
 If double height fonts are specified then the range of ASCII character values is restricted to 0..127 as
-the top and botton halves of the font are stored offset by 128 positions. If omitted, the application
+the top and bottom halves of the font are stored offset by 128 positions. If omitted, the application
 assumes single height font.
 - .WIDTH specifies the width of the font for all the characters defined between this WIDTH and the
-next WIDTH defintion. 0 means variable width; any other number defines the fixed width. WIDTH may be changed
+next WIDTH definition. 0 means variable width; any other number defines the fixed width. WIDTH may be changed
 within the file - for example to define a fixed size space (no pixels!) character in a variable width font.
-- .CHAR ends the defintion of the current character and starts the defintion for the specified ASCII value.
+- .CHAR ends the definition of the current character and starts the definition for the specified ASCII value.
 Valid parameters are [0..255] for single height, and [0..127] for double height. If a character code is
 omitted in the font definition file it is assumed to be empty.
 - .NOTE is an option note that will be added as a comment for the entry in the font data table.
@@ -473,40 +474,43 @@ these are not available.
 
 // *******************************************************************************************
 // ** Combinations not listed here have probably not been tested and may not work correctly **
+// **                                                                                       **
+// ** NOTE: in nearly all cases, the user should not be changing these combinations but     **
+// **       modifying the hardware type definitions in the MD_MAX72xx.h library header file.**
 // *******************************************************************************************
-#if USE_PAROLA_HW		// tested MC 8 March 2014
+#if USE_PAROLA_HW   // tested MC 8 March 2014
 //#pragma message "PAROLA HW selected"
-#define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
-#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
-#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
+#define HW_DIG_ROWS 1 ///< MAX72xx digits are mapped to rows in on the matrix
+#define HW_REV_COLS 1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define HW_REV_ROWS 0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
-#if USE_GENERIC_HW		// tested MC 9 March 2014
+#if USE_GENERIC_HW  // tested MC 9 March 2014
 //#pragma message "GENERIC HW selected"
-#define	HW_DIG_ROWS	0 ///< MAX72xx digits are mapped to rows in on the matrix
-#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
-#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
+#define HW_DIG_ROWS 0 ///< MAX72xx digits are mapped to rows in on the matrix
+#define HW_REV_COLS 1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define HW_REV_ROWS 0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
-#if USE_ICSTATION_HW	// tested MC 9 March 2014
+#if USE_ICSTATION_HW  // tested MC 9 March 2014
 //#pragma message "ICSTATION HW selected"
-#define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
-#define	HW_REV_COLS	1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
-#define	HW_REV_ROWS	1 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
+#define HW_DIG_ROWS 1 ///< MAX72xx digits are mapped to rows in on the matrix
+#define HW_REV_COLS 1 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define HW_REV_ROWS 1 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
-#if USE_FC16_HW	      // tested MC 23 Feb 2015
+#if USE_FC16_HW       // tested MC 23 Feb 2015
 //#pragma message "FC16 HW selected"
-#define	HW_DIG_ROWS	1 ///< MAX72xx digits are mapped to rows in on the matrix
-#define	HW_REV_COLS	0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
-#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
+#define HW_DIG_ROWS 1 ///< MAX72xx digits are mapped to rows in on the matrix
+#define HW_REV_COLS 0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define HW_REV_ROWS 0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
-#if USE_OTHER_HW	    // user defined custom hardware configuration
+#if USE_OTHER_HW      // user defined custom hardware configuration
 //#pragma message "OTHER HW selected"
-#define	HW_DIG_ROWS	0 ///< MAX72xx digits are mapped to rows in on the matrix
-#define	HW_REV_COLS	0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
-#define	HW_REV_ROWS	0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
+#define HW_DIG_ROWS 0 ///< MAX72xx digits are mapped to rows in on the matrix
+#define HW_REV_COLS 0 ///< Normal orientation is col 0 on the right. Set to 1 if reversed
+#define HW_REV_ROWS 0 ///< Normal orientation is row 0 at the top. Set to 1 if reversed
 #endif
 
 #ifndef HW_DIG_ROWS
@@ -515,15 +519,15 @@ these are not available.
 
 // Macros to map ROW and COLUMN coordinates
 #if HW_REV_ROWS
-#define	HW_ROW(r)	(7-r)	///< Pixel to hardware coordinate row mapping
+#define HW_ROW(r) (7-r) ///< Pixel to hardware coordinate row mapping
 #else
-#define	HW_ROW(r)	(r)		///< Pixel to hardware coordinate row mapping
+#define HW_ROW(r) (r)   ///< Pixel to hardware coordinate row mapping
 #endif
 
 #if HW_REV_COLS
-#define	HW_COL(c)	(7-c)	///< Pixel to hardware coordinate column mapping
+#define HW_COL(c) (7-c) ///< Pixel to hardware coordinate column mapping
 #else
-#define	HW_COL(c)	(c)		///< Pixel to hardware coordinate column mapping
+#define HW_COL(c) (c)   ///< Pixel to hardware coordinate column mapping
 #endif
 
 #endif

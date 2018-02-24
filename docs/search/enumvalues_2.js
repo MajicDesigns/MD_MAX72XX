@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['off',['OFF',['../class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457a69c74295de1c864d082152eb358409a1',1,'MD_MAX72XX']]],
-  ['on',['ON',['../class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457aa19c4a20e024758f7cb4b82283ef2138',1,'MD_MAX72XX']]]
+  ['scanlimit',['SCANLIMIT',['../class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa5bd97d72ff4cc7d30ee1d24213cee6a7',1,'MD_MAX72XX']]],
+  ['shutdown',['SHUTDOWN',['../class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fad2d5ee4317d7dfb62c9f0dcc88562e1a',1,'MD_MAX72XX']]]
 ];

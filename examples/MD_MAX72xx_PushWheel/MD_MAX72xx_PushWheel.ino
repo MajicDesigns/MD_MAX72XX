@@ -43,14 +43,14 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 #define ANIMATION_FRAME_DELAY 30  // in milliseconds
 
 // Structure to hold the data for each character to be displayed and animated
-// this could be expanded to include other charactyer specific data (eg, column
+// this could be expanded to include other character specific data (eg, column
 // where it starts if display is spaced irregularly).
 struct digitData
 {
-  uint8_t oldValue, newValue;   // ascii value for the character
-  uint8_t index;                // animation progession index
+  uint8_t oldValue, newValue;   // ASCII value for the character
+  uint8_t index;                // animation progression index
   uint32_t  timeLastFrame;      // time the last frame started animating
-  uint8_t charCols;             // number of valid in the charMap
+  uint8_t charCols;             // number of valid cols in the charMap
   uint8_t charMap[CHAR_COLS];   // character font bitmap
 };
 
@@ -108,7 +108,7 @@ boolean displayValue(uint16_t value)
       state = ST_WAIT;
       break;
 
-    case ST_WAIT: // not animating - save new vaue digits and check if we need to animate
+    case ST_WAIT: // not animating - save new value digits and check if we need to animate
       PRINTS("\nST_WAIT");
       for (int8_t i = DIGITS_SIZE - 1; i >= 0; i--)
       {
@@ -128,7 +128,7 @@ boolean displayValue(uint16_t value)
 
       if (state == ST_WAIT) // no changes - keep waiting
         break;
-      // else fall through as we ned to animate from now
+      // else fall through as we need to animate from now
 
     case ST_ANIM: // currently animating a change
       // work out the new intermediate bitmap for each character

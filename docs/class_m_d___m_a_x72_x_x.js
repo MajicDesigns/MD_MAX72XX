@@ -10,10 +10,6 @@ var class_m_d___m_a_x72_x_x =
       [ "UPDATE", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa6e9fa4baa13700cb81d9ca48d849d26f", null ],
       [ "WRAPAROUND", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa730720f52539695efa6d004046981827", null ]
     ] ],
-    [ "controlValue_t", "class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457", [
-      [ "OFF", "class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457a69c74295de1c864d082152eb358409a1", null ],
-      [ "ON", "class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457aa19c4a20e024758f7cb4b82283ef2138", null ]
-    ] ],
     [ "transformType_t", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28", [
       [ "TSL", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28ad0e19a3463440fa31e182d03ef304d39", null ],
       [ "TSR", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28afe33d76fd265c530e38a10f3f8c0b02d", null ],
@@ -47,7 +43,7 @@ var class_m_d___m_a_x72_x_x =
     [ "getRow", "class_m_d___m_a_x72_x_x.html#a59eefabcaf003dc37dd17f41c5d6d211", null ],
     [ "setBuffer", "class_m_d___m_a_x72_x_x.html#a1aaabf8c4df556c3e9a04a1319234261", null ],
     [ "setChar", "class_m_d___m_a_x72_x_x.html#aa97b0a8149fe89513b16518a8300f238", null ],
-    [ "setColumn", "class_m_d___m_a_x72_x_x.html#a541c8253a435f78fbb90d5432a887e34", null ],
+    [ "setColumn", "class_m_d___m_a_x72_x_x.html#ab3f2885a67e435198b5b01505030165d", null ],
     [ "setColumn", "class_m_d___m_a_x72_x_x.html#a7788a0bdbef1a302a7652998b21703bd", null ],
     [ "setFont", "class_m_d___m_a_x72_x_x.html#a16655f29d088d8ce1d557abcb703513d", null ],
     [ "setPoint", "class_m_d___m_a_x72_x_x.html#a1078a6ad9ae77ff7ef75f78d86f04da7", null ],
@@ -62,5 +58,7 @@ var class_m_d___m_a_x72_x_x =
     [ "update", "class_m_d___m_a_x72_x_x.html#a3f91498bfc0023f67d4bf1284ca70317", null ],
     [ "update", "class_m_d___m_a_x72_x_x.html#a4d51360880d7a6fa33a6f917cf423879", null ],
     [ "update", "class_m_d___m_a_x72_x_x.html#a9cc242e22748229a223851217b76fd4e", null ],
-    [ "wraparound", "class_m_d___m_a_x72_x_x.html#a0b5940c115ad58aeb05d7af1e9162f97", null ]
+    [ "wraparound", "class_m_d___m_a_x72_x_x.html#a0b5940c115ad58aeb05d7af1e9162f97", null ],
+    [ "OFF", "class_m_d___m_a_x72_x_x.html#a0dff60785ecf2d1a0dddf9f6f077a6d9", null ],
+    [ "ON", "class_m_d___m_a_x72_x_x.html#af5481fa994efb897c9cb418f8ba19096", null ]
 ];

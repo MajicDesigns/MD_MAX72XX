@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_MAX72XX::buildFontIndex(void)
 {
-  uint16_t	offset = 0;
+  uint16_t  offset = 0;
 
   if (_fontIndex == nullptr)
     return;
@@ -43,19 +43,19 @@ void MD_MAX72XX::buildFontIndex(void)
   PRINTS("\nBuilding font index");
   for (uint16_t i=0; i<ASCII_INDEX_SIZE; i++)
   {
-	  _fontIndex[i] = offset;
-	  PRINT("\nASCII '", i);
-	  PRINT("' offset ", _fontIndex[i]);
-	  offset += pgm_read_byte(_fontData+offset);
-	  offset++;
+    _fontIndex[i] = offset;
+    PRINT("\nASCII '", i);
+    PRINT("' offset ", _fontIndex[i]);
+    offset += pgm_read_byte(_fontData+offset);
+    offset++;
   }
 }
 
 uint8_t MD_MAX72XX::getMaxFontWidth(void)
 {
-  uint8_t max = 0;
-  uint8_t charWidth;
-  uint16_t	offset = 0;
+  uint8_t   max = 0;
+  uint8_t   charWidth;
+  uint16_t  offset = 0;
 
   PRINTS("\nFinding max font width");
   if (_fontData != nullptr)
@@ -95,17 +95,17 @@ uint16_t MD_MAX72XX::getFontCharOffset(uint8_t c)
   {
     PRINTS(" by Search ");
 
-    uint16_t	offset = 0;
+    uint16_t  offset = 0;
 
     for (uint8_t i=0; i<c; i++)
     {
       PRINTS(".");
-	    offset += pgm_read_byte(_fontData+offset);
-	    offset++;	// skip size byte we used above
+      offset += pgm_read_byte(_fontData+offset);
+      offset++; // skip size byte we used above
     }
     PRINT(" searched offset ", offset);
 
-	  return(offset);
+    return(offset);
   }
 }
 
@@ -130,7 +130,7 @@ uint8_t MD_MAX72XX::getChar(uint8_t c, uint8_t size, uint8_t *buf)
   uint16_t offset = getFontCharOffset(c);
   size = min(size, pgm_read_byte(_fontData+offset));
 
-  offset++;	// skip the size byte
+  offset++; // skip the size byte
 
   for (uint8_t i=0; i<size; i++)
     *buf++ = pgm_read_byte(_fontData+offset+i);
@@ -142,18 +142,18 @@ uint8_t MD_MAX72XX::setChar(uint16_t col, uint8_t c)
 {
   PRINT("\nsetChar: '", c);
   PRINT("' column ", col);
-  boolean	b = _updateEnabled;
+  boolean b = _updateEnabled;
 
   uint16_t offset = getFontCharOffset(c);
   uint8_t size = pgm_read_byte(_fontData+offset);
 
-  offset++;	// skip the size byte
+  offset++; // skip the size byte
 
   _updateEnabled = false;
   for (int8_t i=0; i<size; i++)
   {
     uint8_t colData = pgm_read_byte(_fontData+offset+i);
-	  setColumn(col--, colData);
+    setColumn(col--, colData);
   }
   _updateEnabled = b;
 

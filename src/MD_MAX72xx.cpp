@@ -51,18 +51,18 @@ void MD_MAX72XX::begin(void)
     PRINTS("\nHardware SPI");
     SPI.begin();
     // Old mode of operations!
-	  //SPI.setDataMode(SPI_MODE0);
-	  //SPI.setBitOrder(MSBFIRST);
-	  //SPI.setClockDivider(SPI_CLOCK_DIV2);
+    //SPI.setDataMode(SPI_MODE0);
+    //SPI.setBitOrder(MSBFIRST);
+    //SPI.setClockDivider(SPI_CLOCK_DIV2);
   }
   else
   {
     PRINTS("\nBitBang SPI")
     pinMode(_dataPin, OUTPUT);
-  	pinMode(_clkPin, OUTPUT);
+    pinMode(_clkPin, OUTPUT);
   }
 
-  // initialise our preferred CS pin (could be same as SS)
+  // initialize our preferred CS pin (could be same as SS)
   digitalWrite(_csPin, HIGH);
   pinMode(_csPin, OUTPUT);
 
@@ -91,22 +91,22 @@ void MD_MAX72XX::begin(void)
   // - the MAX7219/MAX7221 is shut down.
   // The devices need to be set to our library defaults prior using the
   // display modules.
-  control(TEST, OFF);				// no test
-  control(SCANLIMIT, ROW_SIZE-1);	// scan limit is set to max on startup
-  control(INTENSITY, MAX_INTENSITY/2);	// set intensity to a reasonable value
-  control(DECODE, OFF);				// make sure that no decoding happens (warm boot potential issue)
+  control(TEST, OFF);                   // no test
+  control(SCANLIMIT, ROW_SIZE-1);       // scan limit is set to max on startup
+  control(INTENSITY, MAX_INTENSITY/2);  // set intensity to a reasonable value
+  control(DECODE, OFF);                 // ensure no decoding (warm boot potential issue)
   clear();
-  control(SHUTDOWN, OFF);			// take the modules out of shutdown mode
+  control(SHUTDOWN, OFF);               // take the modules out of shutdown mode
 }
 
 MD_MAX72XX::~MD_MAX72XX(void)
 {
-	if (_hardwareSPI) SPI.end();	// reset SPI mode
+  if (_hardwareSPI) SPI.end();  // reset SPI mode
 
-	free(_matrix);
-	free(_spiData);
+  free(_matrix);
+  free(_spiData);
 #if USE_LOCAL_FONT && USE_FONT_INDEX
-	if (_fontIndex != NULL) free(_fontIndex);
+  if (_fontIndex != NULL) free(_fontIndex);
 #endif
 }
 
@@ -114,40 +114,40 @@ void MD_MAX72XX::controlHardware(uint8_t dev, controlRequest_t mode, int value)
 // control command is for the devices, translate internal request to device bytes
 // into the transmission buffer
 {
-	uint8_t opcode = OP_NOOP;
-	uint8_t param = 0;
+  uint8_t opcode = OP_NOOP;
+  uint8_t param = 0;
 
-	// work out data to write
-	switch (mode)
-	{
-		case SHUTDOWN:
-			opcode = OP_SHUTDOWN;
-			param = (value == OFF ? 1 : 0);
-			break;
+  // work out data to write
+  switch (mode)
+  {
+    case SHUTDOWN:
+      opcode = OP_SHUTDOWN;
+      param = (value == OFF ? 1 : 0);
+      break;
 
-		case SCANLIMIT:
-			opcode = OP_SCANLIMIT;
-			param = (value > MAX_SCANLIMIT ? MAX_SCANLIMIT : value);
-			break;
+    case SCANLIMIT:
+      opcode = OP_SCANLIMIT;
+      param = (value > MAX_SCANLIMIT ? MAX_SCANLIMIT : value);
+      break;
 
-		case INTENSITY:
-			opcode = OP_INTENSITY;
-			param = (value > MAX_INTENSITY ? MAX_INTENSITY : value);
-			break;
+    case INTENSITY:
+      opcode = OP_INTENSITY;
+      param = (value > MAX_INTENSITY ? MAX_INTENSITY : value);
+      break;
 
-		case DECODE:
-			opcode = OP_DECODEMODE;
-			param = (value == OFF ? 0 : 0xff);
-			break;
+    case DECODE:
+      opcode = OP_DECODEMODE;
+      param = (value == OFF ? 0 : 0xff);
+      break;
 
-		case TEST:
-			opcode = OP_DISPLAYTEST;
-			param = (value == OFF ? 0 : 1);
-			break;
+    case TEST:
+      opcode = OP_DISPLAYTEST;
+      param = (value == OFF ? 0 : 1);
+      break;
 
-		default:
-			return;
-	}
+    default:
+      return;
+  }
 
   // put our device data into the buffer
   _spiData[SPI_OFFSET(dev, 0)] = opcode;
@@ -159,14 +159,14 @@ void MD_MAX72XX::controlLibrary(controlRequest_t mode, int value)
 {
   switch (mode)
   {
-	  case UPDATE:
-		  _updateEnabled = (value == ON);
-		  if (_updateEnabled) flushBufferAll();
-		  break;
+    case UPDATE:
+      _updateEnabled = (value == ON);
+    if (_updateEnabled) flushBufferAll();
+      break;
 
-	  case WRAPAROUND:
-		  _wrapAround = (value == ON);
-		  break;
+    case WRAPAROUND:
+      _wrapAround = (value == ON);
+      break;
   }
 }
 
@@ -174,14 +174,14 @@ bool MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode
 {
   if (endDev < startDev) return(false);
 
-  if (mode < UPDATE)	// device based control
+  if (mode < UPDATE)  // device based control
   {
-	  spiClearBuffer();
+    spiClearBuffer();
     for (uint8_t i = startDev; i <= endDev; i++)
-	    controlHardware(i, mode, value);
-	  spiSend();
+      controlHardware(i, mode, value);
+    spiSend();
   }
-  else					// internal control function, doesn't relate to specific device
+  else                // internal control function, doesn't relate to specific device
   {
     controlLibrary(mode, value);
   }
@@ -194,15 +194,15 @@ bool MD_MAX72XX::control(uint8_t buf, controlRequest_t mode, int value)
 {
   if (buf > LAST_BUFFER) return(false);
 
-  if (mode < UPDATE)	// device based control
+  if (mode < UPDATE)  // device based control
   {
-	  spiClearBuffer();
-	  controlHardware(buf, mode, value);
-	  spiSend();
+    spiClearBuffer();
+    controlHardware(buf, mode, value);
+    spiSend();
   }
-  else					// internal control function, doesn't relate to specific device
+  else                // internal control function, doesn't relate to specific device
   {
-	  controlLibrary(mode, value);
+    controlLibrary(mode, value);
   }
 
   return(true);
@@ -213,29 +213,29 @@ void MD_MAX72XX::flushBufferAll()
 // efficient to send a data byte all devices at the same time, substantially cutting
 // the number of communication messages required.
 {
-  for (uint8_t i=0; i<ROW_SIZE; i++)	// all data rows
+  for (uint8_t i=0; i<ROW_SIZE; i++)  // all data rows
   {
     bool bChange = false;	// set to true if we detected a change
 
-	  spiClearBuffer();
+    spiClearBuffer();
 
     for (uint8_t dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)	// all devices
     {
       if (bitRead(_matrix[dev].changed, i))
-	    {
-	      // put our device data into the buffer
-		    _spiData[SPI_OFFSET(dev, 0)] = OP_DIGIT0+i;
-		    _spiData[SPI_OFFSET(dev, 1)] = _matrix[dev].dig[i];
-		    bChange = true;
-	    }
+      {
+        // put our device data into the buffer
+        _spiData[SPI_OFFSET(dev, 0)] = OP_DIGIT0+i;
+        _spiData[SPI_OFFSET(dev, 1)] = _matrix[dev].dig[i];
+        bChange = true;
+      }
     }
 
-	if (bChange) spiSend();
+  if (bChange) spiSend();
   }
 
   // mark everything as cleared
   for (uint8_t dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)
-	  _matrix[dev].changed = ALL_CLEAR;
+    _matrix[dev].changed = ALL_CLEAR;
 }
 
 void MD_MAX72XX::flushBuffer(uint8_t buf)
@@ -251,8 +251,8 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
   for (uint8_t i = 0; i < ROW_SIZE; i++)
   {
     if (bitRead(_matrix[buf].changed, i))
-	  {
-	    PRINT("", i);
+    {
+      PRINT("", i);
       spiClearBuffer();
 
       // put our device data into the buffer
@@ -268,12 +268,12 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
 void MD_MAX72XX::spiClearBuffer(void)
 // Clear out the spi data array
 {
-	memset(_spiData, OP_NOOP, SPI_DATA_SIZE);
+  memset(_spiData, OP_NOOP, SPI_DATA_SIZE);
 }
 
 void MD_MAX72XX::spiSend()
 {
-  // initialise the SPI transaction
+  // initialize the SPI transaction
   if (_hardwareSPI)
     SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
   digitalWrite(_csPin, LOW);
@@ -284,7 +284,7 @@ void MD_MAX72XX::spiSend()
     for (uint8_t i = 0; i < SPI_DATA_SIZE; i++)
       SPI.transfer(_spiData[i]);
   }
-  else
+  else  // nothardware SPI - bit bash it out
   {
     for (uint8_t i = 0; i < SPI_DATA_SIZE; i++)
       shiftOut(_dataPin, _clkPin, MSBFIRST, _spiData[i]);

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['off',['OFF',['../class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457a69c74295de1c864d082152eb358409a1',1,'MD_MAX72XX']]],
-  ['on',['ON',['../class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457aa19c4a20e024758f7cb4b82283ef2138',1,'MD_MAX72XX']]],
+  ['off',['OFF',['../class_m_d___m_a_x72_x_x.html#a0dff60785ecf2d1a0dddf9f6f077a6d9',1,'MD_MAX72XX']]],
+  ['on',['ON',['../class_m_d___m_a_x72_x_x.html#af5481fa994efb897c9cb418f8ba19096',1,'MD_MAX72XX']]],
   ['op_5fdecodemode',['OP_DECODEMODE',['../_m_d___m_a_x72xx__lib_8h.html#a318b32d905ce8e57d7caec133ec7d712',1,'MD_MAX72xx_lib.h']]],
   ['op_5fdigit0',['OP_DIGIT0',['../_m_d___m_a_x72xx__lib_8h.html#ac2dcbbd3fef01a1defd3aa5f8a8c612a',1,'MD_MAX72xx_lib.h']]],
   ['op_5fdigit1',['OP_DIGIT1',['../_m_d___m_a_x72xx__lib_8h.html#a6c8209744590cd0cc8495cc6de58ab02',1,'MD_MAX72xx_lib.h']]],

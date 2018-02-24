@@ -61,7 +61,7 @@ bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t cSrc, uint8_t cDest)
 // Src and Dest are in pixel coordinates.
 // if we are just copying rows there is no need to repackage any data
 {
-  uint8_t maskSrc = 1 << HW_COL(cSrc);	// which column of bits is the column data
+  uint8_t maskSrc = 1 << HW_COL(cSrc);  // which column/row of bits is the column data
 
 #if HW_DIG_ROWS
   PRINT("\ncopyCol: (", buf);
@@ -73,13 +73,13 @@ bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t cSrc, uint8_t cDest)
   PRINTS(") ");
 
   if ((buf > LAST_BUFFER) || (cSrc >= COL_SIZE) || (cDest >= COL_SIZE))
-	  return(false);
+    return(false);
 
   for (uint8_t i=0; i<ROW_SIZE; i++)
   {
       if (_matrix[buf].dig[i] & maskSrc)
         bitSet(_matrix[buf].dig[i], HW_COL(cDest));
-	  else
+    else
         bitClear(_matrix[buf].dig[i], HW_COL(cDest));
   }
 
@@ -97,8 +97,8 @@ uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
 #endif
 // c is in pixel coordinates and the return value must be in pixel coordinate order
 {
-  uint8_t mask = 1 << HW_COL(c);	// which column of bits is the column data
-  uint8_t value = 0;				// assembles data to be returned to caller
+  uint8_t mask = 1 << HW_COL(c);  // which column/row of bits is the column data
+  uint8_t value = 0;        // assembles data to be returned to caller
 
 #if HW_DIG_ROWS
   PRINT("\ngetCol: (", buf);
@@ -146,7 +146,7 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
 
   for (uint8_t i=0; i<ROW_SIZE; i++)
   {
-      if (value & (1 << i))		// mask off next column value passed in and set it in the dig buffer
+      if (value & (1 << i))   // mask off next column/row value passed in and set it in the dig buffer
         bitSet(_matrix[buf].dig[HW_ROW(i)], HW_COL(c));
       else
         bitClear(_matrix[buf].dig[HW_ROW(i)], HW_COL(c));
@@ -203,7 +203,7 @@ uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
   PRINTS(") ");
 
   if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
-	  return(0);
+    return(0);
 
   uint8_t value = HW_REV_COLS ? bitReverse(_matrix[buf].dig[HW_ROW(r)]) : _matrix[buf].dig[HW_ROW(r)];
 
@@ -259,7 +259,7 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 
   switch (ttype)
   {
-	//--------------
+  //--------------
     case TSL: // Transform Shift Left one pixel element
 #if HW_DIG_ROWS
       for (uint8_t i=0; i<ROW_SIZE; i++)
@@ -273,10 +273,10 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
       for (uint8_t i=ROW_SIZE; i>0; --i)
         _matrix[buf].dig[i] = _matrix[buf].dig[i-1];
 #endif
-		break;
+    break;
 
-	//--------------
-	case TSR:	// Transform Shift Right one pixel element
+  //--------------
+  case TSR: // Transform Shift Right one pixel element
 #if HW_DIG_ROWS
       for (uint8_t i=0; i<ROW_SIZE; i++)
 #if HW_REV_COLS
@@ -290,12 +290,12 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
 #endif
     break;
 
-	//--------------
+  //--------------
     case TSU: // Transform Shift Up one pixel element
-	  if (_wrapAround)	// save the first row or a zero row
-		  t[0] = getRow(buf, 0);
-	  else
-		  t[0] = 0;
+    if (_wrapAround)  // save the first row or a zero row
+      t[0] = getRow(buf, 0);
+    else
+      t[0] = 0;
 
 #if HW_DIG_ROWS
       for (uint8_t i=0; i<ROW_SIZE-1; i++)
@@ -304,15 +304,15 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
       for (int8_t i=ROW_SIZE-1; i>=0; i--)
         _matrix[buf].dig[i] <<= 1;
 #endif
-	  setRow(buf, ROW_SIZE-1, t[0]);
+    setRow(buf, ROW_SIZE-1, t[0]);
     break;
 
-	//--------------
+  //--------------
     case TSD: // Transform Shift Down one pixel element
-	  if (_wrapAround)	// save the last row or a zero row
-		  t[0] = getRow(buf, ROW_SIZE-1);
-	  else
-		  t[0] = 0;
+    if (_wrapAround)  // save the last row or a zero row
+      t[0] = getRow(buf, ROW_SIZE-1);
+    else
+      t[0] = 0;
 
 #if HW_DIG_ROWS
       for (uint8_t i=ROW_SIZE; i>0; --i)
@@ -324,21 +324,21 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
       setRow(buf, 0, t[0]);
     break;
 
-	//--------------
+  //--------------
 #if HW_DIG_ROWS
-	case TFLR: // Transform Flip Left to Right
+  case TFLR: // Transform Flip Left to Right
 #else
-	case TFUD: // Transform Flip Up to Down
+  case TFUD: // Transform Flip Up to Down
 #endif
       for (uint8_t i=0; i<ROW_SIZE; i++)
         _matrix[buf].dig[i] = bitReverse(_matrix[buf].dig[i]);
     break;
 
-	//--------------
+  //--------------
 #if HW_DIG_ROWS
-    case TFUD: // Transform Flip Up to Down
+  case TFUD: // Transform Flip Up to Down
 #else
-	case TFLR: // Transform Flip Left to Right
+  case TFLR: // Transform Flip Left to Right
 #endif
       for (uint8_t i=0; i<ROW_SIZE/2; i++)
       {
@@ -348,19 +348,19 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
       }
     break;
 
-	//--------------
-    case TRC: // Transform Rotate Clockwise
-		for (uint8_t i=0; i<ROW_SIZE; i++)
-			t[i] = getColumn(buf, COL_SIZE-1-i);
+  //--------------
+  case TRC: // Transform Rotate Clockwise
+    for (uint8_t i=0; i<ROW_SIZE; i++)
+      t[i] = getColumn(buf, COL_SIZE-1-i);
 
-		for (uint8_t i=0; i<ROW_SIZE; i++)
-			setRow(buf, i, t[i]);
+    for (uint8_t i=0; i<ROW_SIZE; i++)
+      setRow(buf, i, t[i]);
     break;
 
-	//--------------
-	case TINV: // Transform INVert
-      for (uint8_t i=0; i<ROW_SIZE; i++)
-        _matrix[buf].dig[i] = ~_matrix[buf].dig[i];
+  //--------------
+  case TINV: // Transform INVert
+    for (uint8_t i=0; i<ROW_SIZE; i++)
+      _matrix[buf].dig[i] = ~_matrix[buf].dig[i];
     break;
 
     default:
