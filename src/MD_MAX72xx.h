@@ -48,7 +48,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History
 ----------------
-xxx 2018 version 2.10.1
+Mar 2018 version 2.10.1
 - Reworked HW Mapping utility.
 - setColumn() parameter changed from uint8_t to uint16_t to allow for more than 256 column in the matrix [BUG]
 
@@ -307,12 +307,12 @@ public:
   {
     SHUTDOWN = 0,   ///< Shut down the MAX72XX. Requires ON/OFF value. Library default is OFF.
     SCANLIMIT = 1,  ///< Set the scan limit for the MAX72XX. Requires numeric value [0..MAX_SCANLIMIT]. Library default is all on.
-    INTENSITY =	2,  ///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY]. LIbrary default is MAX_INTENSITY/2.
-    TEST = 3,	      ///< Set the MAX72XX in test mode. Requires ON/OFF value. Library default is OFF.
-    DECODE = 4,	    ///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value. Library default is OFF.
+    INTENSITY = 2,  ///< Set the LED intensity for the MAX72XX. Requires numeric value [0..MAX_INTENSITY]. LIbrary default is MAX_INTENSITY/2.
+    TEST = 3,       ///< Set the MAX72XX in test mode. Requires ON/OFF value. Library default is OFF.
+    DECODE = 4,     ///< Set the MAX72XX 7 segment decode mode. Requires ON/OFF value. Library default is OFF.
     UPDATE = 10,    ///< Enable or disable auto updates of the devices from the library. Requires ON/OFF value. Library default is ON.
     WRAPAROUND = 11 ///< Enable or disable wraparound when shifting (circular buffer). Requires ON/OFF value. Library default is OFF.
-  }
+  };
 
   /**
   * Control Value enumerated type.
