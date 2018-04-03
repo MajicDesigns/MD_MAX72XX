@@ -73,10 +73,56 @@ bool MD_MAX72XX::setBuffer(uint16_t col, uint8_t size, uint8_t *pd)
   return(true);
 }
 
-bool MD_MAX72XX::drawLine(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state)
-// draw a line between two points using Bresentham's line algorithm
+bool MD_MAX72XX::drawHLine(uint8_t r, uint16_t c1, uint16_t c2, bool state)
+// draw a horizontal line at row r between columns c1 and c2 inclusive
 {
-  if (r1 >= ROW_SIZE || r2 >= ROW_SIZE || c1 >= (COL_SIZE*_maxDevices) || c2 >= (COL_SIZE*_maxDevices))
+  if (r >= ROW_SIZE || c1 >= getColumnCount() || c2 >= getColumnCount())
+    return(false);
+
+  if (c1 > c2)      // swap c1/c2
+  {
+    uint16_t  t = c1;
+    c1 = c2;
+    c2 = t;
+  }
+
+  for (uint16_t i = c1; i <= c2; i++)
+    setPoint(r, i, state);
+}
+
+bool MD_MAX72XX::drawVLine(uint16_t c, uint8_t r1, uint8_t r2, bool state)
+// draw a vertical line at column c between rows r1 and r2 inclusive
+{
+  if (r1 >= ROW_SIZE || r2 >= ROW_SIZE || c >= getColumnCount())
+    return(false);
+
+  if (r1 > r2)      // swap r1/r2
+  {
+    uint8_t  t = r1;
+    r1 = r2;    
+    r2 = t;
+  }
+
+  for (uint8_t i = r1; i <= r2; i++)
+    setPoint(i, c, state);
+}
+
+bool MD_MAX72XX::drawRectangle(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state)
+// draw a rectangle given the 2 diagonal vertices
+{
+  if (r1 >= ROW_SIZE || r2 >= ROW_SIZE || c1 >= getColumnCount() || c2 >= getColumnCount())
+    return(false);
+
+  drawHLine(r1, c1, c2, state);
+  drawHLine(r2, c1, c2, state);
+  drawVLine(c1, r1, r2, state);
+  drawVLine(c2, r1, r2, state);
+}
+
+bool MD_MAX72XX::drawLine(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state)
+// draw an arbitrary line between two points using Bresentham's line algorithm
+{
+  if (r1 >= ROW_SIZE || r2 >= ROW_SIZE || c1 >= getColumnCount() || c2 >= getColumnCount())
     return(false);
 
   if (c1 > c2)
@@ -172,7 +218,7 @@ bool MD_MAX72XX::setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t val
 
   _updateEnabled = false;
   for (uint8_t i = startDev; i <= endDev; i++)
-  setRow(i, r, value);
+    setRow(i, r, value);
   _updateEnabled = b;
 
   if (_updateEnabled) flushBufferAll();

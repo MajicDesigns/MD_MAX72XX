@@ -1,3 +1,68 @@
+#ifndef MD_MAX72xx_h
+#define MD_MAX72xx_h
+
+#include <Arduino.h>
+
+/**
+ * \file
+ * \brief Main header file for the MD_MAX72xx library
+ */
+
+//*********************************************************
+//* START SECTION - ADAPTING FOR DIFFERENT HARDWARE TYPES *
+//*********************************************************
+
+/* Select one of the hardware types by setting the USE_*_HW
+ * below define value to 1 and all the other to 0.
+ * 
+ * For more information see the documentation with this library 
+ * distribution or, for the same information online, 
+ * https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+ */
+ 
+/**
+ \def USE_PAROLA_HW
+ Set to 1 (default) to use the Parola hardware modules. The
+ software was originally designed to operate with this hardware type.
+ */
+#define USE_PAROLA_HW 1
+
+/**
+ \def USE_GENERIC_HW
+ Set to 1 to use 'generic' hardware modules commonly available, with
+ connectors at the top and bottom of the PCB, available from many sources.
+ */
+#define USE_GENERIC_HW 0
+
+/**
+ \def USE_ICSTATION_HW
+ Set to 1 to use ICStation DIY hardware module kits available from
+ http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs
+ This hardware must be set up with the input on the RHS.
+ */
+#define USE_ICSTATION_HW 0
+
+/**
+ \def USE_FC16_HW
+ Set to 1 to use FC16 hardware module kits.
+ FC16 modules are similar in format to the ICStation modules but are wired differently.
+ Modules are identified by a FC-16 designation on the PCB
+  */
+#define USE_FC16_HW 0
+
+/**
+ \def USE_OTHER_HW
+ Set to 1 to use other hardware not defined above.
+ Module 0 (Data In) must be set up on the RHS and the CUSTOM hardware defines
+ must be set up in the MD_MAD72xx_lib.h file under for this section, using the HW_Mapper
+ utility to work out what the correct values to use are.
+ */
+#define USE_OTHER_HW 0
+
+//*******************************************************
+//* END SECTION - ADAPTING FOR DIFFERENT HARDWARE TYPES *
+//*******************************************************
+ 
 /**
 \mainpage Arduino LED Matrix Library
 The Maxim 72xx LED Controller IC
@@ -48,6 +113,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History
 ----------------
+Apr 2018 version 2.11.0
+- Restructured header file to make hardware flags more obvious
+- Added drawHLine(), drawVLine(), drawRectangle() methods
+
 Mar 2018 version 2.10.1
 - Reworked HW Mapping utility.
 - setColumn() parameter changed from uint8_t to uint16_t to allow for more than 256 column in the matrix [BUG]
@@ -205,54 +274,6 @@ software needs to instantiate a separate object for each display.
 The remaining interface pins are for +5V and GND. The power supply must be able to supply
 enough current for the number of connected modules.
 */
-#ifndef MD_MAX72xx_h
-#define MD_MAX72xx_h
-
-#include <Arduino.h>
-
-/**
- * \file
- * \brief Main header file for the MD_MAX72xx library
- */
-
-/**
- \def USE_PAROLA_HW
- Set to 1 (default) to use the Parola hardware modules. The
- software was originally designed to operate with this hardware type.
- */
-#define USE_PAROLA_HW 1
-
-/**
- \def USE_GENERIC_HW
- Set to 1 to use 'generic' hardware modules commonly available, with
- connectors at the top and bottom of the PCB, available from many sources.
- */
-#define USE_GENERIC_HW 0
-
-/**
- \def USE_ICSTATION_HW
- Set to 1 to use ICStation DIY hardware module kits available from
- http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs
- This hardware must be set up with the input on the RHS.
- */
-#define USE_ICSTATION_HW 0
-
-/**
- \def USE_FC16_HW
- Set to 1 to use FC16 hardware module kits.
- FC16 modules are similar in format to the ICStation modules but are wired differently.
- Modules are identified by a FC-16 designation on the PCB
-  */
-#define USE_FC16_HW 0
-
-/**
- \def USE_OTHER_HW
- Set to 1 to use other hardware not defined above.
- Module 0 (Data In) must be set up on the RHS and the CUSTOM hardware defines
- must be set up in the MD_MAD72xx_lib.h file under for this section, using the HW_Mapper
- utility to work out what the correct values to use are.
- */
-#define USE_OTHER_HW 0
 
 /**
  \def USE_LOCAL_FONT
@@ -524,12 +545,28 @@ public:
   void clear(uint8_t startDev, uint8_t endDev);
 
   /**
-   * Draw a line between two points on the display
+  * Draw a horizontal line between two points on the display
+  *
+  * Draw a horizontal line between the specified points. The LED will be turned on or
+  * off depending on the value supplied. The column number will be dereferenced
+  * into the device and column within the device, allowing the LEDs to be treated
+  * as a continuous pixel field.
+  *
+  * \param r     row coordinate for the line [0..ROW_SIZE-1].
+  * \param c1    starting column coordinate for the point [0..getColumnCount()-1].
+  * \param c2    ending column coordinate for the point [0..getColumnCount())-1].
+  * \param state true - switch on; false - switch off.
+  * \return false if parameter errors, true otherwise.
+  */
+  bool drawHLine(uint8_t r, uint16_t c1, uint16_t c2, bool state);
+
+  /**
+   * Draw an arbitrary line between two points on the display
    *
-   * Draw a line between the specified points. The LED will be turned on or
-   * off depending on the value supplied. The column number will be dereferenced
-   * into the device and column within the device, allowing the LEDs to be treated
-   * as a continuous pixel field.
+   * Draw a line between the specified points using Bresenham's algorithm.
+   * The LED will be turned on or off depending on the value supplied. The 
+   * column number will be dereferenced into the device and column within 
+   * the device, allowing the LEDs to be treated as a continuous pixel field.
    *
    * \param r1    starting row coordinate for the point [0..ROW_SIZE-1].
    * \param c1    starting column coordinate for the point [0..getColumnCount()-1].
@@ -540,7 +577,40 @@ public:
    */
   bool drawLine(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state);
 
- /**
+  /**
+  * Draw a vertical line between two points on the display
+  *
+  * Draw a horizontal line between the specified points. The LED will be turned on or
+  * off depending on the value supplied. The column number will be dereferenced
+  * into the device and column within the device, allowing the LEDs to be treated
+  * as a continuous pixel field.
+  *
+  * \param c     column coordinate for the line [0..getColumnCount())-1].
+  * \param r1    starting row coordinate for the point [0..ROW_SIZE-1].
+  * \param r2    ending row coordinate for the point [0..ROW_SIZE-1].
+  * \param state true - switch on; false - switch off.
+  * \return false if parameter errors, true otherwise.
+  */
+  bool drawVLine(uint16_t c, uint8_t r1, uint8_t r2, bool state);
+  
+  /**
+  * Draw a rectangle given two diagonal vertices
+  *
+  * Draw a rectangle given the points across the diagonal. The LED will be turned on or
+  * off depending on the value supplied. The column number will be dereferenced
+  * into the device and column within the device, allowing the LEDs to be treated
+  * as a continuous pixel field.
+  *
+  * \param r1    starting row coordinate for the point [0..ROW_SIZE-1].
+  * \param c1    starting column coordinate for the point [0..getColumnCount()-1].
+  * \param r2    ending row coordinate for the point [0..ROW_SIZE-1].
+  * \param c2    ending column coordinate for the point [0..getColumnCount())-1].
+  * \param state true - switch on; false - switch off.
+  * \return false if parameter errors, true otherwise.
+  */
+  bool drawRectangle(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state);
+
+  /**
    * Load a bitmap from the display buffers to a user buffer.
    *
    * Allows the calling program to read bitmaps (characters or graphic)

@@ -10,6 +10,10 @@ var class_m_d___m_a_x72_x_x =
       [ "UPDATE", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa6e9fa4baa13700cb81d9ca48d849d26f", null ],
       [ "WRAPAROUND", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa730720f52539695efa6d004046981827", null ]
     ] ],
+    [ "controlValue_t", "class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457", [
+      [ "OFF", "class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457a69c74295de1c864d082152eb358409a1", null ],
+      [ "ON", "class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457aa19c4a20e024758f7cb4b82283ef2138", null ]
+    ] ],
     [ "transformType_t", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28", [
       [ "TSL", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28ad0e19a3463440fa31e182d03ef304d39", null ],
       [ "TSR", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28afe33d76fd265c530e38a10f3f8c0b02d", null ],
@@ -30,7 +34,10 @@ var class_m_d___m_a_x72_x_x =
     [ "control", "class_m_d___m_a_x72_x_x.html#aa54ba8b079710f6b4e9f9721e2e09c68", null ],
     [ "control", "class_m_d___m_a_x72_x_x.html#aeb43fa0c917e716b9d35eac72fb1dd45", null ],
     [ "control", "class_m_d___m_a_x72_x_x.html#aa724a797235e28a43b8d127e4999537e", null ],
+    [ "drawHLine", "class_m_d___m_a_x72_x_x.html#a9cf89623642b644dfdcdcc719e5a75b5", null ],
     [ "drawLine", "class_m_d___m_a_x72_x_x.html#a97cc6199b1380eaf5ec3803c1745e305", null ],
+    [ "drawRectangle", "class_m_d___m_a_x72_x_x.html#a93a1c88fb87814017c05025effda9133", null ],
+    [ "drawVLine", "class_m_d___m_a_x72_x_x.html#a30d487526415d4d83e2703115aba00f2", null ],
     [ "getBuffer", "class_m_d___m_a_x72_x_x.html#afee0d78eed2563729e21a765289c9cbe", null ],
     [ "getChar", "class_m_d___m_a_x72_x_x.html#a7d2823427408c464f8285183dfdeafcc", null ],
     [ "getColumn", "class_m_d___m_a_x72_x_x.html#aa211a3ed433222911e1d01800357527a", null ],
@@ -58,7 +65,5 @@ var class_m_d___m_a_x72_x_x =
     [ "update", "class_m_d___m_a_x72_x_x.html#a3f91498bfc0023f67d4bf1284ca70317", null ],
     [ "update", "class_m_d___m_a_x72_x_x.html#a4d51360880d7a6fa33a6f917cf423879", null ],
     [ "update", "class_m_d___m_a_x72_x_x.html#a9cc242e22748229a223851217b76fd4e", null ],
-    [ "wraparound", "class_m_d___m_a_x72_x_x.html#a0b5940c115ad58aeb05d7af1e9162f97", null ],
-    [ "OFF", "class_m_d___m_a_x72_x_x.html#a0dff60785ecf2d1a0dddf9f6f077a6d9", null ],
-    [ "ON", "class_m_d___m_a_x72_x_x.html#af5481fa994efb897c9cb418f8ba19096", null ]
+    [ "wraparound", "class_m_d___m_a_x72_x_x.html#a0b5940c115ad58aeb05d7af1e9162f97", null ]
 ];

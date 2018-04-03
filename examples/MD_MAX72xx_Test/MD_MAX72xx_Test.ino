@@ -22,7 +22,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	8
+#define	MAX_DEVICES	11
 
 #define	CLK_PIN		13  // or SCK
 #define	DATA_PIN	11  // or MOSI
@@ -116,6 +116,32 @@ void lines()
   }
 }
 
+void hLines()
+// Demonstrate the use of drawHLine().
+{
+  PRINTS("\nHorizontal Lines");
+
+  mx.clear();
+  for (uint8_t r = 0; r < ROW_SIZE; r++)
+  {
+    mx.drawHLine(r, r, mx.getColumnCount() - ROW_SIZE + r, true);
+    delay(2*DELAYTIME);
+  }
+}
+
+void vLines()
+// Demonstrate the use of drawHLine().
+{
+  PRINTS("\nVertical Lines");
+
+  mx.clear();
+  for (uint16_t c = 0; c < mx.getColumnCount(); c++)
+  {
+    mx.drawVLine(c, 0, c % ROW_SIZE, true);
+    delay(DELAYTIME/4);
+  }
+}
+
 void rows()
 // Demonstrates the use of setRow()
 {
@@ -125,8 +151,30 @@ void rows()
   for (uint8_t row=0; row<ROW_SIZE; row++)
   {
     mx.setRow(row, 0xff);
-    delay(DELAYTIME);
+    delay(2*DELAYTIME);
     mx.setRow(row, 0x00);
+  }
+}
+
+void rectangles()
+// nested rectangles spanning the entire display
+{
+  PRINTS("\nRectangles");
+  mx.clear();
+
+  for (uint8_t i = 0; i < 4; i++)
+  {
+    for (uint8_t r = 0; r < ROW_SIZE / 2; r++)
+    {
+      mx.drawRectangle(r, r, ROW_SIZE - 1 - r, mx.getColumnCount() - 1 - r, true);
+      delay(2 * DELAYTIME);
+    }
+
+    for (uint8_t r = 0; r < ROW_SIZE / 2; r++)
+    {
+      mx.drawRectangle(r, r, ROW_SIZE - 1 - r, mx.getColumnCount() - 1 - r, false);
+      delay(2 * DELAYTIME);
+    }
   }
 }
 
@@ -595,8 +643,7 @@ void setup()
   mx.begin();
 
 #if  DEBUG
-  Serial.begin(115200);
-  delay(1000);
+  Serial.begin(57600);
 #endif
   PRINTS("\n[MD_MAX72XX Test & Demo]");
 //  scrollText("MD_MAX72xx Test  ");
@@ -605,11 +652,14 @@ void setup()
 void loop()
 {
 #if 1
-  scrollText("Graphics  ");
+//  scrollText("Graphics  ");
   zeroPointSet();
   lines();
+  hLines();
   rows();
+  vLines();
   columns();
+  rectangles();
   cross();
   stripe();
   bullseye();

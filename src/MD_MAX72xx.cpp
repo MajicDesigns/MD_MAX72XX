@@ -215,7 +215,7 @@ void MD_MAX72XX::flushBufferAll()
 {
   for (uint8_t i=0; i<ROW_SIZE; i++)  // all data rows
   {
-    bool bChange = false;	// set to true if we detected a change
+    bool bChange = false; // set to true if we detected a change
 
     spiClearBuffer();
 
@@ -284,7 +284,7 @@ void MD_MAX72XX::spiSend()
     for (uint8_t i = 0; i < SPI_DATA_SIZE; i++)
       SPI.transfer(_spiData[i]);
   }
-  else  // nothardware SPI - bit bash it out
+  else  // not hardware SPI - bit bash it out
   {
     for (uint8_t i = 0; i < SPI_DATA_SIZE; i++)
       shiftOut(_dataPin, _clkPin, MSBFIRST, _spiData[i]);

@@ -6,6 +6,11 @@ See header file for comments
 This file contains library related definitions and is not visible
 to user code.
 
+****************************************************************
+* PLEASE MAKE ALL ADJUSTMENTS FOR THE HARDWARE USING THE MAIN  *
+* LIBRARY HEADER FILE. THIS FILE SHOULD NOT BE CHANGED.        *
+****************************************************************
+
 Copyright (C) 2012-14 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -108,7 +113,7 @@ These custom modules allow a 'lego-like' approach to LED matrix display, using s
 that only requires the definition of the number of modules to adapt existing software to
 a new configuration.
 
-![Completed Parola module with and without the LED matrix] (PCB_Actual.jpg "Parola Custom Modules")
+![Completed Parola module] (Parola_Module.png "Parola LED Matrix Modules")
 
 Circuit Schematic
 -----------------
