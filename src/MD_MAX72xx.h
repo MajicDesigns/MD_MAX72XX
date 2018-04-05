@@ -113,6 +113,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History
 ----------------
+Apr 2018 version 2.11.1
+- Another attempt to further clarify editing of header file for hardware changes.
+
 Apr 2018 version 2.11.0
 - Restructured header file to make hardware flags more obvious
 - Added drawHLine(), drawVLine(), drawRectangle() methods
