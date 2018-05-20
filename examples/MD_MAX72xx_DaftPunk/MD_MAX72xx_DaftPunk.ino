@@ -19,20 +19,20 @@
 #include <MD_UISwitch.h>
 #endif
 
-#define	DEBUG	0		// Enable or disable (default) debugging output
+#define DEBUG 0   // Enable or disable (default) debugging output
 
 #if DEBUG
-#define	PRINT(s, v)		{ Serial.print(F(s)); Serial.print(v); }		  // Print a string followed by a value (decimal)
-#define	PRINTX(s, v)	{ Serial.print(F(s)); Serial.print(v, HEX); }	// Print a string followed by a value (hex)
-#define	PRINTB(s, v)	{ Serial.print(F(s)); Serial.print(v, BIN); }	// Print a string followed by a value (binary)
+#define PRINT(s, v)   { Serial.print(F(s)); Serial.print(v); }		  // Print a string followed by a value (decimal)
+#define PRINTX(s, v)  { Serial.print(F(s)); Serial.print(v, HEX); }	// Print a string followed by a value (hex)
+#define PRINTB(s, v)  { Serial.print(F(s)); Serial.print(v, BIN); }	// Print a string followed by a value (binary)
 #define PRINTC(s, v)  { Serial.print(F(s)); Serial.print((char)v); }	// Print a string followed by a value (char)
-#define	PRINTS(s)		  { Serial.print(F(s)); }							          // Print a string
+#define PRINTS(s)     { Serial.print(F(s)); }							          // Print a string
 #else
-#define	PRINT(s, v)		// Print a string followed by a value (decimal)
-#define	PRINTX(s, v)	// Print a string followed by a value (hex)
-#define	PRINTB(s, v)	// Print a string followed by a value (binary)
+#define PRINT(s, v)   // Print a string followed by a value (decimal)
+#define PRINTX(s, v)  // Print a string followed by a value (hex)
+#define PRINTB(s, v)  // Print a string followed by a value (binary)
 #define PRINTC(s, v)  // Print a string followed by a value (char)
-#define	PRINTS(s)		  // Print a string
+#define PRINTS(s)     // Print a string
 #endif
 
 // --------------------
@@ -41,10 +41,10 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 //
-#define	MAX_DEVICES	5
-#define	CLK_PIN		13  // or SCK
-#define	DATA_PIN	11  // or MOSI
-#define	CS_PIN		10  // or SS
+#define MAX_DEVICES 5
+#define CLK_PIN   13  // or SCK
+#define DATA_PIN  11  // or MOSI
+#define CS_PIN    10  // or SS
 
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);                      // SPI hardware interface
 //MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES); // Arbitrary pins
@@ -79,8 +79,8 @@ MD_UISwitch_Digital  ks = MD_UISwitch_Digital(MODE_SWITCH, LOW);
 #define PACMAN_DELAY    (4 * UNIT_DELAY)
 #define SINE_DELAY      (2 * UNIT_DELAY)
 
-#define	CHAR_SPACING	  1   // pixels between characters
-#define	BUF_SIZE	      75  // character buffer size
+#define CHAR_SPACING     1  // pixels between characters
+#define BUF_SIZE        75  // character buffer size
 
 
 // ========== General Variables ===========
@@ -108,11 +108,11 @@ char *msgTab[] =
 bool scrollText(bool bInit, char *pmsg)
 // Callback function for data that is required for scrolling into the display
 {
-  static char		curMessage[BUF_SIZE];
-  static char		*p = curMessage;
-  static uint8_t	state = 0;
-  static uint8_t	curLen, showLen;
-  static uint8_t	cBuf[8];
+  static char   curMessage[BUF_SIZE];
+  static char   *p = curMessage;
+  static uint8_t  state = 0;
+  static uint8_t  curLen, showLen;
+  static uint8_t  cBuf[8];
   uint8_t         colData;
 
   // are we initializing?
@@ -131,14 +131,14 @@ bool scrollText(bool bInit, char *pmsg)
     return(bInit);
 
   // scroll the display
-  mx.transform(MD_MAX72XX::TSL);	// scroll along
-  prevTimeAnim = millis();			// starting point for next time
+  mx.transform(MD_MAX72XX::TSL);  // scroll along
+  prevTimeAnim = millis();        // starting point for next time
 
   // now run the finite state machine to control what we do
   PRINT("\nScroll FSM S:", state);
   switch (state)
   {
-    case 0:	// Load the next character from the font table
+    case 0: // Load the next character from the font table
       PRINTC("\nLoading ", *p);
       showLen = mx.getChar(*p++, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
       curLen = 0;
@@ -146,7 +146,7 @@ bool scrollText(bool bInit, char *pmsg)
 
     // !! deliberately fall through to next state to start displaying
 
-    case 1:	// display the next part of the character
+    case 1: // display the next part of the character
       colData = cBuf[curLen++];
       mx.setColumn(0, colData);
       if (curLen == showLen)
@@ -157,7 +157,7 @@ bool scrollText(bool bInit, char *pmsg)
       }
       break;
 
-    case 2:	// display inter-character spacing (blank column) or scroll off the display
+    case 2: // display inter-character spacing (blank column) or scroll off the display
       mx.setColumn(0, 0);
       if (++curLen == showLen)
       {
@@ -211,7 +211,7 @@ bool graphicMidline2(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < MIDLINE_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   PRINT("\nML2 R:", idx);
   PRINT(" D:", idOffs);
@@ -255,7 +255,7 @@ bool graphicScanner(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < SCANNER_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   PRINT("\nS R:", idx);
   PRINT(" D:", idOffs);
@@ -293,7 +293,7 @@ bool graphicRandom(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < RANDOM_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
@@ -322,7 +322,7 @@ bool graphicScroller(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < SCANNER_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   PRINT("\nS I:", idx);
 
@@ -352,7 +352,7 @@ bool graphicSpectrum1(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < SPECTRUM_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
@@ -384,7 +384,7 @@ bool graphicSpectrum2(bool bInit)
   // Is it time to animate?
   if (millis() - prevTimeAnim < SPECTRUM_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
@@ -426,7 +426,7 @@ bool graphicHeartbeat(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < HEARTBEAT_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   PRINT("\nHB S:", state);
@@ -499,7 +499,7 @@ bool graphicFade(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < FADE_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   intensity += iOffs;
@@ -535,7 +535,7 @@ bool graphicHearts(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < HEARTS_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   PRINT("\nH E:", bEmpty);
@@ -576,7 +576,7 @@ bool graphicEyes(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < EYES_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   bOpen = (random(1000) > 100);
@@ -612,7 +612,7 @@ bool graphicBounceBall(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < SCANNER_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   PRINT("\nBB R:", idx);
   PRINT(" D:", idOffs);
@@ -655,7 +655,7 @@ bool graphicArrowScroll(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < ARROWS_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   PRINT("\nAR I:", idx);
@@ -685,7 +685,7 @@ bool graphicWiper(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < WIPER_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   PRINT("\nW R:", idx);
   PRINT(" D:", idOffs);
@@ -721,7 +721,7 @@ bool graphicInvader(bool bInit)
   // Is it time to animate?
   if (millis()-prevTimeAnim < INVADER_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   // now run the animation
   PRINT("\nINV I:", idx);
@@ -771,7 +771,7 @@ bool graphicPacman(bool bInit)
   // Is it time to animate?
   if (millis() - prevTimeAnim < PACMAN_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   PRINT("\nPAC I:", idx);
 
@@ -791,7 +791,7 @@ bool graphicPacman(bool bInit)
   if (frame == 0 || frame == MAX_FRAMES - 1)
     deltaFrame = -deltaFrame;
 
-  // check if we are completed and set initialise for next time around
+  // check if we are completed and set initialize for next time around
   if (idx == mx.getColumnCount() + DATA_WIDTH) bInit = true;
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
@@ -842,13 +842,13 @@ bool graphicArrowRotate(bool bInit)
   // Is it time to animate?
   if (millis() - prevTimeAnim < ARROWR_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::ON);
   mx.transform(t[idx++]);
   mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
 
-  // check if we are completed and set initialise for next time around
+  // check if we are completed and set initialize for next time around
   if (idx == (sizeof(t) / sizeof(t[0]))) bInit = true;
 
   return(bInit);
@@ -859,7 +859,7 @@ bool graphicSinewave(bool bInit)
   static uint8_t curWave = 0;
   static uint8_t idx;
 
-  #define DATA_WIDTH  11    // valuid data coount followed by up to 10 data points
+  #define DATA_WIDTH  11    // valid data count followed by up to 10 data points
   const uint8_t waves[][DATA_WIDTH] =
   {
     {  9,   8,  6,   1,   6,  24,  96, 128,  96,  16,   0 },
@@ -881,7 +881,7 @@ bool graphicSinewave(bool bInit)
   // Is it time to animate?
   if (millis() - prevTimeAnim < SINE_DELAY)
     return(bInit);
-  prevTimeAnim = millis();			// starting point for next time
+  prevTimeAnim = millis();    // starting point for next time
 
   mx.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::ON);
   mx.transform(MD_MAX72XX::TSL);
@@ -940,7 +940,7 @@ void runMatrixAnimation(void)
       if (mesg >= sizeof(msgTab)/sizeof(msgTab[0]))
       {
         mesg = 0;
-				bInMessages = false;
+    	bInMessages = false;
         state++;
       }
     }

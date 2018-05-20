@@ -7,7 +7,7 @@
 // the display.
 //
 // IP address for the ESP8266 is displayed on the scrolling display
-// after startup initialisation and connected to the WiFi network.
+// after startup initialization and connected to the WiFi network.
 //
 // Connections for ESP8266 hardware SPI are:
 // Vcc       3v3     LED matrices seem to work at 3.3V
@@ -21,15 +21,15 @@
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 
-#define	PRINT_CALLBACK	0
+#define PRINT_CALLBACK  0
 #define DEBUG 0
 #define LED_HEARTBEAT 0
 
 #if DEBUG
-#define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }
+#define PRINT(s, v) { Serial.print(F(s)); Serial.print(v); }
 #define PRINTS(s)   { Serial.print(F(s)); }
 #else
-#define	PRINT(s, v)
+#define PRINT(s, v)
 #define PRINTS(s)
 #endif
 
@@ -42,11 +42,11 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	8
+#define	MAX_DEVICES 8
 
-#define	CLK_PIN		D5 // or SCK
-#define	DATA_PIN	D7 // or MOSI
-#define	CS_PIN		D8 // or SS
+#define CLK_PIN   D5 // or SCK
+#define DATA_PIN  D7 // or MOSI
+#define CS_PIN    D8 // or SS
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
@@ -171,7 +171,7 @@ void handleWiFi(void)
 
   switch (state)
   {
-  case S_IDLE:   // initialise
+  case S_IDLE:   // initialize
     PRINTS("\nS_IDLE");
     idxBuf = 0;
     state = S_WAIT_CONN;
@@ -261,9 +261,9 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
 // Callback function for data that is required for scrolling into the display
 {
   static enum { S_IDLE, S_NEXT_CHAR, S_SHOW_CHAR, S_SHOW_SPACE } state = S_IDLE;
-  static char		*p;
-  static uint16_t	curLen, showLen;
-  static uint8_t	cBuf[8];
+  static char *p;
+  static uint16_t curLen, showLen;
+  static uint8_t  cBuf[8];
   uint8_t colData = 0;
 
   // finite state machine to control what we do on the callback
@@ -292,7 +292,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
     }
     break;
 
-  case S_SHOW_CHAR:	// display the next part of the character
+  case S_SHOW_CHAR: // display the next part of the character
     PRINTS("\nS_SHOW_CHAR");
     colData = cBuf[curLen++];
     if (curLen < showLen)
@@ -304,7 +304,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
     state = S_SHOW_SPACE;
     // fall through
 
-  case S_SHOW_SPACE:	// display inter-character spacing (blank column)
+  case S_SHOW_SPACE:  // display inter-character spacing (blank column)
     PRINT("\nS_ICSPACE: ", curLen);
     PRINT("/", showLen);
     curLen++;
@@ -326,8 +326,8 @@ void scrollText(void)
   // Is it time to scroll the text?
   if (millis() - prevTime >= SCROLL_DELAY)
   {
-    mx.transform(MD_MAX72XX::TSL);	// scroll along - the callback will load all the data
-    prevTime = millis();			// starting point for next time
+    mx.transform(MD_MAX72XX::TSL);  // scroll along - the callback will load all the data
+    prevTime = millis();      // starting point for next time
   }
 }
 
@@ -343,14 +343,14 @@ void setup()
   digitalWrite(HB_LED, LOW);
 #endif
 
-  // Display initialisation
+  // Display initialization
   mx.begin();
   mx.setShiftDataInCallback(scrollDataSource);
   mx.setShiftDataOutCallback(scrollDataSink);
 
   curMessage[0] = newMessage[0] = '\0';
 
-  // Connect to and initialise WiFi network
+  // Connect to and initialize WiFi network
   PRINT("\nConnecting to ", ssid);
 
   WiFi.begin(ssid, password);

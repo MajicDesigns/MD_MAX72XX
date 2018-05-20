@@ -8,16 +8,16 @@
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 
-#define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }
+#define PRINT(s, v) { Serial.print(F(s)); Serial.print(v); }
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	8
+#define MAX_DEVICES	8
 
-#define	CLK_PIN		13  // or SCK
-#define	DATA_PIN	11  // or MOSI
-#define	CS_PIN		10  // or SS
+#define CLK_PIN   13  // or SCK
+#define DATA_PIN  11  // or MOSI
+#define CS_PIN    10  // or SS
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
@@ -25,10 +25,10 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 //MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // Text parameters
-#define	CHAR_SPACING	1	// pixels between characters
+#define CHAR_SPACING  1 // pixels between characters
 
 // Global message buffers shared by Serial and Scrolling functions
-#define	BUF_SIZE	75
+#define BUF_SIZE  75
 char message[BUF_SIZE] = {"Hello!"};
 bool newMessageAvailable = true;
 
@@ -39,7 +39,7 @@ void readSerial(void)
   while (Serial.available())
   {
     message[putIndex] = (char)Serial.read();
-    if ((message[putIndex] == '\n') || (putIndex >= BUF_SIZE-3))	// end of message character or full buffer
+    if ((message[putIndex] == '\n') || (putIndex >= BUF_SIZE-3))  // end of message character or full buffer
     {
       // put in a message separator and end the string
       message[putIndex] = '\0';
@@ -58,9 +58,9 @@ void printText(uint8_t modStart, uint8_t modEnd, char *pMsg)
 // Message area is padded with blank columns after printing.
 {
   uint8_t   state = 0;
-  uint8_t	  curLen;
+  uint8_t   curLen;
   uint16_t  showLen;
-  uint8_t	  cBuf[8];
+  uint8_t   cBuf[8];
   int16_t   col = ((modEnd + 1) * COL_SIZE) - 1;
 
   mx.control(modStart, modEnd, MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
@@ -69,7 +69,7 @@ void printText(uint8_t modStart, uint8_t modEnd, char *pMsg)
   {
     switch(state)
     {
-      case 0:	// Load the next character from the font table
+      case 0: // Load the next character from the font table
         // if we reached end of message, reset the message pointer
         if (*pMsg == '\0')
         {
@@ -84,7 +84,7 @@ void printText(uint8_t modStart, uint8_t modEnd, char *pMsg)
         state++;
         // !! deliberately fall through to next state to start displaying
 
-      case 1:	// display the next part of the character
+      case 1: // display the next part of the character
         mx.setColumn(col--, cBuf[curLen++]);
 
         // done with font character, now display the space between chars

@@ -178,6 +178,32 @@ void rectangles()
   }
 }
 
+void checkboard()
+// nested rectangles spanning the entire display
+{
+  uint8_t chkCols[][2] = { { 0x55, 0xaa }, { 0x33, 0xcc }, { 0x0f, 0xf0 }, { 0xff, 0x00 } };
+
+  PRINTS("\nCheckboard");
+  mx.clear();
+
+  for (uint8_t pattern = 0; pattern < sizeof(chkCols)/sizeof(chkCols[0]); pattern++)
+  {
+    uint8_t col = 0;
+    uint8_t idx = 0;
+    uint8_t rep = 1 << pattern;
+
+    while (col < mx.getColumnCount())
+    {
+      for (uint8_t r = 0; r < rep; r++)
+        mx.setColumn(col++, chkCols[pattern][idx]);   // use odd/even column masks
+      idx++;
+      if (idx > 1) idx = 0;
+    }
+
+    delay(10 * DELAYTIME);
+  }
+}
+
 void columns()
 // Demonstrates the use of setColumn()
 {
@@ -209,7 +235,7 @@ void cross()
       mx.setRow(j, i, 0xff);
     }
     mx.update();
-    delay(3*DELAYTIME);
+    delay(DELAYTIME);
     for (uint8_t j=0; j<MAX_DEVICES; j++)
     {
       mx.setColumn(j, i, 0x00);
@@ -226,7 +252,7 @@ void cross()
       mx.setRow(j, ROW_SIZE-1, 0xff);
     }
     mx.update();
-    delay(3*DELAYTIME);
+    delay(DELAYTIME);
     for (uint8_t j=0; j<MAX_DEVICES; j++)
     {
       mx.setColumn(j, i, 0x00);
@@ -243,7 +269,7 @@ void cross()
       mx.setRow(j, ROW_SIZE-1-i, 0xff);
     }
     mx.update();
-    delay(3*DELAYTIME);
+    delay(DELAYTIME);
     for (uint8_t j=0; j<MAX_DEVICES; j++)
     {
       mx.setColumn(j, i, 0x00);
@@ -662,6 +688,7 @@ void loop()
   rectangles();
   cross();
   stripe();
+  checkboard();
   bullseye();
   bounce();
   spiral();

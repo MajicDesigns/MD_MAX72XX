@@ -16,26 +16,26 @@
 #include <SPI.h>
 #include <SdFat.h>
 
-#define	USE_POT_CONTROL	0
+#define USE_POT_CONTROL 0
 
-#define	PRINT_CALLBACK	0
+#define PRINT_CALLBACK  0
 #define DEBUG 0
 
 #if DEBUG
-#define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }
-#define	PRINTS(s)	  Serial.print(F(s))
+#define PRINT(s, v) { Serial.print(F(s)); Serial.print(v); }
+#define PRINTS(s)   Serial.print(F(s))
 #else
-#define	PRINT(s, v)
-#define	PRINTS(s)
+#define PRINT(s, v)
+#define PRINTS(s)
 #endif
 
 // ** MD_MAX72xx hardware definitions
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	CLK_PIN		6  // or SCK
-#define	DATA_PIN	7  // or MOSI
-#define	CS_PIN		8  // or SS or LD
+#define CLK_PIN   6  // or SCK
+#define DATA_PIN  7  // or MOSI
+#define CS_PIN    8  // or SS or LD
 
 #define	MAX_DEVICES	8
 
@@ -56,42 +56,42 @@ SdFile myFile;
 
 // Scrolling parameters
 #if USE_POT_CONTROL
-#define	SPEED_IN	A5
+#define SPEED_IN  A5
 #else
-#define SCROLL_DELAY	75	// in milliseconds
+#define SCROLL_DELAY  75  // in milliseconds
 #endif // USE_POT_CONTROL
 
-#define	CHAR_SPACING	1	// pixels between characters
+#define CHAR_SPACING  1 // pixels between characters
 
 // Global data
-uint16_t	scrollDelay;	// in milliseconds
+uint16_t  scrollDelay;  // in milliseconds
 
 int readFile(void)
 // Return the next character from the file or a -1 if eof.
 // End of line is marked by a '\n' returned to the caller, '\r' is skipped.
 {
-	int c = '\0';
+  int c = '\0';
 
   if (!myFile.isOpen())
   {
     PRINT("\nOpening ", fName);
-		// open the file for read
-		if (!myFile.open(fName, O_READ))
-			sd.errorHalt("Cannot open file for read");
+    // open the file for read
+    if (!myFile.open(fName, O_READ))
+      sd.errorHalt("Cannot open file for read");
     PRINTS("- open\n");
-	}
+  }
 
-	do
-		c = myFile.read();
+  do
+    c = myFile.read();
   while (c == '\r');
 
-	if (c == -1)	// end of file or error
-	{
+  if (c == -1)	// end of file or error
+  {
     PRINTS("\nRewind\n");
-		myFile.rewind();
-	}
+    myFile.rewind();
+  }
 
-	return(c);
+  return(c);
 }
 
 void scrollDataSink(uint8_t dev, MD_MAX72XX::transformType_t t, uint8_t col)
@@ -110,23 +110,23 @@ void scrollDataSink(uint8_t dev, MD_MAX72XX::transformType_t t, uint8_t col)
 uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
 // Callback function for data that is required for scrolling into the display
 {
-  static uint8_t	state = 0;
-  static uint8_t	curLen, showLen;
-  static uint8_t	cBuf[8];
-	int	c;
+  static uint8_t  state = 0;
+  static uint8_t  curLen, showLen;
+  static uint8_t  cBuf[8];
+  int c;
   uint8_t colData = 0;
 
   // finite state machine to control what we do on the callback
   switch(state)
   {
-    case 0:	// Load the next character from the font table
+    case 0: // Load the next character from the font table
       // if we reached end of message, reset the message pointer
-		  c = readFile();
-			if ((c == -1) || (c == '\n'))	// end of file/error or end of line
-			{
-				state = 2;
-				break;
-			}
+      c = readFile();
+      if ((c == -1) || (c == '\n'))	// end of file/error or end of line
+      {
+        state = 2;
+        break;
+      }
 
       PRINT("", (char)c);
       showLen = mx.getChar(c, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
@@ -134,7 +134,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
       state++;
       // !! deliberately fall through to next state to start displaying
 
-    case 1:	// display the next part of the character
+    case 1: // display the next part of the character
       colData = cBuf[curLen++];
       if (curLen == showLen)
       {
@@ -144,14 +144,14 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
       }
       break;
 
-		case 2:	// scroll off the whole display
+    case 2: // scroll off the whole display
       PRINTS("\n-> CLEAR\n");
-			showLen = mx.getColumnCount();
-			curLen = 0;
-			state = 3;
-			break;
+      showLen = mx.getColumnCount();
+      curLen = 0;
+      state = 3;
+      break;
 
-		case 3:	// display inter-character spacing (blank column)
+    case 3: // display inter-character spacing (blank column)
       colData = 0;
       curLen++;
       if (curLen == showLen)
@@ -197,12 +197,12 @@ void setup()
   Serial.begin(57600);
 #endif
 
-	// Initialize SdFat or print a detailed error message and halt
-	// Use half speed like the native library, change to SPI_FULL_SPEED for more performance.
-	if (!sd.begin(chipSelect, SPI_HALF_SPEED))
-	  sd.initErrorHalt();
+  // Initialize SdFat or print a detailed error message and halt
+  // Use half speed like the native library, change to SPI_FULL_SPEED for more performance.
+  if (!sd.begin(chipSelect, SPI_HALF_SPEED))
+    sd.initErrorHalt();
 
-  // Initliase MD_MAX72xx library with callbacks
+  // Initialize MD_MAX72xx library with callbacks
   mx.begin();
   mx.setShiftDataInCallback(scrollDataSource);
   mx.setShiftDataOutCallback(scrollDataSink);

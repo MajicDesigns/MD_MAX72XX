@@ -38,12 +38,12 @@ void MD_RobotEyes::drawEyes(uint8_t L, uint8_t R)
 {
   MD_MAX72XX::fontType_t *savedFont = _M->getFont();
 
-	_M->control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
+  _M->control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
   _M->setFont(_RobotEyes_Font);
 
-	_M->clear(_sd, _sd+1);	// clear out display modules
+  _M->clear(_sd, _sd+1);  // clear out display modules
 
-	// Load the data and show it
+  // Load the data and show it
   loadEye(_sd+LEFT_MODULE_OFFSET, L);
   loadEye(_sd+RIGHT_MODULE_OFFSET, R);
 
@@ -72,7 +72,7 @@ uint8_t MD_RobotEyes::loadSequence(emotion_t e)
 // Load the next emotion from the static data. 
 // Set global variables to the required values
 {
-  // run through the lookuptable to find the sequence data
+  // run through the lookup table to find the sequence data
   for (uint8_t i = 0; i < ARRAY_SIZE(lookupTable); i++)
   {
     memcpy_P(&_animEntry, &lookupTable[i], sizeof(animTable_t));
@@ -165,7 +165,7 @@ void MD_RobotEyes::showText(bool bInit)
 }
 
 void MD_RobotEyes::begin(MD_MAX72XX *M, uint8_t moduleStart)
-// initialise other stuff after libraries have started
+// initialize other stuff after libraries have started
 {
 #if DEBUG
   Serial.begin(57600);

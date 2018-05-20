@@ -6,25 +6,25 @@
 #include <SPI.h>
 
 // Use a button to transfer between transformations or just do it on a timer basis
-#define	USE_SWITCH_INPUT	1
+#define USE_SWITCH_INPUT  1
 
-#define	SWITCH_PIN	8	// switch pin if enabled - active LOW
+#define SWITCH_PIN  8 // switch pin if enabled - active LOW
 
 // We always wait a bit between updates of the display
 #define  DELAYTIME  500  // in milliseconds
 
 // Number of times to repeat the transformation animations
-#define	REPEATS_PRESET	16
+#define REPEATS_PRESET  16
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES		4
-#define	WRAPAROUND_MODE	MD_MAX72XX::ON
+#define MAX_DEVICES   4
+#define WRAPAROUND_MODE MD_MAX72XX::ON
 
-#define	CLK_PIN		13  // or SCK
-#define	DATA_PIN	11  // or MOSI
-#define	CS_PIN		10  // or SS
+#define CLK_PIN   13  // or SCK
+#define DATA_PIN  11  // or MOSI
+#define CS_PIN    10  // or SS
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
@@ -107,15 +107,15 @@ void loop()
 
   switch (tState)
   {
-    case 0: transformDemo(MD_MAX72XX::TSL,	bNew);	break;
-    case 1:	transformDemo(MD_MAX72XX::TSR,	bNew);	break;
-    case 2:	transformDemo(MD_MAX72XX::TSU,	bNew);	break;
-    case 3:	transformDemo(MD_MAX72XX::TSD,	bNew);	break;
-    case 4:	transformDemo(MD_MAX72XX::TFUD,	bNew);	break;
-    case 5:	transformDemo(MD_MAX72XX::TFLR,	bNew);	break;
-    case 6:	transformDemo(MD_MAX72XX::TRC,	bNew);	break;
-    case 7:	transformDemo(MD_MAX72XX::TINV,	bNew);	break;
-    default:	tState = 0;	// just in case
+    case 0: transformDemo(MD_MAX72XX::TSL,  bNew);  break;
+    case 1: transformDemo(MD_MAX72XX::TSR,  bNew);  break;
+    case 2: transformDemo(MD_MAX72XX::TSU,  bNew);  break;
+    case 3: transformDemo(MD_MAX72XX::TSD,  bNew);  break;
+    case 4: transformDemo(MD_MAX72XX::TFUD, bNew);  break;
+    case 5: transformDemo(MD_MAX72XX::TFLR, bNew);  break;
+    case 6: transformDemo(MD_MAX72XX::TRC,  bNew);  break;
+    case 7: transformDemo(MD_MAX72XX::TINV, bNew);  break;
+    default:  tState = 0; // just in case
   }
 
   bNew = changeState();

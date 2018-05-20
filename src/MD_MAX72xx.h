@@ -25,7 +25,7 @@
  Set to 1 (default) to use the Parola hardware modules. The
  software was originally designed to operate with this hardware type.
  */
-#define USE_PAROLA_HW 1
+#define USE_PAROLA_HW 0
 
 /**
  \def USE_GENERIC_HW
@@ -48,7 +48,7 @@
  FC16 modules are similar in format to the ICStation modules but are wired differently.
  Modules are identified by a FC-16 designation on the PCB
   */
-#define USE_FC16_HW 0
+#define USE_FC16_HW 1
 
 /**
  \def USE_OTHER_HW
@@ -129,7 +129,7 @@ Nov 2017 version 2.10.0
 - Added MD_MAX72xx_Message_ESP8266 example
 - Minor source file cleanup
 - Added Extended ASCII font, vertical rotated font and RobotEyes font in fontbuilder
-- Modified fontbuilder output code for consistency with new code
+- Modified font builder output code for consistency with new code
 - Added getFont(), getMaxFontWidth() methods
 - Changed example - replaced MD_KeySwitch with new MD_UISwitch library
 
@@ -318,7 +318,7 @@ public:
   *
   * This type is used in the setFont() method to set the font to be used
   */
-  typedef  const uint8_t	fontType_t;
+  typedef  const uint8_t fontType_t;
 #endif
 
   /**

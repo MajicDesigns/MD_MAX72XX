@@ -10,11 +10,11 @@
 #define DEBUG 0
 
 #if DEBUG
-#define	PRINT(s, v)	{ Serial.print(F(s)); Serial.print(v); }
-#define	PRINTX(s, v)	{ Serial.print(F(s)); Serial.print(v, HEX); }
+#define PRINT(s, v)   { Serial.print(F(s)); Serial.print(v); }
+#define PRINTX(s, v)  { Serial.print(F(s)); Serial.print(v, HEX); }
 #define PRINTS(s)   Serial.print(F(s));
 #else
-#define	PRINT(s, v)
+#define PRINT(s, v)
 #define PRINTS(s)
 #endif
 
@@ -23,11 +23,11 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	4
+#define MAX_DEVICES 4
 
-#define	CLK_PIN		13  // or SCK
-#define	DATA_PIN	11  // or MOSI
-#define	CS_PIN		10  // or SS
+#define CLK_PIN   13  // or SCK
+#define DATA_PIN  11  // or MOSI
+#define CS_PIN    10  // or SS
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
@@ -35,10 +35,10 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 //MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // Analog input pin for the input value
-#define	SPEED_IN	A5
+#define SPEED_IN  A5
 
 // Display and animation parameters
-#define	CHAR_SPACING	1	// pixels between characters
+#define CHAR_SPACING  1 // pixels between characters
 #define CHAR_COLS 5     // should match the fixed width character columns
 #define ANIMATION_FRAME_DELAY 30  // in milliseconds
 
@@ -83,12 +83,12 @@ boolean displayValue(uint16_t value)
   static struct digitData digit[DIGITS_SIZE];
 
   const uint8_t ST_INIT = 0, ST_WAIT = 1, ST_ANIM = 2;
-  static uint8_t	state = ST_INIT;
+  static uint8_t  state = ST_INIT;
 
   // finite state machine to control what we do
   switch(state)
   {
-    case ST_INIT:	// Initialise the display - done once only on first call
+    case ST_INIT: // Initialize the display - done once only on first call
       PRINTS("\nST_INIT");
       for (int8_t i = DIGITS_SIZE - 1; i >= 0; i--)
       {
@@ -120,7 +120,7 @@ boolean displayValue(uint16_t value)
         {
           // a change has been found - we will be animating something
           state = ST_ANIM;
-          // initialise animation parameters for this digit
+          // initialize animation parameters for this digit
           digit[i].index = 0;
           digit[i].timeLastFrame = 0;
         }
@@ -135,7 +135,7 @@ boolean displayValue(uint16_t value)
       // 1. Get the 'new' character bitmap into temp buffer
       // 2. Shift this buffer down or up by current index amount
       // 3. Shift the current character by one pixel up or down
-      // 4. Combine the new partial character and the existing character to produce an frame
+      // 4. Combine the new partial character and the existing character to produce a frame
       for (int8_t i = DIGITS_SIZE - 1; i >= 0; i--)
       {
         if ((digit[i].newValue != digit[i].oldValue) && // values are different

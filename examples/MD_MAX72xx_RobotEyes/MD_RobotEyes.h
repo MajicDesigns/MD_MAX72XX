@@ -31,7 +31,7 @@ public:
   * Emotions enumerated type.
   *
   * This enumerated type defines the emotion animations
-  * availabel in the class for the eyes display
+  * available in the class for the eyes display
   */
   // 
   typedef enum
@@ -72,10 +72,10 @@ public:
   /**
   * Initialize the object.
   *
-  * Initialise the object data. This needs to be called during setup() to initialise new
+  * Initialize the object data. This needs to be called during setup() to initialize new
   * data for the class that cannot be done during the object creation.
   *
-  * Outside of the class, the MD_MAX72xx library should be initialised and the pointer
+  * Outside of the class, the MD_MAX72xx library should be initialized and the pointer
   * to the MD_MAX72xx object passed to the parameter. Also, as the eyes could be in the 
   * middle of a string of LED modules, the first 'eye' module can be specified.
   *
@@ -91,7 +91,7 @@ public:
   * auto reverse the action (eg, blink down then back up again) and whether the animation 
   * should be run in reverse.
   * 
-  * Animations are generally symmetric, so only half the anmation needs to be specified.
+  * Animations are generally symmetric, so only half the animation needs to be specified.
   * If an animated expression needs to be held, the animation should be run without auto 
   * reverse, which holds the animation at the end point, and then later run the animation 
   * in reverse from the last position to return to the idle state.
@@ -108,14 +108,14 @@ public:
   * When no animation is running and AutoBlink is set, the eyes will occasionally blink.
   * Set the minimum time period between blinks. A blink will occur a random time after this.
   *
-  * \param t  the minimum time between blinkins actions in milliseconds.
+  * \param t  the minimum time between blinking actions in milliseconds.
   */
   inline void setBlinkTime(uint16_t t) { _timeBlinkMinimum = t; };
   
   /**
   * Set or reset auto blink mode.
   *
-  * When no animation is running and AutoBlink is set, the eyes will loccasionally blink.
+  * When no animation is running and AutoBlink is set, the eyes will occasionally blink.
   *
   * \param b  set auto blink if true, reset auto blink if false.
   */
@@ -124,11 +124,11 @@ public:
   /**
   * Display a text message.
   *
-  * At the end of the cuurent animation, the text will be scrolled across the 'eyes'
+  * At the end of the current animation, the text will be scrolled across the 'eyes'
   * and then the eyes are returned to the neutral expression
   *
-  * \param p  a pointer to a char aarray containing a nul terminated string. 
-              The string must remain in scope while the message is being dispayed.
+  * \param p  a pointer to a char array containing a nul terminated string. 
+              The string must remain in scope while the message is being displayed.
   */
   inline bool setText(char *pText) { if (_pText != nullptr) return(false); else _pText = pText; return(true); };
 
@@ -140,16 +140,16 @@ public:
   * The calling program should monitor the return value for 'true' in order to know when 
   * the animation has concluded. A 'true' return value means that the animation is complete.
   *
-  * \return bool	true if the animation has completed, false otherwise.
+  * \return bool  true if the animation has completed, false otherwise.
   */
   bool runAnimation(void);
 
 protected:
   // Animations FSM state
-  typedef enum  
+  typedef enum
   {
     S_IDLE,
-    S_RESTART, 
+    S_RESTART,
     S_ANIMATE,
     S_PAUSE,
     S_TEXT,
@@ -186,7 +186,7 @@ protected:
   animTable_t _animEntry;     // record with animation sequence parameters
   int8_t      _animIndex;     // current index in the animation sequence
   bool        _animReverse;   // true = reverse sequence, false = normal sequence
-  bool        _autoReverse;   // true = always play the reverse, false = slected direction only
+  bool        _autoReverse;   // true = always play the reverse, false = selected direction only
   emotion_t   _nextEmotion;   // the next emotion to display
   char *      _pText;         // pointer to text data in user code. Not null means there is text to print
 
