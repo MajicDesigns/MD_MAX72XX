@@ -113,6 +113,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History
 ----------------
+May 2018 version 3.0.0
+- Implemented new font file format (file format version 1).
+- Removed 'drawXXX' graphics functions to new MD_MAXPanel library.
+- Removed font indexing as this never used.
+- Added getFontHeight() method.
+
 Apr 2018 version 2.11.1
 - Another attempt to further clarify editing of header file for hardware changes.
 
@@ -297,7 +303,7 @@ enough current for the number of connected modules.
 
  USE_LOCAL FONT must be enabled for this option to take effect.
  */
-#define USE_INDEX_FONT 0
+#define USE_INDEX_FONT 1
 
 // Display parameter constants
 // Defined values that are used throughout the library to define physical limits
@@ -546,72 +552,6 @@ public:
    * \return No return value.
    */
   void clear(uint8_t startDev, uint8_t endDev);
-
-  /**
-  * Draw a horizontal line between two points on the display
-  *
-  * Draw a horizontal line between the specified points. The LED will be turned on or
-  * off depending on the value supplied. The column number will be dereferenced
-  * into the device and column within the device, allowing the LEDs to be treated
-  * as a continuous pixel field.
-  *
-  * \param r     row coordinate for the line [0..ROW_SIZE-1].
-  * \param c1    starting column coordinate for the point [0..getColumnCount()-1].
-  * \param c2    ending column coordinate for the point [0..getColumnCount())-1].
-  * \param state true - switch on; false - switch off.
-  * \return false if parameter errors, true otherwise.
-  */
-  bool drawHLine(uint8_t r, uint16_t c1, uint16_t c2, bool state);
-
-  /**
-   * Draw an arbitrary line between two points on the display
-   *
-   * Draw a line between the specified points using Bresenham's algorithm.
-   * The LED will be turned on or off depending on the value supplied. The 
-   * column number will be dereferenced into the device and column within 
-   * the device, allowing the LEDs to be treated as a continuous pixel field.
-   *
-   * \param r1    starting row coordinate for the point [0..ROW_SIZE-1].
-   * \param c1    starting column coordinate for the point [0..getColumnCount()-1].
-   * \param r2    ending row coordinate for the point [0..ROW_SIZE-1].
-   * \param c2    ending column coordinate for the point [0..getColumnCount())-1].
-   * \param state true - switch on; false - switch off.
-   * \return false if parameter errors, true otherwise.
-   */
-  bool drawLine(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state);
-
-  /**
-  * Draw a vertical line between two points on the display
-  *
-  * Draw a horizontal line between the specified points. The LED will be turned on or
-  * off depending on the value supplied. The column number will be dereferenced
-  * into the device and column within the device, allowing the LEDs to be treated
-  * as a continuous pixel field.
-  *
-  * \param c     column coordinate for the line [0..getColumnCount())-1].
-  * \param r1    starting row coordinate for the point [0..ROW_SIZE-1].
-  * \param r2    ending row coordinate for the point [0..ROW_SIZE-1].
-  * \param state true - switch on; false - switch off.
-  * \return false if parameter errors, true otherwise.
-  */
-  bool drawVLine(uint16_t c, uint8_t r1, uint8_t r2, bool state);
-  
-  /**
-  * Draw a rectangle given two diagonal vertices
-  *
-  * Draw a rectangle given the points across the diagonal. The LED will be turned on or
-  * off depending on the value supplied. The column number will be dereferenced
-  * into the device and column within the device, allowing the LEDs to be treated
-  * as a continuous pixel field.
-  *
-  * \param r1    starting row coordinate for the point [0..ROW_SIZE-1].
-  * \param c1    starting column coordinate for the point [0..getColumnCount()-1].
-  * \param r2    ending row coordinate for the point [0..ROW_SIZE-1].
-  * \param c2    ending column coordinate for the point [0..getColumnCount())-1].
-  * \param state true - switch on; false - switch off.
-  * \return false if parameter errors, true otherwise.
-  */
-  bool drawRectangle(uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state);
 
   /**
    * Load a bitmap from the display buffers to a user buffer.
@@ -940,9 +880,6 @@ public:
    * character set, pass the PROGMEM address of the font table. Passing a nullptr
    * resets the font table to the library default table.
    * 
-   * This function also causes the font index table to be recreated if the
-   * library defined value USE_INDEX_TABLE is set to 1.
-   *
    * NOTE: This function is only available if the library defined value
    * USE_LOCAL_FONT is set to 1.
    *
@@ -963,7 +900,20 @@ public:
   *
   * \return number of columns (width) for the widest character.
   */
-  uint8_t getMaxFontWidth(void);
+  uint8_t getMaxFontWidth(void) { return(_fontInfo.widthMax); };
+
+  /**
+  * Get height of a character for the font.
+  *
+  * Returns the number of rows specified as the height of a character in the 
+  * currently selected font table.
+  *
+  * NOTE: This function is only available if the library defined value
+  * USE_LOCAL_FONT is set to 1.
+  *
+  * \return number of rows (height) for the font.
+  */
+  uint8_t getFontHeight(void) { return(_fontInfo.height); };
 
   /**
    * Get the pointer to current font table.
@@ -1007,12 +957,25 @@ private:
   bool    _wrapAround;    // when shifting, wrap left to right and vice versa (circular buffer)
 
 #if USE_LOCAL_FONT
+  // Font properties info structure
+   typedef struct
+   {
+     uint8_t version;     // (v1) font definition version number (for compliance)
+     uint8_t height;      // (v1) font height in pixels
+     uint8_t widthMax;    // (v1) font maximum width in pixels (widest character)
+     uint8_t firstASCII;  // (v1) the first ASCII character in the font table
+     uint8_t lastASCII;   // (v1) the last ASCII character in the font table
+     uint16_t dataOffset; // (v1) offset from the start of table to first character definition
+   } fontInfo_t;
+
   // Font related data
   fontType_t  *_fontData;   // pointer to the current font data being used
-  uint16_t    *_fontIndex;  // font index for faster access to font table offsets
+  fontInfo_t  _fontInfo;    // properties of the current font table
 
-  uint16_t  getFontCharOffset(uint8_t c); // find the character in the font data
-  void      buildFontIndex(void);         // build a font index
+  void    setFontInfoDefault(void);     // set the default parameters for the font info file
+  void    loadFontInfo(void);           // load the font info block from the font data
+  uint8_t getFontWidth(void);           // get the maximum font width by inspecting the font table
+  int16_t getFontCharOffset(uint8_t c); // find the character in the font data. If not there, return -1
 #endif
 
   // Private functions

@@ -1,4 +1,5 @@
 .NAME seg7_fixed_double
+.FONT_HEIGHT 8
 .HEIGHT 2
 .WIDTH 2
 .CHAR 32

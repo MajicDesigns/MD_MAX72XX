@@ -67,19 +67,14 @@ void MD_MAX72XX::begin(void)
   pinMode(_csPin, OUTPUT);
 
   // object memory and internals
-  setShiftDataInCallback(NULL);
-  setShiftDataOutCallback(NULL);
+  setShiftDataInCallback(nullptr);
+  setShiftDataOutCallback(nullptr);
 
   _matrix = (deviceInfo_t *)malloc(sizeof(deviceInfo_t) * _maxDevices);
   _spiData = (uint8_t *)malloc(SPI_DATA_SIZE);
 
 #if USE_LOCAL_FONT
-#if USE_INDEX_FONT
-  _fontIndex = (uint16_t *)malloc(sizeof(uint16_t) * ASCII_INDEX_SIZE);
-#else
-  _fontIndex = NULL;
-#endif
-  setFont(NULL);
+  setFont(_sysfont_var);
 #endif // INCLUDE_LOCAL_FONT
 
   // Initialize the display devices. On initial power-up
@@ -106,7 +101,7 @@ MD_MAX72XX::~MD_MAX72XX(void)
   free(_matrix);
   free(_spiData);
 #if USE_LOCAL_FONT && USE_FONT_INDEX
-  if (_fontIndex != NULL) free(_fontIndex);
+  if (_fontIndex != nullptr) free(_fontIndex);
 #endif
 }
 

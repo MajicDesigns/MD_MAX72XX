@@ -69,7 +69,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #define ALL_CHANGED   0xff    ///< Mask for all rows changed in a buffer structure
 #define ALL_CLEAR     0x00    ///< Mask for all rows clear in a buffer structure
 
-#define ASCII_INDEX_SIZE  256 ///< Number of characters in a font table (ASCII maximum)
+#define FONT_FILE_INDICATOR 'F' ///< Font table indicator prefix for info header
 
 // Shortcuts
 #define SPI_DATA_SIZE (sizeof(uint8_t)*_maxDevices*2)   ///< Size of the SPI data buffers
@@ -391,10 +391,19 @@ can be specified to the library. The font builder utilities provide a convenient
 modify existing or develop alternative fonts.
 
 Fonts are stored as a series of contiguous bytes in the following format:
-- byte 1 - the number of bytes that form this character (could be zero)
-- byte 2..n - each byte is a column of the character to be formed, starting with the
+- byte 1 - the character 'F'
+- byte 2 - the version for the file format (1 or more)
+- byte 3 - the first ASCII character in the table
+- byte 4 - the last ASCII character in the table
+- byte 5 - the height of the character in pixels
+- byte 6 - the number of bytes that form this character (could be zero)
+- byte 7..n - each byte is a column of the character to be formed, starting with the
 leftmost column of the character. The least significant bit of the byte is the bottom
 pixel position of the character matrix (row 7).
+
+If the 'F' is omitted then the font definition is considered a version 0 font (prior to
+MD_MAX72xx version 3.0.0) and the defaults are set to min ASCII 0, max ASCII 255, height 8. 
+In this case byte 6 above is the first byte in the file.
 
 To find a character in the font table, the library looks at the first byte (size),
 skips 'size'+1 bytes to the next character size byte and repeat until the last or

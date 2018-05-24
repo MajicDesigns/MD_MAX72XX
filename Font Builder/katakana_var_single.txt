@@ -1,4 +1,5 @@
 .NAME katakana_var_single
+.FONT_HEIGHT 8
 .HEIGHT 1
 .WIDTH 0
 .CHAR 32

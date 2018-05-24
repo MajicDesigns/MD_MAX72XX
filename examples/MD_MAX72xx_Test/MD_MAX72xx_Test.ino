@@ -8,12 +8,12 @@
 #define  DEBUG  1
 
 #if  DEBUG
-#define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	PRINTS(x)	Serial.print(F(x))
-#define	PRINTD(x)	Serial.println(x, DEC)
+#define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
+#define PRINTS(x) Serial.print(F(x))
+#define PRINTD(x) Serial.println(x, DEC)
 
 #else
-#define	PRINT(s, x)
+#define PRINT(s, x)
 #define PRINTS(x)
 #define PRINTD(x)
 
@@ -22,11 +22,11 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	11
+#define MAX_DEVICES	11
 
-#define	CLK_PIN		13  // or SCK
-#define	DATA_PIN	11  // or MOSI
-#define	CS_PIN		10  // or SS
+#define CLK_PIN   13  // or SCK
+#define DATA_PIN  11  // or MOSI
+#define CS_PIN    10  // or SS
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
@@ -38,17 +38,17 @@ MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
 
 void scrollText(char *p)
 {
-  uint8_t	charWidth;
-  uint8_t	cBuf[8];	// this should be ok for all built-in fonts
+  uint8_t charWidth;
+  uint8_t cBuf[8];  // this should be ok for all built-in fonts
 
   PRINTS("\nScrolling text");
   mx.clear();
 
   while (*p != '\0')
   {
-    charWidth = mx.getChar(*p++, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
+    charWidth = mx.getChar(*p++, sizeof(cBuf) / sizeof(cBuf[0]), cBuf);
 
-    for (uint8_t i=0; i<charWidth + 1; i++)	// allow space between characters
+    for (uint8_t i=0; i<=charWidth; i++)	// allow space between characters
     {
       mx.transform(MD_MAX72XX::TSL);
       if (i < charWidth)
@@ -79,69 +79,6 @@ void zeroPointSet()
   delay(DELAYTIME*3);
 }
 
-void lines()
-// Demonstrate the use of drawLine().
-// fan out lines from each corner for up to 4 device blocks
-{
-  PRINTS("\nLines");
-  const uint8_t stepSize = 3;
-  const uint8_t maxDev = (MAX_DEVICES > 4 ? 4 : MAX_DEVICES);
-
-  mx.clear();
-  for (uint16_t c=0; c<(maxDev*COL_SIZE)-1; c+=stepSize)
-  {
-    mx.drawLine(0, 0, ROW_SIZE-1, c, true);
-    delay(DELAYTIME);
-  }
-
-  mx.clear();
-  for (uint16_t c=0; c<(maxDev*COL_SIZE)-1; c+=stepSize)
-  {
-    mx.drawLine(ROW_SIZE-1, 0, 0, c, true);
-    delay(DELAYTIME);
-  }
-
-  mx.clear();
-  for (uint16_t c=0; c<(maxDev*COL_SIZE)-1; c+=stepSize)
-  {
-    mx.drawLine(ROW_SIZE-1, (MAX_DEVICES*COL_SIZE)-1, 0, (MAX_DEVICES*COL_SIZE)-1-c, true);
-    delay(DELAYTIME);
-  }
-
-  mx.clear();
-  for (uint16_t c=0; c<(maxDev*COL_SIZE)-1; c+=stepSize)
-  {
-    mx.drawLine(0, (MAX_DEVICES*COL_SIZE)-1, ROW_SIZE-1, (MAX_DEVICES*COL_SIZE)-1-c, true);
-    delay(DELAYTIME);
-  }
-}
-
-void hLines()
-// Demonstrate the use of drawHLine().
-{
-  PRINTS("\nHorizontal Lines");
-
-  mx.clear();
-  for (uint8_t r = 0; r < ROW_SIZE; r++)
-  {
-    mx.drawHLine(r, r, mx.getColumnCount() - ROW_SIZE + r, true);
-    delay(2*DELAYTIME);
-  }
-}
-
-void vLines()
-// Demonstrate the use of drawHLine().
-{
-  PRINTS("\nVertical Lines");
-
-  mx.clear();
-  for (uint16_t c = 0; c < mx.getColumnCount(); c++)
-  {
-    mx.drawVLine(c, 0, c % ROW_SIZE, true);
-    delay(DELAYTIME/4);
-  }
-}
-
 void rows()
 // Demonstrates the use of setRow()
 {
@@ -153,28 +90,6 @@ void rows()
     mx.setRow(row, 0xff);
     delay(2*DELAYTIME);
     mx.setRow(row, 0x00);
-  }
-}
-
-void rectangles()
-// nested rectangles spanning the entire display
-{
-  PRINTS("\nRectangles");
-  mx.clear();
-
-  for (uint8_t i = 0; i < 4; i++)
-  {
-    for (uint8_t r = 0; r < ROW_SIZE / 2; r++)
-    {
-      mx.drawRectangle(r, r, ROW_SIZE - 1 - r, mx.getColumnCount() - 1 - r, true);
-      delay(2 * DELAYTIME);
-    }
-
-    for (uint8_t r = 0; r < ROW_SIZE / 2; r++)
-    {
-      mx.drawRectangle(r, r, ROW_SIZE - 1 - r, mx.getColumnCount() - 1 - r, false);
-      delay(2 * DELAYTIME);
-    }
   }
 }
 
@@ -678,14 +593,10 @@ void setup()
 void loop()
 {
 #if 1
-//  scrollText("Graphics  ");
+  scrollText("Graphics");
   zeroPointSet();
-  lines();
-  hLines();
   rows();
-  vLines();
   columns();
-  rectangles();
   cross();
   stripe();
   checkboard();
@@ -695,20 +606,20 @@ void loop()
 #endif
 
 #if 1
-  scrollText("Control  ");
+  scrollText("Control");
   intensity();
   scanLimit();
   blinking();
 #endif
 
 #if 1
-  scrollText("Transform  ");
+  scrollText("Transform");
   transformation1();
   transformation2();
 #endif
 
 #if 1
-  scrollText("Charset  ");
+  scrollText("Charset");
   wrapText();
   showCharset();
 #endif

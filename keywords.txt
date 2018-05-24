@@ -25,10 +25,6 @@ setShiftDataOutCallback	KEYWORD2
 clear	KEYWORD2
 setPoint	KEYWORD2
 getPoint	KEYWORD2
-drawHLine	KEYWORD2
-drawLine	KEYWORD2
-drawVLine	KEYWORD2
-drawRectangle	KEYWORD2
 getBuffer	KEYWORD2
 setBuffer	KEYWORD2
 getColumn	KEYWORD2
@@ -43,6 +39,7 @@ setChar	KEYWORD2
 getFont	KEYWORD2
 setFont	KEYWORD2
 getMaxFontWidth	KEYWORD2
+getFontHeight	KEYWORD2
 
 ######################################
 # Constants (LITERAL1)

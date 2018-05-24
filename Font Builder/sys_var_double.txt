@@ -1,4 +1,5 @@
 .NAME sys_var_double
+.FONT_HEIGHT 8
 .HEIGHT 2
 .WIDTH 0
 .CHAR 32

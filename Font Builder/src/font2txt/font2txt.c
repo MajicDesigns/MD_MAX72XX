@@ -4,8 +4,11 @@
 // from an existing font data table. This is considered a one-off task
 // followed by some manual editing of the file.
 // The file is expected to be in the similar format to the output from
-// txt2font. Specifically, it is expected that each character is on one
-// data line in order to recognise specific parts, like comments.
+// txt2font. Specifically, 
+// - it is expected that each character is on one data line in order to 
+//   recognise specific parts, like comments.
+// - it expects all the ascii codes to be present (ie, it does not respect 
+//   the version information at the start of the table)
 //
 // The shared header file means that some elements in this 
 // code are reversed (eg, the IN file extension is used as the OUT file 
@@ -143,6 +146,7 @@ void saveOutputHeader(void)
 	fprintf(G.fpOut, "%c%s %s\n", DOT, CMD_NAME, G.fileRoot);
 	fprintf(G.fpOut, "%c%s %d\n", DOT, CMD_HEIGHT, (G.doubleHeight ? 2: 1));
 	fprintf(G.fpOut, "%c%s %d\n", DOT, CMD_WIDTH, G.fixedWidth);
+	fprintf(G.fpOut, "%c%s %d %s\n", DOT, CMD_FONTHIGH, G.fontHeight, "<- THIS NEEDS EDITING");
 
 	return;
 }
@@ -176,7 +180,7 @@ void saveOutputChar(void)
 }
 
 void createFontData(char *cp)
-// the font defintions strings are column data columns, so each byte will be a 'vertical'
+// the font defintions strings are column data, so each byte will be a 'vertical'
 // stripe of the input buffers. Format is the size followed by size bytes of column data,
 // separated by commas. The comment is found after the data in a '//' comment and following
 // the first '-'.

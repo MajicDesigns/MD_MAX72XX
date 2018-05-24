@@ -63,8 +63,8 @@ MD_UISwitch_Digital  ks = MD_UISwitch_Digital(MODE_SWITCH, LOW);
 //
 // Various delays in milliseconds
 #define UNIT_DELAY      25
-#define SCROLL_DELAY	  (4 * UNIT_DELAY)
-#define MIDLINE_DELAY	  (6 * UNIT_DELAY)
+#define SCROLL_DELAY    (4 * UNIT_DELAY)
+#define MIDLINE_DELAY   (6 * UNIT_DELAY)
 #define SCANNER_DELAY   (2 * UNIT_DELAY)
 #define RANDOM_DELAY    (6 * UNIT_DELAY)
 #define FADE_DELAY      (8 * UNIT_DELAY)
@@ -81,7 +81,6 @@ MD_UISwitch_Digital  ks = MD_UISwitch_Digital(MODE_SWITCH, LOW);
 
 #define CHAR_SPACING     1  // pixels between characters
 #define BUF_SIZE        75  // character buffer size
-
 
 // ========== General Variables ===========
 //
@@ -186,8 +185,11 @@ bool graphicMidline1(bool bInit)
   }
   else
   {
-    mx.drawLine(3, 0, 3, mx.getColumnCount()-1, true);
-    mx.drawLine(4, 0, 4, mx.getColumnCount()-1, true);
+    for (uint8_t j=0; j<MAX_DEVICES; j++)
+    {
+      mx.setRow(j, 3, 0xff);
+      mx.setRow(j, 4, 0xff);
+    }
   }
 
   return(bInit);
@@ -220,16 +222,22 @@ bool graphicMidline2(bool bInit)
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
 
   // turn off the old lines
-  mx.drawLine(idx, 0, idx, mx.getColumnCount()-1, false);
-  mx.drawLine(ROW_SIZE-1-idx, 0, ROW_SIZE-1-idx, mx.getColumnCount()-1, false);
+  for (uint8_t j=0; j<MAX_DEVICES; j++)
+  {
+    mx.setRow(j, idx, 0x00);
+    mx.setRow(j, ROW_SIZE-1-idx, 0x00);
+  }
 
   idx += idOffs;
   if ((idx == 0) || (idx == ROW_SIZE-1))
     idOffs = -idOffs;
 
   // turn on the new lines
-  mx.drawLine(idx, 0, idx, mx.getColumnCount()-1, true);
-  mx.drawLine(ROW_SIZE-1-idx, 0, ROW_SIZE-1-idx, mx.getColumnCount()-1, true);
+  for (uint8_t j=0; j<MAX_DEVICES; j++)
+  {
+    mx.setRow(j, idx, 0xff);
+    mx.setRow(j, ROW_SIZE-1-idx, 0xff);
+  }
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 

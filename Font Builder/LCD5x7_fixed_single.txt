@@ -1,4 +1,5 @@
 .NAME LCD5x7_var_single
+.FONT_HEIGHT 8
 .HEIGHT 1
 .WIDTH 5
 .CHAR 16

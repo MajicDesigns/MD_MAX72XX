@@ -1,4 +1,5 @@
 .NAME seg7_fixed_single
+.FONT_HEIGHT 8
 .HEIGHT 1
 .WIDTH 1
 .CHAR 32
