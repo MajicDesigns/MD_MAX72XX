@@ -1,11 +1,11 @@
 #include "MD_EyePair.h"
 
 // Packing and unpacking nybbles into a byte
-#define	PACK_RC(r, c)	((r<<4)|(c&0xf))
-#define	UNPACK_R(rc)	(rc>>4)
-#define	UNPACK_C(rc)	(rc&0xf)
+#define PACK_RC(r, c) ((r<<4)|(c&0xf))
+#define UNPACK_R(rc)  (rc>>4)
+#define UNPACK_C(rc)  (rc&0xf)
 
-#define	SMALL_EYEBALL	0
+#define SMALL_EYEBALL	0
 
 // Class static variables
 
@@ -33,6 +33,49 @@ uint8_t MD_EyePair::_eyeballData[EYEBALL_ROWS] = { 0x3c, 0x7e, 0x7e, 0x7e, 0x7e,
 #define LAST_BLINK_ROW  7   // last row for the blink animation
 
 #endif
+
+// Random seed creation --------------------------
+// Adapted from http://www.utopiamechanicus.com/article/arduino-better-random-numbers/
+
+uint16_t MD_EyePair::bitOut(uint8_t port)
+{
+  static bool firstTime = true;
+  uint32_t prev = 0;
+  uint32_t bit1 = 0, bit0 = 0;
+  uint32_t x = 0, limit = 99;
+
+  if (firstTime)
+  {
+    firstTime = false;
+    prev = analogRead(port);
+  }
+
+  while (limit--)
+  {
+    x = analogRead(port);
+    bit1 = (prev != x ? 1 : 0);
+    prev = x;
+    x = analogRead(port);
+    bit0 = (prev != x ? 1 : 0);
+    prev = x;
+    if (bit1 != bit0)
+      break;
+  }
+
+  return(bit1);
+}
+
+uint32_t MD_EyePair::seedOut(uint16_t noOfBits, uint8_t port)
+{
+  // return value with 'noOfBits' random bits set
+  uint32_t seed = 0;
+
+  for (int i = 0; i<noOfBits; ++i)
+    seed = (seed << 1) | bitOut(port);
+  
+  return(seed);
+}
+//------------------------------------------------------------------------------
 
 MD_EyePair::MD_EyePair(void)
 {
@@ -167,6 +210,8 @@ void MD_EyePair::begin(uint8_t startDev, MD_MAX72XX *M, uint16_t maxDelay)
   _M = M;
   _timeDelay = _maxDelay = maxDelay;
 
+  randomSeed(seedOut(31, RANDOM_SEED_PORT));
+    
   drawEyeball();
   drawPupil(_pupilCurPos, _pupilCurPos);
 };
@@ -188,13 +233,13 @@ void MD_EyePair::animate(void)
 
   // set up timers for next time
   _timeLast = millis();
-  _timeDelay = TrueRandom.random(_maxDelay);
+  _timeDelay = random(_maxDelay);
 
   // Do the animation most of the time, so bias the
   // random number check to achieve this
-  if (TrueRandom.random(1000) <= 900)
+  if (random(1000) <= 900)
   {
-    posPupil_t	pupilNewPos = (posPupil_t)(TrueRandom.random(9));
+    posPupil_t  pupilNewPos = (posPupil_t)random(9);
 
     if (posIsAdjacent(_pupilCurPos, pupilNewPos))
     {

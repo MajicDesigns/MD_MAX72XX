@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wraparound',['wraparound',['../class_m_d___m_a_x72_x_x.html#a0b5940c115ad58aeb05d7af1e9162f97',1,'MD_MAX72XX']]]
+  ['_7emd_5fmax72xx',['~MD_MAX72XX',['../class_m_d___m_a_x72_x_x.html#afffa5b85187905f713477435187b3759',1,'MD_MAX72XX']]]
 ];

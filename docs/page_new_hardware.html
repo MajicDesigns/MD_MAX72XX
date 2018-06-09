@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MajicDesigns_Logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MD_MAX72xx LED Matrix Arduino Library
-   &#160;<span id="projectnumber">2.11</span>
+   &#160;<span id="projectnumber">3.0</span>
    </div>
    <div id="projectbrief">Library to control connected  MAX72XX devices as a pixel array</div>
   </td>
@@ -110,12 +110,7 @@ $(document).ready(function(){initNavTree('page_new_hardware.html','');});
 <li>a reversal of row indices, and</li>
 <li>a reversal of column indices.</li>
 </ul>
-<p>The hardware types defined in <a class="el" href="_m_d___m_a_x72xx_8h.html" title="Main header file for the MD_MAX72xx library. ">MD_MAX72xx.h</a> activate different library code by defining appropriate values for the defines listed below, in the <a class="el" href="_m_d___m_a_x72xx__lib_8h.html" title="Includes library definitions. ">MD_MAX72xx_lib.h</a> file.</p>
-<ul>
-<li>HW_DIG_ROWS - MAX72xx digits are mapped to rows in on the matrix. If digits are not rows then they are columns!</li>
-<li>HW_REV_COLS - Normal column coordinates orientation is 0 col on the right side of the display. Set to 1 to reverse this (0 on the left).</li>
-<li>HW_REV_ROWS - Normal row coordinates orientation is 0 row at top of the display. Set to 1 to reverse this (0 at the bottom).</li>
-</ul>
+<p>The hardware types defined in <a class="el" href="_m_d___m_a_x72xx_8h.html" title="Main header file for the MD_MAX72xx library. ">MD_MAX72xx.h</a> activate different library code by setting the parameters that specify the correct way to handle these differences.</p>
 <h2>Determining the type of mapping </h2>
 <p>The library example code includes a utility called MD_MAX72xx_HW_Mapper. This is test software to map display hardware rows and columns. It uses a generic SPI interface and only one MAX72xx/8x8 LED module required. It is independent of the libraries as the code is used to directly map the display orientation by setting pixels on the display and printing to the serial monitor which MAX72xx hardware component (segment and digit) is being exercised.</p>
 <p>By observing the LED display and the serial monitor you can build a map like the one below. It is worth noting the direction in which the rows and columns are scanned by the utility, as this is the easiest way to work out the row/column reversal values.</p>
@@ -129,19 +124,19 @@ Seg B
 Seg A
 Seg DP
 </pre><p>From this mapping it is clear</p><ul>
-<li>MAX72xx digits map to the columns, HW_DIG_ROWS is 0.</li>
-<li>DIG0 is on the left (columns were also scanned left to right), so HW_REV_COLS should be set to 1 to reverse it to the standard 0 on the right.</li>
-<li>Seg G is at the top (rows were also top to bottom), so HW_REV_ROWS should be set to 0, as it is already standard with 0 on top.</li>
+<li>MAX72xx digits map to the columns.</li>
+<li>DIG0 is on the left (columns were also scanned left to right).</li>
+<li>Seg G is at the top (rows were also top to bottom).</li>
 </ul>
 <p>Note that in some situations using the module 'upside down' will result in a better configuration than would otherwise be the case. An example of this is the generic module mapping. Also remember that the modules are daisy chained from right to left.</p>
-<p>Having determined the values for the defines, the new mapping can be configured, or matched to an existing hardware type. </p><hr/>
+<p>Having determined the values for the module type, this can be used in the application. </p><hr/>
  </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="index.html">Arduino LED Matrix Library</a></li><li class="navelem"><a class="el" href="page_hardware.html">Hardware</a></li>
-    <li class="footer">Generated on Tue Apr 3 2018 12:11:28 for MD_MAX72xx LED Matrix Arduino Library by
+    <li class="footer">Generated on Fri Jun 8 2018 19:31:24 for MD_MAX72xx LED Matrix Arduino Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

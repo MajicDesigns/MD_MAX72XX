@@ -2,7 +2,7 @@
 //
 // Uses most of the functions in the library
 #include <MD_MAX72xx.h>
-#include <SPI.h>
+//#include <SPI.h>
 
 // Turn on debug statements to the serial output
 #define  DEBUG  1
@@ -22,6 +22,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES	11
 
 #define CLK_PIN   13  // or SCK
@@ -29,9 +30,9 @@
 #define CS_PIN    10  // or SS
 
 // SPI hardware interface
-MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
+MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Arbitrary pins
-// MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+// MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // We always wait a bit between updates of the display
 #define  DELAYTIME  100  // in milliseconds

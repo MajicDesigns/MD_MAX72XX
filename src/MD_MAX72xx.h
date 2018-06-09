@@ -8,61 +8,6 @@
  * \brief Main header file for the MD_MAX72xx library
  */
 
-//*********************************************************
-//* START SECTION - ADAPTING FOR DIFFERENT HARDWARE TYPES *
-//*********************************************************
-
-/* Select one of the hardware types by setting the USE_*_HW
- * below define value to 1 and all the other to 0.
- * 
- * For more information see the documentation with this library 
- * distribution or, for the same information online, 
- * https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
- */
- 
-/**
- \def USE_PAROLA_HW
- Set to 1 (default) to use the Parola hardware modules. The
- software was originally designed to operate with this hardware type.
- */
-#define USE_PAROLA_HW 0
-
-/**
- \def USE_GENERIC_HW
- Set to 1 to use 'generic' hardware modules commonly available, with
- connectors at the top and bottom of the PCB, available from many sources.
- */
-#define USE_GENERIC_HW 0
-
-/**
- \def USE_ICSTATION_HW
- Set to 1 to use ICStation DIY hardware module kits available from
- http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs
- This hardware must be set up with the input on the RHS.
- */
-#define USE_ICSTATION_HW 0
-
-/**
- \def USE_FC16_HW
- Set to 1 to use FC16 hardware module kits.
- FC16 modules are similar in format to the ICStation modules but are wired differently.
- Modules are identified by a FC-16 designation on the PCB
-  */
-#define USE_FC16_HW 1
-
-/**
- \def USE_OTHER_HW
- Set to 1 to use other hardware not defined above.
- Module 0 (Data In) must be set up on the RHS and the CUSTOM hardware defines
- must be set up in the MD_MAD72xx_lib.h file under for this section, using the HW_Mapper
- utility to work out what the correct values to use are.
- */
-#define USE_OTHER_HW 0
-
-//*******************************************************
-//* END SECTION - ADAPTING FOR DIFFERENT HARDWARE TYPES *
-//*******************************************************
- 
 /**
 \mainpage Arduino LED Matrix Library
 The Maxim 72xx LED Controller IC
@@ -113,11 +58,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Revision History
 ----------------
-May 2018 version 3.0.0
+June 2018 version 3.0.0
 - Implemented new font file format (file format version 1).
 - Removed 'drawXXX' graphics functions to new MD_MAXPanel library.
 - Removed font indexing as this never used.
 - Added getFontHeight() method.
+- Module type now specified at run time.
 
 Apr 2018 version 2.11.1
 - Another attempt to further clarify editing of header file for hardware changes.
@@ -293,18 +239,6 @@ enough current for the number of connected modules.
  */
 #define USE_LOCAL_FONT 1
 
-/**
- \def USE_INDEX_FONT
- Set to 1 to enable font indexing to speed up font lookups - usually disabled.
- This will trade off increased stack RAM usage for lookup speed if enabled.
- When disabled lookups will then become linear searches through PROGMEM.
- Uses ASCII_INDEX_SIZE elements of uint16_t (512 bytes) if enabled. For most
- purposes the increase in speed is not needed.
-
- USE_LOCAL FONT must be enabled for this option to take effect.
- */
-#define USE_INDEX_FONT 1
-
 // Display parameter constants
 // Defined values that are used throughout the library to define physical limits
 #define ROW_SIZE  8   ///< The size in pixels of a row in the device LED matrix array
@@ -318,6 +252,21 @@ enough current for the number of connected modules.
 class MD_MAX72XX
 {
 public:
+  /**
+  * Module Type enumerated type.
+  *
+  * This enumerated type is used to defined the type of
+  * modules being used in the application. The types of modules are
+  * discussed in detail in the Hardware section of this documentation. 
+  */
+  enum moduleType_t
+  {
+    PAROLA_HW,    ///< Use the Parola style hardware modules.
+    GENERIC_HW,   ///< Use 'generic' style hardware modules commonly available.
+    ICSTATION_HW, ///< Use ICStation style hardware module.
+    FC16_HW       ///< Use FC-16 style hardware module.
+  };
+
 #if USE_LOCAL_FONT
   /**
   * Font definition type.
@@ -382,6 +331,7 @@ public:
    * connect the software to the hardware. Multiple instances may co-exist
    * but they should not share the same hardware CS pin (SPI interface).
    *
+   * \param mod       module type used in this application. One of the moduleType_t values.
    * \param dataPin   output on the Arduino where data gets shifted out.
    * \param clkPin    output for the clock signal.
    * \param csPin     output for selecting the device.
@@ -389,7 +339,7 @@ public:
    *                    Memory for device buffers is dynamically allocated based
    *                    on this parameter.
    */
-  MD_MAX72XX(uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1);
+  MD_MAX72XX(moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1);
 
   /**
    * Class Constructor - SPI hardware interface.
@@ -400,12 +350,13 @@ public:
    * The dataPin and the clockPin are defined by the Arduino hardware definition
    * (SPI MOSI and SCK signals).
    *
+   * \param mod     module type used in this application. One of the moduleType_t values.
    * \param csPin   output for selecting the device.
    * \param numDevices  number of devices connected. Default is 1 if not supplied.
    *                    Memory for device buffers is dynamically allocated based
    *                    on this parameter.
    */
-  MD_MAX72XX(uint8_t csPin, uint8_t numDevices=1);
+  MD_MAX72XX(moduleType_t mod, uint8_t csPin, uint8_t numDevices=1);
 
   /**
    * Initialize the object.
@@ -487,6 +438,17 @@ public:
    */
   uint16_t getColumnCount(void) { return(_maxDevices*COL_SIZE); };
 
+  /**
+   * Set the type of hardware module being used.
+   *
+   * This method changes the type of module being used in the application 
+   * during at run time.
+   *
+   * \param mod module type used in this application; one of the moduleType_t values.
+   * \return No return data
+   */
+  void setModuleType(moduleType_t mod) { setModuleParameters(mod); };
+  
   /**
    * Set the Shift Data In callback function.
    *
@@ -937,6 +899,12 @@ private:
   uint8_t changed;        // one bit for each digit changed ('dirty bit')
   } deviceInfo_t;
 
+  // LED module wiring parameters defined by hardware type
+  moduleType_t _mod;  // The module type from the available list
+  bool _hwDigRows;    // MAX72xx digits are mapped to rows in on the matrix
+  bool _hwRevCols;    // Normal orientation is col 0 on the right. Set to true if reversed
+  bool _hwRevRows;    // Normal orientation is row 0 at the top. Set to true if reversed
+
   // SPI interface data
   uint8_t _dataPin;     // DATA is shifted out of this pin ...
   uint8_t _clkPin;      // ... signaled by a CLOCK on this pin ...
@@ -992,6 +960,17 @@ private:
 
   bool copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest);   // copy a row from Src to Dest
   bool copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest);// copy a row from Src to Dest
+
+  void setModuleParameters(moduleType_t mod);   // setup parameters based on module type
+
+  // _hwDigRev switched function for internal use
+  bool copyC(uint8_t buf, uint8_t cSrc, uint8_t cDest);
+  bool copyR(uint8_t buf, uint8_t rSrc, uint8_t rDest);
+  uint8_t getC(uint8_t buf, uint8_t c);
+  uint8_t getR(uint8_t buf, uint8_t r);
+  bool setC(uint8_t buf, uint8_t c, uint8_t value);
+  bool setR(uint8_t buf, uint8_t r, uint8_t value);
+
 };
 
 #endif

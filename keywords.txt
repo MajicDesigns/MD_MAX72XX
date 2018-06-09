@@ -11,6 +11,7 @@ controlRequest_t	KEYWORD1
 controlValue_t	KEYWORD1
 transformType_t	KEYWORD1
 fontType_t	KEYWORD1
+moduleType_t	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -20,6 +21,7 @@ begin	KEYWORD2
 control	KEYWORD2
 getDeviceCount	KEYWORD2
 getColumnCount	KEYWORD2
+setModuleType	KEYWORD2
 setShiftDataInCallback	KEYWORD2
 setShiftDataOutCallback	KEYWORD2
 clear	KEYWORD2
@@ -75,3 +77,9 @@ MD_MAX72XX::TINV	LITERAL1
 # fontType_t
 MD_MAX72XX::SYS_FIXED	LITERAL1
 MD_MAX72XX::SYS_VAR	LITERAL1
+
+# ModuleType_t
+MD_MAX72XX::PAROLA_HW	LITERAL1
+MD_MAX72XX::GENERIC_HW	LITERAL1
+MD_MAX72XX::ICSTATION_HW	LITERAL1
+MD_MAX72XX::FC16_HW	LITERAL1

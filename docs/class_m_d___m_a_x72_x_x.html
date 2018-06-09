@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MajicDesigns_Logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MD_MAX72xx LED Matrix Arduino Library
-   &#160;<span id="projectnumber">2.11</span>
+   &#160;<span id="projectnumber">3.0</span>
    </div>
    <div id="projectbrief">Library to control connected  MAX72XX devices as a pixel array</div>
   </td>
@@ -102,6 +102,12 @@ $(document).ready(function(){initNavTree('class_m_d___m_a_x72_x_x.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a88ea7aada207c02282d091b7be7084e6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6">moduleType_t</a> { <a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6ab1adfbd7e43930ccfc2317a62447d9f9">PAROLA_HW</a>, 
+<a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6af0b64275e41b18b0e3a0701721f89bb1">GENERIC_HW</a>, 
+<a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6a583a8410fad078917bc9f0752395b605">ICSTATION_HW</a>, 
+<a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6aa31c3dd0315ecc5527dd36689069395a">FC16_HW</a>
+ }</td></tr>
+<tr class="separator:a88ea7aada207c02282d091b7be7084e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c6d702fe0161b19448f35049e00bf4f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4f">controlRequest_t</a> { <br />
 &#160;&#160;<a class="el" href="class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fad2d5ee4317d7dfb62c9f0dcc88562e1a">SHUTDOWN</a> = 0, 
 <a class="el" href="class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa5bd97d72ff4cc7d30ee1d24213cee6a7">SCANLIMIT</a> = 1, 
@@ -136,10 +142,10 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8dea20b09d22e7871940e76f0094ce45"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a8dea20b09d22e7871940e76f0094ce45">MD_MAX72XX</a> (uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1)</td></tr>
-<tr class="separator:a8dea20b09d22e7871940e76f0094ce45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a9b08e0c3d830f1a8dda3aa64ae1d34"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a0a9b08e0c3d830f1a8dda3aa64ae1d34">MD_MAX72XX</a> (uint8_t csPin, uint8_t numDevices=1)</td></tr>
-<tr class="separator:a0a9b08e0c3d830f1a8dda3aa64ae1d34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4f5a0cee2714280a7b8fd694d70c93c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#ae4f5a0cee2714280a7b8fd694d70c93c">MD_MAX72XX</a> (<a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6">moduleType_t</a> mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1)</td></tr>
+<tr class="separator:ae4f5a0cee2714280a7b8fd694d70c93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22877f79afa52fa3242de425ea85255a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a22877f79afa52fa3242de425ea85255a">MD_MAX72XX</a> (<a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6">moduleType_t</a> mod, uint8_t csPin, uint8_t numDevices=1)</td></tr>
+<tr class="separator:a22877f79afa52fa3242de425ea85255a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f5e98bd8aa93c0624f3cf1ceac292f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a4f5e98bd8aa93c0624f3cf1ceac292f9">begin</a> (void)</td></tr>
 <tr class="separator:a4f5e98bd8aa93c0624f3cf1ceac292f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afffa5b85187905f713477435187b3759"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#afffa5b85187905f713477435187b3759">~MD_MAX72XX</a> ()</td></tr>
@@ -155,6 +161,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5508f498566c3b3e80422e6ff9501ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fb151890cf022197b58a546f75e9e20"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20">getColumnCount</a> (void)</td></tr>
 <tr class="separator:a2fb151890cf022197b58a546f75e9e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab68333e23c99212d9574b39ed7e67a96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#ab68333e23c99212d9574b39ed7e67a96">setModuleType</a> (<a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6">moduleType_t</a> mod)</td></tr>
+<tr class="separator:ab68333e23c99212d9574b39ed7e67a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e126c7e12fbca524ef93befad3db825"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a8e126c7e12fbca524ef93befad3db825">setShiftDataInCallback</a> (uint8_t(*cb)(uint8_t dev, <a class="el" href="class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28">transformType_t</a> t))</td></tr>
 <tr class="separator:a8e126c7e12fbca524ef93befad3db825"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4672c2b149198fb682d9aa2518f3505"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#af4672c2b149198fb682d9aa2518f3505">setShiftDataOutCallback</a> (void(*cb)(uint8_t dev, <a class="el" href="class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28">transformType_t</a> t, uint8_t colData))</td></tr>
@@ -164,14 +172,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5ce5b733333d776ef94e0cc36e1043cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac57b7cd49a465e7f5f3027a1eac46242"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#ac57b7cd49a465e7f5f3027a1eac46242">clear</a> (uint8_t startDev, uint8_t endDev)</td></tr>
 <tr class="separator:ac57b7cd49a465e7f5f3027a1eac46242"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cf89623642b644dfdcdcc719e5a75b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a9cf89623642b644dfdcdcc719e5a75b5">drawHLine</a> (uint8_t r, uint16_t c1, uint16_t c2, bool state)</td></tr>
-<tr class="separator:a9cf89623642b644dfdcdcc719e5a75b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97cc6199b1380eaf5ec3803c1745e305"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a97cc6199b1380eaf5ec3803c1745e305">drawLine</a> (uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state)</td></tr>
-<tr class="separator:a97cc6199b1380eaf5ec3803c1745e305"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30d487526415d4d83e2703115aba00f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a30d487526415d4d83e2703115aba00f2">drawVLine</a> (uint16_t c, uint8_t r1, uint8_t r2, bool state)</td></tr>
-<tr class="separator:a30d487526415d4d83e2703115aba00f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93a1c88fb87814017c05025effda9133"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a93a1c88fb87814017c05025effda9133">drawRectangle</a> (uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2, bool state)</td></tr>
-<tr class="separator:a93a1c88fb87814017c05025effda9133"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afee0d78eed2563729e21a765289c9cbe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#afee0d78eed2563729e21a765289c9cbe">getBuffer</a> (uint16_t col, uint8_t size, uint8_t *pd)</td></tr>
 <tr class="separator:afee0d78eed2563729e21a765289c9cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa211a3ed433222911e1d01800357527a"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#aa211a3ed433222911e1d01800357527a">getColumn</a> (uint8_t c)</td></tr>
@@ -222,6 +222,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a16655f29d088d8ce1d557abcb703513d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88b4a38d90588e39ffc70986a501ed2e"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a88b4a38d90588e39ffc70986a501ed2e">getMaxFontWidth</a> (void)</td></tr>
 <tr class="separator:a88b4a38d90588e39ffc70986a501ed2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a899895fcca3bd4dc424eb78397553077"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a899895fcca3bd4dc424eb78397553077">getFontHeight</a> (void)</td></tr>
+<tr class="separator:a899895fcca3bd4dc424eb78397553077"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b59272f96f8cae6a41ad7dd0cd5aae2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_m_d___m_a_x72_x_x.html#a5b2e511f00bddbcc1fffa78757d71bf5">fontType_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___m_a_x72_x_x.html#a4b59272f96f8cae6a41ad7dd0cd5aae2">getFont</a> (void)</td></tr>
 <tr class="separator:a4b59272f96f8cae6a41ad7dd0cd5aae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -299,6 +301,32 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a88ea7aada207c02282d091b7be7084e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88ea7aada207c02282d091b7be7084e6">&#9670;&nbsp;</a></span>moduleType_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6">MD_MAX72XX::moduleType_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Module Type enumerated type.</p>
+<p>This enumerated type is used to defined the type of modules being used in the application. The types of modules are discussed in detail in the Hardware section of this documentation. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a88ea7aada207c02282d091b7be7084e6ab1adfbd7e43930ccfc2317a62447d9f9"></a>PAROLA_HW&#160;</td><td class="fielddoc"><p>Use the Parola style hardware modules. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a88ea7aada207c02282d091b7be7084e6af0b64275e41b18b0e3a0701721f89bb1"></a>GENERIC_HW&#160;</td><td class="fielddoc"><p>Use 'generic' style hardware modules commonly available. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a88ea7aada207c02282d091b7be7084e6a583a8410fad078917bc9f0752395b605"></a>ICSTATION_HW&#160;</td><td class="fielddoc"><p>Use ICStation style hardware module. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a88ea7aada207c02282d091b7be7084e6aa31c3dd0315ecc5527dd36689069395a"></a>FC16_HW&#160;</td><td class="fielddoc"><p>Use FC-16 style hardware module. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="ac259d8ecd376228c061c373b564a2e28"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac259d8ecd376228c061c373b564a2e28">&#9670;&nbsp;</a></span>transformType_t</h2>
 
@@ -334,8 +362,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8dea20b09d22e7871940e76f0094ce45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8dea20b09d22e7871940e76f0094ce45">&#9670;&nbsp;</a></span>MD_MAX72XX() <span class="overload">[1/2]</span></h2>
+<a id="ae4f5a0cee2714280a7b8fd694d70c93c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4f5a0cee2714280a7b8fd694d70c93c">&#9670;&nbsp;</a></span>MD_MAX72XX() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -343,6 +371,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">MD_MAX72XX::MD_MAX72XX </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6">moduleType_t</a>&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>dataPin</em>, </td>
         </tr>
@@ -375,6 +409,7 @@ Public Member Functions</h2></td></tr>
 <p>Instantiate a new instance of the class. The parameters passed are used to connect the software to the hardware. Multiple instances may co-exist but they should not share the same hardware CS pin (SPI interface).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">mod</td><td>module type used in this application. One of the moduleType_t values. </td></tr>
     <tr><td class="paramname">dataPin</td><td>output on the Arduino where data gets shifted out. </td></tr>
     <tr><td class="paramname">clkPin</td><td>output for the clock signal. </td></tr>
     <tr><td class="paramname">csPin</td><td>output for selecting the device. </td></tr>
@@ -385,8 +420,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0a9b08e0c3d830f1a8dda3aa64ae1d34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a9b08e0c3d830f1a8dda3aa64ae1d34">&#9670;&nbsp;</a></span>MD_MAX72XX() <span class="overload">[2/2]</span></h2>
+<a id="a22877f79afa52fa3242de425ea85255a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22877f79afa52fa3242de425ea85255a">&#9670;&nbsp;</a></span>MD_MAX72XX() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -394,6 +429,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">MD_MAX72XX::MD_MAX72XX </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6">moduleType_t</a>&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>csPin</em>, </td>
         </tr>
@@ -414,6 +455,7 @@ Public Member Functions</h2></td></tr>
 <p>Instantiate a new instance of the class. The parameters passed are used to connect the software to the hardware. Multiple instances may co-exist but they should not share the same hardware CS pin (SPI interface). The dataPin and the clockPin are defined by the Arduino hardware definition (SPI MOSI and SCK signals).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">mod</td><td>module type used in this application. One of the moduleType_t values. </td></tr>
     <tr><td class="paramname">csPin</td><td>output for selecting the device. </td></tr>
     <tr><td class="paramname">numDevices</td><td>number of devices connected. Default is 1 if not supplied. Memory for device buffers is dynamically allocated based on this parameter. </td></tr>
   </table>
@@ -683,228 +725,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9cf89623642b644dfdcdcc719e5a75b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9cf89623642b644dfdcdcc719e5a75b5">&#9670;&nbsp;</a></span>drawHLine()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool MD_MAX72XX::drawHLine </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>r</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>c1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>c2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>state</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Draw a horizontal line between two points on the display</p>
-<p>Draw a horizontal line between the specified points. The LED will be turned on or off depending on the value supplied. The column number will be dereferenced into the device and column within the device, allowing the LEDs to be treated as a continuous pixel field.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">r</td><td>row coordinate for the line [0..ROW_SIZE-1]. </td></tr>
-    <tr><td class="paramname">c1</td><td>starting column coordinate for the point [0..<a class="el" href="class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20">getColumnCount()</a>-1]. </td></tr>
-    <tr><td class="paramname">c2</td><td>ending column coordinate for the point [0..<a class="el" href="class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20">getColumnCount()</a>)-1]. </td></tr>
-    <tr><td class="paramname">state</td><td>true - switch on; false - switch off. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>false if parameter errors, true otherwise. </dd></dl>
-
-</div>
-</div>
-<a id="a97cc6199b1380eaf5ec3803c1745e305"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97cc6199b1380eaf5ec3803c1745e305">&#9670;&nbsp;</a></span>drawLine()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool MD_MAX72XX::drawLine </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>r1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>c1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>r2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>c2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>state</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Draw an arbitrary line between two points on the display</p>
-<p>Draw a line between the specified points using Bresenham's algorithm. The LED will be turned on or off depending on the value supplied. The column number will be dereferenced into the device and column within the device, allowing the LEDs to be treated as a continuous pixel field.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">r1</td><td>starting row coordinate for the point [0..ROW_SIZE-1]. </td></tr>
-    <tr><td class="paramname">c1</td><td>starting column coordinate for the point [0..<a class="el" href="class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20">getColumnCount()</a>-1]. </td></tr>
-    <tr><td class="paramname">r2</td><td>ending row coordinate for the point [0..ROW_SIZE-1]. </td></tr>
-    <tr><td class="paramname">c2</td><td>ending column coordinate for the point [0..<a class="el" href="class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20">getColumnCount()</a>)-1]. </td></tr>
-    <tr><td class="paramname">state</td><td>true - switch on; false - switch off. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>false if parameter errors, true otherwise. </dd></dl>
-
-</div>
-</div>
-<a id="a93a1c88fb87814017c05025effda9133"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93a1c88fb87814017c05025effda9133">&#9670;&nbsp;</a></span>drawRectangle()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool MD_MAX72XX::drawRectangle </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>r1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>c1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>r2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>c2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>state</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Draw a rectangle given two diagonal vertices</p>
-<p>Draw a rectangle given the points across the diagonal. The LED will be turned on or off depending on the value supplied. The column number will be dereferenced into the device and column within the device, allowing the LEDs to be treated as a continuous pixel field.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">r1</td><td>starting row coordinate for the point [0..ROW_SIZE-1]. </td></tr>
-    <tr><td class="paramname">c1</td><td>starting column coordinate for the point [0..<a class="el" href="class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20">getColumnCount()</a>-1]. </td></tr>
-    <tr><td class="paramname">r2</td><td>ending row coordinate for the point [0..ROW_SIZE-1]. </td></tr>
-    <tr><td class="paramname">c2</td><td>ending column coordinate for the point [0..<a class="el" href="class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20">getColumnCount()</a>)-1]. </td></tr>
-    <tr><td class="paramname">state</td><td>true - switch on; false - switch off. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>false if parameter errors, true otherwise. </dd></dl>
-
-</div>
-</div>
-<a id="a30d487526415d4d83e2703115aba00f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30d487526415d4d83e2703115aba00f2">&#9670;&nbsp;</a></span>drawVLine()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool MD_MAX72XX::drawVLine </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>c</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>r1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>r2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>state</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Draw a vertical line between two points on the display</p>
-<p>Draw a horizontal line between the specified points. The LED will be turned on or off depending on the value supplied. The column number will be dereferenced into the device and column within the device, allowing the LEDs to be treated as a continuous pixel field.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">c</td><td>column coordinate for the line [0..<a class="el" href="class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20">getColumnCount()</a>)-1]. </td></tr>
-    <tr><td class="paramname">r1</td><td>starting row coordinate for the point [0..ROW_SIZE-1]. </td></tr>
-    <tr><td class="paramname">r2</td><td>ending row coordinate for the point [0..ROW_SIZE-1]. </td></tr>
-    <tr><td class="paramname">state</td><td>true - switch on; false - switch off. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>false if parameter errors, true otherwise. </dd></dl>
-
-</div>
-</div>
 <a id="afee0d78eed2563729e21a765289c9cbe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afee0d78eed2563729e21a765289c9cbe">&#9670;&nbsp;</a></span>getBuffer()</h2>
 
@@ -1121,6 +941,28 @@ Public Member Functions</h2></td></tr>
 <p>Returns the pointer to the current font table. Useful if user code needs to replace the current font temporarily and then restore previous font.</p>
 <p>NOTE: This function is only available if the library defined value USE_LOCAL_FONT is set to 1.</p>
 <dl class="section return"><dt>Returns</dt><dd>pointer to the start of the font table in PROGMEM. </dd></dl>
+
+</div>
+</div>
+<a id="a899895fcca3bd4dc424eb78397553077"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a899895fcca3bd4dc424eb78397553077">&#9670;&nbsp;</a></span>getFontHeight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t MD_MAX72XX::getFontHeight </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get height of a character for the font.</p>
+<p>Returns the number of rows specified as the height of a character in the currently selected font table.</p>
+<p>NOTE: This function is only available if the library defined value USE_LOCAL_FONT is set to 1.</p>
+<dl class="section return"><dt>Returns</dt><dd>number of rows (height) for the font. </dd></dl>
 
 </div>
 </div>
@@ -1406,7 +1248,6 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Set the current font table.</p>
 <p>Font data is stored in PROGMEM, in the format described elsewhere in the documentation. All characters retrieved or used after this call will use the nominated font (default or user defined). To specify a user defined character set, pass the PROGMEM address of the font table. Passing a nullptr resets the font table to the library default table.</p>
-<p>This function also causes the font index table to be recreated if the library defined value USE_INDEX_TABLE is set to 1.</p>
 <p>NOTE: This function is only available if the library defined value USE_LOCAL_FONT is set to 1.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1415,6 +1256,33 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>false if parameter errors, true otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ab68333e23c99212d9574b39ed7e67a96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab68333e23c99212d9574b39ed7e67a96">&#9670;&nbsp;</a></span>setModuleType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MD_MAX72XX::setModuleType </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6">moduleType_t</a>&#160;</td>
+          <td class="paramname"><em>mod</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the type of hardware module being used.</p>
+<p>This method changes the type of module being used in the application during at run time.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mod</td><td>module type used in this application; one of the moduleType_t values. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>No return data </dd></dl>
 
 </div>
 </div>
@@ -1894,7 +1762,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___m_a_x72_x_x.html">MD_MAX72XX</a></li>
-    <li class="footer">Generated on Tue Apr 3 2018 12:11:28 for MD_MAX72xx LED Matrix Arduino Library by
+    <li class="footer">Generated on Fri Jun 8 2018 19:31:24 for MD_MAX72xx LED Matrix Arduino Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

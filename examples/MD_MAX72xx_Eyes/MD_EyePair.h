@@ -3,10 +3,10 @@
 #define MDEYEPAIR_H
 
 #include <MD_MAX72xx.h>
-#include <TrueRandom.h>
 
 // Misc defines
-#define EYEBALL_ROWS  8   // number of rows in the eyeball definition
+#define EYEBALL_ROWS  8       // number of rows in the eyeball definition
+#define RANDOM_SEED_PORT  A0  // for random seed bit shuffling
 
 class MD_EyePair
 {
@@ -54,6 +54,10 @@ protected:
   bool blinkEyeball(bool bFirst);
   void drawPupil(posPupil_t posOld, posPupil_t posNew);
   bool posIsAdjacent(posPupil_t posCur, posPupil_t posNew);
+  
+  // random seed creation
+  uint16_t MD_EyePair::bitOut(uint8_t port);
+  uint32_t MD_EyePair::seedOut(uint16_t noOfBits, uint8_t port);
 };
 
 #endif

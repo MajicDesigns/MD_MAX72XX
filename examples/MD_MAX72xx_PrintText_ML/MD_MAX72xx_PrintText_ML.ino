@@ -16,6 +16,7 @@
 #define CHAR_SPACING  1   // pixels between characters
 
 // Define the number of devices we have in the chain and the hardware interface
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 4
 
 struct LineDefinition
@@ -30,8 +31,8 @@ struct LineDefinition
 // need to be adapted
 struct LineDefinition  Line[] =
 {
-  { MD_MAX72XX(11, 13, 10, MAX_DEVICES), "abc", true },
-  { MD_MAX72XX(11, 13,  9, MAX_DEVICES), "def", true }
+  { MD_MAX72XX(HARDWARE_TYPE, 11, 13, 10, MAX_DEVICES), "abc", true },
+  { MD_MAX72XX(HARDWARE_TYPE, 11, 13,  9, MAX_DEVICES), "def", true }
 };
 
 #define MAX_LINES   (sizeof(Line)/sizeof(LineDefinition))

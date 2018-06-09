@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MajicDesigns_Logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MD_MAX72xx LED Matrix Arduino Library
-   &#160;<span id="projectnumber">2.11</span>
+   &#160;<span id="projectnumber">3.0</span>
    </div>
    <div id="projectbrief">Library to control connected  MAX72XX devices as a pixel array</div>
   </td>
@@ -95,9 +95,15 @@ $(document).ready(function(){initNavTree('page_font_utility.html','');});
 <div class="textblock"><h2>Font Storage Format </h2>
 <p>One default font is defined as part of the library in PROGMEM memory. Alternative fonts can be specified to the library. The font builder utilities provide a convenient way to modify existing or develop alternative fonts.</p>
 <p>Fonts are stored as a series of contiguous bytes in the following format:</p><ul>
-<li>byte 1 - the number of bytes that form this character (could be zero)</li>
-<li>byte 2..n - each byte is a column of the character to be formed, starting with the leftmost column of the character. The least significant bit of the byte is the bottom pixel position of the character matrix (row 7).</li>
+<li>byte 1 - the character 'F'</li>
+<li>byte 2 - the version for the file format (1 or more)</li>
+<li>byte 3 - the first ASCII character in the table</li>
+<li>byte 4 - the last ASCII character in the table</li>
+<li>byte 5 - the height of the character in pixels</li>
+<li>byte 6 - the number of bytes that form this character (could be zero)</li>
+<li>byte 7..n - each byte is a column of the character to be formed, starting with the leftmost column of the character. The least significant bit of the byte is the bottom pixel position of the character matrix (row 7).</li>
 </ul>
+<p>If the 'F' is omitted then the font definition is considered a version 0 font (prior to MD_MAX72xx version 3.0.0) and the defaults are set to min ASCII 0, max ASCII 255, height 8. In this case byte 6 above is the first byte in the file.</p>
 <p>To find a character in the font table, the library looks at the first byte (size), skips 'size'+1 bytes to the next character size byte and repeat until the last or target character is reached.</p>
 <p>The compile-time switch USE_INDEX_FONT enables indexing of the font table for faster access, at the expense of increased RAM usage. If indexing is enabled, a single lookup is required to access the character data, rather than the sequential search described above.</p>
 <p>The support for fonts (methods and data) may be completely disabled if not required through the compile-time switch USE_LOCAL_FONT. This will also disable user defined fonts.</p>
@@ -140,7 +146,7 @@ $(document).ready(function(){initNavTree('page_font_utility.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="index.html">Arduino LED Matrix Library</a></li>
-    <li class="footer">Generated on Tue Apr 3 2018 12:11:28 for MD_MAX72xx LED Matrix Arduino Library by
+    <li class="footer">Generated on Fri Jun 8 2018 19:31:24 for MD_MAX72xx LED Matrix Arduino Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

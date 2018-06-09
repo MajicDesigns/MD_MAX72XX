@@ -37,9 +37,10 @@
 #define DATA_PIN  7  // or MOSI
 #define CS_PIN    8  // or SS or LD
 
-#define	MAX_DEVICES	8
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
+#define MAX_DEVICES 8
 
-MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // ** SDFat hardware definitions
 // Define the number of devices we have in the chain and the hardware interface

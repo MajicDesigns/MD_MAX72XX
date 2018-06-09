@@ -14,6 +14,12 @@ var class_m_d___m_a_x72_x_x =
       [ "OFF", "class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457a69c74295de1c864d082152eb358409a1", null ],
       [ "ON", "class_m_d___m_a_x72_x_x.html#aadaf745b81100652dafeff2eb212f457aa19c4a20e024758f7cb4b82283ef2138", null ]
     ] ],
+    [ "moduleType_t", "class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6", [
+      [ "PAROLA_HW", "class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6ab1adfbd7e43930ccfc2317a62447d9f9", null ],
+      [ "GENERIC_HW", "class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6af0b64275e41b18b0e3a0701721f89bb1", null ],
+      [ "ICSTATION_HW", "class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6a583a8410fad078917bc9f0752395b605", null ],
+      [ "FC16_HW", "class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6aa31c3dd0315ecc5527dd36689069395a", null ]
+    ] ],
     [ "transformType_t", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28", [
       [ "TSL", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28ad0e19a3463440fa31e182d03ef304d39", null ],
       [ "TSR", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28afe33d76fd265c530e38a10f3f8c0b02d", null ],
@@ -24,8 +30,8 @@ var class_m_d___m_a_x72_x_x =
       [ "TRC", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28a69b903b66cb8e47455fedf8afb10e946", null ],
       [ "TINV", "class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28a682ed1532dcf4562590ab268f3a276cd", null ]
     ] ],
-    [ "MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#a8dea20b09d22e7871940e76f0094ce45", null ],
-    [ "MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#a0a9b08e0c3d830f1a8dda3aa64ae1d34", null ],
+    [ "MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#ae4f5a0cee2714280a7b8fd694d70c93c", null ],
+    [ "MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#a22877f79afa52fa3242de425ea85255a", null ],
     [ "~MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#afffa5b85187905f713477435187b3759", null ],
     [ "begin", "class_m_d___m_a_x72_x_x.html#a4f5e98bd8aa93c0624f3cf1ceac292f9", null ],
     [ "clear", "class_m_d___m_a_x72_x_x.html#a5ce5b733333d776ef94e0cc36e1043cf", null ],
@@ -34,10 +40,6 @@ var class_m_d___m_a_x72_x_x =
     [ "control", "class_m_d___m_a_x72_x_x.html#aa54ba8b079710f6b4e9f9721e2e09c68", null ],
     [ "control", "class_m_d___m_a_x72_x_x.html#aeb43fa0c917e716b9d35eac72fb1dd45", null ],
     [ "control", "class_m_d___m_a_x72_x_x.html#aa724a797235e28a43b8d127e4999537e", null ],
-    [ "drawHLine", "class_m_d___m_a_x72_x_x.html#a9cf89623642b644dfdcdcc719e5a75b5", null ],
-    [ "drawLine", "class_m_d___m_a_x72_x_x.html#a97cc6199b1380eaf5ec3803c1745e305", null ],
-    [ "drawRectangle", "class_m_d___m_a_x72_x_x.html#a93a1c88fb87814017c05025effda9133", null ],
-    [ "drawVLine", "class_m_d___m_a_x72_x_x.html#a30d487526415d4d83e2703115aba00f2", null ],
     [ "getBuffer", "class_m_d___m_a_x72_x_x.html#afee0d78eed2563729e21a765289c9cbe", null ],
     [ "getChar", "class_m_d___m_a_x72_x_x.html#a7d2823427408c464f8285183dfdeafcc", null ],
     [ "getColumn", "class_m_d___m_a_x72_x_x.html#aa211a3ed433222911e1d01800357527a", null ],
@@ -45,6 +47,7 @@ var class_m_d___m_a_x72_x_x =
     [ "getColumnCount", "class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20", null ],
     [ "getDeviceCount", "class_m_d___m_a_x72_x_x.html#a5508f498566c3b3e80422e6ff9501ec3", null ],
     [ "getFont", "class_m_d___m_a_x72_x_x.html#a4b59272f96f8cae6a41ad7dd0cd5aae2", null ],
+    [ "getFontHeight", "class_m_d___m_a_x72_x_x.html#a899895fcca3bd4dc424eb78397553077", null ],
     [ "getMaxFontWidth", "class_m_d___m_a_x72_x_x.html#a88b4a38d90588e39ffc70986a501ed2e", null ],
     [ "getPoint", "class_m_d___m_a_x72_x_x.html#aa1533adc9aa15e29a143e69d9db12881", null ],
     [ "getRow", "class_m_d___m_a_x72_x_x.html#a59eefabcaf003dc37dd17f41c5d6d211", null ],
@@ -53,6 +56,7 @@ var class_m_d___m_a_x72_x_x =
     [ "setColumn", "class_m_d___m_a_x72_x_x.html#ab3f2885a67e435198b5b01505030165d", null ],
     [ "setColumn", "class_m_d___m_a_x72_x_x.html#a7788a0bdbef1a302a7652998b21703bd", null ],
     [ "setFont", "class_m_d___m_a_x72_x_x.html#a16655f29d088d8ce1d557abcb703513d", null ],
+    [ "setModuleType", "class_m_d___m_a_x72_x_x.html#ab68333e23c99212d9574b39ed7e67a96", null ],
     [ "setPoint", "class_m_d___m_a_x72_x_x.html#a1078a6ad9ae77ff7ef75f78d86f04da7", null ],
     [ "setRow", "class_m_d___m_a_x72_x_x.html#a9c3c6ea52bfe61fc0279d9deb98a9e6e", null ],
     [ "setRow", "class_m_d___m_a_x72_x_x.html#a238cb42149b473027fd203406828dc35", null ],

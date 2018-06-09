@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['transform',['transform',['../class_m_d___m_a_x72_x_x.html#aa81af9a9e4309d9971bec7da3eef5890',1,'MD_MAX72XX::transform(transformType_t ttype)'],['../class_m_d___m_a_x72_x_x.html#a8ffcd0e496053262109b20fc020c1d12',1,'MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t ttype)'],['../class_m_d___m_a_x72_x_x.html#a67f8567afe489f497f75448a3137a1ef',1,'MD_MAX72XX::transform(uint8_t buf, transformType_t ttype)']]]
+  ['update',['update',['../class_m_d___m_a_x72_x_x.html#a3f91498bfc0023f67d4bf1284ca70317',1,'MD_MAX72XX::update(controlValue_t mode)'],['../class_m_d___m_a_x72_x_x.html#a4d51360880d7a6fa33a6f917cf423879',1,'MD_MAX72XX::update(void)'],['../class_m_d___m_a_x72_x_x.html#a9cc242e22748229a223851217b76fd4e',1,'MD_MAX72XX::update(uint8_t buf)']]]
 ];

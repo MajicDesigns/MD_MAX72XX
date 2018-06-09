@@ -53,21 +53,26 @@ uint8_t MD_MAX72XX::bitReverse(uint8_t b)
   return(b);
 }
 
-#if HW_DIG_ROWS
 bool MD_MAX72XX::copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest)
-#else
-bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t cSrc, uint8_t cDest)
-#endif
+{
+  if (_hwDigRows) return(copyC(buf, cSrc, cDest));
+  else return(copyR(buf, cSrc, cDest));
+}
+
+bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest)
+{
+  if (_hwDigRows) return(copyR(buf, rSrc, rDest));
+  else return(copyC(buf, rSrc, rDest));
+}
+
+bool MD_MAX72XX::copyC(uint8_t buf, uint8_t cSrc, uint8_t cDest)
 // Src and Dest are in pixel coordinates.
 // if we are just copying rows there is no need to repackage any data
 {
   uint8_t maskSrc = 1 << HW_COL(cSrc);  // which column/row of bits is the column data
 
-#if HW_DIG_ROWS
-  PRINT("\ncopyCol: (", buf);
-#else
-  PRINT("\ncopyRow: (", buf);
-#endif
+  if (_hwDigRows) { PRINT("\ncopyCol: (", buf); }
+  else { PRINT("\ncopyRow: (", buf); }
   PRINT(", ", cSrc);
   PRINT(", ", cDest);
   PRINTS(") ");
@@ -90,21 +95,47 @@ bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t cSrc, uint8_t cDest)
   return(true);
 }
 
-#if HW_DIG_ROWS
+bool MD_MAX72XX::copyR(uint8_t buf, uint8_t rSrc, uint8_t rDest)
+// Src and Dest are in pixel coordinates.
+// if we are just copying digits there is no need to repackage any data
+{
+  if (_hwDigRows) { PRINT("\ncopyRow: (", buf); }
+  else { PRINT("\ncopyColumn: (", buf); }
+  PRINT(", ", rSrc);
+  PRINT(", ", rDest);
+  PRINTS(") ");
+
+  if ((buf > LAST_BUFFER) || (rSrc >= ROW_SIZE) || (rDest >= ROW_SIZE))
+    return(false);
+
+  _matrix[buf].dig[HW_ROW(rDest)] = _matrix[buf].dig[HW_ROW(rSrc)];
+  bitSet(_matrix[buf].changed, HW_ROW(rDest));
+
+  if (_updateEnabled) flushBuffer(buf);
+
+  return(true);
+}
+
 uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t c)
-#else
-uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
-#endif
+{
+  if (_hwDigRows) return(getC(buf, c));
+  else return(getR(buf, c));
+}
+
+uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t r)
+{
+  if (_hwDigRows) return(getR(buf, r));
+  else return(getC(buf, r));
+}
+
+uint8_t MD_MAX72XX::getC(uint8_t buf, uint8_t c)
 // c is in pixel coordinates and the return value must be in pixel coordinate order
 {
   uint8_t mask = 1 << HW_COL(c);  // which column/row of bits is the column data
   uint8_t value = 0;        // assembles data to be returned to caller
 
-#if HW_DIG_ROWS
-  PRINT("\ngetCol: (", buf);
-#else
-  PRINT("\ngetRow: (", buf);
-#endif
+  if (_hwDigRows) { PRINT("\ngetCol: (", buf); }
+  else { PRINT("\ngetRow: (", buf); }
   PRINT(", ", c);
   PRINTS(") ");
 
@@ -126,18 +157,42 @@ uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t c)
   return(value);
 }
 
-#if HW_DIG_ROWS
+uint8_t MD_MAX72XX::getR(uint8_t buf, uint8_t r)
+// r is in pixel coordinates for this buffer
+// returned value is in pixel coordinates
+{
+  if (_hwDigRows) { PRINT("\ngetRow: (", buf); }
+  else { PRINT("\ngetCol: (", buf); }
+  PRINT(", ", r);
+  PRINTS(") ");
+
+  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
+    return(0);
+
+  uint8_t value = _hwRevCols ? bitReverse(_matrix[buf].dig[HW_ROW(r)]) : _matrix[buf].dig[HW_ROW(r)];
+
+  PRINTX("0x", value);
+
+  return(value);
+}
+
 bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t c, uint8_t value)
-#else
-bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
-#endif
+{
+  if (_hwDigRows) return(setC(buf, c, value));
+  else return(setR(buf, c, value));
+}
+
+bool MD_MAX72XX::setRow(uint8_t buf, uint8_t r, uint8_t value)
+{
+  if (_hwDigRows) return(setR(buf, r, value));
+  else return(setC(buf, r, value));
+}
+
+bool MD_MAX72XX::setC(uint8_t buf, uint8_t c, uint8_t value)
 // c and value are in pixel coordinate order
 {
-#if HW_DIG_ROWS
-  PRINT("\nsetCol: (", buf);
-#else
-  PRINT("\nsetRow: (", buf);
-#endif
+  if (_hwDigRows) { PRINT("\nsetCol: (", buf); }
+  else { PRINT("\nsetRow: (", buf); }
   PRINT(", ", c);
   PRINTX(") 0x", value);
 
@@ -158,87 +213,24 @@ bool MD_MAX72XX::setRow(uint8_t buf, uint8_t c, uint8_t value)
   return(true);
 }
 
-#if HW_DIG_ROWS
-bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest)
-#else
-bool MD_MAX72XX::copyColumn(uint8_t buf, uint8_t rSrc, uint8_t rDest)
-#endif
-// Src and Dest are in pixel coordinates.
-// if we are just copying digits there is no need to repackage any data
-{
-#if HW_DIG_ROWS
-  PRINT("\ncopyRow: (", buf);
-#else
-  PRINT("\ncopyColumn: (", buf);
-#endif
-  PRINT(", ", rSrc);
-  PRINT(", ", rDest);
-  PRINTS(") ");
-
-  if ((buf > LAST_BUFFER) || (rSrc >= ROW_SIZE) || (rDest >= ROW_SIZE))
-	  return(false);
-
-  _matrix[buf].dig[HW_ROW(rDest)] = _matrix[buf].dig[HW_ROW(rSrc)];
-  bitSet(_matrix[buf].changed, HW_ROW(rDest));
-
-  if (_updateEnabled) flushBuffer(buf);
-
-  return(true);
-}
-
-#if HW_DIG_ROWS
-uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t r)
-#else
-uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t r)
-#endif
-// r is in pixel coordinates for this buffer
-// returned value is in pixel coordinates
-{
-#if HW_DIG_ROWS
-  PRINT("\ngetRow: (", buf);
-#else
-  PRINT("\ngetCol: (", buf);
-#endif
-  PRINT(", ", r);
-  PRINTS(") ");
-
-  if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
-    return(0);
-
-  uint8_t value = HW_REV_COLS ? bitReverse(_matrix[buf].dig[HW_ROW(r)]) : _matrix[buf].dig[HW_ROW(r)];
-
-  PRINTX("0x", value);
-
-  return(value);
-}
-
-#if HW_DIG_ROWS
-bool MD_MAX72XX::setRow(uint8_t buf, uint8_t r, uint8_t value)
-#else
-bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t r, uint8_t value)
-#endif
+bool MD_MAX72XX::setR(uint8_t buf, uint8_t r, uint8_t value)
 // r and value are in pixel coordinates
 {
-#if HW_DIG_ROWS
-  PRINT("\nsetRow: (", buf);
-#else
-  PRINT("\nsetCol: (", buf);
-#endif
+  if (_hwDigRows) { PRINT("\nsetRow: (", buf); }
+  else { PRINT("\nsetCol: (", buf); }
   PRINT(", ", r);
-
   PRINTX(") 0x", value);
 
   if ((buf > LAST_BUFFER) || (r >= ROW_SIZE))
     return(false);
 
-  _matrix[buf].dig[HW_ROW(r)] = HW_REV_COLS ? bitReverse(value) : value;
+  _matrix[buf].dig[HW_ROW(r)] = _hwRevCols ? bitReverse(value) : value;
   bitSet(_matrix[buf].changed, HW_ROW(r));
 
   if (_updateEnabled) flushBuffer(buf);
 
   return(true);
 }
-
 
 bool MD_MAX72XX::transform(uint8_t buf, transformType_t ttype)
 {
@@ -261,33 +253,40 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
   {
   //--------------
     case TSL: // Transform Shift Left one pixel element
-#if HW_DIG_ROWS
-      for (uint8_t i=0; i<ROW_SIZE; i++)
-#if HW_REV_COLS
-        _matrix[buf].dig[i] >>= 1;
-#else
-        _matrix[buf].dig[i] <<= 1;
-#endif
-#else
-#warning HW_DIG_ROWS=0
-      for (uint8_t i=ROW_SIZE; i>0; --i)
-        _matrix[buf].dig[i] = _matrix[buf].dig[i-1];
-#endif
-    break;
+      if (_hwDigRows)
+      {
+        for (uint8_t i=0; i<ROW_SIZE; i++)
+        {
+          if (_hwRevCols)
+            _matrix[buf].dig[i] >>= 1;
+          else
+            _matrix[buf].dig[i] <<= 1;
+        }
+      }
+      else
+      {
+        for (uint8_t i=ROW_SIZE; i>0; --i)
+          _matrix[buf].dig[i] = _matrix[buf].dig[i-1];
+      }
+      break;
 
   //--------------
   case TSR: // Transform Shift Right one pixel element
-#if HW_DIG_ROWS
-      for (uint8_t i=0; i<ROW_SIZE; i++)
-#if HW_REV_COLS
-        _matrix[buf].dig[i] <<= 1;
-#else
-        _matrix[buf].dig[i] >>= 1;
-#endif
-#else
-      for (uint8_t i=0; i<ROW_SIZE-1; i++)
-        _matrix[buf].dig[i] = _matrix[buf].dig[i+1];
-#endif
+      if (_hwDigRows)
+      {
+        for (uint8_t i=0; i<ROW_SIZE; i++)
+        {
+          if (_hwRevCols)
+            _matrix[buf].dig[i] <<= 1;
+          else
+            _matrix[buf].dig[i] >>= 1;
+        }
+      }
+      else
+      {
+        for (uint8_t i=0; i<ROW_SIZE-1; i++)
+          _matrix[buf].dig[i] = _matrix[buf].dig[i+1];
+      }
     break;
 
   //--------------
@@ -297,13 +296,16 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
     else
       t[0] = 0;
 
-#if HW_DIG_ROWS
+    if (_hwDigRows)
+    {
       for (uint8_t i=0; i<ROW_SIZE-1; i++)
         copyRow(buf, i+1, i);
-#else
+    }
+    else
+    {
       for (int8_t i=ROW_SIZE-1; i>=0; i--)
         _matrix[buf].dig[i] <<= 1;
-#endif
+    }
     setRow(buf, ROW_SIZE-1, t[0]);
     break;
 
@@ -314,38 +316,53 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
     else
       t[0] = 0;
 
-#if HW_DIG_ROWS
+    if (_hwDigRows)
+    {
       for (uint8_t i=ROW_SIZE; i>0; --i)
         copyRow(buf, i-1, i);
-#else
+    }
+    else
+    {
       for (uint8_t i=0; i<ROW_SIZE; i++)
         _matrix[buf].dig[i] >>= 1;
-#endif
-      setRow(buf, 0, t[0]);
+    }
+    setRow(buf, 0, t[0]);
     break;
 
   //--------------
-#if HW_DIG_ROWS
   case TFLR: // Transform Flip Left to Right
-#else
-  case TFUD: // Transform Flip Up to Down
-#endif
+    if (_hwDigRows)
+    {
       for (uint8_t i=0; i<ROW_SIZE; i++)
         _matrix[buf].dig[i] = bitReverse(_matrix[buf].dig[i]);
-    break;
-
-  //--------------
-#if HW_DIG_ROWS
-  case TFUD: // Transform Flip Up to Down
-#else
-  case TFLR: // Transform Flip Left to Right
-#endif
+    }
+    else  // really a TFUD
+    {
       for (uint8_t i=0; i<ROW_SIZE/2; i++)
       {
         uint8_t	t = _matrix[buf].dig[i];
         _matrix[buf].dig[i] = _matrix[buf].dig[ROW_SIZE-i-1];
         _matrix[buf].dig[ROW_SIZE-i-1] = t;
       }
+    }
+    break;
+
+  //--------------
+  case TFUD: // Transform Flip Up to Down
+    if (_hwDigRows)
+    {
+      for (uint8_t i=0; i<ROW_SIZE/2; i++)
+      {
+        uint8_t	t = _matrix[buf].dig[i];
+        _matrix[buf].dig[i] = _matrix[buf].dig[ROW_SIZE-i-1];
+        _matrix[buf].dig[ROW_SIZE-i-1] = t;
+      }
+    }
+    else    // really a TFLR
+    {
+      for (uint8_t i=0; i<ROW_SIZE; i++)
+        _matrix[buf].dig[i] = bitReverse(_matrix[buf].dig[i]);
+    }
     break;
 
   //--------------

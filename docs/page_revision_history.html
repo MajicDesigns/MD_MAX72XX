@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MajicDesigns_Logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MD_MAX72xx LED Matrix Arduino Library
-   &#160;<span id="projectnumber">2.11</span>
+   &#160;<span id="projectnumber">3.0</span>
    </div>
    <div id="projectbrief">Library to control connected  MAX72XX devices as a pixel array</div>
   </td>
@@ -93,6 +93,16 @@ $(document).ready(function(){initNavTree('page_revision_history.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2>Revision History </h2>
+<p>June 2018 version 3.0.0</p><ul>
+<li>Implemented new font file format (file format version 1).</li>
+<li>Removed 'drawXXX' graphics functions to new MD_MAXPanel library.</li>
+<li>Removed font indexing as this never used.</li>
+<li>Added getFontHeight() method.</li>
+<li>Module type now specified at run time.</li>
+</ul>
+<p>Apr 2018 version 2.11.1</p><ul>
+<li>Another attempt to further clarify editing of header file for hardware changes.</li>
+</ul>
 <p>Apr 2018 version 2.11.0</p><ul>
 <li>Restructured header file to make hardware flags more obvious</li>
 <li>Added drawHLine(), drawVLine(), drawRectangle() methods</li>
@@ -106,7 +116,7 @@ $(document).ready(function(){initNavTree('page_revision_history.html','');});
 <li>Added MD_MAX72xx_Message_ESP8266 example</li>
 <li>Minor source file cleanup</li>
 <li>Added Extended ASCII font, vertical rotated font and RobotEyes font in fontbuilder</li>
-<li>Modified fontbuilder output code for consistency with new code</li>
+<li>Modified font builder output code for consistency with new code</li>
 <li>Added getFont(), getMaxFontWidth() methods</li>
 <li>Changed example - replaced MD_KeySwitch with new MD_UISwitch library</li>
 </ul>
@@ -212,7 +222,7 @@ $(document).ready(function(){initNavTree('page_revision_history.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="index.html">Arduino LED Matrix Library</a></li>
-    <li class="footer">Generated on Tue Apr 3 2018 12:11:28 for MD_MAX72xx LED Matrix Arduino Library by
+    <li class="footer">Generated on Fri Jun 8 2018 19:31:24 for MD_MAX72xx LED Matrix Arduino Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

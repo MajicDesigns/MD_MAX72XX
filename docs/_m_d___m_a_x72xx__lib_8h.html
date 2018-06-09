@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MajicDesigns_Logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MD_MAX72xx LED Matrix Arduino Library
-   &#160;<span id="projectnumber">2.11</span>
+   &#160;<span id="projectnumber">3.0</span>
    </div>
    <div id="projectbrief">Library to control connected  MAX72XX devices as a pixel array</div>
   </td>
@@ -198,10 +198,10 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html#ac98deafc05f78857417ee0928eb8b786">ALL_CLEAR</a>&#160;&#160;&#160;0x00</td></tr>
 <tr class="memdesc:ac98deafc05f78857417ee0928eb8b786"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask for all rows clear in a buffer structure. <br /></td></tr>
 <tr class="separator:ac98deafc05f78857417ee0928eb8b786"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba3b7b4ebe83380598bab98c556f20ec"><td class="memItemLeft" align="right" valign="top"><a id="aba3b7b4ebe83380598bab98c556f20ec"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html#aba3b7b4ebe83380598bab98c556f20ec">ASCII_INDEX_SIZE</a>&#160;&#160;&#160;256</td></tr>
-<tr class="memdesc:aba3b7b4ebe83380598bab98c556f20ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of characters in a font table (ASCII maximum) <br /></td></tr>
-<tr class="separator:aba3b7b4ebe83380598bab98c556f20ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4915dc914dd14143c87bd6a9dfdf9190"><td class="memItemLeft" align="right" valign="top"><a id="a4915dc914dd14143c87bd6a9dfdf9190"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html#a4915dc914dd14143c87bd6a9dfdf9190">FONT_FILE_INDICATOR</a>&#160;&#160;&#160;'F'</td></tr>
+<tr class="memdesc:a4915dc914dd14143c87bd6a9dfdf9190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Font table indicator prefix for info header. <br /></td></tr>
+<tr class="separator:a4915dc914dd14143c87bd6a9dfdf9190"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d4a2b28815b437d2b2b2a38b0844cf9"><td class="memItemLeft" align="right" valign="top"><a id="a3d4a2b28815b437d2b2b2a38b0844cf9"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html#a3d4a2b28815b437d2b2b2a38b0844cf9">SPI_DATA_SIZE</a>&#160;&#160;&#160;(sizeof(uint8_t)*_maxDevices*2)</td></tr>
 <tr class="memdesc:a3d4a2b28815b437d2b2b2a38b0844cf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the SPI data buffers. <br /></td></tr>
@@ -219,11 +219,11 @@ Macros</h2></td></tr>
 <tr class="memdesc:a931184853bc54a0a703e0fef3dbbf76f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Last buffer number. <br /></td></tr>
 <tr class="separator:a931184853bc54a0a703e0fef3dbbf76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56903cc37345485ca508143a2be78634"><td class="memItemLeft" align="right" valign="top"><a id="a56903cc37345485ca508143a2be78634"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html#a56903cc37345485ca508143a2be78634">HW_ROW</a>(r)&#160;&#160;&#160;(r)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html#a56903cc37345485ca508143a2be78634">HW_ROW</a>(r)&#160;&#160;&#160;(_hwRevRows ? (<a class="el" href="_m_d___m_a_x72xx_8h.html#aa4d030604a90c8d019d90fc721900d63">ROW_SIZE</a> - 1 - (r)) : (r))</td></tr>
 <tr class="memdesc:a56903cc37345485ca508143a2be78634"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pixel to hardware coordinate row mapping. <br /></td></tr>
 <tr class="separator:a56903cc37345485ca508143a2be78634"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77f84d61393ce43edbac8f90e6724867"><td class="memItemLeft" align="right" valign="top"><a id="a77f84d61393ce43edbac8f90e6724867"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html#a77f84d61393ce43edbac8f90e6724867">HW_COL</a>(c)&#160;&#160;&#160;(c)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html#a77f84d61393ce43edbac8f90e6724867">HW_COL</a>(c)&#160;&#160;&#160;(_hwRevCols ? (<a class="el" href="_m_d___m_a_x72xx_8h.html#a99468544016f0abb855e6415c629ec29">COL_SIZE</a> - 1 - (c)) : (c))</td></tr>
 <tr class="memdesc:a77f84d61393ce43edbac8f90e6724867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pixel to hardware coordinate column mapping. <br /></td></tr>
 <tr class="separator:a77f84d61393ce43edbac8f90e6724867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -242,7 +242,7 @@ const uint8_t PROGMEM&#160;</td><td class="memItemRight" valign="bottom"><a clas
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="_m_d___m_a_x72xx__lib_8h.html">MD_MAX72xx_lib.h</a></li>
-    <li class="footer">Generated on Tue Apr 3 2018 12:11:28 for MD_MAX72xx LED Matrix Arduino Library by
+    <li class="footer">Generated on Fri Jun 8 2018 19:31:24 for MD_MAX72xx LED Matrix Arduino Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

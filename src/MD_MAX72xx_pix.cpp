@@ -73,18 +73,9 @@ bool MD_MAX72XX::setBuffer(uint16_t col, uint8_t size, uint8_t *pd)
   return(true);
 }
 
-// used in getPoint and setPoint!
-#if HW_DIG_ROWS
-#define R r
-#define C c
-#else
-#define R c
-#define C r
-#endif
-
 bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c)
 {
-  uint8_t	buf = c/COL_SIZE;
+  uint8_t buf = c/COL_SIZE;
 
   c %= COL_SIZE;
   PRINT("\ngetPoint: (", buf);
@@ -95,12 +86,15 @@ bool MD_MAX72XX::getPoint(uint8_t r, uint16_t c)
   if ((buf > LAST_BUFFER) || (r >= ROW_SIZE) || (c >= COL_SIZE))
     return(false);
 
-  return(bitRead(_matrix[buf].dig[HW_ROW(R)], HW_COL(C)) == 1);
+  if (_hwDigRows)
+    return(bitRead(_matrix[buf].dig[HW_ROW(r)], HW_COL(c)) == 1);
+  else
+    return(bitRead(_matrix[buf].dig[HW_ROW(c)], HW_COL(r)) == 1);
 }
 
 bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state)
 {
-  uint8_t	buf = c/COL_SIZE;
+  uint8_t buf = c/COL_SIZE;
   c %= COL_SIZE;
 
   PRINT("\nsetPoint: (", buf);
@@ -112,19 +106,29 @@ bool MD_MAX72XX::setPoint(uint8_t r, uint16_t c, bool state)
     return(false);
 
   if (state)
-    bitSet(_matrix[buf].dig[HW_ROW(R)], HW_COL(C));
+  {
+    if (_hwDigRows)
+      bitSet(_matrix[buf].dig[HW_ROW(r)], HW_COL(c));
+    else
+      bitSet(_matrix[buf].dig[HW_ROW(c)], HW_COL(r));
+  }
   else
-    bitClear(_matrix[buf].dig[HW_ROW(R)], HW_COL(C));
+  {
+    if (_hwDigRows)
+      bitClear(_matrix[buf].dig[HW_ROW(r)], HW_COL(c));
+    else
+      bitClear(_matrix[buf].dig[HW_ROW(c)], HW_COL(r));
+  }
 
-  bitSet(_matrix[buf].changed, HW_ROW(R));
+  if (_hwDigRows)
+    bitSet(_matrix[buf].changed, HW_ROW(r));
+  else
+    bitSet(_matrix[buf].changed, HW_ROW(c));
 
   if (_updateEnabled) flushBuffer(buf);
 
   return(true);
 }
-
-#undef  R
-#undef  C
 
 bool MD_MAX72XX::setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t value)
 {

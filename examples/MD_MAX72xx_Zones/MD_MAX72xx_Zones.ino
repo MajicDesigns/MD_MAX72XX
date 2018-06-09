@@ -11,6 +11,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES   8 // 2, 4, 6, or 8 work best - see Z array
 
 #define CLK_PIN   13  // or SCK
@@ -18,9 +19,9 @@
 #define CS_PIN    10  // or SS
 
 // SPI hardware interface
-MD_MAX72XX mx = MD_MAX72XX(CS_PIN, MAX_DEVICES);
+MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Arbitrary pins
-//MD_MAX72XX mx = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+//MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint32_t  lastTime = 0;

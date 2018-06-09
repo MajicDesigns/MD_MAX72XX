@@ -31,16 +31,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements class definition and general methods
  */
 
-MD_MAX72XX::MD_MAX72XX(uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
 _dataPin(dataPin), _clkPin(clkPin), _csPin(csPin), _maxDevices(numDevices),
 _hardwareSPI(false), _updateEnabled(true)
 {
+  setModuleParameters(mod);
 }
 
-MD_MAX72XX::MD_MAX72XX(uint8_t csPin, uint8_t numDevices):
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t csPin, uint8_t numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin), _maxDevices(numDevices),
 _hardwareSPI(true), _updateEnabled(true)
 {
+  setModuleParameters(mod);
+}
+
+void MD_MAX72XX::setModuleParameters(moduleType_t mod)
+// Combinations not listed here have probably not been tested and may
+// not operate correctly.
+{
+  _mod = mod;
+  switch (_mod)
+  {
+    case PAROLA_HW:    _hwDigRows = true;  _hwRevCols = true;  _hwRevRows = false; break; // tested MC 8 March 2014
+    case GENERIC_HW:   _hwDigRows = false; _hwRevCols = true;  _hwRevRows = false; break; // tested MC 9 March 2014
+    case ICSTATION_HW: _hwDigRows = true;  _hwRevCols = true;  _hwRevRows = true;  break; // tested MC 9 March 2014
+    case FC16_HW:      _hwDigRows = true;  _hwRevCols = false; _hwRevRows = false; break; // tested MC 23 Feb 2015
+    default:           _hwDigRows = _hwRevRows = _hwRevCols = false; break;   // not a known board config
+  }
 }
 
 void MD_MAX72XX::begin(void)
@@ -100,9 +117,6 @@ MD_MAX72XX::~MD_MAX72XX(void)
 
   free(_matrix);
   free(_spiData);
-#if USE_LOCAL_FONT && USE_FONT_INDEX
-  if (_fontIndex != nullptr) free(_fontIndex);
-#endif
 }
 
 void MD_MAX72XX::controlHardware(uint8_t dev, controlRequest_t mode, int value)

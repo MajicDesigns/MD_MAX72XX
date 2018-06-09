@@ -9,6 +9,7 @@
 
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 2
 
 #define CLK_PIN   13  // or SCK
@@ -16,9 +17,9 @@
 #define CS_PIN    10  // or SS
 
 // SPI hardware interface
-MD_MAX72XX M = MD_MAX72XX(CS_PIN, MAX_DEVICES);
+MD_MAX72XX M = MD_MAX72XX(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Arbitrary pins
-//MD_MAX72XX M = MD_MAX72XX(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+//MD_MAX72XX M = MD_MAX72XX(HADWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 MD_RobotEyes E;
 

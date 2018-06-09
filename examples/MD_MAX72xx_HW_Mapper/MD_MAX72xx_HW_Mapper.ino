@@ -56,7 +56,7 @@ void instructions(void)
   Serial.print(F("\nLED modules are wired differently. The library can accommodate these, but it"));
   Serial.print(F("\nneeds to know what transformations need to be carried out to map your board to the"));
   Serial.print(F("\nstandard coordinate system. This utility shows you how the matrix is wired so that"));
-  Serial.print(F("\nyou can set the correct USE_*_HW #defines in the MD_MAX72xx.h library header file."));
+  Serial.print(F("\nyou can set the correct *_HW module type for your application."));
   Serial.print(F("\n\nThe standard functions in the library expect that:"));
   Serial.print(F("\no COLUMNS are addressed through the SEGMENT selection lines, and"));
   Serial.print(F("\no ROWS are addressed through the DIGIT selection lines."));
@@ -65,16 +65,15 @@ void instructions(void)
   Serial.print(F("\no Column numbers (ie, the hardware segment numbers) increase from right to left (0..7), and "));
   Serial.print(F("\no Row numbers (ie, the hardware digit numbers) increase down (0..7)."));
   Serial.print(F("\n\nThere are three hardware setting that describe your hardware configuration:"));
-  Serial.print(F("\n- HW_DIG_ROWS - HardWare DIGits are ROWS. Set to 1 if the digits map to the rows"));
+  Serial.print(F("\n- HW_DIG_ROWS - HardWare DIGits are ROWS. This will be 1 if the digits map to the rows"));
   Serial.print(F("\n                of the matrix, 0 otherwise"));
   Serial.print(F("\n- HW_REV_COLS - HardWare REVerse COLumnS. The normal column coordinates orientation"));
-  Serial.print(F("\n                is 0 col on the right side of the display. Set to 1 to reverse this"));
+  Serial.print(F("\n                is col 0 on the right side of the display. This will be 1 if reversed."));
   Serial.print(F("\n                (ie, hardware 0 is on the left)."));
-  Serial.print(F("\n- HW_REV_ROWS - HardWare REVerse ROWS. The normal row coordinates orientation is 0"));
-  Serial.print(F("\n                row at top of the display. Set to 1 to reverse this (ie, hardware 0"));
+  Serial.print(F("\n- HW_REV_ROWS - HardWare REVerse ROWS. The normal row coordinates orientation is row"));
+  Serial.print(F("\n                0 at top of the display. This will be 1 if reversed (ie, row 0"));
   Serial.print(F("\n                is at the bottom)."));
-  Serial.print(F("\n\nThese individual setting are determined as a consequence of nominating the model type"));
-  Serial.print(F("\nof the hardware you are using, you do not need to change these directly."));
+  Serial.print(F("\n\nThese individual setting then determine the model type of the hardware you are using."));
   Serial.print(F("\n\nINSTRUCTIONS\n------------"));
   Serial.print(F("\n1. Wire up one matrix only, or cover up the other modules, to avoid confusion."));
   Serial.print(F("\n2. Enter the answers to the question in the edit field at the top of Serial Monitor."));
@@ -207,29 +206,27 @@ void loop()
     Serial.print(F("\n>> Enter Y if you saw the LED moving BOTTOM to TOP, or enter N otherwise: "));
   def_rev_cols = (getResponse("YyNn") == 'Y');
 
-  Serial.print(F("\n\nSTEP 3 - RESULTS (#defines)\n---------------------------"));
-  Serial.print(F("\nYour responses produce these configuration parameters\n"));
-  Serial.print(F("\n#define\tHW_DIG_ROWS\t")); Serial.print(def_dig_rows ? 1 : 0 );
-  Serial.print(F("\n#define\tHW_REV_COLS\t")); Serial.print(def_rev_cols ? 1 : 0 );
-  Serial.print(F("\n#define\tHW_REV_ROWS\t")); Serial.print(def_rev_rows ? 1 : 0 );
+  Serial.print(F("\n\nSTEP 3 - RESULTS\n----------------"));
+  Serial.print(F("\nYour responses produce these hardware parameters\n"));
+  Serial.print(F("\nHW_DIG_ROWS\t")); Serial.print(def_dig_rows ? 1 : 0 );
+  Serial.print(F("\nHW_REV_COLS\t")); Serial.print(def_rev_cols ? 1 : 0 );
+  Serial.print(F("\nHW_REV_ROWS\t")); Serial.print(def_rev_rows ? 1 : 0 );
 
   Serial.print(F("\n\nYour hardware matches the setting for "));
   if (def_dig_rows && def_rev_cols && !def_rev_rows)
-    Serial.print(F("Parola modules. Please set USE_PAROLA_HW."));
+    Serial.print(F("Parola modules. Please set PAROLA_HW."));
   else if (!def_dig_rows && def_rev_cols && !def_rev_rows)
-    Serial.print(F("Generic modules. Please set USE_GENERIC_HW."));
+    Serial.print(F("Generic modules. Please set GENERIC_HW."));
   else if (def_dig_rows && def_rev_cols && def_rev_rows)
-    Serial.print(F("IC Station modules. Please set USE_ICSTATION_HW."));
+    Serial.print(F("IC Station modules. Please set ICSTATION_HW."));
   else if (def_dig_rows && !def_rev_cols && !def_rev_rows)
-    Serial.print(F("FC-16 modules. Please set USE_FC16_HW."));
+    Serial.print(F("FC-16 modules. Please set FC16_HW."));
   else
   {
     Serial.print(F("none of the preconfigured module types."));
     Serial.print(F("\nYou should try rotating the matrix by 180 degrees and re-running this utility."));
     Serial.print(F("\n\nIf that still fails to provide a solution - congratulations! You have discovered"));
     Serial.print(F("\na new type of hardware module! Please contact the author of the libraries so that"));
-    Serial.print(F("\nthese can be included in the next official release. In the meantime, you could"));
-    Serial.print(F("\nselect USE_OTHER_HW and add your specific settings in the USE_OTHER_HW section"));
-    Serial.print(F("\nin MD_MAX72xx_lib.h"));
+    Serial.print(F("\nthese can be included in the next official release."));
   }
 }

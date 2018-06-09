@@ -2,8 +2,8 @@ var _m_d___m_a_x72xx__lib_8h =
 [
     [ "ALL_CHANGED", "_m_d___m_a_x72xx__lib_8h.html#a1311c4a6ec43ed79b5b79b769abdb2e9", null ],
     [ "ALL_CLEAR", "_m_d___m_a_x72xx__lib_8h.html#ac98deafc05f78857417ee0928eb8b786", null ],
-    [ "ASCII_INDEX_SIZE", "_m_d___m_a_x72xx__lib_8h.html#aba3b7b4ebe83380598bab98c556f20ec", null ],
     [ "FIRST_BUFFER", "_m_d___m_a_x72xx__lib_8h.html#a78f75922ae156c32cbbfb5317c19c1bd", null ],
+    [ "FONT_FILE_INDICATOR", "_m_d___m_a_x72xx__lib_8h.html#a4915dc914dd14143c87bd6a9dfdf9190", null ],
     [ "HW_COL", "_m_d___m_a_x72xx__lib_8h.html#a77f84d61393ce43edbac8f90e6724867", null ],
     [ "HW_ROW", "_m_d___m_a_x72xx__lib_8h.html#a56903cc37345485ca508143a2be78634", null ],
     [ "LAST_BUFFER", "_m_d___m_a_x72xx__lib_8h.html#a931184853bc54a0a703e0fef3dbbf76f", null ],
