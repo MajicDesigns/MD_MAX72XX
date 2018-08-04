@@ -35,10 +35,12 @@ Topics
 - \subpage pageFontUtility
 - \subpage pageRevisionHistory
 - \subpage pageCopyright
+- \subpage pageDonation
+
+\page pageDonation Support the Library
+If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageCopyright Copyright
-Copyright
----------
 Copyright (C) 2012-18 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -56,8 +58,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
-Revision History
-----------------
+Aug 2018 version 3.0.1
+- Fixed problem with calculating font width in info structure.
+
 June 2018 version 3.0.0
 - Implemented new font file format (file format version 1).
 - Removed 'drawXXX' graphics functions to new MD_MAXPanel library.

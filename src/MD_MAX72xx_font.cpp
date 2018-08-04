@@ -71,12 +71,13 @@ void MD_MAX72XX::loadFontInfo(void)
         
         case 0:
         default:
-          // nothing to do
+          // nothing to do, use the library defaults
           break;
       }
       _fontInfo.dataOffset = offset;
-      _fontInfo.widthMax = getFontWidth();
     }
+    // these always set
+    _fontInfo.widthMax = getFontWidth();
   }
 }
 
@@ -103,10 +104,11 @@ uint8_t MD_MAX72XX::getFontWidth(void)
         PRINT(":", max);
       }
       offset += charWidth;  // skip character data
-      offset++; // skip size byte
+      offset++; // skip to size byte
     }
   }
   PRINT(" max ", max);
+  Serial.print(max);
 
   return(max);
 }

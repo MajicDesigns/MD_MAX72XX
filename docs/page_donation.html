@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MD_MAX72xx LED Matrix Arduino Library: New Hardware Types</title>
+<title>MD_MAX72xx LED Matrix Arduino Library: Support the Library</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('page_new_hardware.html','');});
+$(document).ready(function(){initNavTree('page_donation.html','');});
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -89,53 +89,16 @@ $(document).ready(function(){initNavTree('page_new_hardware.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">New Hardware Types </div>  </div>
+<div class="title">Support the Library </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2>A word on coordinate systems </h2>
-<p>Two Cartesian coordinate systems are used in the library</p><ul>
-<li>one defines the pixels seen (<em>display coordinates</em>), and</li>
-<li>an underlying <em>hardware coordinate</em> system based on digits and segments mapping to the MAX72xx hardware control registers.</li>
-</ul>
-<p>Display coordinates always have their origin in the top right corner of a display.</p><ul>
-<li>Column numbers increase to the left (as do module numbers)</li>
-<li>Row numbers increase down (0..7)</li>
-</ul>
-<p>All user functions are consistent and use display coordinates.</p>
-<p>Display memory buffers are stored in hardware coordinates that depend on the hardware configuration (i.e. the module type). It is the job of the low level library functions to map display to hardware coordinates. Digit 0 is the lowest row/column number and Segment G is the lowest column/row number.</p>
-<p>All the code to do this is in the is in the buffer and pixel modules. All other library modules are use the primitives made available in these modules.</p>
-<h2>What needs to change? </h2>
-<p>As there is no standard way of wiring a LED matrix to the MAX72xx IC, each hardware type definition activates a series of coordinate mapping transformations. Possible changes are limited to combinations (8 in total) of</p><ul>
-<li>swapping rows and column coordinates (digits and segments in MAX72xx),</li>
-<li>a reversal of row indices, and</li>
-<li>a reversal of column indices.</li>
-</ul>
-<p>The hardware types defined in <a class="el" href="_m_d___m_a_x72xx_8h.html" title="Main header file for the MD_MAX72xx library. ">MD_MAX72xx.h</a> activate different library code by setting the parameters that specify the correct way to handle these differences.</p>
-<h2>Determining the type of mapping </h2>
-<p>The library example code includes a utility called MD_MAX72xx_HW_Mapper. This is test software to map display hardware rows and columns. It uses a generic SPI interface and only one MAX72xx/8x8 LED module required. It is independent of the libraries as the code is used to directly map the display orientation by setting pixels on the display and printing to the serial monitor which MAX72xx hardware component (segment and digit) is being exercised.</p>
-<p>By observing the LED display and the serial monitor you can build a map like the one below. It is worth noting the direction in which the rows and columns are scanned by the utility, as this is the easiest way to work out the row/column reversal values.</p>
-<p>The result of these observations is a grid definition that looks somewhat like: </p><pre class="fragment">      DIG0 D1 D2 D3 D4 D5 D6 D7
-Seg G
-Seg F
-Seg E
-Seg D
-Seg C
-Seg B
-Seg A
-Seg DP
-</pre><p>From this mapping it is clear</p><ul>
-<li>MAX72xx digits map to the columns.</li>
-<li>DIG0 is on the left (columns were also scanned left to right).</li>
-<li>Seg G is at the top (rows were also top to bottom).</li>
-</ul>
-<p>Note that in some situations using the module 'upside down' will result in a better configuration than would otherwise be the case. An example of this is the generic module mapping. Also remember that the modules are daisy chained from right to left.</p>
-<p>Having determined the values for the module type, this can be used in the application. </p><hr/>
- </div></div><!-- contents -->
+<div class="textblock"><p>If you like and use this library please consider making a small donation using <a href="https://paypal.me/MajicDesigns/4USD">PayPal</a> </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="index.html">Arduino LED Matrix Library</a></li><li class="navelem"><a class="el" href="page_hardware.html">Hardware</a></li>
+    <li class="navelem"><a class="el" href="index.html">Arduino LED Matrix Library</a></li>
     <li class="footer">Generated on Sat Aug 4 2018 13:21:28 for MD_MAX72xx LED Matrix Arduino Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

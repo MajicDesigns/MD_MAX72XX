@@ -1,6 +1,7 @@
 var searchData=
 [
   ['system_20connections',['System Connections',['../page_connect.html',1,'index']]],
+  ['support_20the_20library',['Support the Library',['../page_donation.html',1,'index']]],
   ['software_20library',['Software Library',['../page_software.html',1,'index']]],
   ['scanlimit',['SCANLIMIT',['../class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa5bd97d72ff4cc7d30ee1d24213cee6a7',1,'MD_MAX72XX']]],
   ['setbuffer',['setBuffer',['../class_m_d___m_a_x72_x_x.html#a1aaabf8c4df556c3e9a04a1319234261',1,'MD_MAX72XX']]],
