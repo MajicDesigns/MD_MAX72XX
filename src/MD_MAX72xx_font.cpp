@@ -108,7 +108,6 @@ uint8_t MD_MAX72XX::getFontWidth(void)
     }
   }
   PRINT(" max ", max);
-  Serial.print(max);
 
   return(max);
 }
