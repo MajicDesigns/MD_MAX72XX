@@ -58,6 +58,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Oct 2018 version 3.0.2
+- Updated to remove 'left over' serial print debug.
+
 Aug 2018 version 3.0.1
 - Fixed problem with calculating font width in info structure.
 
