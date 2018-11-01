@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #ifndef MDMAX72xxLIB_H
 #define	MDMAX72xxLIB_H
 
+#include <MD_MAX72xx.h>
+
 /**
  * \file
  * \brief Includes library definitions
@@ -78,7 +80,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #define HW_COL(c) (_hwRevCols ? (COL_SIZE - 1 - (c)) : (c)) ///< Pixel to hardware coordinate column mapping
 
 // variables shared in the library
-extern const uint8_t PROGMEM _sysfont_var[];  ///< System variable pitch font table
+extern const uint8_t PROGMEM _sysfont[];  ///< System variable pitch font table
 
 /**
 \page pageHardware Hardware

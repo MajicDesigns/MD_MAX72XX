@@ -138,7 +138,7 @@ bool MD_MAX72XX::setFont(fontType_t *f)
 {
   if (f != _fontData) // we actually have a change to process
   {
-    _fontData = (f == nullptr ? _sysfont_var : f);
+    _fontData = (f == nullptr ? _sysfont : f);
     loadFontInfo();
   }
 
@@ -200,9 +200,8 @@ uint8_t MD_MAX72XX::setChar(uint16_t col, uint8_t c)
 
   return(size);
 }
-
 // Standard font - variable spacing
-MD_MAX72XX::fontType_t PROGMEM _sysfont_var[] =
+MD_MAX72XX::fontType_t PROGMEM _sysfont[] =
 {
   'F', 1, 0, 255, 8,
   0,  // 0 - 'Empty Cell'
@@ -463,5 +462,5 @@ MD_MAX72XX::fontType_t PROGMEM _sysfont_var[] =
   5, 0xff, 0xff, 0xff, 0xff, 0xff,  // 255 - 'Full Block'
 };
 
-#endif //INCLUDE_LOCAL_FONT
+#endif //USE_LOCAL_FONT
 

@@ -91,7 +91,7 @@ void MD_MAX72XX::begin(void)
   _spiData = (uint8_t *)malloc(SPI_DATA_SIZE);
 
 #if USE_LOCAL_FONT
-  setFont(_sysfont_var);
+  setFont(_sysfont);
 #endif // INCLUDE_LOCAL_FONT
 
   // Initialize the display devices. On initial power-up

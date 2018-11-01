@@ -6,7 +6,7 @@
 // User can enter text on the serial monitor and this will display as a
 // scrolling message on the display.
 // Speed for the display is controlled by a pot on SPEED_IN analog in.
-
+//
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 
@@ -19,7 +19,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
 
 #define CLK_PIN   13  // or SCK
 #define DATA_PIN  11  // or MOSI
