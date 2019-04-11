@@ -130,7 +130,7 @@ public:
   * \param p  a pointer to a char array containing a nul terminated string. 
               The string must remain in scope while the message is being displayed.
   */
-  inline bool setText(char *pText) { if (_pText != nullptr) return(false); else _pText = pText; return(true); };
+  inline bool setText(const char *pText) { if (_pText != nullptr) return(false); else _pText = pText; return(true); };
 
   /**
   * Animate the display.

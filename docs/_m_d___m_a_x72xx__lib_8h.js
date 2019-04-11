@@ -28,5 +28,5 @@ var _m_d___m_a_x72xx__lib_8h =
     [ "PRINTX", "_m_d___m_a_x72xx__lib_8h.html#abf55b44e8497cbc3addccdeb294138cc", null ],
     [ "SPI_DATA_SIZE", "_m_d___m_a_x72xx__lib_8h.html#a3d4a2b28815b437d2b2b2a38b0844cf9", null ],
     [ "SPI_OFFSET", "_m_d___m_a_x72xx__lib_8h.html#ad2df4aac8e44c45191f269fb0080f4ab", null ],
-    [ "_sysfont_var", "_m_d___m_a_x72xx__lib_8h.html#ac6c9423a415610cfcc88f381afaee2b7", null ]
+    [ "_sysfont", "_m_d___m_a_x72xx__lib_8h.html#a9a965cffcf356ebc8dddd193f136529c", null ]
 ];

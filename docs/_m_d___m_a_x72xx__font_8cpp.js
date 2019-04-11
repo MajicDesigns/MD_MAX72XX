@@ -1,4 +1,4 @@
 var _m_d___m_a_x72xx__font_8cpp =
 [
-    [ "_sysfont_var", "_m_d___m_a_x72xx__font_8cpp.html#a5009e947e7e846577daa16958969826e", null ]
+    [ "_sysfont", "_m_d___m_a_x72xx__font_8cpp.html#a257a12eacc1614b3a038b5164fd78e47", null ]
 ];
