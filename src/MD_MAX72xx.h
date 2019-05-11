@@ -58,6 +58,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+May 2019 version 3.1.0
+- Changed font definition to more modern look.
+- Font ASCII code > 127 now conforms to unicode Latin-1 supplement.
+
 Oct 2018 version 3.0.2
 - Updated to remove 'left over' serial print debug.
 

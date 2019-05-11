@@ -346,7 +346,7 @@ void saveOutput(void)
     fprintf(G.fpOut, "\n");
   }
 
-  fprintf(G.fpOut, "}\n\n");
+  fprintf(G.fpOut, "};\n\n");
   }
 
   int main(int argc, char *argv[])
