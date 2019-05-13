@@ -32,15 +32,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
-_dataPin(dataPin), _clkPin(clkPin), _csPin(csPin), _maxDevices(numDevices),
-_hardwareSPI(false), _updateEnabled(true)
+_dataPin(dataPin), _clkPin(clkPin), _csPin(csPin),
+_hardwareSPI(false), _maxDevices(numDevices), _updateEnabled(true)
 {
   setModuleParameters(mod);
 }
 
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t csPin, uint8_t numDevices):
-_dataPin(0), _clkPin(0), _csPin(csPin), _maxDevices(numDevices),
-_hardwareSPI(true), _updateEnabled(true)
+_dataPin(0), _clkPin(0), _csPin(csPin),
+_hardwareSPI(true), _maxDevices(numDevices), _updateEnabled(true)
 {
   setModuleParameters(mod);
 }
