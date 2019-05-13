@@ -176,6 +176,9 @@ void MD_MAX72XX::controlLibrary(controlRequest_t mode, int value)
     case WRAPAROUND:
       _wrapAround = (value == ON);
       break;
+
+    default:
+      break;
   }
 }
 
