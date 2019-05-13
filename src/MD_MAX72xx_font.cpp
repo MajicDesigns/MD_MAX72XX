@@ -131,8 +131,8 @@ int16_t MD_MAX72XX::getFontCharOffset(uint8_t c)
     }
 
     PRINT(" searched offset ", offset);
-    return(offset);
   }
+  return(offset);
 }
 
 bool MD_MAX72XX::setFont(fontType_t *f)
