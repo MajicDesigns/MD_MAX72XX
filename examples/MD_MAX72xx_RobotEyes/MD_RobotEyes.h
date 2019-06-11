@@ -166,7 +166,7 @@ protected:
   typedef struct
   {
     emotion_t   e;
-    animFrame_t *seq;
+    const animFrame_t *seq;
     uint8_t     size;
   } animTable_t;
 
@@ -188,7 +188,7 @@ protected:
   bool        _animReverse;   // true = reverse sequence, false = normal sequence
   bool        _autoReverse;   // true = always play the reverse, false = selected direction only
   emotion_t   _nextEmotion;   // the next emotion to display
-  char *      _pText;         // pointer to text data in user code. Not null means there is text to print
+  const char *_pText;         // pointer to text data in user code. Not nullptr means there is text to print
 
   // Methods
   void loadEye(uint8_t module, uint8_t ch);

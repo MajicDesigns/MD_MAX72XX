@@ -253,18 +253,10 @@ enough current for the number of connected modules.
 
 // Display parameter constants
 // Defined values that are used throughout the library to define physical limits
-#ifndef ROW_SIZE
 #define ROW_SIZE  8   ///< The size in pixels of a row in the device LED matrix array
-#endif
-#ifndef COL_SIZE
 #define COL_SIZE  8   ///< The size in pixels of a column in the device LED matrix array
-#endif
-#ifndef MAX_INTENSITY
 #define MAX_INTENSITY 0xf ///< The maximum intensity value that can be set for a LED array
-#endif
-#ifndef MAX_SCANLIMIT
 #define MAX_SCANLIMIT 7   ///< The maximum scan limit value that can be set for the devices
-#endif
 
 /**
  * Core object for the MD_MAX72XX library

@@ -269,5 +269,3 @@ bool MD_RobotEyes::runAnimation(void)
 
   return(_animState == S_IDLE);
 };
-
-

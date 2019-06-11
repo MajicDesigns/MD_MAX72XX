@@ -125,7 +125,7 @@ const MD_RobotEyes::animFrame_t MD_RobotEyes::seqScanUpDown[] PROGMEM =
 
 // Lookup table to find animation sequences
 // Table associates the data for an emotion with the sequence table and it's size
-static const MD_RobotEyes::animTable_t MD_RobotEyes::lookupTable[] PROGMEM =
+const MD_RobotEyes::animTable_t MD_RobotEyes::lookupTable[] PROGMEM =
 {
   { MD_RobotEyes::E_NEUTRAL, MD_RobotEyes::seqBlink, 1 }, // special case, fixed neutral stare
   { MD_RobotEyes::E_BLINK, MD_RobotEyes::seqBlink, ARRAY_SIZE(MD_RobotEyes::seqBlink) },
