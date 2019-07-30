@@ -70,7 +70,7 @@ uint32_t MD_EyePair::seedOut(uint16_t noOfBits, uint8_t port)
   // return value with 'noOfBits' random bits set
   uint32_t seed = 0;
 
-  for (int i = 0; i<noOfBits; ++i)
+  for (uint16_t i = 0; i<noOfBits; ++i)
     seed = (seed << 1) | bitOut(port);
   
   return(seed);

@@ -32,7 +32,7 @@
 // need to be adapted
 //
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
 #define CLK_PIN   13  // or SCK
 #define DATA_PIN  11  // or MOSI
 #define CS_PIN    10  // or SS
@@ -141,7 +141,7 @@ void runAnimation(void)
   bRestart = graphDisplay(bRestart, state);
 }
 
-void setup()
+void setup(void)
 {
   mx.begin();
   ks.begin();
@@ -152,7 +152,7 @@ void setup()
   PRINTS("\n[MD_MAX72XX Scroll Chart]");
 }
 
-void loop()
+void loop(void)
 {
   runAnimation();
 }

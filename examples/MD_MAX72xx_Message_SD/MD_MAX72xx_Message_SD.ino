@@ -38,7 +38,7 @@
 #define CS_PIN    8  // or SS or LD
 
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
 
 MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
@@ -192,21 +192,21 @@ uint16_t getScrollDelay(void)
 #endif
 }
 
-void setup()
+void setup(void)
 {
 #if DEBUG
   Serial.begin(57600);
 #endif
 
-  // Initialize SdFat or print a detailed error message and halt
-  // Use half speed like the native library, change to SPI_FULL_SPEED for more performance.
-  if (!sd.begin(chipSelect, SPI_HALF_SPEED))
-    sd.initErrorHalt();
-
   // Initialize MD_MAX72xx library with callbacks
   mx.begin();
   mx.setShiftDataInCallback(scrollDataSource);
   mx.setShiftDataOutCallback(scrollDataSink);
+
+  // Initialize SdFat or print a detailed error message and halt
+  // Use half speed like the native library, change to SPI_FULL_SPEED for more performance.
+  if (!sd.begin(chipSelect, SPI_HALF_SPEED))
+    sd.initErrorHalt();
 
   // if we are using POT control, get that going too
 #if USE_POT_CONTROL
@@ -216,7 +216,7 @@ void setup()
 #endif
 }
 
-void loop()
+void loop(void)
 {
   scrollDelay = getScrollDelay();
   scrollText();

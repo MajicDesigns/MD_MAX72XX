@@ -5,7 +5,7 @@ var searchData=
   ['software_20library',['Software Library',['../page_software.html',1,'index']]],
   ['scanlimit',['SCANLIMIT',['../class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa5bd97d72ff4cc7d30ee1d24213cee6a7',1,'MD_MAX72XX']]],
   ['setbuffer',['setBuffer',['../class_m_d___m_a_x72_x_x.html#a1aaabf8c4df556c3e9a04a1319234261',1,'MD_MAX72XX']]],
-  ['setchar',['setChar',['../class_m_d___m_a_x72_x_x.html#aa97b0a8149fe89513b16518a8300f238',1,'MD_MAX72XX']]],
+  ['setchar',['setChar',['../class_m_d___m_a_x72_x_x.html#ae0bb8f197ef89389374f83717f0a1c3d',1,'MD_MAX72XX']]],
   ['setcolumn',['setColumn',['../class_m_d___m_a_x72_x_x.html#ab3f2885a67e435198b5b01505030165d',1,'MD_MAX72XX::setColumn(uint16_t c, uint8_t value)'],['../class_m_d___m_a_x72_x_x.html#a7788a0bdbef1a302a7652998b21703bd',1,'MD_MAX72XX::setColumn(uint8_t buf, uint8_t c, uint8_t value)']]],
   ['setfont',['setFont',['../class_m_d___m_a_x72_x_x.html#a16655f29d088d8ce1d557abcb703513d',1,'MD_MAX72XX']]],
   ['setmoduletype',['setModuleType',['../class_m_d___m_a_x72_x_x.html#ab68333e23c99212d9574b39ed7e67a96',1,'MD_MAX72XX']]],

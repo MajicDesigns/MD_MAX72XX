@@ -105,7 +105,7 @@ void initialize(void)
   spiTransmit(OP_DECODEMODE, 0);  // no decode
 }
 
-void mapSegment(char *label, uint8_t data)
+void mapSegment(const char *label, uint8_t data)
 {
   Serial.print(F("-"));
   Serial.print(label);
@@ -128,7 +128,7 @@ void clear(void)
     spiTransmit(OP_DIGIT0 + i, 0);
 }
 
-char getResponse(char *validInput)
+char getResponse(const char *validInput)
 // blocking wait for user input from the serial monitor
 {
   char  c = '\0';

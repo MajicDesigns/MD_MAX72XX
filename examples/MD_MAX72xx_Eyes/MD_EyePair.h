@@ -1,6 +1,5 @@
 // Implements a class to draw and animate a pair of eyes
-#ifndef MDEYEPAIR_H
-#define MDEYEPAIR_H
+#pragma once
 
 #include <MD_MAX72xx.h>
 
@@ -56,8 +55,6 @@ protected:
   bool posIsAdjacent(posPupil_t posCur, posPupil_t posNew);
   
   // random seed creation
-  uint16_t MD_EyePair::bitOut(uint8_t port);
-  uint32_t MD_EyePair::seedOut(uint16_t noOfBits, uint8_t port);
+  uint16_t bitOut(uint8_t port);
+  uint32_t seedOut(uint16_t noOfBits, uint8_t port);
 };
-
-#endif

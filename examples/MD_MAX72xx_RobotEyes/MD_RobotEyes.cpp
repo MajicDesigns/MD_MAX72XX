@@ -15,19 +15,17 @@
 #endif
 
 MD_RobotEyes::MD_RobotEyes(void) :
-_nextEmotion(E_NEUTRAL), _animState(S_IDLE),
-_autoBlink(true), _timeBlinkMinimum(5000)
+_timeBlinkMinimum(5000), _animState(S_IDLE), 
+_autoBlink(true), _nextEmotion(E_NEUTRAL)
 {
 };
 
 void MD_RobotEyes::loadEye(uint8_t module, uint8_t ch)
 {
   uint8_t buf[EYE_COL_SIZE];
-  uint8_t size;
+  uint8_t size = _M->getChar(ch, EYE_COL_SIZE, buf);
 
-  size = _M->getChar(ch, EYE_COL_SIZE, buf);
-
-  for (uint8_t i = 0; i < EYE_COL_SIZE; i++)
+  for (uint8_t i = 0; i < size; i++)
   {
     _M->setColumn(module, i, buf[i]);
   }

@@ -70,9 +70,9 @@ char curMessage[MESG_SIZE];
 char newMessage[MESG_SIZE];
 bool newMessageAvailable = false;
 
-char WebResponse[] = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
+const char WebResponse[] = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
 
-char WebPage[] =
+const char WebPage[] =
 "<!DOCTYPE html>" \
 "<html>" \
 "<head>" \
@@ -103,7 +103,7 @@ char WebPage[] =
 "</body>" \
 "</html>";
 
-char *err2Str(wl_status_t code)
+const char *err2Str(wl_status_t code)
 {
   switch (code)
   {

@@ -8,7 +8,7 @@
 //
 // Uses the MD_UISwitch library found at https://github.com/MajicDesigns/MD_UISwitch
 
-#define RUN_DEMO  0
+#define RUN_DEMO  1
 
 #include <MD_MAX72xx.h>
 #include <SPI.h>
@@ -42,7 +42,7 @@
 // need to be adapted
 //
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 5
+#define MAX_DEVICES 11
 #define CLK_PIN   13  // or SCK
 #define DATA_PIN  11  // or MOSI
 #define CS_PIN    10  // or SS
@@ -95,7 +95,7 @@ uint8_t  timeDemo = DEMO_DELAY; // number of seconds left in this demo loop
 //
 // Text Message Table
 // To change messages simply reorder, add to, or delete from, this table
-char *msgTab[] =
+const char *msgTab[] =
 {
   "DAFT PUNK",
   "GET LUCKY",
@@ -105,7 +105,7 @@ char *msgTab[] =
   "TECHNOLOGIC",
 };
 
-bool scrollText(bool bInit, char *pmsg)
+bool scrollText(bool bInit, const char *pmsg)
 // Callback function for data that is required for scrolling into the display
 {
   static char   curMessage[BUF_SIZE];
@@ -530,7 +530,6 @@ bool graphicHearts(bool bInit)
   const uint8_t dataSize = (sizeof(heartFull)/sizeof(heartFull[0]));
 
   static bool     bEmpty;
-  static uint8_t  r, c;
 
   // are we initializing?
   if (bInit)
@@ -753,8 +752,8 @@ bool graphicInvader(bool bInit)
 bool graphicPacman(bool bInit)
 {
   #define MAX_FRAMES  4   // number of animation frames
-  #define DATA_WIDTH  18
-  const uint8_t pacman[MAX_FRAMES][DATA_WIDTH] =  // ghost pursued by a pacman
+  #define PM_DATA_WIDTH  18
+  const uint8_t pacman[MAX_FRAMES][PM_DATA_WIDTH] =  // ghost pursued by a pacman
   {
     { 0x3c, 0x7e, 0x7e, 0xff, 0xe7, 0xc3, 0x81, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe },
     { 0x3c, 0x7e, 0xff, 0xff, 0xe7, 0xe7, 0x42, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe },
@@ -788,12 +787,12 @@ bool graphicPacman(bool bInit)
   mx.clear();
 
   // clear old graphic
-  for (uint8_t i = 0; i<DATA_WIDTH; i++)
-    mx.setColumn(idx - DATA_WIDTH + i, 0);
+  for (uint8_t i = 0; i<PM_DATA_WIDTH; i++)
+    mx.setColumn(idx - PM_DATA_WIDTH + i, 0);
   // move reference column and draw new graphic
   idx++;
-  for (uint8_t i = 0; i<DATA_WIDTH; i++)
-    mx.setColumn(idx - DATA_WIDTH + i, pacman[frame][i]);
+  for (uint8_t i = 0; i<PM_DATA_WIDTH; i++)
+    mx.setColumn(idx - PM_DATA_WIDTH + i, pacman[frame][i]);
 
   // advance the animation frame
   frame += deltaFrame;
@@ -801,7 +800,7 @@ bool graphicPacman(bool bInit)
     deltaFrame = -deltaFrame;
 
   // check if we are completed and set initialize for next time around
-  if (idx == mx.getColumnCount() + DATA_WIDTH) bInit = true;
+  if (idx == mx.getColumnCount() + PM_DATA_WIDTH) bInit = true;
 
   mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 
@@ -868,15 +867,15 @@ bool graphicSinewave(bool bInit)
   static uint8_t curWave = 0;
   static uint8_t idx;
 
-  #define DATA_WIDTH  11    // valid data count followed by up to 10 data points
-  const uint8_t waves[][DATA_WIDTH] =
+  #define SW_DATA_WIDTH  11    // valid data count followed by up to 10 data points
+  const uint8_t waves[][SW_DATA_WIDTH] =
   {
     {  9,   8,  6,   1,   6,  24,  96, 128,  96,  16,   0 },
     {  6,  12,  2,  12,  48,  64,  48,   0,   0,   0,   0 },
     { 10,  12,   2,   1,   2,  12,  48,  64, 128,  64, 48 },
 
   };
-  const uint8_t WAVE_COUNT = sizeof(waves) / (DATA_WIDTH * sizeof(uint8_t));
+  const uint8_t WAVE_COUNT = sizeof(waves) / (SW_DATA_WIDTH * sizeof(uint8_t));
 
   // are we initializing?
   if (bInit)

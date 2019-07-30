@@ -37,7 +37,7 @@ MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // We always wait a bit between updates of the display
 #define  DELAYTIME  100  // in milliseconds
 
-void scrollText(char *p)
+void scrollText(const char *p)
 {
   uint8_t charWidth;
   uint8_t cBuf[8];  // this should be ok for all built-in fonts

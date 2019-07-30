@@ -156,19 +156,19 @@ protected:
   } animState_t;
 
   // Define an animation frame
-  typedef struct animFrame_t
+  struct animFrame_t
   {
     uint8_t eyeData[2];  // [LEFT_MODULE_OFFSET] and [RIGHT_MODULE_OFFSET] eye character from font data
     uint16_t timeFrame;  // time for this frame in milliseconds
   };
 
   // Define an entry in the animation sequence lookup table
-  typedef struct
+  struct animTable_t
   {
     emotion_t   e;
     const animFrame_t *seq;
     uint8_t     size;
-  } animTable_t;
+  };
 
   // Display parameters
   MD_MAX72XX  *_M;

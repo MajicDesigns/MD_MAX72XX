@@ -22,8 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#ifndef MDMAX72xxLIB_H
-#define	MDMAX72xxLIB_H
+#pragma once
 
 #include <MD_MAX72xx.h>
 
@@ -379,20 +378,33 @@ One default font is defined as part of the library in PROGMEM memory. Alternativ
 can be specified to the library. The font builder utilities provide a convenient way to
 modify existing or develop alternative fonts.
 
-Fonts are stored as a series of contiguous bytes in the following format:
-- byte 1 - the character 'F'
-- byte 2 - the version for the file format (1 or more)
-- byte 3 - the first ASCII character in the table
-- byte 4 - the last ASCII character in the table
-- byte 5 - the height of the character in pixels
-- byte 6 - the number of bytes that form this character (could be zero)
-- byte 7..n - each byte is a column of the character to be formed, starting with the
+Version 2: Fonts allows for up to 65535 characters in the font table:
+- byte 0 - the character 'F'
+- byte 1 - the version for the file format (2)
+- byte 2 - high byte of the code of the first character in the table
+- byte 3 - low byte of the code of first character in the table 
+- byte 4 - high byte of the code of the last character in the table
+- byte 5 - low byte of the code of last character in the table
+- byte 6 - the height of the character in pixels
+- byte 7 - the number of bytes that form this character (could be zero)
+- byte 8..n - each byte is a column of the character to be formed, starting with the
 leftmost column of the character. The least significant bit of the byte is the bottom
 pixel position of the character matrix (row 7).
 
-If the 'F' is omitted then the font definition is considered a version 0 font (prior to
+Version 1: Fonts are stored as a series of contiguous bytes in the following format:
+- byte 0 - the character 'F'
+- byte 1 - the version for the file format (1)
+- byte 2 - the first ASCII character in the table
+- byte 3 - the last ASCII character in the table
+- byte 4 - the height of the character in pixels
+- byte 5 - the number of bytes that form this character (could be zero)
+- byte 6..n - each byte is a column of the character to be formed, starting with the
+leftmost column of the character. The least significant bit of the byte is the bottom
+pixel position of the character matrix (row 7).
+
+Version 0: If the 'F' is omitted then the font definition is considered a version 0 font (prior to
 MD_MAX72xx version 3.0.0) and the defaults are set to min ASCII 0, max ASCII 255, height 8. 
-In this case byte 6 above is the first byte in the file.
+In this case byte 5 of the Version 1 font is the first byte in the file.
 
 To find a character in the font table, the library looks at the first byte (size),
 skips 'size'+1 bytes to the next character size byte and repeat until the last or
@@ -475,4 +487,3 @@ these are not available.
 
 */
 
-#endif

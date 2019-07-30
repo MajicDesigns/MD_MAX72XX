@@ -14,7 +14,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
 
 #define CLK_PIN   13  // or SCK
 #define DATA_PIN  11  // or MOSI
@@ -30,7 +30,7 @@ MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 // Global message buffers shared by Serial and Scrolling functions
 #define BUF_SIZE  75
-char message[BUF_SIZE] = {"Hello!"};
+char message[BUF_SIZE] = "Hello!";
 bool newMessageAvailable = true;
 
 void readSerial(void)
@@ -121,7 +121,7 @@ void setup()
   mx.begin();
 
   Serial.begin(57600);
-  Serial.print("\n[MD_MAX72XX Message Display]\nType a message for the scrolling display\nEnd message line with a newline");
+  Serial.print("\n[MD_MAX72XX Message Display]\nType a message for the display\nEnd message line with a newline");
 }
 
 void loop()

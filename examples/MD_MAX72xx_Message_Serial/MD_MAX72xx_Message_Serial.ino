@@ -123,9 +123,9 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
 
     case 2: // display inter-character spacing (blank column)
       colData = 0;
+      curLen++;
       if (curLen == showLen)
         state = 0;
-      curLen++;
       break;
 
     default:
