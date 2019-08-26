@@ -341,7 +341,8 @@ public:
     TFLR, ///< Transform Flip Left to Right
     TFUD, ///< Transform Flip Up to Down
     TRC,  ///< Transform Rotate Clockwise 90 degrees
-    TINV  ///< Transform INVert (pixels inverted)
+    TINV, ///< Transform INVert (pixels inverted)
+    TMLR  ///< Transform Mirror Left to Right
   };
 
   /**

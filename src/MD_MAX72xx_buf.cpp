@@ -330,6 +330,7 @@ bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
     break;
 
   //--------------
+  case TMLR: // Transform Mirror Left to Right
   case TFLR: // Transform Flip Left to Right
     if (_hwDigRows)
     {
