@@ -62,15 +62,11 @@ void MD_MAX72XX::setModuleParameters(moduleType_t mod)
 
 void MD_MAX72XX::begin(void)
 {
-  // initialize the AVR hardware
+  // initialize the SPI interface
   if (_hardwareSPI)
   {
     PRINTS("\nHardware SPI");
     SPI.begin();
-    // Old mode of operations!
-    //SPI.setDataMode(SPI_MODE0);
-    //SPI.setBitOrder(MSBFIRST);
-    //SPI.setClockDivider(SPI_CLOCK_DIV2);
   }
   else
   {
@@ -80,8 +76,8 @@ void MD_MAX72XX::begin(void)
   }
 
   // initialize our preferred CS pin (could be same as SS)
-  digitalWrite(_csPin, HIGH);
   pinMode(_csPin, OUTPUT);
+  digitalWrite(_csPin, HIGH);
 
   // object memory and internals
   setShiftDataInCallback(nullptr);
@@ -293,12 +289,12 @@ void MD_MAX72XX::spiSend()
   // shift out the data
   if (_hardwareSPI)
   {
-    for (uint8_t i = 0; i < SPI_DATA_SIZE; i++)
+    for (uint16_t i = 0; i < SPI_DATA_SIZE; i++)
       SPI.transfer(_spiData[i]);
   }
   else  // not hardware SPI - bit bash it out
   {
-    for (uint8_t i = 0; i < SPI_DATA_SIZE; i++)
+    for (uint16_t i = 0; i < SPI_DATA_SIZE; i++)
       shiftOut(_dataPin, _clkPin, MSBFIRST, _spiData[i]);
   }
 

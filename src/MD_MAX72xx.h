@@ -57,6 +57,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Oct 2019 version 3.2.1
+- First large (150 module system) - increase size of SPI counters to int16_t
+
 Sep 2019 version 3.2.0
 - Change character codes to 16 bit to allow up to 65535 characters in font table.
 - Retested examples for clean compile with new version of compiler.
@@ -431,8 +434,8 @@ public:
    * Invokes the control function for each device in turn for the devices in the subset.
    * See documentation for the control() method.
    *
-   * \param startDev  the first device for the transformation [0..getDeviceCount()-1]
-   * \param endDev    the last device for the transformation [0..getDeviceCount()-1]
+   * \param startDev  the first device for the control action [0..getDeviceCount()-1]
+   * \param endDev    the last device for the control action [0..getDeviceCount()-1]
    * \param mode      one of the defined control requests.
    * \param value     parameter value or one of the control status defined.
    * \return false if parameter errors, true otherwise.
