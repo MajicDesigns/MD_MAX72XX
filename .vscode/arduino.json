@@ -1,0 +1,5 @@
+{
+    "board": "atmel-avr-xminis:avr:atmega328p_xplained_mini",
+    "sketch": "examples/MD_MAX72xx_PrintText/MD_MAX72xx_PrintText.ino",
+    "port": "/dev/tty.usbserial-1410"
+}
