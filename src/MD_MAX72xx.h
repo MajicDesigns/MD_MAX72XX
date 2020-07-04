@@ -1,6 +1,41 @@
 #pragma once
 
+#ifdef __MBED__
+#include "mbed.h"
+#define delay   ThisThread::sleep_for
+#ifndef PROGMEM
+ #define PROGMEM
+#endif
+#ifndef boolean
+ #define boolean bool
+#endif
+#ifndef bitRead
+#define bitRead(value, bit) (((value) >> (bit)) & 0x01)
+#endif
+#ifndef bitSet
+#define bitSet(value, bit) ((value) |= (1UL << (bit)))
+#endif
+#ifndef bitClear
+#define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
+#endif
+#ifndef bitWrite
+#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
+#endif
+#ifndef pgm_read_byte
+ #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#endif
+#ifndef pgm_read_word
+ #define pgm_read_word(addr) (*(const unsigned short *)(addr))
+#endif
+#ifndef pgm_read_dword
+ #define pgm_read_dword(addr) (*(const unsigned long *)(addr))
+#endif
+#else
 #include <Arduino.h>
+#endif
+
+
+
 
 /**
  * \file
@@ -923,7 +958,6 @@ private:
   bool _hwRevCols;    // Normal orientation is col 0 on the right. Set to true if reversed
   bool _hwRevRows;    // Normal orientation is row 0 at the top. Set to true if reversed
 
-  // SPI interface data
   uint8_t _dataPin;     // DATA is shifted out of this pin ...
   uint8_t _clkPin;      // ... signaled by a CLOCK on this pin ...
   uint8_t _csPin;       // ... and LOADed when the chip select pin is driven HIGH to LOW
@@ -942,6 +976,11 @@ private:
   bool    _updateEnabled; // update the display when this is true, suspend otherwise
   bool    _wrapAround;    // when shifting, wrap left to right and vice versa (circular buffer)
 
+  // SPI interface data
+#ifdef __MBED__
+  SPI   _spi;           // Mbed SPI object
+  DigitalOut _cs;
+#endif
 #if USE_LOCAL_FONT
   // Font properties info structure
    typedef struct
