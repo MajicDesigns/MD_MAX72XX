@@ -1,5 +1,10 @@
 #pragma once
 
+/**
+ * \file
+ * \brief Main header file for the MD_MAX72xx library
+ */
+
 #ifdef __MBED__
 #include "mbed.h"
 #define delay   ThisThread::sleep_for
@@ -33,14 +38,6 @@
 #else
 #include <Arduino.h>
 #endif
-
-
-
-
-/**
- * \file
- * \brief Main header file for the MD_MAX72xx library
- */
 
 /**
 \mainpage Arduino LED Matrix Library
@@ -94,6 +91,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 \page pageRevisionHistory Revision History
 Nov 2019 version 3.2.2
 - Added structured hardware names for untested hardware configurations (\ref pageNewHardware).
+- Mbed (https://github.com/ARMmbed/mbed-os) support (PR #30 from JojoS62, 2020-07-06)
 
 Oct 2019 version 3.2.1
 - First large (150 module system) - increase size of SPI counters to int16_t
