@@ -367,7 +367,22 @@ Note that in some situations using the module 'upside down' will result in a bet
 than would otherwise be the case. An example of this is the generic module mapping. Also remember
 that the modules are daisy chained from right to left.
 
-Having determined the values for the module type, this can be used in the application.
+Having determined the values for the module type, this can be used in the application. If the type 
+does not correspond to a standard type, then it is possible to set an alternative although these 
+are not guaranteed to work unless they have been tested. Alternative hardware names follow a template
+structure given in the table below
+
+Digits as rows|Col Rev|Row Rev|HW module                    |
+:------------:|:-----:|:-----:|:----------------------------|
+   NO         | NO    | NO    | DR0CR0RR0_HW                |
+   NO         | NO    | YES   | DR0CR0RR1_HW                |
+   NO         | YES   | NO    | DR0CR1RR0_HW (GENERIC_HW)   |
+   NO         | YES   | YES   | DR0CR1RR1_HW                |
+   YES        | NO    | NO    | DR1CR0RR0_HW (FC16_HW)      |
+   YES        | NO    | YES   | DR1CR0RR1_HW                |
+   YES        | YES   | NO    | DR1CR1RR0_HW (PAROLA_HW)    |
+   YES        | YES   | YES   | DR1CR1RR1_HW (ICSTATION_HW) |
+
 ___
 
 \page pageFontUtility Create and Modify Fonts

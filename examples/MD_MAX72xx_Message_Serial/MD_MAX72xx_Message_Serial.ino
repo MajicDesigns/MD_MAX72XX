@@ -10,6 +10,7 @@
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 
+#define IMMEDIATE_NEW   0     // if 1 will immediately display a new message
 #define USE_POT_CONTROL 1
 #define PRINT_CALLBACK  0
 
@@ -86,50 +87,67 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
 // Callback function for data that is required for scrolling into the display
 {
   static char   *p = curMessage;
-  static uint8_t  state = 0;
+  static enum { NEW_MESSAGE, LOAD_CHAR, SHOW_CHAR, BETWEEN_CHAR } state = LOAD_CHAR;
   static uint8_t  curLen, showLen;
-  static uint8_t  cBuf[8];
-  uint8_t colData;
+  static uint8_t  cBuf[15];
+  uint8_t colData = 0;    // blank column is the default
+
+#if IMMEDIATE_NEW
+  if (newMessageAvailable)  // there is a new message waiting
+  {
+    state = NEW_MESSAGE;
+    mx.clear(); // clear the display
+  }
+#endif
 
   // finite state machine to control what we do on the callback
   switch(state)
   {
-    case 0: // Load the next character from the font table
+    case NEW_MESSAGE:   // Load the new message
+      strcpy(curMessage, newMessage);	// copy it in
+      newMessageAvailable = false;    // used it!
+      p = curMessage;
+      state = LOAD_CHAR;
+      break;
+
+    case LOAD_CHAR: // Load the next character from the font table
       showLen = mx.getChar(*p++, sizeof(cBuf)/sizeof(cBuf[0]), cBuf);
       curLen = 0;
-      state++;
+      state = SHOW_CHAR;
 
-      // if we reached end of message, reset the message pointer
+      // if we reached end of message, opportuinity to load the next
       if (*p == '\0')
       {
         p = curMessage;     // reset the pointer to start of message
+#if !IMMEDIATE_NEW
         if (newMessageAvailable)  // there is a new message waiting
         {
-          strcpy(curMessage, newMessage);	// copy it in
-          newMessageAvailable = false;
+          state = NEW_MESSAGE;    // we will load it here
+          break;
         }
+#endif
       }
       // !! deliberately fall through to next state to start displaying
 
-    case 1: // display the next part of the character
+    case SHOW_CHAR: // display the next part of the character
       colData = cBuf[curLen++];
       if (curLen == showLen)
       {
         showLen = CHAR_SPACING;
         curLen = 0;
-        state = 2;
+        state = BETWEEN_CHAR;
       }
       break;
 
-    case 2: // display inter-character spacing (blank column)
+    case BETWEEN_CHAR: // display inter-character spacing (blank columns)
       colData = 0;
       curLen++;
       if (curLen == showLen)
-        state = 0;
+        state = LOAD_CHAR;
       break;
 
     default:
-      state = 0;
+      state = LOAD_CHAR;
   }
 
   return(colData);

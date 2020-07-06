@@ -57,6 +57,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Nov 2019 version 3.2.2
+- Added structured hardware names for untested hardware configurations (\ref pageNewHardware).
+
 Oct 2019 version 3.2.1
 - First large (150 module system) - increase size of SPI counters to int16_t
 
@@ -275,14 +278,24 @@ public:
   *
   * This enumerated type is used to defined the type of
   * modules being used in the application. The types of modules are
-  * discussed in detail in the Hardware section of this documentation. 
+  * discussed in detail in the Hardware section of this documentation.
+  * For structured name types see \ref pageNewHardware.
   */
   enum moduleType_t
   {
-    PAROLA_HW,    ///< Use the Parola style hardware modules.
     GENERIC_HW,   ///< Use 'generic' style hardware modules commonly available.
+    FC16_HW,      ///< Use FC-16 style hardware module.
+    PAROLA_HW,    ///< Use the Parola style hardware modules.
     ICSTATION_HW, ///< Use ICStation style hardware module.
-    FC16_HW       ///< Use FC-16 style hardware module.
+
+    DR0CR0RR0_HW, ///< Structured name
+    DR0CR0RR1_HW, ///< Structured name
+    DR0CR1RR0_HW, ///< Structured name equivalent to GENERIC_HW
+    DR0CR1RR1_HW, ///< Structured name
+    DR1CR0RR0_HW, ///< Structured name equivalent to FC16_HW
+    DR1CR0RR1_HW, ///< Structured name
+    DR1CR1RR0_HW, ///< Structured name equivalent to PAROLA_HW
+    DR1CR1RR1_HW  ///< Structured name equivalent to ICSTATION_HW
   };
 
 #if USE_LOCAL_FONT

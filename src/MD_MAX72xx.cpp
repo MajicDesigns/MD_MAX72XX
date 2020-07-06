@@ -46,17 +46,24 @@ _hardwareSPI(true), _maxDevices(numDevices), _updateEnabled(true)
 }
 
 void MD_MAX72XX::setModuleParameters(moduleType_t mod)
-// Combinations not listed here have probably not been tested and may
-// not operate correctly.
+// Combinations not listed as tested have *probably* not 
+// been tested and may not operate correctly.
 {
   _mod = mod;
   switch (_mod)
   {
-    case PAROLA_HW:    _hwDigRows = true;  _hwRevCols = true;  _hwRevRows = false; break; // tested MC 8 March 2014
-    case GENERIC_HW:   _hwDigRows = false; _hwRevCols = true;  _hwRevRows = false; break; // tested MC 9 March 2014
-    case ICSTATION_HW: _hwDigRows = true;  _hwRevCols = true;  _hwRevRows = true;  break; // tested MC 9 March 2014
-    case FC16_HW:      _hwDigRows = true;  _hwRevCols = false; _hwRevRows = false; break; // tested MC 23 Feb 2015
-    default:           _hwDigRows = _hwRevRows = _hwRevCols = false; break;   // not a known board config
+    case DR0CR0RR0_HW: _hwDigRows = false; _hwRevCols = false;  _hwRevRows = false; break;
+    case DR0CR0RR1_HW: _hwDigRows = false; _hwRevCols = false;  _hwRevRows = true;  break;
+    case DR0CR1RR0_HW: // same as GENERIC_HW, tested MC 9 March 2014
+    case GENERIC_HW:   _hwDigRows = false; _hwRevCols = true;  _hwRevRows = false;  break; 
+    case DR0CR1RR1_HW: _hwDigRows = false; _hwRevCols = true;  _hwRevRows = true;   break;
+    case DR1CR0RR0_HW: // same as FC16_HW, tested MC 23 Feb 2015
+    case FC16_HW:      _hwDigRows = true;  _hwRevCols = false;  _hwRevRows = false; break;
+    case DR1CR0RR1_HW: _hwDigRows = true;  _hwRevCols = false;  _hwRevRows = true;  break;
+    case DR1CR1RR0_HW: // same as PAROLA_HW, tested MC 8 March 2014
+    case PAROLA_HW:    _hwDigRows = true;  _hwRevCols = true;  _hwRevRows = false;  break;
+    case DR1CR1RR1_HW: // same as ICSTATION_HW, tested MC 9 March 2014
+    case ICSTATION_HW: _hwDigRows = true;  _hwRevCols = true;  _hwRevRows = true;   break;
   }
 }
 
