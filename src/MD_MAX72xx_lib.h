@@ -499,6 +499,14 @@ in the FontBuilder spreadsheet has instructions for use.
 
 As FontBuilder requires using Microsoft Office products, it does not work environments where
 these are not available.
+____
+
+Third Party Font Builders
+-------------------------
+A few MD_MAX72XX/MD_Parola users have designed and implemented their own font builders as
+alternatives to the 'official' releases:
+- https://pjrp.github.io/MDParolaFontEditor
+- https://github.com/vasco65/md_max72xx-font-designer
 
 */
 

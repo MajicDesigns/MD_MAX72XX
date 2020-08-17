@@ -89,6 +89,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Aug 2020 version 3.2.3
+- Corrected Message_Serial example
+
 Nov 2019 version 3.2.2
 - Added structured hardware names for untested hardware configurations (\ref pageNewHardware).
 - Mbed (https://github.com/ARMmbed/mbed-os) support (PR #30 from JojoS62, 2020-07-06)

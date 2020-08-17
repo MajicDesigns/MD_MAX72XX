@@ -1,5 +1,6 @@
 var class_m_d___m_a_x72_x_x =
 [
+    [ "fontType_t", "class_m_d___m_a_x72_x_x.html#a5b2e511f00bddbcc1fffa78757d71bf5", null ],
     [ "controlRequest_t", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4f", [
       [ "SHUTDOWN", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fad2d5ee4317d7dfb62c9f0dcc88562e1a", null ],
       [ "SCANLIMIT", "class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa5bd97d72ff4cc7d30ee1d24213cee6a7", null ],
@@ -76,6 +77,5 @@ var class_m_d___m_a_x72_x_x =
     [ "update", "class_m_d___m_a_x72_x_x.html#a3f91498bfc0023f67d4bf1284ca70317", null ],
     [ "update", "class_m_d___m_a_x72_x_x.html#a9cc242e22748229a223851217b76fd4e", null ],
     [ "update", "class_m_d___m_a_x72_x_x.html#a4d51360880d7a6fa33a6f917cf423879", null ],
-    [ "wraparound", "class_m_d___m_a_x72_x_x.html#a0b5940c115ad58aeb05d7af1e9162f97", null ],
-    [ "fontType_t", "class_m_d___m_a_x72_x_x.html#ae1cc6724cc91e11c0cf0f5c8beb5a22b", null ]
+    [ "wraparound", "class_m_d___m_a_x72_x_x.html#a0b5940c115ad58aeb05d7af1e9162f97", null ]
 ];
