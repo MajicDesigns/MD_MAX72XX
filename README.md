@@ -1,5 +1,8 @@
 # MAX72xx LED Matrix Display Library
 
+<img align="center" src="https://user-images.githubusercontent.com/22770735/92942619-5605f680-f46f-11ea-8ae5-5ba5bcf737d9.jpg" />
+
+
 [![arduino-library-badge](https://www.ardu-badge.com/badge/MD_MAX72XX.svg?)](https://www.ardu-badge.com/MD_MAX72XX)
 
 The library implements functions that allow the MAX72xx to be used for LED matrices (64 individual LEDs), allowing the programmer to use the LED matrix as a pixel device, displaying graphics elements much like any other pixel addressable display.
