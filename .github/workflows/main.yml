@@ -13,5 +13,5 @@ jobs:
         uses: ArminJo/arduino-test-compile@v2
         with:
           sketches-exclude: MD_MAX72XX_Message_ESP8266
-          required-libraries: MD_UISwitch,SdFat,SPI
+          required-libraries: MD_UISwitch,SdFat
 
