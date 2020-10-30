@@ -13,7 +13,7 @@ jobs:
         uses: Legion2/download-release-action@v2.1.0
         with:
           repository:  MajicDesigns/MD_UISwitch
-          tag: '2.1.0'
+          tag: 'v2.1.0'
           path: libraries
       - name: Compile examples using Arduino Uno
         uses: pfeerick/arduino-builder-action@master
