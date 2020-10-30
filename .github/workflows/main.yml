@@ -9,12 +9,20 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v1
+      # Intall libraries needed by the examples
       - name: Install MD_UISwitch lib
         uses: Legion2/download-release-action@v2.1.0
         with:
           repository:  MajicDesigns/MD_UISwitch
           tag: 'v2.1.0'
           path: libraries
+      - name: Install SdFat lib
+        uses: Legion2/download-release-action@v2.1.0
+        with:
+          repository:  greiman/SdFat
+          tag: '1.1.4'
+          path: libraries
+      # Build all examples in the examples folder
       - name: Compile examples using Arduino Uno
         uses: pfeerick/arduino-builder-action@master
         with:
