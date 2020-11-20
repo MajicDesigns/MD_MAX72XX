@@ -218,7 +218,7 @@ bool MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t tty
 
     case TFLR: // Transform Flip Left to Right (use the whole field)
     // first reverse the device buffers end for end
-    for (uint8_t buf = 0; buf < (endDev - startDev)/2; buf++)
+    for (uint8_t buf = 0; buf < (endDev - startDev + 1)/2; buf++)
     {
       deviceInfo_t	t;
 
