@@ -89,6 +89,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Nov 2020 version 3.2.4
+- Fixed TSLR bug reported in transform() function
+
 Aug 2020 version 3.2.3
 - Corrected Message_Serial example
 
