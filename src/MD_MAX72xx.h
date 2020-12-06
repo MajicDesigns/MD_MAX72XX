@@ -5,7 +5,7 @@
  * \brief Main header file for the MD_MAX72xx library
  */
 
-#ifdef __MBED__
+#if defined(__MBED__) && !defined(ARDUINO)
 #include "mbed.h"
 #define delay   ThisThread::sleep_for
 #ifndef PROGMEM
@@ -994,7 +994,7 @@ private:
   bool    _wrapAround;    // when shifting, wrap left to right and vice versa (circular buffer)
 
   // SPI interface data
-#ifdef __MBED__
+#if defined(__MBED__) && !defined(ARDUINO)
   SPI   _spi;           // Mbed SPI object
   DigitalOut _cs;
 #endif

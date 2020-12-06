@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#ifdef __MBED__
+#if defined(__MBED__) && !defined(ARDUINO)
 #include "mbed.h"
 #else
 #include <Arduino.h>
@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
 _dataPin(dataPin), _clkPin(clkPin), _csPin(csPin),
 _hardwareSPI(false), _maxDevices(numDevices), _updateEnabled(true)
-#ifdef __MBED__
+#if defined(__MBED__) && !defined(ARDUINO)
 , _spi((PinName)dataPin, NC, (PinName)clkPin),
 _cs((PinName)csPin)
 #endif
@@ -50,7 +50,7 @@ _cs((PinName)csPin)
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t csPin, uint8_t numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin),
 _hardwareSPI(true), _maxDevices(numDevices), _updateEnabled(true)
-#ifdef __MBED__
+#if defined(__MBED__) && !defined(ARDUINO)
 , _spi(SPI_MOSI, NC, SPI_SCK),
 _cs((PinName)csPin)
 #endif
@@ -85,21 +85,21 @@ void MD_MAX72XX::begin(void)
   // initialize the SPI interface
   if (_hardwareSPI)
   {
-#ifndef __MBED__
+#ifdef ARDUINO
     PRINTS("\nHardware SPI");
     SPI.begin();
 #endif
   }
   else
   {
-#ifndef __MBED__
+#ifdef ARDUINO
     PRINTS("\nBitBang SPI")
     pinMode(_dataPin, OUTPUT);
     pinMode(_clkPin, OUTPUT);
 #endif
   }
 
-#ifndef __MBED__
+#ifdef ARDUINO
   // initialize our preferred CS pin (could be same as SS)
   pinMode(_csPin, OUTPUT);
   digitalWrite(_csPin, HIGH);
@@ -137,7 +137,7 @@ void MD_MAX72XX::begin(void)
 
 MD_MAX72XX::~MD_MAX72XX(void)
 {
-#ifndef __MBED__  
+#ifdef ARDUINO
   if (_hardwareSPI) SPI.end();  // reset SPI mode
 #endif
 
@@ -311,7 +311,7 @@ void MD_MAX72XX::spiClearBuffer(void)
 
 void MD_MAX72XX::spiSend()
 {
-#ifndef __MBED__
+#ifdef ARDUINO
   // initialize the SPI transaction
   if (_hardwareSPI)
     SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
@@ -335,7 +335,7 @@ void MD_MAX72XX::spiSend()
     SPI.endTransaction();
 #else
   _cs = 0;
-  volatile int n = _spi.write((const char*)_spiData, SPI_DATA_SIZE, nullptr, 0);
+  _spi.write((const char*)_spiData, SPI_DATA_SIZE, nullptr, 0);
   _cs = 1;
 #endif
 }
