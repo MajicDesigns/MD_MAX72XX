@@ -3,7 +3,7 @@
 // Demonstrates the use of the callback function to control what
 // is scrolled on the display text.
 //
-// Text to be displayed is stored n an SD card. Each line is scrolled
+// Text to be displayed is stored on a SD card. Each line is scrolled
 // continuously on the display and run off before the next one is shown.
 // At end of file the display loops back to the first line.
 // Speed for the display is controlled by a pot on SPEED_IN analog in.
