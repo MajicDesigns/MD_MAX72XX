@@ -59,7 +59,7 @@ _cs((PinName)csPin)
 }
 
 void MD_MAX72XX::setModuleParameters(moduleType_t mod)
-// Combinations not listed as tested have *probably* not 
+// Combinations not listed as tested have *probably* not
 // been tested and may not operate correctly.
 {
   _mod = mod;
@@ -68,7 +68,7 @@ void MD_MAX72XX::setModuleParameters(moduleType_t mod)
     case DR0CR0RR0_HW: _hwDigRows = false; _hwRevCols = false;  _hwRevRows = false; break;
     case DR0CR0RR1_HW: _hwDigRows = false; _hwRevCols = false;  _hwRevRows = true;  break;
     case DR0CR1RR0_HW: // same as GENERIC_HW, tested MC 9 March 2014
-    case GENERIC_HW:   _hwDigRows = false; _hwRevCols = true;  _hwRevRows = false;  break; 
+    case GENERIC_HW:   _hwDigRows = false; _hwRevCols = true;  _hwRevRows = false;  break;
     case DR0CR1RR1_HW: _hwDigRows = false; _hwRevCols = true;  _hwRevRows = true;   break;
     case DR1CR0RR0_HW: // same as FC16_HW, tested MC 23 Feb 2015
     case FC16_HW:      _hwDigRows = true;  _hwRevCols = false;  _hwRevRows = false; break;
@@ -113,6 +113,9 @@ void MD_MAX72XX::begin(void)
 
   _matrix = (deviceInfo_t *)malloc(sizeof(deviceInfo_t) * _maxDevices);
   _spiData = (uint8_t *)malloc(SPI_DATA_SIZE);
+
+  _deviceMap = (uint8_t *)malloc(_maxDevices);
+  for (uint8_t d = 0; d < _maxDevices; d++) _deviceMap[d] = d;
 
 #if USE_LOCAL_FONT
   setFont(_sysfont);
@@ -263,7 +266,7 @@ void MD_MAX72XX::flushBufferAll()
       {
         // put our device data into the buffer
         _spiData[SPI_OFFSET(dev, 0)] = OP_DIGIT0+i;
-        _spiData[SPI_OFFSET(dev, 1)] = _matrix[dev].dig[i];
+        _spiData[SPI_OFFSET(dev, 1)] = _matrix[_deviceMap[dev]].dig[i];
         bChange = true;
       }
     }
@@ -295,7 +298,7 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
 
       // put our device data into the buffer
       _spiData[SPI_OFFSET(buf, 0)] = OP_DIGIT0+i;
-      _spiData[SPI_OFFSET(buf, 1)] = _matrix[buf].dig[i];
+      _spiData[SPI_OFFSET(buf, 1)] = _matrix[_deviceMap[buf]].dig[i];
 
       spiSend();
     }

@@ -438,7 +438,7 @@ public:
   /**
    * Initialize the object.
    *
-   * Initialize the object data. This needs to be called during setup() to initialize 
+   * Initialize the object data. This needs to be called during setup() to initialize
    * new data for the class that cannot be done during the object creation.
    *
    * The LED hardware is initialized to the middle intensity value, all rows showing,
@@ -518,14 +518,27 @@ public:
   /**
    * Set the type of hardware module being used.
    *
-   * This method changes the type of module being used in the application 
+   * This method changes the type of module being used in the application
    * during at run time.
    *
    * \param mod module type used in this application; one of the moduleType_t values.
    * \return No return data
    */
   void setModuleType(moduleType_t mod) { setModuleParameters(mod); };
-  
+
+  /**
+   * Update the device map
+   *
+   * This method updates the device map used to map the physical position of
+   * devices to buffer index. For example if the devices are ordered 3 2 1 0
+   * using a map of [3, 2, 1, 0] would map the buffer indexes to the physical
+   * location of the devices.
+   *
+   * \param dmap an array of the physical locations
+   * \return No return data
+   */
+  void setDeviceMap(const uint8_t* dmap) { memcpy(_deviceMap, dmap, _maxDevices); };
+
   /**
    * Set the Shift Data In callback function.
    *
@@ -918,7 +931,7 @@ public:
    * the nominated font (default or user defined). To specify a user defined
    * character set, pass the PROGMEM address of the font table. Passing a nullptr
    * resets the font table to the library default table.
-   * 
+   *
    * NOTE: This function is only available if the library defined value
    * USE_LOCAL_FONT is set to 1.
    *
@@ -931,7 +944,7 @@ public:
   * Get the maximum width character for the font.
   *
   * Returns the number of columns for the widest character in the currently
-  * selected font table. Useful to allocated buffers of the right size before 
+  * selected font table. Useful to allocated buffers of the right size before
   * loading characters from the font table.
   *
   * NOTE: This function is only available if the library defined value
@@ -944,7 +957,7 @@ public:
   /**
   * Get height of a character for the font.
   *
-  * Returns the number of rows specified as the height of a character in the 
+  * Returns the number of rows specified as the height of a character in the
   * currently selected font table.
   *
   * NOTE: This function is only available if the library defined value
@@ -957,7 +970,7 @@ public:
   /**
    * Get the pointer to current font table.
    *
-   * Returns the pointer to the current font table. Useful if user code needs 
+   * Returns the pointer to the current font table. Useful if user code needs
    * to replace the current font temporarily and then restore previous font.
    *
    * NOTE: This function is only available if the library defined value
@@ -981,6 +994,7 @@ private:
   bool _hwDigRows;    // MAX72xx digits are mapped to rows in on the matrix
   bool _hwRevCols;    // Normal orientation is col 0 on the right. Set to true if reversed
   bool _hwRevRows;    // Normal orientation is row 0 at the top. Set to true if reversed
+  uint8_t* _deviceMap;  // A map of physical device position to buffer index
 
   uint8_t _dataPin;     // DATA is shifted out of this pin ...
   uint8_t _clkPin;      // ... signaled by a CLOCK on this pin ...
