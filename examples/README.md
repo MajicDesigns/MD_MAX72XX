@@ -102,6 +102,12 @@ Display style can be changed from line to bar chart, triggered by a switch.
 Tests the library shift and transform functions.
 <hr>
 
+**MD_MAX72xx_SimplePong**  
+Use the library to play Pong using just one 8x8 LED matrix.
+The bat is controlled by 2 switches for left and right movement.
+Optionally use a pot on analog input to set the speed.
+<hr>
+
 **MD_MAX72xx_SimpleSlots**  
 Implements a slot machine type display with scrolling symbols 
 and simple sound effects. Control is through a digital switch 

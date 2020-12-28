@@ -89,6 +89,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+xxx 2021 version 3.2.7
+- Added SimplePong example
+
 Dec 2020 version 3.2.6
 - Added SimpleSlots example
 - Added Examples README.md
