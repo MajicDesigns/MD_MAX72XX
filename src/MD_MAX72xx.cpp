@@ -38,10 +38,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
 _dataPin(dataPin), _clkPin(clkPin), _csPin(csPin),
-_hardwareSPI(false), _maxDevices(numDevices), _updateEnabled(true)
+_hardwareSPI(false), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
 #if defined(__MBED__) && !defined(ARDUINO)
-, _spi((PinName)dataPin, NC, (PinName)clkPin),
-_cs((PinName)csPin)
+, _spi((PinName)dataPin, NC, (PinName)clkPin), _cs((PinName)csPin)
 #endif
 {
   setModuleParameters(mod);
@@ -49,10 +48,19 @@ _cs((PinName)csPin)
 
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t csPin, uint8_t numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin),
-_hardwareSPI(true), _maxDevices(numDevices), _updateEnabled(true)
+_hardwareSPI(true), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
 #if defined(__MBED__) && !defined(ARDUINO)
-, _spi(SPI_MOSI, NC, SPI_SCK),
-_cs((PinName)csPin)
+, _spi(SPI_MOSI, NC, SPI_SCK), _cs((PinName)csPin)
+#endif
+{
+  setModuleParameters(mod);
+}
+
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, SPIClass& spi, uint8_t csPin, uint8_t numDevices):
+  _dataPin(0), _clkPin(0), _csPin(csPin),
+  _hardwareSPI(true), _spiRef(spi), _maxDevices(numDevices), _updateEnabled(true)
+#if defined(__MBED__) && !defined(ARDUINO)
+  , _spi(SPI_MOSI, NC, SPI_SCK), _cs((PinName)csPin)
 #endif
 {
   setModuleParameters(mod);
@@ -83,23 +91,19 @@ void MD_MAX72XX::setModuleParameters(moduleType_t mod)
 void MD_MAX72XX::begin(void)
 {
   // initialize the SPI interface
+#ifdef ARDUINO
   if (_hardwareSPI)
   {
-#ifdef ARDUINO
     PRINTS("\nHardware SPI");
-    SPI.begin();
-#endif
+    _spiRef.begin();
   }
   else
   {
-#ifdef ARDUINO
     PRINTS("\nBitBang SPI")
     pinMode(_dataPin, OUTPUT);
     pinMode(_clkPin, OUTPUT);
-#endif
   }
 
-#ifdef ARDUINO
   // initialize our preferred CS pin (could be same as SS)
   pinMode(_csPin, OUTPUT);
   digitalWrite(_csPin, HIGH);
@@ -138,7 +142,7 @@ void MD_MAX72XX::begin(void)
 MD_MAX72XX::~MD_MAX72XX(void)
 {
 #ifdef ARDUINO
-  if (_hardwareSPI) SPI.end();  // reset SPI mode
+  if (_hardwareSPI) _spiRef.end();  // reset SPI mode
 #endif
 
   free(_matrix);
@@ -303,25 +307,25 @@ void MD_MAX72XX::flushBuffer(uint8_t buf)
   _matrix[buf].changed = ALL_CLEAR;
 }
 
-void MD_MAX72XX::spiClearBuffer(void)
+inline void MD_MAX72XX::spiClearBuffer(void)
 // Clear out the spi data array
 {
   memset(_spiData, OP_NOOP, SPI_DATA_SIZE);
 }
 
-void MD_MAX72XX::spiSend()
+void MD_MAX72XX::spiSend(void)
 {
 #ifdef ARDUINO
   // initialize the SPI transaction
   if (_hardwareSPI)
-    SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
+    _spiRef.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
   digitalWrite(_csPin, LOW);
 
   // shift out the data
   if (_hardwareSPI)
   {
     for (uint16_t i = 0; i < SPI_DATA_SIZE; i++)
-      SPI.transfer(_spiData[i]);
+      _spiRef.transfer(_spiData[i]);
   }
   else  // not hardware SPI - bit bash it out
   {
@@ -332,7 +336,7 @@ void MD_MAX72XX::spiSend()
   // end the SPI transaction
   digitalWrite(_csPin, HIGH);
   if (_hardwareSPI)
-    SPI.endTransaction();
+    _spiRef.endTransaction();
 #else
   _cs = 0;
   _spi.write((const char*)_spiData, SPI_DATA_SIZE, nullptr, 0);

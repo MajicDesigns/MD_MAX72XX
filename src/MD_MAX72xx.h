@@ -38,6 +38,7 @@
 #else
 #include <Arduino.h>
 #endif
+#include <SPI.h>
 
 /**
 \mainpage Arduino LED Matrix Library
@@ -89,8 +90,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
-xxx 2021 version 3.2.7
+Jan 2021 version 3.3.0
 - Added SimplePong example
+- New form of constructor allows specifying alternative hardware SPI
 
 Dec 2020 version 3.2.6
 - Added SimpleSlots example
@@ -422,7 +424,7 @@ public:
   MD_MAX72XX(moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1);
 
   /**
-   * Class Constructor - SPI hardware interface.
+   * Class Constructor - default SPI hardware interface.
    *
    * Instantiate a new instance of the class. The parameters passed are used to
    * connect the software to the hardware. Multiple instances may co-exist
@@ -437,6 +439,26 @@ public:
    *                    on this parameter.
    */
   MD_MAX72XX(moduleType_t mod, uint8_t csPin, uint8_t numDevices=1);
+
+  /**
+   * Class Constructor - specify SPI hardware interface.
+   *
+   * Instantiate a new instance of the class with a specified SPI object. This
+   * allows a specific SPI interface to be specified for architectures with more 
+   * than one hardware SPI interface. 
+   * The parameters passed are used to connect the software to the hardware. 
+   * Multiple instances may co-exist but they should not share the same hardware 
+   * CS pin (SPI interface). The dataPin and the clockPin are defined by the Arduino 
+   * hardware definition for the specified SPI interface (SPI MOSI and SCK signals).
+   *
+   * \param mod     module type used in this application. One of the moduleType_t values.
+   * \param spi     Reference to the SPI object to use for comms to the device
+   * \param csPin   output for selecting the device.
+   * \param numDevices  number of devices connected. Default is 1 if not supplied.
+   *                    Memory for device buffers is dynamically allocated based
+   *                    on this parameter.
+   */
+  MD_MAX72XX(moduleType_t mod, SPIClass &spi, uint8_t csPin, uint8_t numDevices = 1);
 
   /**
    * Initialize the object.
@@ -989,6 +1011,7 @@ private:
   uint8_t _clkPin;      // ... signaled by a CLOCK on this pin ...
   uint8_t _csPin;       // ... and LOADed when the chip select pin is driven HIGH to LOW
   bool    _hardwareSPI; // true if SPI interface is the hardware interface
+  SPIClass& _spiRef;    // reference to the SPI object to use for hardware comms 
 
   // Device buffer data
   uint8_t _maxDevices;  // maximum number of devices in use
@@ -1008,6 +1031,7 @@ private:
   SPI   _spi;           // Mbed SPI object
   DigitalOut _cs;
 #endif
+
 #if USE_LOCAL_FONT
   // Font properties info structure
    typedef struct
@@ -1032,12 +1056,12 @@ private:
 
   // Private functions
   void spiSend(void);         // do the actual physical communications task
-  void spiClearBuffer(void);  // clear the SPI send buffer
+  inline void spiClearBuffer(void);  // clear the SPI send buffer
   void controlHardware(uint8_t dev, controlRequest_t mode, int value);  // set hardware control commands
   void controlLibrary(controlRequest_t mode, int value);  // set internal control commands
 
   void flushBuffer(uint8_t buf);  // determine what needs to be sent for one device and transmit
-  void flushBufferAll();          // determine what needs to be sent for all devices and transmit
+  void flushBufferAll(void);      // determine what needs to be sent for all devices and transmit
 
   uint8_t bitReverse(uint8_t b);  // reverse the order of bits in the byte
   bool transformBuffer(uint8_t buf, transformType_t ttype); // internal transform function

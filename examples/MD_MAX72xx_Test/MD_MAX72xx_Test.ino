@@ -2,7 +2,6 @@
 //
 // Uses most of the functions in the library
 #include <MD_MAX72xx.h>
-//#include <SPI.h>
 
 // Turn on debug statements to the serial output
 #define  DEBUG  1
@@ -31,6 +30,8 @@
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
+// Specific SPI hardware interface
+//MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, SPI1, CS_PIN, MAX_DEVICES);
 // Arbitrary pins
 //MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 

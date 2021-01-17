@@ -40,6 +40,7 @@ var class_m_d___m_a_x72_x_x =
     ] ],
     [ "MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#ae4f5a0cee2714280a7b8fd694d70c93c", null ],
     [ "MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#a22877f79afa52fa3242de425ea85255a", null ],
+    [ "MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#a6f643c2bf5030639b5d79ad6418c3881", null ],
     [ "~MD_MAX72XX", "class_m_d___m_a_x72_x_x.html#afffa5b85187905f713477435187b3759", null ],
     [ "begin", "class_m_d___m_a_x72_x_x.html#a4f5e98bd8aa93c0624f3cf1ceac292f9", null ],
     [ "clear", "class_m_d___m_a_x72_x_x.html#acff691690cb5848980f10be9facbe086", null ],
