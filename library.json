@@ -24,5 +24,6 @@
     ]
   },
   "frameworks": "arduino",
-  "platforms": "atmelavr"
+  "platforms": "atmelavr",
+  "headers": ["MD_MAX72xx.h", "SPI.h"]
 }
