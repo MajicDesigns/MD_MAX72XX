@@ -403,8 +403,8 @@ Version 2: Fonts allows for up to 65535 characters in the font table:
 - byte 6 - the height of the character in pixels
 - byte 7 - the number of bytes that form this character (could be zero)
 - byte 8..n - each byte is a column of the character to be formed, starting with the
-leftmost column of the character. The least significant bit of the byte is the bottom
-pixel position of the character matrix (row 7).
+leftmost column of the character. The most significant bit of the byte is the bottom
+pixel position of the character matrix (bit 7 is row 7).
 
 Version 1: Fonts are stored as a series of contiguous bytes in the following format:
 - byte 0 - the character 'F'
