@@ -34,10 +34,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #define MAX_DEBUG 0   ///< Enable or disable (default) debugging output from the MD_MAX72xx library
 
 #if MAX_DEBUG
-#define PRINT(s, v)   { Serial.print(F(s)); Serial.print(v); }      ///< Print a string followed by a value (decimal)
-#define PRINTX(s, v)  { Serial.print(F(s)); Serial.print(v, HEX); } ///< Print a string followed by a value (hex)
-#define PRINTB(s, v)  { Serial.print(F(s)); Serial.print(v, BIN); } ///< Print a string followed by a value (binary)
-#define PRINTS(s)     { Serial.print(F(s)); }                       ///< Print a string
+#define PRINT(s, v)   do { Serial.print(F(s)); Serial.print(v); } while (false)     ///< Print a string followed by a value (decimal)
+#define PRINTX(s, v)  do { Serial.print(F(s)); Serial.print(v, HEX); } while (false) ///< Print a string followed by a value (hex)
+#define PRINTB(s, v)  do { Serial.print(F(s)); Serial.print(v, BIN); } while (false) ///< Print a string followed by a value (binary)
+#define PRINTS(s)     do { Serial.print(F(s)); } while (false)                       ///< Print a string
 #else
 #define PRINT(s, v)   ///< Print a string followed by a value (decimal)
 #define PRINTX(s, v)  ///< Print a string followed by a value (hex)
@@ -113,7 +113,7 @@ These custom modules allow a 'lego-like' approach to LED matrix display, using s
 that only requires the definition of the number of modules to adapt existing software to
 a new configuration.
 
-![Completed Parola module] (Parola_Module.png "Parola LED Matrix Modules")
+\image{inline} html Parola_Module.png "Parola LED Matrix Modules"
 
 Circuit Schematic
 -----------------
@@ -122,15 +122,15 @@ adapted to the LED matrix. Each Module consists of an 8x8 LED matrix controlled 
 MAX7219 LED controller and a few passive components. These controllers can be daisy
 chained, making them ideal for the purpose.
 
-![Parola Circuit Schematic] (Circuit_Schematic.jpg "Parola Schematic")
+\image{inline} html Circuit_Schematic.jpg "Parola Schematic"
 
 The PCB design was executed using the auto routing facility in Eagle CAD, and the PCB was
 manufactured by SeeedStudio. The Eagle CAD files for the layout and the Gerber files
-suitable for SeeedStudio are found on the [Parola website] (https://github.com/MajicDesigns/MD_Parola).
+suitable for SeeedStudio are found on the [Parola website](https://github.com/MajicDesigns/MD_Parola).
 The final design includes edge connections that allow many modules to be connected
 together into an extended display, one LED module high.
 
-![PCB layout ready for manufacture] (PCB_Layout.jpg "PCB Design")
+\image{inline} html PCB_Layout.jpg "PCB Design"
 
 Wiring your own Parola standard matrix
 --------------------------------------
@@ -181,7 +181,8 @@ ____
 Module Interconnections
 -----------------------
 Parola modules are connected by plugging them together.
-![Connecting Parola modules] (Modules_conn.jpg "Parola Modules connected")
+
+\image{inline} html Modules_conn.jpg "Parola Modules connected"
 ____
 
 \page pageGeneric Generic Module
@@ -190,7 +191,7 @@ Generic MAX7219 Module
 These modules are commonly available from many suppliers (eg, eBay) at reasonable cost.
 They are characterized by IN and OUT connectors at the short ends of the rectangular PCB.
 
-![Generic Module] (Generic_Module.png "Generic Module")
+\image{inline} html Generic_Module.png "Generic Module"
 ____
 
 Module Orientation
@@ -226,7 +227,8 @@ Module Interconnections
 -----------------------
 Generic modules need to be oriented with the MAX7219 IC at the top and connected using
 short patch cables in a spiral pattern. The display is oriented with the IC at the top.
-![Connecting Generic modules] (Generic_conn.jpg "Generic Modules connected")
+
+\image{inline} html Generic_conn.jpg "Generic Modules connected"
 ____
 
 \page pageICStation ICStation Module
@@ -234,7 +236,7 @@ ICStation DIY Kit Module
 ------------------------
 These modules are available as kits from ICStation (http://www.icstation.com/product_info.php?products_id=2609#.UxqVJyxWGHs).
 
-![ICStation Module] (ICStation_Module.jpg "ICStation Module")
+\image{inline} html ICStation_Module.jpg "ICStation Module"
 ____
 
 Module Orientation
@@ -258,7 +260,7 @@ Module Interconnections
 ICStation Modules are connected using the links supplied with the hardware. The display is
 oriented with the DIN side on the right.
 
-![Connecting ICStation modules] (ICStation_conn.jpg "ICStation Modules connected")
+\image{inline} html ICStation_conn.jpg "ICStation Modules connected"
 
 ____
 \page pageFC16 FC-16 Module
@@ -269,7 +271,7 @@ These modules are available as kits from some internet suppliers such as G&C Sup
 silk screened on the PCB. Most of the available sets of 4 modules connected as one unit are 
 FC-16 type.
 
-![FC-16 Module] (FC-16_Module.jpg "FC-16 Module")
+\image{inline} html FC-16_Module.jpg "FC-16 Module"
 ____
 
 Module Orientation
@@ -293,7 +295,7 @@ Module Interconnections
 FC-16 Modules are connected using the links supplied with the hardware. The display is
 oriented with the DIN side on the right. PCB text may appear upside down.
 
-![Connecting FC-16 modules] (FC-16_conn.jpg "FC-16 Modules connected")
+\image{inline} html FC-16_conn.jpg "FC-16 Modules connected"
 
 ____
 \page pageNewHardware New Hardware Types
@@ -365,7 +367,7 @@ From this mapping it is clear
 
 Note that in some situations using the module 'upside down' will result in a better configuration
 than would otherwise be the case. An example of this is the generic module mapping. Also remember
-that the modules are daisy chained from right to left.
+that the modules are daisy chained FROM RIGHT TO LEFT.
 
 Having determined the values for the module type, this can be used in the application. If the type 
 does not correspond to a standard type, then it is possible to set an alternative although these 

@@ -55,7 +55,7 @@ var class_m_d___m_a_x72_x_x =
     [ "getColumn", "class_m_d___m_a_x72_x_x.html#aa211a3ed433222911e1d01800357527a", null ],
     [ "getColumnCount", "class_m_d___m_a_x72_x_x.html#a2fb151890cf022197b58a546f75e9e20", null ],
     [ "getDeviceCount", "class_m_d___m_a_x72_x_x.html#a5508f498566c3b3e80422e6ff9501ec3", null ],
-    [ "getFont", "class_m_d___m_a_x72_x_x.html#a4b59272f96f8cae6a41ad7dd0cd5aae2", null ],
+    [ "getFont", "class_m_d___m_a_x72_x_x.html#a61b9e9a65aaa0a42d73267888bf2acf9", null ],
     [ "getFontHeight", "class_m_d___m_a_x72_x_x.html#a899895fcca3bd4dc424eb78397553077", null ],
     [ "getMaxFontWidth", "class_m_d___m_a_x72_x_x.html#a88b4a38d90588e39ffc70986a501ed2e", null ],
     [ "getPoint", "class_m_d___m_a_x72_x_x.html#aa1533adc9aa15e29a143e69d9db12881", null ],

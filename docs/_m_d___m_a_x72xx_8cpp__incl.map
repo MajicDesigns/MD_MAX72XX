@@ -1,7 +1,7 @@
 <map id="src/MD_MAX72xx.cpp" name="src/MD_MAX72xx.cpp">
-<area shape="rect" id="node1" title="Implements class definition and general methods." alt="" coords="72,5,222,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="30,229,108,256"/>
-<area shape="rect" id="node5" title=" " alt="" coords="155,229,209,256"/>
+<area shape="rect" id="node1" title="Implements class definition and general methods." alt="" coords="72,6,222,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="30,230,108,255"/>
+<area shape="rect" id="node5" title=" " alt="" coords="155,230,209,255"/>
 <area shape="rect" id="node7" href="$_m_d___m_a_x72xx_8h.html" title="Main header file for the MD_MAX72xx library." alt="" coords="69,155,184,181"/>
-<area shape="rect" id="node11" href="$_m_d___m_a_x72xx__lib_8h.html" title="Includes library definitions." alt="" coords="28,80,162,107"/>
+<area shape="rect" id="node11" href="$_m_d___m_a_x72xx__lib_8h.html" title="Includes library definitions." alt="" coords="28,81,162,106"/>
 </map>

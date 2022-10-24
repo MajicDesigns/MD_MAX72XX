@@ -90,6 +90,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Oct 2022 version 3.3.1
+- Added RPS_Game example
+
 Jan 2021 version 3.3.0
 - Added SimplePong example
 - New form of constructor allows specifying alternative hardware SPI
@@ -331,6 +334,7 @@ public:
   * modules being used in the application. The types of modules are
   * discussed in detail in the Hardware section of this documentation.
   * For structured name types see \ref pageNewHardware.
+  * Short Form: DR - Digits as rows; CR - Columns Reversed; RR - Rows Reversed
   */
   enum moduleType_t
   {
@@ -341,12 +345,12 @@ public:
 
     DR0CR0RR0_HW, ///< Structured name
     DR0CR0RR1_HW, ///< Structured name
-    DR0CR1RR0_HW, ///< Structured name equivalent to GENERIC_HW
+    DR0CR1RR0_HW, ///< Structured name; equivalent to GENERIC_HW
     DR0CR1RR1_HW, ///< Structured name
-    DR1CR0RR0_HW, ///< Structured name equivalent to FC16_HW
+    DR1CR0RR0_HW, ///< Structured name; equivalent to FC16_HW
     DR1CR0RR1_HW, ///< Structured name
-    DR1CR1RR0_HW, ///< Structured name equivalent to PAROLA_HW
-    DR1CR1RR1_HW  ///< Structured name equivalent to ICSTATION_HW
+    DR1CR1RR0_HW, ///< Structured name; equivalent to PAROLA_HW
+    DR1CR1RR1_HW  ///< Structured name; equivalent to ICSTATION_HW
   };
 
 #if USE_LOCAL_FONT
@@ -452,7 +456,7 @@ public:
    * hardware definition for the specified SPI interface (SPI MOSI and SCK signals).
    *
    * \param mod     module type used in this application. One of the moduleType_t values.
-   * \param spi     Reference to the SPI object to use for comms to the device
+   * \param spi     reference to the SPI object to use for comms to the device
    * \param csPin   output for selecting the device.
    * \param numDevices  number of devices connected. Default is 1 if not supplied.
    *                    Memory for device buffers is dynamically allocated based
@@ -508,7 +512,6 @@ public:
    *
    * \param mode    one of the defined control requests.
    * \param value   parameter value or one of the control status defined.
-   * \return No return value.
    */
   inline void control(controlRequest_t mode, int value) { control(0, getDeviceCount()-1, mode, value); };
 
@@ -547,7 +550,6 @@ public:
    * during at run time.
    *
    * \param mod module type used in this application; one of the moduleType_t values.
-   * \return No return data
    */
   void setModuleType(moduleType_t mod) { setModuleParameters(mod); };
   
@@ -568,7 +570,6 @@ public:
    * The return value is the data for the column to be shifted into the display.
    *
    * \param cb  the address of the user function to be called from the library.
-   * \return No return data
    */
   void setShiftDataInCallback(uint8_t (*cb)(uint8_t dev, transformType_t t)) { _cbShiftDataIn = cb; };
 
@@ -589,7 +590,6 @@ public:
    * - the data for the column being shifted out
    *
    * \param cb  the address of the user function to be called from the library.
-   * \return No return data
    */
   void setShiftDataOutCallback(void (*cb)(uint8_t dev, transformType_t t, uint8_t colData)) { _cbShiftDataOut = cb; };
 
@@ -601,8 +601,6 @@ public:
    */
   /**
    * Clear all the display data on all the display devices.
-   *
-   * \return No return value.
    */
   inline void clear(void) { clear(0, getDeviceCount()-1); };
 
@@ -613,7 +611,6 @@ public:
    *
    * \param startDev  the first device to clear [0..getDeviceCount()-1]
    * \param endDev    the last device to clear [0..getDeviceCount()-1]
-   * \return No return value.
    */
   void clear(uint8_t startDev, uint8_t endDev);
 
@@ -775,7 +772,6 @@ public:
    * This function is a convenience wrapper for the more general control() function call.
    *
    * \param mode  one of the types in controlValue_t (ON/OFF).
-   * \return No return value.
    */
   void update(controlValue_t mode) { control(UPDATE, mode); };
 
@@ -785,8 +781,6 @@ public:
    * Used when auto updates have been turned off through the control
    * method. This will force all buffered changes to be written to
    * all the connected devices.
-   *
-   * \return no return value.
    */
   void update(void) { flushBufferAll(); };
 
@@ -800,7 +794,6 @@ public:
    * This function is a convenience wrapper for the more general control() function call.
    *
    * \param mode  one of the types in controlValue_t (ON/OFF).
-   * \return No return value.
    */
   void wraparound(controlValue_t mode) { control(WRAPAROUND, mode); };
   /** @} */
@@ -893,7 +886,6 @@ public:
    * Note that control() messages are not buffered but cause immediate action.
    *
    * \param buf address of the display [0..getBufferCount()-1].
-   * \return No return value.
    */
   void update(uint8_t buf) { flushBuffer(buf); };
   /** @} */

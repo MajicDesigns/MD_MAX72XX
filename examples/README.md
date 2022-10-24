@@ -93,6 +93,11 @@ Uses a sequence of bitmaps defined as a font to display animations
 of eyes trying to convey emotion. Eyes are coordinated to work together.
 <hr>
 
+**MD_MAX72xx_RPS_Game**  
+Simple implementation of the Rock/Paper/Scissors game using switches 
+and LED modules. Play against another player or against the Arduino.
+<hr>
+
 **MD_MAX72xx_ScrollChart**  
 Implements a scroll chart across the display using random numbers. 
 Display style can be changed from line to bar chart, triggered by a switch.

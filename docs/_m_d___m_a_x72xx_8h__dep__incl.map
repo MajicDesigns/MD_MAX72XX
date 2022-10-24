@@ -1,8 +1,8 @@
 <map id="src/MD_MAX72xx.h" name="src/MD_MAX72xx.h">
-<area shape="rect" id="node1" title="Main header file for the MD_MAX72xx library." alt="" coords="298,5,435,32"/>
+<area shape="rect" id="node1" title="Main header file for the MD_MAX72xx library." alt="" coords="298,6,435,31"/>
 <area shape="rect" id="node3" href="$_m_d___m_a_x72xx_8cpp.html" title="Implements class definition and general methods." alt="" coords="5,155,155,181"/>
 <area shape="rect" id="node5" href="$_m_d___m_a_x72xx__buf_8cpp.html" title="Implements buffer related methods." alt="" coords="179,155,353,181"/>
 <area shape="rect" id="node7" href="$_m_d___m_a_x72xx__font_8cpp.html" title="Implements font definition and methods." alt="" coords="379,155,557,181"/>
-<area shape="rect" id="node9" href="$_m_d___m_a_x72xx__lib_8h.html" title="Includes library definitions." alt="" coords="288,80,445,107"/>
+<area shape="rect" id="node9" href="$_m_d___m_a_x72xx__lib_8h.html" title="Includes library definitions." alt="" coords="288,81,445,106"/>
 <area shape="rect" id="node14" href="$_m_d___m_a_x72xx__pix_8cpp.html" title="Implements pixel related methods." alt="" coords="582,155,756,181"/>
 </map>
