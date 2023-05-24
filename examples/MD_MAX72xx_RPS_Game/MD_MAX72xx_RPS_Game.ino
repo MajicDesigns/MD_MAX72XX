@@ -180,7 +180,7 @@ void updateDisplay(void)
 }
 
 void checkWinnerSimple(uint8_t p1, uint8_t p2)
-// Check for a winnner between 2 players p1 and p2 and set their
+// Check for a winner between 2 players p1 and p2 and set their
 // status as appropriate.
 {
   PRINT("\nCheck Simple P", p1);
@@ -226,7 +226,7 @@ void checkWinnerMulti(void)
     if (P[i].state != S_OUT)
       count[P[i].curSel]++;
 
-  // Scan all the players in the game and coloect info for 
+  // Scan all the players in the game and collect info for 
   // decision making.
   uint8_t hasCount = 0;      // how many categories have a count
   uint8_t tChoice = SW_NULL; // temp choice holder
@@ -251,11 +251,11 @@ void checkWinnerMulti(void)
     // Now we know we have a result, and which count is a zero
     // so we can work out which one loses and which wins and set the 
     // player state accordingly.
-    if (tChoice == SW_RCK)       // PPR and SCR are play
+    if (tChoice == SW_RCK)       // PPR and SCR are in play
       tChoice = SW_PPR;
-    else if (tChoice == SW_PPR)  // RCK and SCR are play
+    else if (tChoice == SW_PPR)  // RCK and SCR are in play
       tChoice = SW_SCR;
-    else                            // RCK and PPR are in play
+    else                         // RCK and PPR are in play
       tChoice = SW_RCK;
           
     PRINT("LOSE result: loseChoice = ", choice2name(tChoice));

@@ -88,8 +88,10 @@ void MD_MAX72XX::setModuleParameters(moduleType_t mod)
   }
 }
 
-void MD_MAX72XX::begin(void)
+bool MD_MAX72XX::begin(void)
 {
+  bool b = true;
+
   // initialize the SPI interface
 #ifdef ARDUINO
   if (_hardwareSPI)
@@ -114,29 +116,35 @@ void MD_MAX72XX::begin(void)
   // object memory and internals
   setShiftDataInCallback(nullptr);
   setShiftDataOutCallback(nullptr);
-
-  _matrix = (deviceInfo_t *)malloc(sizeof(deviceInfo_t) * _maxDevices);
-  _spiData = (uint8_t *)malloc(SPI_DATA_SIZE);
-
 #if USE_LOCAL_FONT
   setFont(_sysfont);
 #endif // INCLUDE_LOCAL_FONT
 
-  // Initialize the display devices. On initial power-up
-  // - all control registers are reset,
-  // - scan limit is set to one digit (row/col or LED),
-  // - Decoding mode is off,
-  // - intensity is set to the minimum,
-  // - the display is blanked, and
-  // - the MAX7219/MAX7221 is shut down.
-  // The devices need to be set to our library defaults prior using the
-  // display modules.
-  control(TEST, OFF);                   // no test
-  control(SCANLIMIT, ROW_SIZE-1);       // scan limit is set to max on startup
-  control(INTENSITY, MAX_INTENSITY/2);  // set intensity to a reasonable value
-  control(DECODE, OFF);                 // ensure no decoding (warm boot potential issue)
-  clear();
-  control(SHUTDOWN, OFF);               // take the modules out of shutdown mode
+
+  _matrix = (deviceInfo_t *)malloc(sizeof(deviceInfo_t) * _maxDevices);
+  _spiData = (uint8_t *)malloc(SPI_DATA_SIZE);
+  b = (_spiData != nullptr) && (_matrix != nullptr);
+
+  if (b)
+  {
+    // Initialize the display devices. On initial power-up
+    // - all control registers are reset,
+    // - scan limit is set to one digit (row/col or LED),
+    // - Decoding mode is off,
+    // - intensity is set to the minimum,
+    // - the display is blanked, and
+    // - the MAX7219/MAX7221 is shut down.
+    // The devices need to be set to our library defaults prior using the
+    // display modules.
+    control(TEST, OFF);                   // no test
+    control(SCANLIMIT, ROW_SIZE - 1);       // scan limit is set to max on startup
+    control(INTENSITY, MAX_INTENSITY / 2);  // set intensity to a reasonable value
+    control(DECODE, OFF);                 // ensure no decoding (warm boot potential issue)
+    clear();
+    control(SHUTDOWN, OFF);               // take the modules out of shutdown mode
+  }
+
+  return(b);
 }
 
 MD_MAX72XX::~MD_MAX72XX(void)

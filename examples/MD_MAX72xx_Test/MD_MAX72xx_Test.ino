@@ -583,13 +583,13 @@ void showCharset(void)
 
 void setup()
 {
-  mx.begin();
-
 #if  DEBUG
   Serial.begin(57600);
 #endif
   PRINTS("\n[MD_MAX72XX Test & Demo]");
-//  scrollText("MD_MAX72xx Test  ");
+
+  if (!mx.begin())
+    PRINTS("\nMD_MAX72XX initialization failed");
 }
 
 void loop()

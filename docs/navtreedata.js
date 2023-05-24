@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "MD_MAX72xx LED Matrix Arduino Library", "index.html", [
-    [ "Arduino LED Matrix Library", "index.html", null ],
+    [ "Arduino LED Matrix Library", "index.html", "index" ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
