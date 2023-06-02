@@ -5,6 +5,15 @@
  * \brief Main header file for the MD_MAX72xx library
  */
 
+// Define the selection criteria for MBED SPI handling activation
+#define MBED_SPI_ACTIVE (defined(__MBED__) && !defined(ARDUINO))
+
+#if MBED_SPI_ACTIVE
+#warning "MBED SPI interface activated."
+#else
+#warning "ARDUINO SPI interface activated."
+#endif
+
 #if defined(__MBED__) && !defined(ARDUINO)
 #include "mbed.h"
 #define delay   ThisThread::sleep_for
@@ -90,6 +99,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Jun 2023 version 3.4.1
+- Changed __MBED__ #define handling from v3.2.5 (MBED_SPI_ACTIVE). This may break MBED implementations as unable to test.
+
 May 2023 version 3.4.0
 - begin() now returns bool value.
 
@@ -1024,7 +1036,7 @@ private:
   bool    _wrapAround;    // when shifting, wrap left to right and vice versa (circular buffer)
 
   // SPI interface data
-#if defined(__MBED__) && !defined(ARDUINO)
+#if MBED_SPI_ACTIVE
   SPI   _spi;           // Mbed SPI object
   DigitalOut _cs;
 #endif

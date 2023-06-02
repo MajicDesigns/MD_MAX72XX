@@ -374,16 +374,16 @@ does not correspond to a standard type, then it is possible to set an alternativ
 are not guaranteed to work unless they have been tested. Alternative hardware names follow a template
 structure given in the table below
 
-Digits as rows|Col Rev|Row Rev|HW module                    |
-:------------:|:-----:|:-----:|:----------------------------|
-   NO         | NO    | NO    | DR0CR0RR0_HW                |
-   NO         | NO    | YES   | DR0CR0RR1_HW                |
-   NO         | YES   | NO    | DR0CR1RR0_HW (GENERIC_HW)   |
-   NO         | YES   | YES   | DR0CR1RR1_HW                |
-   YES        | NO    | NO    | DR1CR0RR0_HW (FC16_HW)      |
-   YES        | NO    | YES   | DR1CR0RR1_HW                |
-   YES        | YES   | NO    | DR1CR1RR0_HW (PAROLA_HW)    |
-   YES        | YES   | YES   | DR1CR1RR1_HW (ICSTATION_HW) |
+Digits as rows (DR)|Col Rev (CR)|Row Rev (RR)|HW module                    |
+:-----------------:|:----------:|:----------:|:----------------------------|
+   NO              | NO         | NO         | DR0CR0RR0_HW                |
+   NO              | NO         | YES        | DR0CR0RR1_HW                |
+   NO              | YES        | NO         | DR0CR1RR0_HW (GENERIC_HW)   |
+   NO              | YES        | YES        | DR0CR1RR1_HW                |
+   YES             | NO         | NO         | DR1CR0RR0_HW (FC16_HW)      |
+   YES             | NO         | YES        | DR1CR0RR1_HW                |
+   YES             | YES        | NO         | DR1CR1RR0_HW (PAROLA_HW)    |
+   YES             | YES        | YES        | DR1CR1RR1_HW (ICSTATION_HW) |
 
 ___
 
@@ -427,11 +427,7 @@ To find a character in the font table, the library looks at the first byte (size
 skips 'size'+1 bytes to the next character size byte and repeat until the last or
 target character is reached.
 
-The compile-time switch USE_INDEX_FONT enables indexing of the font table for faster access, at
-the expense of increased RAM usage. If indexing is enabled, a single lookup is required to
-access the character data, rather than the sequential search described above.
-
-The support for fonts (methods and data) may be completely disabled  if not required through
+The support for fonts (methods and data) may be completely disabled if not required through
 the compile-time switch USE_LOCAL_FONT. This will also disable user defined fonts.
 
 ____

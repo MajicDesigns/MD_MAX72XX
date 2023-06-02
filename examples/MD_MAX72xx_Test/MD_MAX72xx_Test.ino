@@ -53,8 +53,7 @@ void scrollText(const char *p)
     for (uint8_t i=0; i<=charWidth; i++)	// allow space between characters
     {
       mx.transform(MD_MAX72XX::TSL);
-      if (i < charWidth)
-        mx.setColumn(0, cBuf[i]);
+      mx.setColumn(0, (i < charWidth) ? cBuf[i] : 0); 
       delay(DELAYTIME);
     }
   }

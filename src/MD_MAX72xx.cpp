@@ -5,7 +5,7 @@ See header file for comments
 
 This file contains class and hardware related methods.
 
-Copyright (C) 2012-14 Marco Colli. All rights reserved.
+Copyright (C) 2012-23 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -21,15 +21,13 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#if defined(__MBED__) && !defined(ARDUINO)
-#include "mbed.h"
-#else
-#include <Arduino.h>
-#include <SPI.h>
-#endif
 
 #include "MD_MAX72xx.h"
 #include "MD_MAX72xx_lib.h"
+
+#if MBED_SPI_ACTIVE
+#include "mbed.h"
+#endif
 
 /**
  * \file
@@ -39,7 +37,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
 _dataPin(dataPin), _clkPin(clkPin), _csPin(csPin),
 _hardwareSPI(false), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
-#if defined(__MBED__) && !defined(ARDUINO)
+#if MBED_SPI_ACTIVE
 , _spi((PinName)dataPin, NC, (PinName)clkPin), _cs((PinName)csPin)
 #endif
 {
@@ -49,7 +47,7 @@ _hardwareSPI(false), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t csPin, uint8_t numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin),
 _hardwareSPI(true), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
-#if defined(__MBED__) && !defined(ARDUINO)
+#if MBED_SPI_ACTIVE
 , _spi(SPI_MOSI, NC, SPI_SCK), _cs((PinName)csPin)
 #endif
 {
@@ -59,7 +57,7 @@ _hardwareSPI(true), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
 MD_MAX72XX::MD_MAX72XX(moduleType_t mod, SPIClass& spi, uint8_t csPin, uint8_t numDevices):
   _dataPin(0), _clkPin(0), _csPin(csPin),
   _hardwareSPI(true), _spiRef(spi), _maxDevices(numDevices), _updateEnabled(true)
-#if defined(__MBED__) && !defined(ARDUINO)
+#if MBED_SPI_ACTIVE
   , _spi(SPI_MOSI, NC, SPI_SCK), _cs((PinName)csPin)
 #endif
 {
@@ -69,20 +67,28 @@ MD_MAX72XX::MD_MAX72XX(moduleType_t mod, SPIClass& spi, uint8_t csPin, uint8_t n
 void MD_MAX72XX::setModuleParameters(moduleType_t mod)
 // Combinations not listed as tested have *probably* not 
 // been tested and may not operate correctly.
+// Short Form : DR - Digits as rows; CR - Columns Reversed; RR - Rows Reversed
 {
   _mod = mod;
   switch (_mod)
   {
     case DR0CR0RR0_HW: _hwDigRows = false; _hwRevCols = false;  _hwRevRows = false; break;
+
     case DR0CR0RR1_HW: _hwDigRows = false; _hwRevCols = false;  _hwRevRows = true;  break;
+
     case DR0CR1RR0_HW: // same as GENERIC_HW, tested MC 9 March 2014
-    case GENERIC_HW:   _hwDigRows = false; _hwRevCols = true;  _hwRevRows = false;  break; 
+    case GENERIC_HW:   _hwDigRows = false; _hwRevCols = true;  _hwRevRows = false;  break;
+
     case DR0CR1RR1_HW: _hwDigRows = false; _hwRevCols = true;  _hwRevRows = true;   break;
+
     case DR1CR0RR0_HW: // same as FC16_HW, tested MC 23 Feb 2015
     case FC16_HW:      _hwDigRows = true;  _hwRevCols = false;  _hwRevRows = false; break;
+
     case DR1CR0RR1_HW: _hwDigRows = true;  _hwRevCols = false;  _hwRevRows = true;  break;
+
     case DR1CR1RR0_HW: // same as PAROLA_HW, tested MC 8 March 2014
     case PAROLA_HW:    _hwDigRows = true;  _hwRevCols = true;  _hwRevRows = false;  break;
+
     case DR1CR1RR1_HW: // same as ICSTATION_HW, tested MC 9 March 2014
     case ICSTATION_HW: _hwDigRows = true;  _hwRevCols = true;  _hwRevRows = true;   break;
   }
@@ -93,7 +99,9 @@ bool MD_MAX72XX::begin(void)
   bool b = true;
 
   // initialize the SPI interface
-#ifdef ARDUINO
+#if MBED_SPI_ACTIVE
+  _cs = 1;
+#else
   if (_hardwareSPI)
   {
     PRINTS("\nHardware SPI");
@@ -109,8 +117,6 @@ bool MD_MAX72XX::begin(void)
   // initialize our preferred CS pin (could be same as SS)
   pinMode(_csPin, OUTPUT);
   digitalWrite(_csPin, HIGH);
-#else
-  _cs = 1;
 #endif
 
   // object memory and internals
@@ -137,8 +143,8 @@ bool MD_MAX72XX::begin(void)
     // The devices need to be set to our library defaults prior using the
     // display modules.
     control(TEST, OFF);                   // no test
-    control(SCANLIMIT, ROW_SIZE - 1);       // scan limit is set to max on startup
-    control(INTENSITY, MAX_INTENSITY / 2);  // set intensity to a reasonable value
+    control(SCANLIMIT, ROW_SIZE - 1);     // scan limit is set to max on startup
+    control(INTENSITY, MAX_INTENSITY / 2);// set intensity to a reasonable value
     control(DECODE, OFF);                 // ensure no decoding (warm boot potential issue)
     clear();
     control(SHUTDOWN, OFF);               // take the modules out of shutdown mode
@@ -149,7 +155,7 @@ bool MD_MAX72XX::begin(void)
 
 MD_MAX72XX::~MD_MAX72XX(void)
 {
-#ifdef ARDUINO
+#if !MBED_SPI_ACTIVE
   if (_hardwareSPI) _spiRef.end();  // reset SPI mode
 #endif
 
@@ -323,8 +329,13 @@ inline void MD_MAX72XX::spiClearBuffer(void)
 
 void MD_MAX72XX::spiSend(void)
 {
-#ifdef ARDUINO
-  // initialize the SPI transaction
+#if MBED_SPI_ACTIVE
+  // mbed definitions active
+  _cs = 0;
+  _spi.write((const char*)_spiData, SPI_DATA_SIZE, nullptr, 0);
+  _cs = 1;
+#else
+  // initialize the standard SPI transaction
   if (_hardwareSPI)
     _spiRef.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
   digitalWrite(_csPin, LOW);
@@ -345,9 +356,5 @@ void MD_MAX72XX::spiSend(void)
   digitalWrite(_csPin, HIGH);
   if (_hardwareSPI)
     _spiRef.endTransaction();
-#else
-  _cs = 0;
-  _spi.write((const char*)_spiData, SPI_DATA_SIZE, nullptr, 0);
-  _cs = 1;
 #endif
 }
