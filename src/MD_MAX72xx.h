@@ -99,6 +99,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Aug 2023 version 3.4.2
+- Fixed issue with getColumn() 8 bit parameter
+
 Jun 2023 version 3.4.1
 - Changed __MBED__ #define handling from v3.2.5 (MBED_SPI_ACTIVE). This may break MBED implementations as unable to test.
 
@@ -658,7 +661,7 @@ public:
    * \param c   column to be read [0..getColumnCount()-1].
    * \return uint8_t value with each bit set to 1 if the corresponding LED is lit. 0 is returned for parameter error.
    */
-  uint8_t getColumn(uint8_t c) { return getColumn((c / COL_SIZE), c % COL_SIZE); };
+  uint8_t getColumn(uint16_t c) { return getColumn((c / COL_SIZE), c % COL_SIZE); };
 
   /**
    * Get the status of a single LED, addressed as a pixel.
