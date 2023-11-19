@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['fc_2d16_20module_0',['FC-16 Module',['../page_f_c16.html',1,'pageHardware']]],
-  ['fc16_5fhw_1',['FC16_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6aa31c3dd0315ecc5527dd36689069395a',1,'MD_MAX72XX']]],
-  ['first_5fbuffer_2',['FIRST_BUFFER',['../_m_d___m_a_x72xx__lib_8h.html#a78f75922ae156c32cbbfb5317c19c1bd',1,'MD_MAX72xx_lib.h']]],
-  ['font_5ffile_5findicator_3',['FONT_FILE_INDICATOR',['../_m_d___m_a_x72xx__lib_8h.html#a4915dc914dd14143c87bd6a9dfdf9190',1,'MD_MAX72xx_lib.h']]],
-  ['fonttype_5ft_4',['fontType_t',['../class_m_d___m_a_x72_x_x.html#a5b2e511f00bddbcc1fffa78757d71bf5',1,'MD_MAX72XX']]]
+  ['decode_0',['DECODE',['../class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa7293fb34e1b8e326a15e62d58e8bdc47',1,'MD_MAX72XX']]],
+  ['dr0cr0rr0_5fhw_1',['DR0CR0RR0_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6a835ba225e1886c3d4c0524d57b9a8617',1,'MD_MAX72XX']]],
+  ['dr0cr0rr1_5fhw_2',['DR0CR0RR1_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6adfffcf49bbb3a083c5438c4d4ea1761f',1,'MD_MAX72XX']]],
+  ['dr0cr1rr0_5fhw_3',['DR0CR1RR0_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6a99968e35cbf6002a77173e3099350de1',1,'MD_MAX72XX']]],
+  ['dr0cr1rr1_5fhw_4',['DR0CR1RR1_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6a66f8112dc245ac5cbf7dee5d27ce347b',1,'MD_MAX72XX']]],
+  ['dr1cr0rr0_5fhw_5',['DR1CR0RR0_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6a6cbe7b143ac9c874817742de3533f6d0',1,'MD_MAX72XX']]],
+  ['dr1cr0rr1_5fhw_6',['DR1CR0RR1_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6a9196241d778553f9133b94e2c1e12185',1,'MD_MAX72XX']]],
+  ['dr1cr1rr0_5fhw_7',['DR1CR1RR0_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6af02006646552645b9f9f70d3de88f01e',1,'MD_MAX72XX']]],
+  ['dr1cr1rr1_5fhw_8',['DR1CR1RR1_HW',['../class_m_d___m_a_x72_x_x.html#a88ea7aada207c02282d091b7be7084e6a391585dea3220f6f95b14ceac4daedcb',1,'MD_MAX72XX']]]
 ];

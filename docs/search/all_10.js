@@ -1,14 +1,19 @@
 var searchData=
 [
-  ['test_0',['TEST',['../class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fab55dacc59026df463c57bb8d269af10c',1,'MD_MAX72XX']]],
-  ['tflr_1',['TFLR',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28a30ab2a71665a29d7acd6fff66335cccb',1,'MD_MAX72XX']]],
-  ['tfud_2',['TFUD',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28adfbb503bdd57b1665c0dd88636028ba6',1,'MD_MAX72XX']]],
-  ['tinv_3',['TINV',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28a682ed1532dcf4562590ab268f3a276cd',1,'MD_MAX72XX']]],
-  ['transform_4',['transform',['../class_m_d___m_a_x72_x_x.html#aa81af9a9e4309d9971bec7da3eef5890',1,'MD_MAX72XX::transform(transformType_t ttype)'],['../class_m_d___m_a_x72_x_x.html#a8ffcd0e496053262109b20fc020c1d12',1,'MD_MAX72XX::transform(uint8_t startDev, uint8_t endDev, transformType_t ttype)'],['../class_m_d___m_a_x72_x_x.html#a67f8567afe489f497f75448a3137a1ef',1,'MD_MAX72XX::transform(uint8_t buf, transformType_t ttype)']]],
-  ['transformtype_5ft_5',['transformType_t',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28',1,'MD_MAX72XX']]],
-  ['trc_6',['TRC',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28a69b903b66cb8e47455fedf8afb10e946',1,'MD_MAX72XX']]],
-  ['tsd_7',['TSD',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28a7fe0fa883caa12c30399423ef05fa758',1,'MD_MAX72XX']]],
-  ['tsl_8',['TSL',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28ad0e19a3463440fa31e182d03ef304d39',1,'MD_MAX72XX']]],
-  ['tsr_9',['TSR',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28afe33d76fd265c530e38a10f3f8c0b02d',1,'MD_MAX72XX']]],
-  ['tsu_10',['TSU',['../class_m_d___m_a_x72_x_x.html#ac259d8ecd376228c061c373b564a2e28a93aa24c2a3b56d91d032b10e7226782f',1,'MD_MAX72XX']]]
+  ['scanlimit_0',['SCANLIMIT',['../class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fa5bd97d72ff4cc7d30ee1d24213cee6a7',1,'MD_MAX72XX']]],
+  ['setbuffer_1',['setBuffer',['../class_m_d___m_a_x72_x_x.html#a1aaabf8c4df556c3e9a04a1319234261',1,'MD_MAX72XX']]],
+  ['setchar_2',['setChar',['../class_m_d___m_a_x72_x_x.html#ae0bb8f197ef89389374f83717f0a1c3d',1,'MD_MAX72XX']]],
+  ['setcolumn_3',['setcolumn',['../class_m_d___m_a_x72_x_x.html#ab3f2885a67e435198b5b01505030165d',1,'MD_MAX72XX::setColumn(uint16_t c, uint8_t value)'],['../class_m_d___m_a_x72_x_x.html#a7788a0bdbef1a302a7652998b21703bd',1,'MD_MAX72XX::setColumn(uint8_t buf, uint8_t c, uint8_t value)']]],
+  ['setfont_4',['setFont',['../class_m_d___m_a_x72_x_x.html#a16655f29d088d8ce1d557abcb703513d',1,'MD_MAX72XX']]],
+  ['setmoduletype_5',['setModuleType',['../class_m_d___m_a_x72_x_x.html#ab68333e23c99212d9574b39ed7e67a96',1,'MD_MAX72XX']]],
+  ['setpoint_6',['setPoint',['../class_m_d___m_a_x72_x_x.html#a1078a6ad9ae77ff7ef75f78d86f04da7',1,'MD_MAX72XX']]],
+  ['setrow_7',['setrow',['../class_m_d___m_a_x72_x_x.html#a9c3c6ea52bfe61fc0279d9deb98a9e6e',1,'MD_MAX72XX::setRow(uint8_t r, uint8_t value)'],['../class_m_d___m_a_x72_x_x.html#a238cb42149b473027fd203406828dc35',1,'MD_MAX72XX::setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t value)'],['../class_m_d___m_a_x72_x_x.html#afff77a9eb68408447a15172d7555d794',1,'MD_MAX72XX::setRow(uint8_t buf, uint8_t r, uint8_t value)']]],
+  ['setshiftdataincallback_8',['setShiftDataInCallback',['../class_m_d___m_a_x72_x_x.html#a8e126c7e12fbca524ef93befad3db825',1,'MD_MAX72XX']]],
+  ['setshiftdataoutcallback_9',['setShiftDataOutCallback',['../class_m_d___m_a_x72_x_x.html#af4672c2b149198fb682d9aa2518f3505',1,'MD_MAX72XX']]],
+  ['shutdown_10',['SHUTDOWN',['../class_m_d___m_a_x72_x_x.html#a7c6d702fe0161b19448f35049e00bf4fad2d5ee4317d7dfb62c9f0dcc88562e1a',1,'MD_MAX72XX']]],
+  ['software_20library_11',['Software Library',['../page_software.html',1,'index']]],
+  ['spi_5fdata_5fsize_12',['SPI_DATA_SIZE',['../_m_d___m_a_x72xx__lib_8h.html#a3d4a2b28815b437d2b2b2a38b0844cf9',1,'MD_MAX72xx_lib.h']]],
+  ['spi_5foffset_13',['SPI_OFFSET',['../_m_d___m_a_x72xx__lib_8h.html#ad2df4aac8e44c45191f269fb0080f4ab',1,'MD_MAX72xx_lib.h']]],
+  ['support_20the_20library_14',['Support the Library',['../page_donation.html',1,'index']]],
+  ['system_20connections_15',['System Connections',['../page_connect.html',1,'index']]]
 ];

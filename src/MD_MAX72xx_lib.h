@@ -408,6 +408,8 @@ Version 2: Fonts allows for up to 65535 characters in the font table:
 leftmost column of the character. The most significant bit of the byte is the bottom
 pixel position of the character matrix (bit 7 is row 7).
 
+Bytes 7, 8..n are then repeated for each followiong character.
+
 Version 1: Fonts are stored as a series of contiguous bytes in the following format:
 - byte 0 - the character 'F'
 - byte 1 - the version for the file format (1)
@@ -418,6 +420,8 @@ Version 1: Fonts are stored as a series of contiguous bytes in the following for
 - byte 6..n - each byte is a column of the character to be formed, starting with the
 leftmost column of the character. The least significant bit of the byte is the bottom
 pixel position of the character matrix (row 7).
+
+Bytes 5, 6..n are then repeated for each following character.
 
 Version 0: If the 'F' is omitted then the font definition is considered a version 0 font (prior to
 MD_MAX72xx version 3.0.0) and the defaults are set to min ASCII 0, max ASCII 255, height 8. 

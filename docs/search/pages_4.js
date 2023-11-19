@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hardware_0',['Hardware',['../page_hardware.html',1,'index']]]
+  ['generic_20module_0',['Generic Module',['../page_generic.html',1,'pageHardware']]]
 ];

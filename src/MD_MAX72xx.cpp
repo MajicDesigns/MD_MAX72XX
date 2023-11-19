@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements class definition and general methods
  */
 
-MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, int8_t dataPin, int8_t clkPin, int8_t csPin, uint8_t numDevices):
 _dataPin(dataPin), _clkPin(clkPin), _csPin(csPin),
 _hardwareSPI(false), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
 #if MBED_SPI_ACTIVE
@@ -44,7 +44,7 @@ _hardwareSPI(false), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
   setModuleParameters(mod);
 }
 
-MD_MAX72XX::MD_MAX72XX(moduleType_t mod, uint8_t csPin, uint8_t numDevices):
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, int8_t csPin, uint8_t numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin),
 _hardwareSPI(true), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
 #if MBED_SPI_ACTIVE
@@ -54,7 +54,7 @@ _hardwareSPI(true), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
   setModuleParameters(mod);
 }
 
-MD_MAX72XX::MD_MAX72XX(moduleType_t mod, SPIClass& spi, uint8_t csPin, uint8_t numDevices):
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, SPIClass& spi, int8_t csPin, uint8_t numDevices):
   _dataPin(0), _clkPin(0), _csPin(csPin),
   _hardwareSPI(true), _spiRef(spi), _maxDevices(numDevices), _updateEnabled(true)
 #if MBED_SPI_ACTIVE
@@ -148,6 +148,10 @@ bool MD_MAX72XX::begin(void)
     control(DECODE, OFF);                 // ensure no decoding (warm boot potential issue)
     clear();
     control(SHUTDOWN, OFF);               // take the modules out of shutdown mode
+
+    // Initialize library options to default
+    control(WRAPAROUND, OFF);
+    control(UPDATE, ON);
   }
 
   return(b);

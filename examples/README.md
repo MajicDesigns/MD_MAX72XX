@@ -30,6 +30,12 @@ two matrix modules. Eyes are coordinated to work together and are
 created to fill all available modules.
 <hr>
 
+**MD_MAX72xx_Hourglass**  
+Uses the graphics functions to animate an hourglass on 
+two matrix modules. The matrices are placed diagonally touching
+at one point.
+<hr>
+
 **MD_MAX72xx_HW_Mapper**  
 Test software to map display hardware rows and columns. Uses a 
 generic SPI interface and only one MAX72xx/8x8 LED module is required.
