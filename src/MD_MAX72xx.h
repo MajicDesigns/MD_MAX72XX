@@ -99,6 +99,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageRevisionHistory Revision History
+Dec 2023 version 3.5.1
+- Reworked ESP8266 example to be ESP32 as this is more common now.
+
 Dec 2023 version 3.5.0
 - Changed pin identifiers from uint8_t to int8_t to allow -1 if required.
 - Added  explicit initialization of library parameters to begin().

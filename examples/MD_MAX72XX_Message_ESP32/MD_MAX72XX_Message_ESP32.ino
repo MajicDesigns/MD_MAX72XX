@@ -1,25 +1,25 @@
 // Use the MD_MAX72XX library to scroll text on the display
-// received through the ESP8266 WiFi interface.
+// received through the ESP32 WiFi interface.
 //
 // Demonstrates the use of the callback function to control what
 // is scrolled on the display text. User can enter text through
 // a web browser and this will display as a scrolling message on
 // the display.
 //
-// IP address for the ESP8266 is displayed on the scrolling display
+// IP address for the ESP32 is displayed on the scrolling display
 // after startup initialization and connected to the WiFi network.
 //
-// Connections for ESP8266 hardware SPI are:
-// Vcc       3v3     LED matrices seem to work at 3.3V
-// GND       GND     GND
-// DIN        D7     HSPID or HMOSI
-// CS or LD   D8     HSPICS or HCS
-// CLK        D5     CLK or HCLK
+// Connections for ESP32 hardware SPI are:
+// Vcc       3.3V - A few matrices seem to work at 3.3V
+// GND       GND
+// DIN       VSPI_MOSI
+// CS or LD  VSPI_CS
+// CLK       VSPI_SCK
 //
 
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
+#include <WiFiServer.h>
 #include <MD_MAX72xx.h>
-#include <SPI.h>
 
 #define PRINT_CALLBACK  0
 #define DEBUG 0
@@ -45,9 +45,10 @@
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 8
 
-#define CLK_PIN   D5 // or SCK
-#define DATA_PIN  D7 // or MOSI
-#define CS_PIN    D8 // or SS
+// GPIO pins
+#define CLK_PIN   18 // VSPI_SCK
+#define DATA_PIN  23 // VSPI_MOSI
+#define CS_PIN    5  // VSPI_SS
 
 // SPI hardware interface
 MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
@@ -55,8 +56,8 @@ MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 //MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // WiFi login parameters - network name and password
-const char* ssid = "";
-const char* password = "";
+const char ssid[] = "";
+const char password[] = "";
 
 // WiFi Server object and parameters
 WiFiServer server(80);
@@ -180,13 +181,13 @@ void handleWiFi(void)
 
   case S_WAIT_CONN:   // waiting for connection
     {
-      client = server.available();
+      client = server.accept();
       if (!client) break;
       if (!client.connected()) break;
 
 #if DEBUG
       char szTxt[20];
-      sprintf(szTxt, "%03d:%03d:%03d:%03d", client.remoteIP()[0], client.remoteIP()[1], client.remoteIP()[2], client.remoteIP()[3]);
+      sprintf(szTxt, "%d:%d:%d:%d", client.remoteIP()[0], client.remoteIP()[1], client.remoteIP()[2], client.remoteIP()[3]);
       PRINT("\nNew client @ ", szTxt);
 #endif
 
@@ -275,6 +276,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
     p = curMessage;      // reset the pointer to start of message
     if (newMessageAvailable)  // there is a new message waiting
     {
+      PRINT("\nNew message - ", newMessage);
       strcpy(curMessage, newMessage); // copy it in
       newMessageAvailable = false;
     }
@@ -282,7 +284,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
     break;
 
   case S_NEXT_CHAR: // Load the next character from the font table
-    PRINTS("\nS_NEXT_CHAR");
+    PRINT("\nS_NEXT_CHAR ", *p);
     if (*p == '\0')
       state = S_IDLE;
     else
@@ -306,7 +308,7 @@ uint8_t scrollDataSource(uint8_t dev, MD_MAX72XX::transformType_t t)
     // fall through
 
   case S_SHOW_SPACE:  // display inter-character spacing (blank column)
-    PRINT("\nS_ICSPACE: ", curLen);
+    PRINT("\nS_SHOW_SPACE: ", curLen);
     PRINT("/", showLen);
     curLen++;
     if (curLen == showLen)
@@ -328,11 +330,11 @@ void scrollText(void)
   if (millis() - prevTime >= SCROLL_DELAY)
   {
     mx.transform(MD_MAX72XX::TSL);  // scroll along - the callback will load all the data
-    prevTime = millis();      // starting point for next time
+    prevTime = millis();            // starting point for next time
   }
 }
 
-void setup()
+void setup(void)
 {
 #if DEBUG
   Serial.begin(115200);
@@ -345,6 +347,7 @@ void setup()
 #endif
 
   // Display initialization
+  PRINTS("\nInitializing Display");
   mx.begin();
   mx.setShiftDataInCallback(scrollDataSource);
   mx.setShiftDataOutCallback(scrollDataSink);
@@ -359,20 +362,22 @@ void setup()
   while (WiFi.status() != WL_CONNECTED)
   {
     PRINT("\n", err2Str(WiFi.status()));
-    delay(500);
+    // busy wait delay
+    uint32_t t = millis();
+    while (millis() - t <= 1000) yield();
   }
   PRINTS("\nWiFi connected");
 
   // Start the server
+  PRINTS("\nStarting Server");
   server.begin();
-  PRINTS("\nServer started");
 
   // Set up first message as the IP address
-  sprintf(curMessage, "%03d:%03d:%03d:%03d", WiFi.localIP()[0], WiFi.localIP()[1], WiFi.localIP()[2], WiFi.localIP()[3]);
+  sprintf(curMessage, "%d:%d:%d:%d", WiFi.localIP()[0], WiFi.localIP()[1], WiFi.localIP()[2], WiFi.localIP()[3]);
   PRINT("\nAssigned IP ", curMessage);
 }
 
-void loop()
+void loop(void)
 {
 #if LED_HEARTBEAT
   static uint32_t timeLast = 0;
