@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements buffer related methods
  */
 
-bool MD_MAX72XX::clear(uint8_t buf)
+bool MD_MAX72XX::clear(addressType buf)
 {
   if (buf > LAST_BUFFER)
     return(false);
@@ -55,19 +55,19 @@ uint8_t MD_MAX72XX::bitReverse(uint8_t b)
   return(b);
 }
 
-bool MD_MAX72XX::copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest)
+bool MD_MAX72XX::copyColumn(addressType buf, uint8_t cSrc, uint8_t cDest)
 {
   if (_hwDigRows) return(copyC(buf, cSrc, cDest));
   else return(copyR(buf, cSrc, cDest));
 }
 
-bool MD_MAX72XX::copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest)
+bool MD_MAX72XX::copyRow(addressType buf, uint8_t rSrc, uint8_t rDest)
 {
   if (_hwDigRows) return(copyR(buf, rSrc, rDest));
   else return(copyC(buf, rSrc, rDest));
 }
 
-bool MD_MAX72XX::copyC(uint8_t buf, uint8_t cSrc, uint8_t cDest)
+bool MD_MAX72XX::copyC(addressType buf, uint8_t cSrc, uint8_t cDest)
 // Src and Dest are in pixel coordinates.
 // if we are just copying rows there is no need to repackage any data
 {
@@ -97,7 +97,7 @@ bool MD_MAX72XX::copyC(uint8_t buf, uint8_t cSrc, uint8_t cDest)
   return(true);
 }
 
-bool MD_MAX72XX::copyR(uint8_t buf, uint8_t rSrc, uint8_t rDest)
+bool MD_MAX72XX::copyR(addressType buf, uint8_t rSrc, uint8_t rDest)
 // Src and Dest are in pixel coordinates.
 // if we are just copying digits there is no need to repackage any data
 {
@@ -118,22 +118,22 @@ bool MD_MAX72XX::copyR(uint8_t buf, uint8_t rSrc, uint8_t rDest)
   return(true);
 }
 
-uint8_t MD_MAX72XX::getColumn(uint8_t buf, uint8_t c)
+uint8_t MD_MAX72XX::getColumn(addressType buf, uint8_t c)
 {
   if (_hwDigRows) return(getC(buf, c));
   else return(getR(buf, c));
 }
 
-uint8_t MD_MAX72XX::getRow(uint8_t buf, uint8_t r)
+uint8_t MD_MAX72XX::getRow(addressType buf, uint8_t r)
 {
   if (_hwDigRows) return(getR(buf, r));
   else return(getC(buf, r));
 }
 
-uint8_t MD_MAX72XX::getC(uint8_t buf, uint8_t c)
+uint8_t MD_MAX72XX::getC(addressType buf, uint8_t c)
 // c is in pixel coordinates and the return value must be in pixel coordinate order
 {
-  uint8_t mask = 1 << HW_COL(c);  // which column/row of bits is the column data
+  addressType mask = 1 << HW_COL(c);  // which column/row of bits is the column data
   uint8_t value = 0;        // assembles data to be returned to caller
 
   if (_hwDigRows) { PRINT("\ngetCol: (", buf); }
@@ -159,7 +159,7 @@ uint8_t MD_MAX72XX::getC(uint8_t buf, uint8_t c)
   return(value);
 }
 
-uint8_t MD_MAX72XX::getR(uint8_t buf, uint8_t r)
+uint8_t MD_MAX72XX::getR(addressType buf, uint8_t r)
 // r is in pixel coordinates for this buffer
 // returned value is in pixel coordinates
 {
@@ -178,19 +178,19 @@ uint8_t MD_MAX72XX::getR(uint8_t buf, uint8_t r)
   return(value);
 }
 
-bool MD_MAX72XX::setColumn(uint8_t buf, uint8_t c, uint8_t value)
+bool MD_MAX72XX::setColumn(addressType buf, uint8_t c, uint8_t value)
 {
   if (_hwDigRows) return(setC(buf, c, value));
   else return(setR(buf, c, value));
 }
 
-bool MD_MAX72XX::setRow(uint8_t buf, uint8_t r, uint8_t value)
+bool MD_MAX72XX::setRow(addressType buf, uint8_t r, uint8_t value)
 {
   if (_hwDigRows) return(setR(buf, r, value));
   else return(setC(buf, r, value));
 }
 
-bool MD_MAX72XX::setC(uint8_t buf, uint8_t c, uint8_t value)
+bool MD_MAX72XX::setC(addressType buf, uint8_t c, uint8_t value)
 // c and value are in pixel coordinate order
 {
   if (_hwDigRows) { PRINT("\nsetCol: (", buf); }
@@ -215,7 +215,7 @@ bool MD_MAX72XX::setC(uint8_t buf, uint8_t c, uint8_t value)
   return(true);
 }
 
-bool MD_MAX72XX::setR(uint8_t buf, uint8_t r, uint8_t value)
+bool MD_MAX72XX::setR(addressType buf, uint8_t r, uint8_t value)
 // r and value are in pixel coordinates
 {
   if (_hwDigRows) { PRINT("\nsetRow: (", buf); }
@@ -234,7 +234,7 @@ bool MD_MAX72XX::setR(uint8_t buf, uint8_t r, uint8_t value)
   return(true);
 }
 
-bool MD_MAX72XX::transform(uint8_t buf, transformType_t ttype)
+bool MD_MAX72XX::transform(addressType buf, transformType_t ttype)
 {
   if (buf > LAST_BUFFER)
     return(false);
@@ -247,7 +247,7 @@ bool MD_MAX72XX::transform(uint8_t buf, transformType_t ttype)
   return(true);
 }
 
-bool MD_MAX72XX::transformBuffer(uint8_t buf, transformType_t ttype)
+bool MD_MAX72XX::transformBuffer(addressType buf, transformType_t ttype)
 {
   uint8_t t[ROW_SIZE];
 

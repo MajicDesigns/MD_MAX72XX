@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements class definition and general methods
  */
 
-MD_MAX72XX::MD_MAX72XX(moduleType_t mod, int8_t dataPin, int8_t clkPin, int8_t csPin, uint8_t numDevices):
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, int8_t dataPin, int8_t clkPin, int8_t csPin, addressType numDevices):
 _dataPin(dataPin), _clkPin(clkPin), _csPin(csPin),
 _hardwareSPI(false), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
 #if MBED_SPI_ACTIVE
@@ -44,7 +44,7 @@ _hardwareSPI(false), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
   setModuleParameters(mod);
 }
 
-MD_MAX72XX::MD_MAX72XX(moduleType_t mod, int8_t csPin, uint8_t numDevices):
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, int8_t csPin, addressType numDevices):
 _dataPin(0), _clkPin(0), _csPin(csPin),
 _hardwareSPI(true), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
 #if MBED_SPI_ACTIVE
@@ -54,7 +54,7 @@ _hardwareSPI(true), _spiRef(SPI), _maxDevices(numDevices), _updateEnabled(true)
   setModuleParameters(mod);
 }
 
-MD_MAX72XX::MD_MAX72XX(moduleType_t mod, SPIClass& spi, int8_t csPin, uint8_t numDevices):
+MD_MAX72XX::MD_MAX72XX(moduleType_t mod, SPIClass& spi, int8_t csPin, addressType numDevices):
   _dataPin(0), _clkPin(0), _csPin(csPin),
   _hardwareSPI(true), _spiRef(spi), _maxDevices(numDevices), _updateEnabled(true)
 #if MBED_SPI_ACTIVE
@@ -167,7 +167,7 @@ MD_MAX72XX::~MD_MAX72XX(void)
   free(_spiData);
 }
 
-void MD_MAX72XX::controlHardware(uint8_t dev, controlRequest_t mode, int value)
+void MD_MAX72XX::controlHardware(addressType dev, controlRequest_t mode, int value)
 // control command is for the devices, translate internal request to device bytes
 // into the transmission buffer
 {
@@ -230,14 +230,14 @@ void MD_MAX72XX::controlLibrary(controlRequest_t mode, int value)
   }
 }
 
-bool MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value)
+bool MD_MAX72XX::control(addressType startDev, addressType endDev, controlRequest_t mode, int value)
 {
   if (endDev < startDev) return(false);
 
   if (mode < UPDATE)  // device based control
   {
     spiClearBuffer();
-    for (uint8_t i = startDev; i <= endDev; i++)
+    for (addressType i = startDev; i <= endDev; i++)
       controlHardware(i, mode, value);
     spiSend();
   }
@@ -249,7 +249,7 @@ bool MD_MAX72XX::control(uint8_t startDev, uint8_t endDev, controlRequest_t mode
   return(true);
 }
 
-bool MD_MAX72XX::control(uint8_t buf, controlRequest_t mode, int value)
+bool MD_MAX72XX::control(addressType buf, controlRequest_t mode, int value)
 // dev is zero based and needs adjustment if used
 {
   if (buf > LAST_BUFFER) return(false);
@@ -279,7 +279,7 @@ void MD_MAX72XX::flushBufferAll()
 
     spiClearBuffer();
 
-    for (uint8_t dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)	// all devices
+    for (addressType dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)	// all devices
     {
       if (bitRead(_matrix[dev].changed, i))
       {
@@ -294,11 +294,11 @@ void MD_MAX72XX::flushBufferAll()
   }
 
   // mark everything as cleared
-  for (uint8_t dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)
+  for (addressType dev = FIRST_BUFFER; dev <= LAST_BUFFER; dev++)
     _matrix[dev].changed = ALL_CLEAR;
 }
 
-void MD_MAX72XX::flushBuffer(uint8_t buf)
+void MD_MAX72XX::flushBuffer(addressType buf)
 // Use this function when the changes are limited to one device only.
 // Address passed is a buffer address
 {

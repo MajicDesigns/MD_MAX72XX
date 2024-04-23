@@ -379,6 +379,8 @@ public:
     DR1CR1RR1_HW  ///< Structured name; equivalent to ICSTATION_HW
   };
 
+  typedef uint32_t addressType;
+
 #if USE_LOCAL_FONT
   /**
   * Font definition type.
@@ -451,7 +453,7 @@ public:
    *                    Memory for device buffers is dynamically allocated based
    *                    on this parameter.
    */
-  MD_MAX72XX(moduleType_t mod, int8_t dataPin, int8_t clkPin, int8_t csPin, uint8_t numDevices=1);
+  MD_MAX72XX(moduleType_t mod, int8_t dataPin, int8_t clkPin, int8_t csPin, addressType numDevices=1);
 
   /**
    * Class Constructor - default SPI hardware interface.
@@ -468,7 +470,7 @@ public:
    *                    Memory for device buffers is dynamically allocated based
    *                    on this parameter.
    */
-  MD_MAX72XX(moduleType_t mod, int8_t csPin, uint8_t numDevices=1);
+  MD_MAX72XX(moduleType_t mod, int8_t csPin, addressType numDevices=1);
 
   /**
    * Class Constructor - specify SPI hardware interface.
@@ -488,7 +490,7 @@ public:
    *                    Memory for device buffers is dynamically allocated based
    *                    on this parameter.
    */
-  MD_MAX72XX(moduleType_t mod, SPIClass &spi, int8_t csPin, uint8_t numDevices = 1);
+  MD_MAX72XX(moduleType_t mod, SPIClass &spi, int8_t csPin, addressType numDevices = 1);
 
   /**
    * Initialize the object.
@@ -530,7 +532,7 @@ public:
    * \param value   parameter value or one of the control status defined.
    * \return false if parameter errors, true otherwise.
    */
-  bool control(uint8_t dev, controlRequest_t mode, int value);
+  bool control(addressType dev, controlRequest_t mode, int value);
 
   /**
    * Set the control status of the specified parameter for all devices.
@@ -555,14 +557,14 @@ public:
    * \param value     parameter value or one of the control status defined.
    * \return false if parameter errors, true otherwise.
    */
-  bool control(uint8_t startDev, uint8_t endDev, controlRequest_t mode, int value);
+  bool control(addressType startDev, addressType endDev, controlRequest_t mode, int value);
 
   /**
    * Gets the number of devices attached to this class instance.
    *
    * \return uint8_t representing the number of devices attached to this object.
    */
-  uint8_t getDeviceCount(void) { return(_maxDevices); };
+  addressType getDeviceCount(void) { return(_maxDevices); };
 
   /**
    * Gets the maximum number of columns for devices attached to this class instance.
@@ -599,7 +601,7 @@ public:
    *
    * \param cb  the address of the user function to be called from the library.
    */
-  void setShiftDataInCallback(uint8_t (*cb)(uint8_t dev, transformType_t t)) { _cbShiftDataIn = cb; };
+  void setShiftDataInCallback(uint8_t (*cb)(addressType dev, transformType_t t)) { _cbShiftDataIn = cb; };
 
   /**
    * Set the Shift Data Out callback function.
@@ -619,7 +621,7 @@ public:
    *
    * \param cb  the address of the user function to be called from the library.
    */
-  void setShiftDataOutCallback(void (*cb)(uint8_t dev, transformType_t t, uint8_t colData)) { _cbShiftDataOut = cb; };
+  void setShiftDataOutCallback(void (*cb)(addressType dev, transformType_t t, uint8_t colData)) { _cbShiftDataOut = cb; };
 
   /** @} */
 
@@ -640,7 +642,7 @@ public:
    * \param startDev  the first device to clear [0..getDeviceCount()-1]
    * \param endDev    the last device to clear [0..getDeviceCount()-1]
    */
-  void clear(uint8_t startDev, uint8_t endDev);
+  void clear(addressType startDev, addressType endDev);
 
   /**
    * Load a bitmap from the display buffers to a user buffer.
@@ -655,7 +657,7 @@ public:
    * \param *pd   Pointer to a data buffer [0..size-1].
    * \return false if parameter errors, true otherwise. If true, data will be in the buffer at *pd.
    */
-  bool getBuffer(uint16_t col, uint8_t size, uint8_t *pd);
+  bool getBuffer(addressType col, addressType size, uint8_t *pd);
 
   /**
    * Get the LEDS status for the specified column.
@@ -669,7 +671,7 @@ public:
    * \param c   column to be read [0..getColumnCount()-1].
    * \return uint8_t value with each bit set to 1 if the corresponding LED is lit. 0 is returned for parameter error.
    */
-  uint8_t getColumn(uint16_t c) { return getColumn((c / COL_SIZE), c % COL_SIZE); };
+  uint8_t getColumn(addressType c) { return getColumn((c / COL_SIZE), c % COL_SIZE); };
 
   /**
    * Get the status of a single LED, addressed as a pixel.
@@ -683,7 +685,7 @@ public:
    * \param c   column coordinate for the point [0..getColumnCount()-1].
    * \return true if LED is on, false if off or parameter errors.
    */
-  bool getPoint(uint8_t r, uint16_t c);
+  bool getPoint(uint8_t r, addressType c);
 
  /**
    * Load a bitfield from the user buffer to a display buffer.
@@ -698,7 +700,7 @@ public:
    * \param *pd   Pointer to a data buffer [0..size-1].
    * \return false if parameter errors, true otherwise.
    */
-  bool setBuffer(uint16_t col, uint8_t size, uint8_t *pd);
+  bool setBuffer(addressType col, addressType size, uint8_t *pd);
 
   /**
    * Set all LEDs in a specific column to a new state.
@@ -714,7 +716,7 @@ public:
    * \param value each bit set to 1 will light up the corresponding LED.
    * \return false if parameter errors, true otherwise.
    */
-  bool setColumn(uint16_t c, uint8_t value) { return setColumn((c / COL_SIZE), c % COL_SIZE, value); };
+  bool setColumn(addressType c, uint8_t value) { return setColumn((c / COL_SIZE), c % COL_SIZE, value); };
 
   /**
    * Set the status of a single LED, addressed as a pixel.
@@ -730,7 +732,7 @@ public:
    * \param state true - switch on; false - switch off.
    * \return false if parameter errors, true otherwise.
    */
-  bool setPoint(uint8_t r, uint16_t c, bool state);
+  bool setPoint(uint8_t r, addressType c, bool state);
 
   /**
    * Set all LEDs in a row to a new state on all devices.
@@ -761,7 +763,7 @@ public:
    * \param value     each bit set to 1 will light up the corresponding LED on each device.
    * \return false if parameter errors, true otherwise.
    */
-  bool setRow(uint8_t startDev, uint8_t endDev, uint8_t r, uint8_t value);
+  bool setRow(addressType startDev, addressType endDev, uint8_t r, uint8_t value);
 
   /**
    * Apply a transformation to the data in all the devices.
@@ -788,7 +790,7 @@ public:
    * \param ttype     one of the transformation types in transformType_t.
    * \return false if parameter errors, true otherwise.
    */
-  bool transform(uint8_t startDev, uint8_t endDev, transformType_t ttype);
+  bool transform(addressType startDev, addressType endDev, transformType_t ttype);
 
   /**
    * Turn auto display updates on or off.
@@ -836,7 +838,7 @@ public:
    * \param buf   address of the buffer to clear [0..getDeviceCount()-1].
    * \return false if parameter errors, true otherwise.
    */
-  bool clear(uint8_t buf);
+  bool clear(addressType buf);
 
   /**
    * Get the state of the LEDs in a specific column.
@@ -848,7 +850,7 @@ public:
    * \param c     column which is to be set [0..COL_SIZE-1].
    * \return uint8_t value with each bit set to 1 if the corresponding LED is lit. 0 is returned for parameter error.
    */
-  uint8_t getColumn(uint8_t buf, uint8_t c);
+  uint8_t getColumn(addressType buf, uint8_t c);
 
   /**
    * Get the state of the LEDs in a specified row.
@@ -860,7 +862,7 @@ public:
    * \param r     row which is to be set [0..ROW_SIZE-1].
    * \return uint8_t value with each bit set to 1 if the corresponding LED is lit. 0 is returned for parameter error.
    */
-  uint8_t getRow(uint8_t buf, uint8_t r);
+  uint8_t getRow(addressType buf, uint8_t r);
 
   /**
    * Set all LEDs in a column to a new state.
@@ -875,7 +877,7 @@ public:
    * \param value each bit set to 1 will light up the	corresponding LED.
    * \return false if parameter errors, true otherwise.
    */
-  bool setColumn(uint8_t buf, uint8_t c, uint8_t value);
+  bool setColumn(addressType buf, uint8_t c, uint8_t value);
 
   /**
    * Set all LEDs in a row to a new state.
@@ -890,7 +892,7 @@ public:
    * \param value each bit set to 1 within this byte will light up the corresponding LED.
    * \return false if parameter errors, true otherwise.
    */
-  bool setRow(uint8_t buf, uint8_t r, uint8_t value);
+  bool setRow(addressType buf, uint8_t r, uint8_t value);
 
   /**
    * Apply a transformation to the data in the specified device.
@@ -903,7 +905,7 @@ public:
    * \param ttype  one of the transformation types in transformType_t.
    * \return false if parameter errors, true otherwise.
    */
-  bool transform(uint8_t buf, transformType_t ttype);
+  bool transform(addressType buf, transformType_t ttype);
 
   /**
    * Force an update of one buffer.
@@ -915,7 +917,7 @@ public:
    *
    * \param buf address of the display [0..getBufferCount()-1].
    */
-  void update(uint8_t buf) { flushBuffer(buf); };
+  void update(addressType buf) { flushBuffer(buf); };
   /** @} */
 
 #if USE_LOCAL_FONT
@@ -938,7 +940,7 @@ public:
    * \param buf   address of the user buffer supplied.
    * \return width (in columns) of the character, 0 if parameter errors.
    */
-  uint8_t getChar(uint16_t c, uint8_t size, uint8_t *buf);
+  uint8_t getChar(addressType c, uint8_t size, uint8_t *buf);
 
   /**
    * Load a character from the font data starting at a specific column.
@@ -953,7 +955,7 @@ public:
    * \param c   the character to display.
    * \return width (in columns) of the character, 0 if parameter errors.
    */
-  uint8_t setChar(uint16_t col, uint16_t c);
+  uint8_t setChar(addressType col, uint16_t c);
 
   /**
    * Set the current font table.
@@ -1034,13 +1036,13 @@ private:
   SPIClass& _spiRef;    // reference to the SPI object to use for hardware comms 
 
   // Device buffer data
-  uint8_t _maxDevices;  // maximum number of devices in use
+  addressType _maxDevices;  // maximum number of devices in use
   deviceInfo_t* _matrix;// the current status of the LED matrix (buffers)
   uint8_t*  _spiData;   // data buffer for writing to SPI interface
 
   // User callback function for shifting operations
-  uint8_t (*_cbShiftDataIn)(uint8_t dev, transformType_t t);
-  void    (*_cbShiftDataOut)(uint8_t dev, transformType_t t, uint8_t colData);
+  uint8_t (*_cbShiftDataIn)(addressType dev, transformType_t t);
+  void    (*_cbShiftDataOut)(addressType dev, transformType_t t, uint8_t colData);
 
   // Control data for the library
   bool    _updateEnabled; // update the display when this is true, suspend otherwise
@@ -1077,26 +1079,26 @@ private:
   // Private functions
   void spiSend(void);         // do the actual physical communications task
   inline void spiClearBuffer(void);  // clear the SPI send buffer
-  void controlHardware(uint8_t dev, controlRequest_t mode, int value);  // set hardware control commands
+  void controlHardware(addressType dev, controlRequest_t mode, int value);  // set hardware control commands
   void controlLibrary(controlRequest_t mode, int value);  // set internal control commands
 
-  void flushBuffer(uint8_t buf);  // determine what needs to be sent for one device and transmit
+  void flushBuffer(addressType buf);  // determine what needs to be sent for one device and transmit
   void flushBufferAll(void);      // determine what needs to be sent for all devices and transmit
 
   uint8_t bitReverse(uint8_t b);  // reverse the order of bits in the byte
-  bool transformBuffer(uint8_t buf, transformType_t ttype); // internal transform function
+  bool transformBuffer(addressType buf, transformType_t ttype); // internal transform function
 
-  bool copyRow(uint8_t buf, uint8_t rSrc, uint8_t rDest);   // copy a row from Src to Dest
-  bool copyColumn(uint8_t buf, uint8_t cSrc, uint8_t cDest);// copy a row from Src to Dest
+  bool copyRow(addressType buf, uint8_t rSrc, uint8_t rDest);   // copy a row from Src to Dest
+  bool copyColumn(addressType buf, uint8_t cSrc, uint8_t cDest);// copy a row from Src to Dest
 
   void setModuleParameters(moduleType_t mod);   // setup parameters based on module type
 
   // _hwDigRev switched function for internal use
-  bool copyC(uint8_t buf, uint8_t cSrc, uint8_t cDest);
-  bool copyR(uint8_t buf, uint8_t rSrc, uint8_t rDest);
-  uint8_t getC(uint8_t buf, uint8_t c);
-  uint8_t getR(uint8_t buf, uint8_t r);
-  bool setC(uint8_t buf, uint8_t c, uint8_t value);
-  bool setR(uint8_t buf, uint8_t r, uint8_t value);
+  bool copyC(addressType buf, uint8_t cSrc, uint8_t cDest);
+  bool copyR(addressType buf, uint8_t rSrc, uint8_t rDest);
+  uint8_t getC(addressType buf, uint8_t c);
+  uint8_t getR(addressType buf, uint8_t r);
+  bool setC(addressType buf, uint8_t c, uint8_t value);
+  bool setR(addressType buf, uint8_t r, uint8_t value);
 
 };
