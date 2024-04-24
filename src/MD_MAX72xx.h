@@ -379,7 +379,7 @@ public:
     DR1CR1RR1_HW  ///< Structured name; equivalent to ICSTATION_HW
   };
 
-  typedef uint32_t addressType;
+  typedef uint16_t addressType;
 
 #if USE_LOCAL_FONT
   /**
