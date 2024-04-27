@@ -109,7 +109,7 @@ bool MD_MAX72XX::begin(void)
   }
   else
   {
-    PRINTS("\nBitBang SPI")
+    PRINTS("\nBitBang SPI");
     pinMode(_dataPin, OUTPUT);
     pinMode(_clkPin, OUTPUT);
   }
