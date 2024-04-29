@@ -162,7 +162,7 @@ bool MD_MAX72XX::setFont(fontType_t *f)
   return(true);
 }
 
-uint8_t MD_MAX72XX::getChar(uint16_t c, uint8_t size, uint8_t *buf)
+uint8_t MD_MAX72XX::getChar(addressType c, uint8_t size, uint8_t *buf)
 {
   PRINT("\ngetChar: '", (char)c);
   PRINT("' ASC ", c);
@@ -190,7 +190,7 @@ uint8_t MD_MAX72XX::getChar(uint16_t c, uint8_t size, uint8_t *buf)
   return(size);
 }
 
-uint8_t MD_MAX72XX::setChar(uint16_t col, uint16_t c)
+uint8_t MD_MAX72XX::setChar(addressType col, uint16_t c)
 {
   PRINT("\nsetChar: '", c);
   PRINT("' column ", col);
